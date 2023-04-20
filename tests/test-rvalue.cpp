@@ -1,20 +1,28 @@
 #include <cstdio>
 #include <utility>
+#include <gtest/gtest.h>
 
 class STU {
 };
 
-static void f(STU&) { printf("lvalue reference\n"); }
+enum class ValueCategory {
+    Left,
+    Right,
+};
 
-static void f(STU&&) { printf("rvalue reference\n"); }
+static ValueCategory f(STU&) { return ValueCategory::Left; }
 
-int main()
+static ValueCategory f(STU&&) { return ValueCategory::Right; }
+
+TEST(rvalue, function_call)
 {
     STU stu;
     STU& stu1 = stu;
     STU&& stu2 = STU();
-    f(stu);
-    f(std::move(stu1));
-    f(stu2);
-    return 0;
+
+    EXPECT_EQ(f(stu), ValueCategory::Left);
+    EXPECT_EQ(f(stu1), ValueCategory::Left);
+    EXPECT_EQ(f(std::move(stu1)), ValueCategory::Right);
+    EXPECT_EQ(f(stu2), ValueCategory::Left);
+    EXPECT_EQ(f(STU()), ValueCategory::Right);
 }

@@ -9,5 +9,6 @@ set(CMAKE_CXX_STANDARD 17)
 add_subdirectory(nxc)
 
 if(${NXC_BUILD_TEST})
+	enable_testing()
 	add_subdirectory(tests)
 endif()
