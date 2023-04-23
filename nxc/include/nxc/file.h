@@ -30,6 +30,7 @@ public:
         NXC_ASSERT(readable(), "read a non-readable file");
         return _read(buf, n);
     }
+
     NXC_INLINE Result<size_t> write(const void* buf, size_t n)
     {
         NXC_ASSERT(writable(), "write a non-writable file");

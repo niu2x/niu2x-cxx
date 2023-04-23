@@ -11,8 +11,10 @@ class NXC_API ReadStream : private Noncopyable {
 public:
     ReadStream();
     virtual ~ReadStream() = 0;
-    Result<size_t> read(void* buf, size_t n);
+
     Result<char> read_char();
+    Result<void> readx(void* buf, size_t n);
+    Result<size_t> read(void* buf, size_t n);
 
 protected:
     virtual Result<size_t> _read(void* buf, size_t n) = 0;
@@ -23,8 +25,8 @@ public:
     WriteStream();
     virtual ~WriteStream();
 
+    Result<void> writex(const void* buf, size_t n);
     Result<size_t> write(const void* buf, size_t n);
-    Result<size_t> write(const void* buf);
 
 protected:
     virtual Result<size_t> _write(const void* buf, size_t n) = 0;
