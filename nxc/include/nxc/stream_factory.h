@@ -27,15 +27,6 @@ public:
     virtual ReadStreamPtr create_read_stream(const Buffer* buffer) = 0;
     virtual WriteStreamPtr create_write_stream(Buffer* buffer) = 0;
 
-    // NXC_INLINE ReadStreamPtr create_read_stream(const char* pathname)
-    // {
-    //     return create_read_stream(String(pathname));
-    // }
-    // NXC_INLINE WriteStreamPtr create_write_stream(const char* pathname)
-    // {
-    //     return create_write_stream(String(pathname));
-    // }
-
 private:
     FileFactoryPtr file_factory_;
 };

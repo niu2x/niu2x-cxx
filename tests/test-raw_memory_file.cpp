@@ -8,7 +8,7 @@ int main()
     auto mem = NXC_MAKE_PTR(nxc::RawMemory, buffer, 16);
 
     auto mem_file = file_factory->create(mem);
-    mem_file->open(nxc::O_WRITE);
+    mem_file->open(nxc::OpenMode::WRITE);
     NXC_ASSERT(mem_file->writable(), "");
 
     char c = 'a';

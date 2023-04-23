@@ -14,7 +14,6 @@ public:
     virtual ~PlainFile();
 
 protected:
-    // virtual bool _eof() const override;
     virtual void _seek(int relative, size_t offset) override;
     virtual size_t _tell() const override;
     virtual bool _readable() const override;
@@ -23,12 +22,12 @@ protected:
     virtual Result<size_t> _read(void* buf, size_t n) override;
     virtual Result<size_t> _write(const void* buf, size_t n) override;
 
-    virtual Result<void> _open(int mode) override;
+    virtual Result<void> _open(OpenMode mode) override;
     virtual void _close() override;
 
 private:
     FILE* fp_;
-    int mode_;
+    OpenMode mode_;
     String pathname_;
 };
 

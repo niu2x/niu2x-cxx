@@ -208,10 +208,9 @@ private:
     std::vector<T> backend_;
 };
 
-enum FileOpenMode {
-    O_READ = (1 << 0),
-    O_WRITE = (1 << 1),
-    O_RW = O_READ | O_WRITE,
+enum class OpenMode {
+    READ,
+    WRITE,
 };
 
 } // namespace nxc

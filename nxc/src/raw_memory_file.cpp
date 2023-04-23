@@ -6,7 +6,7 @@ RawMemoryFile::RawMemoryFile(ConstRawMemoryPtr memory)
 : memory_(nullptr)
 , const_memory_(memory)
 , pos_(0)
-, mode_(O_READ)
+, mode_(OpenMode::READ)
 {
 }
 
@@ -14,13 +14,11 @@ RawMemoryFile::RawMemoryFile(RawMemoryPtr memory)
 : memory_(memory)
 , const_memory_(memory)
 , pos_(0)
-, mode_(O_READ)
+, mode_(OpenMode::READ)
 {
 }
 
 RawMemoryFile::~RawMemoryFile() { close(); }
-
-// bool RawMemoryFile::_eof() const { return pos_ == const_memory_->size(); }
 
 void RawMemoryFile::_seek(int relative, size_t offset)
 {
@@ -73,9 +71,12 @@ Result<size_t> RawMemoryFile::_write(const void* buf, size_t n)
 
 bool RawMemoryFile::_readable() const
 {
-    return mode_ == O_READ && (const_memory_);
+    return mode_ == OpenMode::READ && (const_memory_);
 }
-bool RawMemoryFile::_writable() const { return mode_ == O_WRITE && memory_; }
+bool RawMemoryFile::_writable() const
+{
+    return mode_ == OpenMode::WRITE && memory_;
+}
 
 RawMemoryFilePtr RawMemoryFile::create(RawMemoryPtr memory)
 {

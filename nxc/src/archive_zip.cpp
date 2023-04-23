@@ -4,7 +4,7 @@ namespace nxc {
 
 class EntryFile : public File {
 public:
-    EntryFile(const String& path, zip_t* zip, int zip_mode,
+    EntryFile(const String& path, zip_t* zip, OpenMode zip_mode,
         ArchiveZip::BufferPtrVector& buffers)
     : pathname_(path)
     , zip_(zip)
@@ -42,9 +42,9 @@ protected:
         return zip_ftell(file_);
     }
 
-    virtual bool _readable() const override { return mode_ == O_READ; }
+    virtual bool _readable() const override { return mode_ == OpenMode::READ; }
 
-    virtual bool _writable() const override { return mode_ == O_WRITE; }
+    virtual bool _writable() const override { return mode_ == OpenMode::WRITE; }
 
     virtual Result<size_t> _read(void* buf, size_t n) override
     {
@@ -63,21 +63,20 @@ protected:
         return n;
     }
 
-    virtual Result<void> _open(int mode) override
+    virtual Result<void> _open(OpenMode mode) override
     {
         NXC_ASSERT(file_ == nullptr, "file_ is not nullptr")
-        NXC_ASSERT(mode != O_RW, "mode rw is not support")
 
         mode_ = mode;
         closed_ = false;
 
-        if (mode_ == O_READ) {
-            NXC_ASSERT(zip_mode_ & O_READ, "zip can not read");
+        if (mode_ == OpenMode::READ) {
+            NXC_ASSERT(zip_mode_ == OpenMode::READ, "zip can not read");
             file_ = zip_fopen(zip_, pathname_.c_str(), ZIP_FL_ENC_UTF_8);
             return file_ != nullptr ? E::OK : E::ZIP_LIB_ERROR;
         }
 
-        NXC_ASSERT(zip_mode_ & O_WRITE, "zip can not write");
+        NXC_ASSERT(zip_mode_ == OpenMode::WRITE, "zip can not write");
         buffer_ = NXC_MAKE_PTR(Buffer);
         return E::OK;
     }
@@ -88,13 +87,13 @@ protected:
             return;
         closed_ = true;
 
-        if (mode_ == O_READ) {
+        if (mode_ == OpenMode::READ) {
             if (file_) {
                 zip_fclose(file_);
                 file_ = nullptr;
             }
         }
-        if (mode_ == O_WRITE) {
+        if (mode_ == OpenMode::WRITE) {
             struct zip_source* s
                 = zip_source_buffer(zip_, buffer_->data(), buffer_->size(), 0);
 
@@ -115,19 +114,19 @@ protected:
 private:
     String pathname_;
     zip_t* zip_;
-    int mode_;
+    OpenMode mode_;
     zip_file_t* file_;
     BufferPtr buffer_;
     bool closed_;
-    int zip_mode_;
+    OpenMode zip_mode_;
     ArchiveZip::BufferPtrVector& zip_buffers_;
 };
 
-static int figure_flags(int mode)
+static int figure_flags(OpenMode mode)
 {
-    if (mode == O_READ)
+    if (mode == OpenMode::READ)
         return ZIP_RDONLY;
-    if (mode == O_WRITE)
+    if (mode == OpenMode::WRITE)
         return ZIP_CREATE | ZIP_TRUNCATE;
     return ZIP_CREATE;
 }
@@ -140,7 +139,7 @@ ArchiveZip::ArchiveZip(const String& p)
 
 ArchiveZip::~ArchiveZip() { close(); }
 
-Result<void> ArchiveZip::_open(int mode)
+Result<void> ArchiveZip::_open(OpenMode mode)
 {
     NXC_ASSERT(!zip_, "zip_ is not nullptr");
     mode_ = mode;

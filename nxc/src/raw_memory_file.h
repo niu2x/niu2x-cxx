@@ -26,7 +26,7 @@ protected:
 
     virtual Result<size_t> _read(void* buf, size_t n) override;
     virtual Result<size_t> _write(const void* buf, size_t n) override;
-    virtual Result<void> _open(int mode) override
+    virtual Result<void> _open(OpenMode mode) override
     {
         mode_ = mode;
         return E::OK;
@@ -37,7 +37,7 @@ private:
     RawMemoryPtr memory_;
     ConstRawMemoryPtr const_memory_;
     size_t pos_;
-    int mode_;
+    OpenMode mode_;
 };
 
 using RawMemoryFilePtr = Ptr<RawMemoryFile>;

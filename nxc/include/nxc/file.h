@@ -19,7 +19,10 @@ public:
     File();
     virtual ~File() = 0;
 
-    NXC_INLINE Result<void> open(int mode = O_READ) { return _open(mode); }
+    NXC_INLINE Result<void> open(OpenMode mode = OpenMode::READ)
+    {
+        return _open(mode);
+    }
 
     NXC_INLINE void close() { _close(); }
 
@@ -37,7 +40,6 @@ public:
         return _write(buf, n);
     }
 
-    // NXC_INLINE bool eof() const { return _eof(); }
     NXC_INLINE void seek(int relative, size_t offset)
     {
         _seek(relative, offset);
@@ -53,7 +55,7 @@ protected:
     virtual bool _writable() const = 0;
     virtual Result<size_t> _read(void* buf, size_t n) = 0;
     virtual Result<size_t> _write(const void* buf, size_t n) = 0;
-    virtual Result<void> _open(int mode) = 0;
+    virtual Result<void> _open(OpenMode mode) = 0;
     virtual void _close() = 0;
 };
 

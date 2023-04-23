@@ -2,6 +2,18 @@
 
 namespace nxc {
 
+static const char* file_mode(OpenMode mode)
+{
+    switch (mode) {
+        case OpenMode::READ:
+            return "rb";
+        case OpenMode::WRITE:
+            return "wb";
+    }
+    NXC_ASSERT(false, "unsupport open mode");
+    return "";
+}
+
 PlainFile::PlainFile(const String& pathname)
 : fp_(nullptr)
 , pathname_(pathname)
@@ -9,12 +21,11 @@ PlainFile::PlainFile(const String& pathname)
 }
 PlainFile::~PlainFile() { close(); }
 
-Result<void> PlainFile::_open(int mode)
+Result<void> PlainFile::_open(OpenMode mode)
 {
     NXC_ASSERT(!fp_, "fp_ is not nullptr");
     mode_ = mode;
-    fp_ = fopen(pathname_.c_str(),
-        mode == O_READ ? "rb" : (mode == O_WRITE ? "wb" : "wb+"));
+    fp_ = fopen(pathname_.c_str(), file_mode(mode_));
     return fp_ != nullptr ? E::OK : E::OS_ERROR;
 }
 
@@ -78,12 +89,12 @@ Result<size_t> PlainFile::_write(const void* buf, size_t n)
 bool PlainFile::_readable() const
 {
     NXC_ASSERT(fp_, "fp_ is nullptr");
-    return mode_ & O_READ;
+    return mode_ == OpenMode::READ;
 }
 bool PlainFile::_writable() const
 {
     NXC_ASSERT(fp_, "fp_ is nullptr");
-    return mode_ & O_WRITE;
+    return mode_ == OpenMode::WRITE;
 }
 
 Ptr<PlainFile> PlainFile::create(const String& path)

@@ -7,7 +7,7 @@ ReadStreamPtr StreamFactory::create_read_stream(const String& pathname)
     NXC_ASSERT(file_factory_, "file_factory_ is nullptr");
 
     auto file = file_factory_->create(pathname);
-    if (file && file->open(O_READ)) {
+    if (file && file->open(OpenMode::READ)) {
         return create_read_stream(file);
     }
     return nullptr;
@@ -16,7 +16,7 @@ ReadStreamPtr StreamFactory::create_read_stream(const String& pathname)
 WriteStreamPtr StreamFactory::create_write_stream(const String& pathname)
 {
     auto file = file_factory_->create(pathname);
-    if (file && file->open(O_WRITE)) {
+    if (file && file->open(OpenMode::WRITE)) {
         return create_write_stream(file);
     }
     return nullptr;

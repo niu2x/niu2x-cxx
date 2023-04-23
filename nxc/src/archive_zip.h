@@ -17,7 +17,7 @@ public:
     virtual ~ArchiveZip();
 
 protected:
-    virtual Result<void> _open(int mode) override;
+    virtual Result<void> _open(OpenMode mode) override;
     virtual void _close() override;
 
     virtual File* _open_entry(const String& entry) override;
@@ -26,7 +26,7 @@ protected:
 
 private:
     String pathname_;
-    int mode_;
+    OpenMode mode_;
     zip_t* zip_;
 
     FilePtrVector opened_files_;

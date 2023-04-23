@@ -12,7 +12,10 @@ public:
     Archive();
     virtual ~Archive() = 0;
 
-    NXC_INLINE Result<void> open(int mode = O_READ) { return _open(mode); }
+    NXC_INLINE Result<void> open(OpenMode mode = OpenMode::READ)
+    {
+        return _open(mode);
+    }
 
     NXC_INLINE void close() { _close(); }
 
@@ -29,7 +32,7 @@ public:
     }
 
 protected:
-    virtual Result<void> _open(int mode) = 0;
+    virtual Result<void> _open(OpenMode mode) = 0;
     virtual void _close() = 0;
 
     virtual File* _open_entry(const String& entry) = 0;
