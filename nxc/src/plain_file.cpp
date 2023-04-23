@@ -19,7 +19,7 @@ PlainFile::PlainFile(const String& pathname)
 , pathname_(pathname)
 {
 }
-PlainFile::~PlainFile() { close(); }
+PlainFile::~PlainFile() { NXC_ASSERT(fp_ == nullptr, "file is not closed"); }
 
 Result<void> PlainFile::_open(OpenMode mode)
 {

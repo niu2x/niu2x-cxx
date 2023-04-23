@@ -5,16 +5,22 @@ namespace nxc {
 FileReadStream::FileReadStream(FilePtr file)
 : file_(file)
 , weak_file_(nullptr)
+, should_close_(false)
 {
 }
 
 FileReadStream::FileReadStream(File* file)
 : file_(nullptr)
 , weak_file_(file)
+, should_close_(false)
 {
 }
 
-FileReadStream::~FileReadStream() { _close_file(); }
+FileReadStream::~FileReadStream()
+{
+    if (should_close_)
+        _close_file();
+}
 
 Result<size_t> FileReadStream::_read(void* buf, size_t n)
 {
@@ -28,15 +34,21 @@ void FileReadStream::_close_file()
 FileWriteStream::FileWriteStream(FilePtr file)
 : file_(file)
 , weak_file_(nullptr)
+, should_close_(false)
 {
 }
 
 FileWriteStream::FileWriteStream(File* file)
 : file_(nullptr)
 , weak_file_(file)
+, should_close_(false)
 {
 }
-FileWriteStream::~FileWriteStream() { _close_file(); }
+FileWriteStream::~FileWriteStream()
+{
+    if (should_close_)
+        _close_file();
+}
 
 Result<size_t> FileWriteStream::_write(const void* buf, size_t n)
 {

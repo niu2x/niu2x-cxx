@@ -11,6 +11,7 @@ public:
     FileReadStream(FilePtr file);
     FileReadStream(File* file);
     virtual ~FileReadStream();
+    void set_auto_close_file(bool b) { should_close_ = b; }
 
 protected:
     virtual Result<size_t> _read(void* buf, size_t n) override;
@@ -29,6 +30,7 @@ public:
     FileWriteStream(FilePtr file);
     FileWriteStream(File* file);
     virtual ~FileWriteStream();
+    void set_auto_close_file(bool b) { should_close_ = b; }
 
 protected:
     virtual Result<size_t> _write(const void* buf, size_t n) override;

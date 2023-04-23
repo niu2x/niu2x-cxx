@@ -18,7 +18,7 @@ RawMemoryFile::RawMemoryFile(RawMemoryPtr memory)
 {
 }
 
-RawMemoryFile::~RawMemoryFile() { close(); }
+RawMemoryFile::~RawMemoryFile() { }
 
 void RawMemoryFile::_seek(int relative, size_t offset)
 {

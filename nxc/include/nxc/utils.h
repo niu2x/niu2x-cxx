@@ -10,13 +10,15 @@
 #include <functional>
 #include <boost/noncopyable.hpp>
 
+#define NXC_LOG_E(msg) fprintf(stderr, "%s\n", msg);
+
 #define NXC_INLINE BOOST_FORCEINLINE
 
 #define NXC_COPYABLE_DEFAULT(clazz)                                            \
     clazz(const clazz&) = default;                                             \
     clazz& operator=(const clazz&) = default;
 
-#define NXC_THROW(e) throw e;
+// #define NXC_THROW(e) throw e;
 
 #define NXC_ASSERT(cond, message)                                              \
     {                                                                          \
@@ -109,22 +111,26 @@ auto max(const T1& t1, const T2& t2)
     return std::max(t1, t2);
 }
 
-class Exception : public std::exception {
-public:
-    Exception(const String& msg)
-    : message_(msg)
-    {
-    }
-    virtual ~Exception() { }
-    virtual const char* what() const noexcept { return message_.c_str(); }
+// class Exception : public std::exception {
+// public:
+//     Exception(const String& msg)
+//     : message_(msg)
+//     {
+//     }
+//     virtual ~Exception() { }
+//     virtual const char* what() const noexcept { return message_.c_str(); }
 
-private:
-    String message_;
-};
+// private:
+//     String message_;
+// };
 
 }; // namespace nxc
 
-#define NXC_ABORT(message) NXC_THROW(nxc::Exception(message))
+#define NXC_ABORT(message)                                                     \
+    {                                                                          \
+        NXC_LOG_E(message);                                                    \
+        abort();                                                               \
+    }
 
 #define NXC_MALLOC(bytes)   (void*)(new uint8_t[bytes])
 #define NXC_ALLOC(T, count) (T*)(new uint8_t[(count) * sizeof(T)])
@@ -141,11 +147,13 @@ private:
 #define NXC_PTR_OFFSET(ptr, off) (void*)(off + ((uint8_t*)ptr))
 
 namespace nxc {
+
 template <class T>
 void delete_ptr(T* ptr)
 {
     NXC_DELETE(ptr);
 }
+
 } // namespace nxc
 
 #define NXC_MAKE_PTR(T, ...)                                                   \
