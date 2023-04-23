@@ -19,7 +19,7 @@ public:
     void write(const void* ptr, size_t n);
 
     void reserve(size_t c);
-    void resize(size_t z);
+    void resize(size_t z, uint8_t default_value = 0);
 
 protected:
     virtual uint8_t* _data() { return data_; }
@@ -30,7 +30,7 @@ private:
     size_t data_alloc_;
     size_t data_nr_;
     void _write(const void* ptr, size_t n);
-    void _resize(size_t z);
+    void _resize(size_t z, uint8_t default_value);
 };
 
 using BufferPtr = Ptr<Buffer>;

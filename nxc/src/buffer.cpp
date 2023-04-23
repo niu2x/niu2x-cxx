@@ -49,12 +49,18 @@ void Buffer::reserve(size_t c)
     }
 }
 
-void Buffer::resize(size_t z)
+void Buffer::resize(size_t z, uint8_t default_value)
 {
     reserve(z);
-    _resize(z);
+    _resize(z, default_value);
 }
 
-void Buffer::_resize(size_t z) { data_nr_ = z; }
+void Buffer::_resize(size_t new_nr, uint8_t default_value)
+{
+    if (new_nr > data_nr_) {
+        memset(data_ + data_nr_, default_value, new_nr - data_nr_);
+    }
+    data_nr_ = new_nr;
+}
 
 } // namespace nxc
