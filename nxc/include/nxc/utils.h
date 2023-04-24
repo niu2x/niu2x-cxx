@@ -83,8 +83,6 @@ public:
         std::shared_ptr<T>::operator=(other);
         return *this;
     }
-    NXC_INLINE bool readonly() const { return is_const_v<type>; }
-
     NXC_INLINE T* get() const { return ptr_.get(); }
     NXC_INLINE T* operator->() const { return ptr_.get(); }
 
@@ -113,15 +111,15 @@ private:
 using String = std::string;
 
 template <class T1, class T2>
-auto min(const T1& t1, const T2& t2)
+auto min(T1&& t1, T2&& t2)
 {
-    return std::min(t1, t2);
+    return std::min(std::forward<T1>(t1), std::forward<T2>(t2));
 }
 
 template <class T1, class T2>
-auto max(const T1& t1, const T2& t2)
+auto max(T1&& t1, T2&& t2)
 {
-    return std::max(t1, t2);
+    return std::max(std::forward<T1>(t1), std::forward<T2>(t2));
 }
 
 // class Exception : public std::exception {
