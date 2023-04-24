@@ -1,4 +1,5 @@
 #include "archive_zip.h"
+#include "file_helper.h"
 
 namespace nxc {
 
@@ -18,40 +19,30 @@ public:
 
 protected:
     // virtual bool _eof() const override { return false; }
-    virtual void _seek(int relative, size_t offset) override
+    virtual Result<void> _seek(SeekPos relative, size_t offset) override
     {
         NXC_ASSERT(file_, "fp_ is nullptr");
-        switch (relative) {
-            case S_BEGIN: {
-                zip_fseek(file_, offset, SEEK_SET);
-                break;
-            }
-            case S_CURR: {
-                zip_fseek(file_, offset, SEEK_CUR);
-                break;
-            }
-            case S_END: {
-                zip_fseek(file_, offset, SEEK_END);
-                break;
-            }
-        }
+        auto flag = seek_flag(relative);
+        auto ret = zip_fseek(file_, offset, flag);
+        if (ret < 0)
+            return E::ZIP_LIB_ERROR;
+        return E::OK;
     }
-    virtual size_t _tell() const override
+    virtual Result<size_t> _tell() const override
     {
         NXC_ASSERT(file_ != nullptr, "file_ is nullptr")
-        return zip_ftell(file_);
+        auto pos = zip_ftell(file_);
+        if (pos < 0)
+            return E::ZIP_LIB_ERROR;
+        return static_cast<size_t>(pos);
     }
-
-    virtual bool _readable() const override { return mode_ == OpenMode::READ; }
-
-    virtual bool _writable() const override { return mode_ == OpenMode::WRITE; }
 
     virtual Result<size_t> _read(void* buf, size_t n) override
     {
         NXC_ASSERT(file_ != nullptr, "file_ is nullptr")
         auto ret = zip_fread(file_, buf, n);
         if (ret < 0)
-            return E::OS_ERROR;
+            return E::ZIP_LIB_ERROR;
         if (ret == 0)
             return E::END_OF_FILE;
         return ret;

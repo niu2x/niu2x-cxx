@@ -9,7 +9,6 @@ int main()
 
     auto mem_file = file_factory->create(mem);
     mem_file->open(nxc::OpenMode::WRITE);
-    NXC_ASSERT(mem_file->writable(), "");
 
     char c = 'a';
     nxc::Result<size_t> err;

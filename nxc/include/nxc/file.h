@@ -10,10 +10,10 @@ namespace nxc {
 
 class NXC_API File : private Noncopyable {
 public:
-    enum {
-        S_BEGIN,
-        S_END,
-        S_CURR,
+    enum class SeekPos {
+        BEGIN,
+        CURR,
+        END,
     };
 
     File();
@@ -26,33 +26,27 @@ public:
 
     NXC_INLINE void close() { _close(); }
 
-    NXC_INLINE void rewind() { seek(S_BEGIN, 0); }
+    NXC_INLINE Result<void> rewind() { return seek(SeekPos::BEGIN, 0); }
 
     NXC_INLINE Result<size_t> read(void* buf, size_t n)
     {
-        NXC_ASSERT(readable(), "read a non-readable file");
         return _read(buf, n);
     }
 
     NXC_INLINE Result<size_t> write(const void* buf, size_t n)
     {
-        NXC_ASSERT(writable(), "write a non-writable file");
         return _write(buf, n);
     }
 
-    NXC_INLINE void seek(int relative, size_t offset)
+    NXC_INLINE Result<void> seek(SeekPos relative, size_t offset)
     {
-        _seek(relative, offset);
+        return _seek(relative, offset);
     }
-    NXC_INLINE size_t tell() const { return _tell(); }
-    NXC_INLINE bool readable() const { return _readable(); }
-    NXC_INLINE bool writable() const { return _writable(); }
+    NXC_INLINE Result<size_t> tell() const { return _tell(); }
 
 protected:
-    virtual void _seek(int relative, size_t offset) = 0;
-    virtual size_t _tell() const = 0;
-    virtual bool _readable() const = 0;
-    virtual bool _writable() const = 0;
+    virtual Result<void> _seek(SeekPos relative, size_t offset) = 0;
+    virtual Result<size_t> _tell() const = 0;
     virtual Result<size_t> _read(void* buf, size_t n) = 0;
     virtual Result<size_t> _write(const void* buf, size_t n) = 0;
     virtual Result<void> _open(OpenMode mode) = 0;

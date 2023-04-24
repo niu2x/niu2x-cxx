@@ -14,10 +14,8 @@ public:
     virtual ~PlainFile();
 
 protected:
-    virtual void _seek(int relative, size_t offset) override;
-    virtual size_t _tell() const override;
-    virtual bool _readable() const override;
-    virtual bool _writable() const override;
+    virtual Result<void> _seek(SeekPos relative, size_t offset) override;
+    virtual Result<size_t> _tell() const override;
 
     virtual Result<size_t> _read(void* buf, size_t n) override;
     virtual Result<size_t> _write(const void* buf, size_t n) override;

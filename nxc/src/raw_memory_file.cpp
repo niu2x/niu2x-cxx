@@ -20,25 +20,26 @@ RawMemoryFile::RawMemoryFile(RawMemoryPtr memory)
 
 RawMemoryFile::~RawMemoryFile() { }
 
-void RawMemoryFile::_seek(int relative, size_t offset)
+Result<void> RawMemoryFile::_seek(SeekPos relative, size_t offset)
 {
     switch (relative) {
-        case S_BEGIN: {
+        case SeekPos::BEGIN: {
             pos_ = offset;
             break;
         }
-        case S_CURR: {
+        case SeekPos::CURR: {
             pos_ += offset;
             break;
         }
-        case S_END: {
+        case SeekPos::END: {
             pos_ = const_memory_->size() + offset;
             break;
         }
     }
+    return E::OK;
 }
 
-size_t RawMemoryFile::_tell() const { return pos_; }
+Result<size_t> RawMemoryFile::_tell() const { return pos_; }
 
 Result<size_t> RawMemoryFile::_read(void* buf, size_t n)
 {
@@ -67,15 +68,6 @@ Result<size_t> RawMemoryFile::_write(const void* buf, size_t n)
     pos_ += real;
 
     return real;
-}
-
-bool RawMemoryFile::_readable() const
-{
-    return mode_ == OpenMode::READ && (const_memory_);
-}
-bool RawMemoryFile::_writable() const
-{
-    return mode_ == OpenMode::WRITE && memory_;
 }
 
 RawMemoryFilePtr RawMemoryFile::create(RawMemoryPtr memory)

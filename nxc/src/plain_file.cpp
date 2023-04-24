@@ -1,16 +1,18 @@
 #include "plain_file.h"
+#include "file_helper.h"
 
 namespace nxc {
 
 static const char* file_mode(OpenMode mode)
 {
+    NXC_ASSERT(mode == OpenMode::READ || mode == OpenMode::WRITE,
+        "unsupport open mode");
     switch (mode) {
         case OpenMode::READ:
             return "rb";
         case OpenMode::WRITE:
             return "wb";
     }
-    NXC_ASSERT(false, "unsupport open mode");
     return "";
 }
 
@@ -37,29 +39,23 @@ void PlainFile::_close()
     }
 }
 
-void PlainFile::_seek(int relative, size_t offset)
+Result<void> PlainFile::_seek(SeekPos relative, size_t offset)
 {
     NXC_ASSERT(fp_, "fp_ is nullptr");
-    switch (relative) {
-        case S_BEGIN: {
-            fseek(fp_, offset, SEEK_SET);
-            break;
-        }
-        case S_CURR: {
-            fseek(fp_, offset, SEEK_CUR);
-            break;
-        }
-        case S_END: {
-            fseek(fp_, offset, SEEK_END);
-            break;
-        }
-    }
+    auto flag = seek_flag(relative);
+    if (!fseek(fp_, offset, flag))
+        return E::OK;
+    else
+        return E::OS_ERROR;
 }
 
-size_t PlainFile::_tell() const
+Result<size_t> PlainFile::_tell() const
 {
     NXC_ASSERT(fp_, "fp_ is nullptr");
-    return ftell(fp_);
+    long pos = ftell(fp_);
+    if (pos < 0)
+        return E::OS_ERROR;
+    return static_cast<size_t>(pos);
 }
 
 Result<size_t> PlainFile::_read(void* buf, size_t n)
@@ -84,17 +80,6 @@ Result<size_t> PlainFile::_write(const void* buf, size_t n)
             return E::OS_ERROR;
     }
     return ret;
-}
-
-bool PlainFile::_readable() const
-{
-    NXC_ASSERT(fp_, "fp_ is nullptr");
-    return mode_ == OpenMode::READ;
-}
-bool PlainFile::_writable() const
-{
-    NXC_ASSERT(fp_, "fp_ is nullptr");
-    return mode_ == OpenMode::WRITE;
 }
 
 Ptr<PlainFile> PlainFile::create(const String& path)
