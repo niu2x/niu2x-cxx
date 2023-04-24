@@ -19,12 +19,12 @@ public:
 
     NXC_INLINE void close() { _close(); }
 
-    NXC_INLINE File* open_entry(const String& entry)
+    NXC_INLINE FilePtr open_entry(const String& entry)
     {
         return _open_entry(entry);
     }
 
-    NXC_INLINE void close_entry(File* file) { _close_entry(file); }
+    NXC_INLINE void close_entry(FilePtr file) { _close_entry(file); }
 
     NXC_INLINE bool exist_entry(const String& entry) const
     {
@@ -35,8 +35,8 @@ protected:
     virtual Result<void> _open(OpenMode mode) = 0;
     virtual void _close() = 0;
 
-    virtual File* _open_entry(const String& entry) = 0;
-    virtual void _close_entry(File* file) = 0;
+    virtual FilePtr _open_entry(const String& entry) = 0;
+    virtual void _close_entry(FilePtr file) = 0;
     virtual bool _exist_entry(const String& entry) const = 0;
 };
 

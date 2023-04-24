@@ -10,11 +10,10 @@ public:
     DefaultStreamFactory() { }
     virtual ~DefaultStreamFactory() { }
 
-    virtual ReadStreamPtr create_read_stream(File* file) override;
-    virtual WriteStreamPtr create_write_stream(File* file) override;
-
-    virtual ReadStreamPtr create_read_stream(FilePtr file) override;
-    virtual WriteStreamPtr create_write_stream(FilePtr file) override;
+    virtual ReadStreamPtr create_read_stream(
+        FilePtr file, bool auto_close_file) override;
+    virtual WriteStreamPtr create_write_stream(
+        FilePtr file, bool auto_close_file) override;
 
     virtual ReadStreamPtr create_read_stream(const Buffer* buffer) override;
     virtual WriteStreamPtr create_write_stream(Buffer* buffer) override;

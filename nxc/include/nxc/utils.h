@@ -90,6 +90,19 @@ public:
 
     NXC_INLINE operator bool() const { return !!ptr_; }
 
+    NXC_INLINE bool operator==(std::nullptr_t) const { return ptr_ == nullptr; }
+    NXC_INLINE bool operator!=(std::nullptr_t) const { return ptr_ != nullptr; }
+
+    NXC_INLINE bool operator==(const Ptr& other) const
+    {
+        return ptr_ == other.ptr_;
+    }
+
+    NXC_INLINE bool operator!=(const Ptr& other) const
+    {
+        return ptr_ != other.ptr_;
+    }
+
     // user should not use it
     NXC_INLINE const std::shared_ptr<T>& shared_ptr() const { return ptr_; }
 

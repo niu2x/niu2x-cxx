@@ -20,8 +20,8 @@ protected:
     virtual Result<void> _open(OpenMode mode) override;
     virtual void _close() override;
 
-    virtual File* _open_entry(const String& entry) override;
-    virtual void _close_entry(File* file) override;
+    virtual FilePtr _open_entry(const String& entry) override;
+    virtual void _close_entry(FilePtr file) override;
     virtual bool _exist_entry(const String& entry) const override;
 
 private:

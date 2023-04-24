@@ -157,13 +157,12 @@ void ArchiveZip::_close()
     }
 }
 
-File* ArchiveZip::_open_entry(const String& entry)
+FilePtr ArchiveZip::_open_entry(const String& entry)
 {
     NXC_ASSERT(zip_, "zip_ is nullptr");
     auto file = NXC_MAKE_PTR(EntryFile, entry, zip_, mode_, write_buffers_);
-
     opened_files_.push_back(file);
-    return file.get();
+    return file;
 }
 bool ArchiveZip::_exist_entry(const String& entry) const
 {
@@ -171,12 +170,12 @@ bool ArchiveZip::_exist_entry(const String& entry) const
     return zip_name_locate(zip_, entry.c_str(), ZIP_FL_ENC_UTF_8) != -1;
 }
 
-void ArchiveZip::_close_entry(File* file)
+void ArchiveZip::_close_entry(FilePtr file)
 {
     if (file) {
         auto it = opened_files_.walk();
         while (it.has_value()) {
-            if (it.get().get() == file) {
+            if (it.get() == file) {
                 opened_files_.erase(it);
                 break;
             }

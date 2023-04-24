@@ -8,10 +8,8 @@ namespace nxc {
 
 class FileReadStream : public ReadStream {
 public:
-    FileReadStream(FilePtr file);
-    FileReadStream(File* file);
+    FileReadStream(FilePtr file, bool auto_close_file);
     virtual ~FileReadStream();
-    void set_auto_close_file(bool b) { should_close_ = b; }
 
 protected:
     virtual Result<size_t> _read(void* buf, size_t n) override;
@@ -19,7 +17,6 @@ protected:
 
 private:
     FilePtr file_;
-    File* weak_file_;
 
     bool should_close_;
     void _close_file();
@@ -27,17 +24,14 @@ private:
 
 class FileWriteStream : public WriteStream {
 public:
-    FileWriteStream(FilePtr file);
-    FileWriteStream(File* file);
+    FileWriteStream(FilePtr file, bool auto_close_file);
     virtual ~FileWriteStream();
-    void set_auto_close_file(bool b) { should_close_ = b; }
 
 protected:
     virtual Result<size_t> _write(const void* buf, size_t n) override;
 
 private:
     FilePtr file_;
-    File* weak_file_;
     bool should_close_;
 
     void _close_file();
