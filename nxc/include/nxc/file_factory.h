@@ -6,10 +6,8 @@
 
 namespace nxc {
 
-class NXC_API FileFactory {
+class NXC_API FileFactory : public Singleton<FileFactory> {
 public:
-    static FileFactory* get();
-
     FileFactory() { }
     ~FileFactory() { }
 

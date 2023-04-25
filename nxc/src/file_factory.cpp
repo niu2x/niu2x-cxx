@@ -19,10 +19,4 @@ FilePtr FileFactory::create(ConstRawMemoryPtr memory)
     return RawMemoryFile::create(memory);
 }
 
-FileFactory* FileFactory::get()
-{
-    static FileFactory instance;
-    return &instance;
-}
-
 } // namespace nxc

@@ -7,10 +7,8 @@
 
 namespace nxc {
 
-class NXC_API StreamFactory {
+class NXC_API StreamFactory : public Singleton<StreamFactory> {
 public:
-    static StreamFactory* get();
-
     StreamFactory() { }
     ~StreamFactory() { }
 

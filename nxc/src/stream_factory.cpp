@@ -47,10 +47,4 @@ WriteStreamPtr StreamFactory::create_write_stream(Buffer* buffer)
     return NXC_MAKE_PTR(BufferWriteStream, buffer);
 }
 
-StreamFactory* StreamFactory::get()
-{
-    static StreamFactory instance;
-    return &instance;
-}
-
 } // namespace nxc

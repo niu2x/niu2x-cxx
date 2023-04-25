@@ -108,6 +108,20 @@ private:
     std::shared_ptr<T> ptr_;
 };
 
+template <class T>
+class Singleton : private Noncopyable {
+public:
+    static T* get()
+    {
+        static T instance;
+        return &instance;
+    }
+
+protected:
+    Singleton() { }
+    ~Singleton() { }
+};
+
 using String = std::string;
 
 template <class T1, class T2>
