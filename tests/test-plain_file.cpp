@@ -39,7 +39,7 @@ TEST(PlainFile, read)
     auto file = file_factory->create("./test.txt");
     EXPECT_EQ(file->open(OpenMode::READ).error(), E::OK);
 
-    char buffer[32];
+    char buffer[32] = { 0 };
     auto read_result = file->read(buffer, 32);
     EXPECT_EQ(read_result.error(), E::OK);
     EXPECT_EQ(*read_result, 11);
