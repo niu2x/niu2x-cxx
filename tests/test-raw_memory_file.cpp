@@ -3,7 +3,7 @@
 int main()
 {
     static uint8_t buffer[16];
-    auto file_factory = NXC_MAKE_PTR(nxc::DefaultFileFactory);
+    auto file_factory = nxc::FileFactory::get();
 
     auto mem = NXC_MAKE_PTR(nxc::RawMemory, buffer, 16);
 

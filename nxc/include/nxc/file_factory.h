@@ -8,12 +8,14 @@ namespace nxc {
 
 class NXC_API FileFactory {
 public:
-    FileFactory() { }
-    virtual ~FileFactory() { }
+    static FileFactory* get();
 
-    virtual FilePtr create(const String& pathname) = 0;
-    virtual FilePtr create(RawMemoryPtr memory) = 0;
-    virtual FilePtr create(ConstRawMemoryPtr memory) = 0;
+    FileFactory() { }
+    ~FileFactory() { }
+
+    FilePtr create(const String& pathname);
+    FilePtr create(RawMemoryPtr memory);
+    FilePtr create(ConstRawMemoryPtr memory);
 };
 
 using FileFactoryPtr = Ptr<FileFactory>;

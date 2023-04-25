@@ -7,14 +7,14 @@ using namespace nxc;
 
 TEST(PlainFile, open_read_non_exist)
 {
-    auto file_factory = NXC_MAKE_PTR(DefaultFileFactory);
+    auto file_factory = FileFactory::get();
     auto file = file_factory->create("./non-exist.txt");
     EXPECT_EQ(file->open(OpenMode::READ).error(), E::OS_ERROR);
 }
 
 TEST(PlainFile, open_read_exist)
 {
-    auto file_factory = NXC_MAKE_PTR(DefaultFileFactory);
+    auto file_factory = FileFactory::get();
     auto file = file_factory->create("./test-plain_file");
     EXPECT_EQ(file->open(OpenMode::READ).error(), E::OK);
     file->close();
@@ -22,7 +22,7 @@ TEST(PlainFile, open_read_exist)
 
 TEST(PlainFile, write)
 {
-    auto file_factory = NXC_MAKE_PTR(DefaultFileFactory);
+    auto file_factory = FileFactory::get();
     auto file = file_factory->create("./test.txt");
     EXPECT_EQ(file->open(OpenMode::WRITE).error(), E::OK);
 
@@ -35,7 +35,7 @@ TEST(PlainFile, write)
 
 TEST(PlainFile, read)
 {
-    auto file_factory = NXC_MAKE_PTR(DefaultFileFactory);
+    auto file_factory = FileFactory::get();
     auto file = file_factory->create("./test.txt");
     EXPECT_EQ(file->open(OpenMode::READ).error(), E::OK);
 
