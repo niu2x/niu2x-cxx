@@ -3,7 +3,6 @@
 
 #include <nxc/stream.h>
 #include <nxc/buffer.h>
-#include <nxc/file.h>
 
 namespace nxc {
 
@@ -12,14 +11,11 @@ public:
     StreamFactory() { }
     ~StreamFactory() { }
 
-    ReadStreamPtr create_read_stream(FilePtr file, bool auto_close_file);
-    WriteStreamPtr create_write_stream(FilePtr file, bool auto_close_file);
+    Result<ReadStreamPtr> create_read_stream(const String& pathname);
+    Result<WriteStreamPtr> create_write_stream(const String& pathname);
 
-    ReadStreamPtr create_read_stream(const String& pathname);
-    WriteStreamPtr create_write_stream(const String& pathname);
-
-    ReadStreamPtr create_read_stream(const Buffer* buffer);
-    WriteStreamPtr create_write_stream(Buffer* buffer);
+    Result<ReadStreamPtr> create_read_stream(const Buffer* buffer);
+    Result<WriteStreamPtr> create_write_stream(Buffer* buffer);
 };
 
 using StreamFactoryPtr = Ptr<StreamFactory>;

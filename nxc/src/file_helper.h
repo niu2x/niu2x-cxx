@@ -1,7 +1,7 @@
 #ifndef NXC_FILE_HELPER_H
 #define NXC_FILE_HELPER_H
 
-#include <nxc/file.h>
+#include "file.h"
 
 namespace nxc {
 

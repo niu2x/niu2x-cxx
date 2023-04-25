@@ -8,8 +8,6 @@
 #include <nxc/result.h>
 #include <nxc/buffer.h>
 #include <nxc/raw_memory.h>
-#include <nxc/file.h>
-#include <nxc/file_factory.h>
 #include <nxc/stream.h>
 #include <nxc/stream_factory.h>
 #include <nxc/default_archive_factory.h>

@@ -1,19 +1,19 @@
-#ifndef NXC_ARCHIVE_FACTORY_H
-#define NXC_ARCHIVE_FACTORY_H
+// #ifndef NXC_ARCHIVE_FACTORY_H
+// #define NXC_ARCHIVE_FACTORY_H
 
-#include <nxc/api.h>
-#include <nxc/utils.h>
-#include <nxc/archive.h>
+// #include <nxc/api.h>
+// #include <nxc/utils.h>
+// #include <nxc/archive.h>
 
-namespace nxc {
+// namespace nxc {
 
-class NXC_API ArchiveFactory {
-public:
-    ArchiveFactory() { }
-    virtual ~ArchiveFactory() { }
-    virtual ArchivePtr create(const String& pathname) = 0;
-};
+// class NXC_API ArchiveFactory {
+// public:
+//     ArchiveFactory() { }
+//     virtual ~ArchiveFactory() { }
+//     virtual ArchivePtr create(const String& pathname) = 0;
+// };
 
-} // namespace nxc
+// } // namespace nxc
 
-#endif
+// #endif

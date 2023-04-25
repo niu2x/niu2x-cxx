@@ -1,7 +1,7 @@
 #ifndef NXC_FILE_STREAM_H
 #define NXC_FILE_STREAM_H
 
-#include <nxc/file.h>
+#include "file.h"
 #include <nxc/stream.h>
 
 namespace nxc {

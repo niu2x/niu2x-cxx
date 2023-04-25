@@ -1,9 +1,9 @@
-#include <nxc/archive.h>
+// #include <nxc/archive.h>
 
-namespace nxc {
+// namespace nxc {
 
-Archive::Archive() { }
+// Archive::Archive() { }
 
-Archive::~Archive() { }
+// Archive::~Archive() { }
 
-} // namespace nxc
+// } // namespace nxc

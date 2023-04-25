@@ -2,7 +2,7 @@
 #define NXC_PLAIN_FILE_H
 
 #include <nxc/api.h>
-#include <nxc/file.h>
+#include "file.h"
 
 namespace nxc {
 

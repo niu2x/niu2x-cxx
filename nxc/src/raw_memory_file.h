@@ -2,7 +2,7 @@
 #define NXC_RAW_MEMORY_FILE_H
 
 #include <nxc/api.h>
-#include <nxc/file.h>
+#include "file.h"
 #include <nxc/raw_memory.h>
 
 namespace nxc {

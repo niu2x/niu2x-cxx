@@ -1,17 +1,17 @@
-#ifndef NXC_DEFAULT_ARCHIVE_FACTORY_H
-#define NXC_DEFAULT_ARCHIVE_FACTORY_H
+// #ifndef NXC_DEFAULT_ARCHIVE_FACTORY_H
+// #define NXC_DEFAULT_ARCHIVE_FACTORY_H
 
-#include <nxc/archive_factory.h>
+// #include <nxc/archive_factory.h>
 
-namespace nxc {
+// namespace nxc {
 
-class NXC_API DefaultArchiveFactory : public ArchiveFactory {
-public:
-    DefaultArchiveFactory() { }
-    virtual ~DefaultArchiveFactory() { }
-    virtual ArchivePtr create(const String& pathname) override;
-};
+// class NXC_API DefaultArchiveFactory : public ArchiveFactory {
+// public:
+//     DefaultArchiveFactory() { }
+//     virtual ~DefaultArchiveFactory() { }
+//     virtual ArchivePtr create(const String& pathname) override;
+// };
 
-} // namespace nxc
+// } // namespace nxc
 
-#endif
+// #endif

@@ -8,7 +8,7 @@
 
 namespace nxc {
 
-class NXC_API File : private Noncopyable {
+class File : private Noncopyable {
 public:
     enum class SeekPos {
         BEGIN,
