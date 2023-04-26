@@ -8,11 +8,11 @@
 #include <cmath>
 #include <vector>
 #include <functional>
-#include <boost/noncopyable.hpp>
+#include <nxc/api.h>
 
 #define NXC_LOG_E(msg) fprintf(stderr, "%s\n", msg);
 
-#define NXC_INLINE BOOST_FORCEINLINE
+#define NXC_INLINE inline
 
 #define NXC_COPYABLE_DEFAULT(clazz)                                            \
     clazz(const clazz&) = default;                                             \
@@ -39,7 +39,14 @@ NXC_INLINE void do_nothing(Args&&...)
 {
 }
 
-using Noncopyable = boost::noncopyable;
+class NXC_API Noncopyable {
+    
+public:
+    Noncopyable() {}
+    ~Noncopyable() {}
+    Noncopyable(const Noncopyable& other) = delete;
+    Noncopyable& operator=(const Noncopyable& other) = delete;
+};
 
 template <class T>
 using Function = std::function<T>;

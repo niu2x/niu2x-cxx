@@ -1,3 +1,5 @@
+#define _CRT_SECURE_NO_WARNINGS
+
 #include "plain_file.h"
 #include "file_helper.h"
 
@@ -43,7 +45,7 @@ Result<void> PlainFile::_seek(SeekPos relative, size_t offset)
 {
     NXC_ASSERT(fp_, "fp_ is nullptr");
     auto flag = seek_flag(relative);
-    if (!fseek(fp_, offset, flag))
+    if (!fseek(fp_, (long)offset, flag))
         return E::OK;
     else
         return E::OS_ERROR;
