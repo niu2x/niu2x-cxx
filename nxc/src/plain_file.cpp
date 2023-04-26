@@ -41,23 +41,23 @@ void PlainFile::_close()
     }
 }
 
-Result<void> PlainFile::_seek(SeekPos relative, size_t offset)
+Result<void> PlainFile::_seek(SeekPos relative, long offset)
 {
     NXC_ASSERT(fp_, "fp_ is nullptr");
     auto flag = seek_flag(relative);
-    if (!fseek(fp_, (long)offset, flag))
+    if (!fseek(fp_, offset, flag))
         return E::OK;
     else
         return E::OS_ERROR;
 }
 
-Result<size_t> PlainFile::_tell() const
+Result<long> PlainFile::_tell() const
 {
     NXC_ASSERT(fp_, "fp_ is nullptr");
     long pos = ftell(fp_);
     if (pos < 0)
         return E::OS_ERROR;
-    return static_cast<size_t>(pos);
+    return pos;
 }
 
 Result<size_t> PlainFile::_read(void* buf, size_t n)

@@ -38,15 +38,15 @@ public:
         return _write(buf, n);
     }
 
-    NXC_INLINE Result<void> seek(SeekPos relative, size_t offset)
+    NXC_INLINE Result<void> seek(SeekPos relative, long offset)
     {
         return _seek(relative, offset);
     }
-    NXC_INLINE Result<size_t> tell() const { return _tell(); }
+    NXC_INLINE Result<long> tell() const { return _tell(); }
 
 protected:
-    virtual Result<void> _seek(SeekPos relative, size_t offset) = 0;
-    virtual Result<size_t> _tell() const = 0;
+    virtual Result<void> _seek(SeekPos relative, long offset) = 0;
+    virtual Result<long> _tell() const = 0;
     virtual Result<size_t> _read(void* buf, size_t n) = 0;
     virtual Result<size_t> _write(const void* buf, size_t n) = 0;
     virtual Result<void> _open(OpenMode mode) = 0;

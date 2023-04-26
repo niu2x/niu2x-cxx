@@ -20,7 +20,7 @@ RawMemoryFile::RawMemoryFile(RawMemoryPtr memory)
 
 RawMemoryFile::~RawMemoryFile() { }
 
-Result<void> RawMemoryFile::_seek(SeekPos relative, size_t offset)
+Result<void> RawMemoryFile::_seek(SeekPos relative, long offset)
 {
     switch (relative) {
         case SeekPos::BEGIN: {
@@ -39,7 +39,7 @@ Result<void> RawMemoryFile::_seek(SeekPos relative, size_t offset)
     return E::OK;
 }
 
-Result<size_t> RawMemoryFile::_tell() const { return pos_; }
+Result<long> RawMemoryFile::_tell() const { return pos_; }
 
 Result<size_t> RawMemoryFile::_read(void* buf, size_t n)
 {
