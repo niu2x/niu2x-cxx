@@ -1,5 +1,4 @@
 #include "file_factory.h"
-#include "raw_memory_file.h"
 #include "plain_file.h"
 
 namespace nxc {
@@ -7,16 +6,6 @@ namespace nxc {
 FilePtr FileFactory::create(const String& pathname)
 {
     return PlainFile::create(pathname);
-}
-
-FilePtr FileFactory::create(RawMemoryPtr memory)
-{
-    return RawMemoryFile::create(memory);
-}
-
-FilePtr FileFactory::create(ConstRawMemoryPtr memory)
-{
-    return RawMemoryFile::create(memory);
 }
 
 } // namespace nxc

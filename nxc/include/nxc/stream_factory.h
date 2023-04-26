@@ -14,7 +14,7 @@ public:
     Result<ReadStreamPtr> create_read_stream(const String& pathname);
     Result<WriteStreamPtr> create_write_stream(const String& pathname);
 
-    Result<ReadStreamPtr> create_read_stream(const Buffer* buffer);
+    Result<ReadStreamPtr> create_read_stream(const Data* data);
     Result<WriteStreamPtr> create_write_stream(Buffer* buffer);
 };
 
