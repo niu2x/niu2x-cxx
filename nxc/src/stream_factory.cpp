@@ -37,14 +37,12 @@ Result<WriteStreamPtr> StreamFactory::create_write_stream(
     return open_result;
 }
 
-Result<ReadStreamPtr> StreamFactory::create_read_stream(const Data* data)
+Result<ReadStreamPtr> StreamFactory::create_read_stream(const Data& data)
 {
-    NXC_ASSERT(data != nullptr, "data is nullptr");
     return (ReadStreamPtr)NXC_MAKE_PTR(DataReadStream, data);
 }
-Result<WriteStreamPtr> StreamFactory::create_write_stream(Buffer* buffer)
+Result<WriteStreamPtr> StreamFactory::create_write_stream(Buffer& buffer)
 {
-    NXC_ASSERT(buffer != nullptr, "buffer is nullptr");
     return (WriteStreamPtr)NXC_MAKE_PTR(BufferWriteStream, buffer);
 }
 

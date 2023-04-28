@@ -9,14 +9,14 @@ namespace nxc {
 
 class BufferWriteStream : public WriteStream {
 public:
-    BufferWriteStream(Buffer* buffer);
+    BufferWriteStream(Buffer& buffer);
     virtual ~BufferWriteStream();
 
 protected:
     virtual Result<size_t> _write(const void* buf, size_t n) override;
 
 private:
-    Buffer* buffer_;
+    Buffer& buffer_;
 };
 
 } // namespace nxc

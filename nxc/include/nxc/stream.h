@@ -7,6 +7,7 @@
 
 namespace nxc {
 
+// reference
 class NXC_API ReadStream : private Noncopyable {
 public:
     ReadStream();
@@ -20,6 +21,7 @@ protected:
     virtual Result<size_t> _read(void* buf, size_t n) = 0;
 };
 
+// reference
 class NXC_API WriteStream : private Noncopyable {
 public:
     WriteStream();
@@ -32,6 +34,7 @@ protected:
     virtual Result<size_t> _write(const void* buf, size_t n) = 0;
 };
 
+// reference
 class NXC_API Stream : public WriteStream, public ReadStream {
 public:
     Stream() { }

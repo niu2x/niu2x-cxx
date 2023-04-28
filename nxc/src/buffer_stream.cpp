@@ -2,7 +2,7 @@
 
 namespace nxc {
 
-BufferWriteStream::BufferWriteStream(Buffer* buffer)
+BufferWriteStream::BufferWriteStream(Buffer& buffer)
 : buffer_(buffer)
 {
 }
@@ -11,7 +11,7 @@ BufferWriteStream::~BufferWriteStream() { }
 
 Result<size_t> BufferWriteStream::_write(const void* buf, size_t n)
 {
-    buffer_->write(buf, n);
+    buffer_.write(buf, n);
     return n;
 }
 

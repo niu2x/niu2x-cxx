@@ -9,6 +9,7 @@ namespace nxc {
 
 // user need handle error, even if no program error
 template <class T>
+// value
 class Result {
 public:
     Result()

@@ -6,10 +6,15 @@
 
 namespace nxc {
 
+// value
 class NXC_API Data {
+
 public:
     Data() { }
     virtual ~Data() { }
+
+    NXC_COPYABLE_DEFAULT(Data)
+    NXC_MOVABLE_DEFAULT(Data);
 
     NXC_INLINE const uint8_t* data() const
     {

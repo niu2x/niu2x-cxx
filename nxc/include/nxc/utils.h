@@ -18,6 +18,10 @@
     clazz(const clazz&) = default;                                             \
     clazz& operator=(const clazz&) = default;
 
+#define NXC_MOVABLE_DEFAULT(clazz)                                             \
+    clazz(clazz&&) = default;                                                  \
+    clazz& operator=(clazz&&) = default;
+
 // #define NXC_THROW(e) throw e;
 
 #define NXC_ASSERT(cond, message)                                              \
@@ -54,6 +58,7 @@ using Function = std::function<T>;
 template <class T>
 inline constexpr bool is_const_v = std::is_const_v<T>;
 
+// value
 template <class T>
 class Ptr {
 public:
@@ -194,6 +199,7 @@ void delete_ptr(T* ptr)
 namespace nxc {
 
 template <class T>
+// value
 class Iterator {
 public:
     Iterator() { }
@@ -204,7 +210,7 @@ public:
 };
 
 template <class T>
-
+// value
 class Vector {
 public:
     class VectorIterator : public Iterator<T> {
@@ -252,6 +258,8 @@ enum class OpenMode {
     READ,
     WRITE,
 };
+
+using std::swap;
 
 } // namespace nxc
 

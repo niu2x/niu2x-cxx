@@ -63,4 +63,47 @@ void Buffer::_resize(size_t new_nr, uint8_t default_value)
     data_nr_ = new_nr;
 }
 
+Buffer::Buffer(const Buffer& other)
+: data_(init)
+, data_alloc_(0)
+, data_nr_(0)
+{
+    if (other.data_nr_ > 0) {
+        data_ = (uint8_t*)NXC_MALLOC(other.data_nr_);
+        data_nr_ = data_alloc_ = other.data_nr_;
+        memcpy(data_, other.data_, data_nr_);
+    }
+}
+
+Buffer& Buffer::operator=(const Buffer& other)
+{
+    Buffer tmp(other);
+    nxc::swap(tmp, *this);
+    return *this;
+}
+
+Buffer::Buffer(Buffer&& other)
+: data_(init)
+, data_alloc_(0)
+, data_nr_(0)
+{
+    swap(other);
+}
+
+Buffer& Buffer::operator=(Buffer&& other)
+{
+    Buffer tmp(std::move(other));
+    std::swap(tmp, *this);
+    return *this;
+}
+
+void Buffer::swap(Buffer& other) noexcept
+{
+    nxc::swap(other.data_, data_);
+    nxc::swap(other.data_nr_, data_nr_);
+    nxc::swap(other.data_alloc_, data_alloc_);
+}
+
+void swap(Buffer& a, Buffer& b) noexcept { a.swap(b); }
+
 } // namespace nxc
