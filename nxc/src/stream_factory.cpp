@@ -3,18 +3,9 @@
 #include "file_stream.h"
 #include "data_stream.h"
 #include "buffer_stream.h"
+#include "file2stream.h"
 
 namespace nxc {
-
-static ReadStreamPtr create_read_stream(FilePtr file, bool auto_close_file)
-{
-    return NXC_MAKE_PTR(FileReadStream, file, auto_close_file);
-}
-
-static WriteStreamPtr create_write_stream(FilePtr file, bool auto_close_file)
-{
-    return NXC_MAKE_PTR(FileWriteStream, file, auto_close_file);
-}
 
 Result<ReadStreamPtr> StreamFactory::create_read_stream(const String& pathname)
 {

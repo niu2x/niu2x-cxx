@@ -77,9 +77,7 @@ Buffer::Buffer(const Buffer& other)
 
 Buffer& Buffer::operator=(const Buffer& other)
 {
-    Buffer tmp(other);
-    nxc::swap(tmp, *this);
-    return *this;
+    return COPY_AND_SWAP(*this, other);
 }
 
 Buffer::Buffer(Buffer&& other)
@@ -92,9 +90,7 @@ Buffer::Buffer(Buffer&& other)
 
 Buffer& Buffer::operator=(Buffer&& other)
 {
-    Buffer tmp(std::move(other));
-    std::swap(tmp, *this);
-    return *this;
+    return COPY_AND_SWAP(*this, std::move(other));
 }
 
 void Buffer::swap(Buffer& other) noexcept

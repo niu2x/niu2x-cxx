@@ -58,6 +58,11 @@ using Function = std::function<T>;
 template <class T>
 inline constexpr bool is_const_v = std::is_const_v<T>;
 
+template <class T>
+using decay_t = std::decay_t<T>;
+
+using std::forward;
+
 // value
 template <class T>
 class Ptr {
@@ -260,6 +265,14 @@ enum class OpenMode {
 };
 
 using std::swap;
+
+template <class T, class U>
+T& COPY_AND_SWAP(T& self, U&& other)
+{
+    decay_t<T> tmp(forward<U>(other));
+    swap(tmp, self);
+    return self;
+}
 
 } // namespace nxc
 
