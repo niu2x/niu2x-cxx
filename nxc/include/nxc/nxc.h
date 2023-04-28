@@ -11,5 +11,6 @@
 #include <nxc/stream_factory.h>
 #include <nxc/default_archive_factory.h>
 #include <nxc/pipe.h>
+#include <nxc/filename_helper.h>
 
 #endif

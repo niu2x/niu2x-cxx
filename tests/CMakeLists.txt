@@ -7,5 +7,18 @@ if(GTest_DIR)
 		add_executable(${name} ${item})
 		target_link_libraries(${name} PRIVATE nxc GTest::gtest_main)
 		gtest_discover_tests(${name})
+
+
+	
+
 	endforeach()
+
+
+	if(WIN32) 
+		file(COPY "${PROJECT_BINARY_DIR}/external_deps/bin/gtest_main.dll" DESTINATION Debug)
+		file(COPY "${PROJECT_BINARY_DIR}/external_deps/bin/gtest.dll" DESTINATION Debug)
+
+		file(COPY "${PROJECT_BINARY_DIR}/external_deps/bin/gtest_main.dll" DESTINATION Release)
+		file(COPY "${PROJECT_BINARY_DIR}/external_deps/bin/gtest.dll" DESTINATION Release)
+	endif()
 endif()

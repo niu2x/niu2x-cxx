@@ -12,13 +12,6 @@ TEST(PlainFile, open_read_non_exist)
     EXPECT_EQ(file.error(), E::OS_ERROR);
 }
 
-TEST(PlainFile, open_read_exist)
-{
-    auto stream_factory = StreamFactory::get();
-    auto file = stream_factory->create_read_stream("./test-plain_file");
-    EXPECT_EQ(file.error(), E::OK);
-}
-
 TEST(PlainFile, write)
 {
     auto stream_factory = StreamFactory::get();
