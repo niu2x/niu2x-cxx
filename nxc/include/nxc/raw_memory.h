@@ -7,7 +7,8 @@
 
 namespace nxc {
 
-class NXC_API RawMemory : public Data {
+template <size_t N>
+class RawMemory : public Data {
 public:
     RawMemory(uint8_t* data, size_t alloc);
     ~RawMemory();
@@ -16,11 +17,10 @@ public:
 
 protected:
     virtual uint8_t* _data() override { return data_; }
-    virtual size_t _size() const override { return data_alloc_; }
+    virtual size_t _size() const override { return N; }
 
 private:
-    uint8_t* data_;
-    size_t data_alloc_;
+    uint8_t data_[N];
 };
 
 } // namespace nxc
