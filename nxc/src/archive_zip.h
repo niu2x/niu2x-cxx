@@ -11,8 +11,6 @@ namespace nxc {
 class ArchiveZip : public Archive {
 public:
     using ReadStreamPtrVector = Vector<ReadStreamPtr>;
-    // using BufferPtrVector = Vector<BufferPtr>;
-
     ArchiveZip(const String& pathname);
     virtual ~ArchiveZip();
 

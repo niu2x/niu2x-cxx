@@ -57,8 +57,6 @@ protected:
     {
         unused(buf);
         unused(n);
-        // buffer_->write(buf, n);
-        // return n;
         return E::TODO;
     }
 
@@ -67,15 +65,12 @@ protected:
         NXC_ASSERT(file_ == nullptr, "file_ is not nullptr")
         mode_ = mode;
         closed_ = false;
-
         if (mode_ == OpenMode::READ) {
             NXC_ASSERT(zip_mode_ == OpenMode::READ, "zip can not read");
             file_ = zip_fopen(zip_, pathname_.c_str(), ZIP_FL_ENC_UTF_8);
             return file_ != nullptr ? E::OK : E::ZIP_LIB_ERROR;
         }
-
         NXC_ASSERT(zip_mode_ == OpenMode::WRITE, "zip can not write");
-        // buffer_ = NXC_MAKE_PTR(Buffer);
         return E::OK;
     }
 
@@ -90,22 +85,6 @@ protected:
                 zip_fclose(file_);
                 file_ = nullptr;
             }
-        }
-        if (mode_ == OpenMode::WRITE) {
-            // struct zip_source* s
-            //     = zip_source_buffer(zip_, buffer_->data(), buffer_->size(),
-            //     0);
-
-            // NXC_ASSERT(s != nullptr, "s is nullptr");
-            // if (zip_file_add(zip_, pathname_.c_str(), s,
-            //         ZIP_FL_ENC_UTF_8 | ZIP_FL_OVERWRITE)
-            //     < 0) {
-            //     zip_source_free(s);
-            //     NXC_ASSERT(false, "zip add file failed");
-            // }
-
-            // zip_buffers_.push_back(buffer_);
-            // buffer_ = nullptr;
         }
     }
 
@@ -125,10 +104,8 @@ static int figure_flags(OpenMode mode)
     switch (mode) {
         case OpenMode::READ:
             return ZIP_RDONLY;
-
         case OpenMode::WRITE:
             return ZIP_CREATE;
-
         default:
             return ZIP_RDONLY;
     }
@@ -165,7 +142,10 @@ ReadStreamPtr ArchiveZip::_read_entry(const String& entry)
 {
     NXC_ASSERT(zip_, "zip_ is nullptr");
     auto file = NXC_MAKE_PTR(EntryFile, entry, zip_, mode_, read_streams_);
-    return create_read_stream(file, true);
+    if (file->open(OpenMode::READ)) {
+        return create_read_stream(file, true);
+    }
+    return nullptr;
 }
 bool ArchiveZip::_exist_entry(const String& entry) const
 {

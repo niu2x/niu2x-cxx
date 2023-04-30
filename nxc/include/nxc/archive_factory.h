@@ -7,11 +7,11 @@
 
 namespace nxc {
 
-class NXC_API ArchiveFactory {
+class NXC_API ArchiveFactory : public Singleton<ArchiveFactory> {
 public:
-    ArchiveFactory() { }
-    virtual ~ArchiveFactory() { }
-    virtual ArchivePtr create(const String& pathname) = 0;
+    ArchiveFactory();
+    ~ArchiveFactory();
+    ArchivePtr create(const String& pathname);
 };
 
 } // namespace nxc

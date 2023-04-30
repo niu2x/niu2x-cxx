@@ -153,19 +153,6 @@ auto max(T1&& t1, T2&& t2)
     return std::max(std::forward<T1>(t1), std::forward<T2>(t2));
 }
 
-// class Exception : public std::exception {
-// public:
-//     Exception(const String& msg)
-//     : message_(msg)
-//     {
-//     }
-//     virtual ~Exception() { }
-//     virtual const char* what() const noexcept { return message_.c_str(); }
-
-// private:
-//     String message_;
-// };
-
 }; // namespace nxc
 
 #define NXC_ABORT(message)                                                     \
