@@ -28,6 +28,9 @@ protected:
     virtual size_t _size() const = 0;
 };
 
+using DataPtr = Ptr<Data>;
+using ConstDataPtr = Ptr<const Data>;
+
 } // namespace nxc
 
 #endif

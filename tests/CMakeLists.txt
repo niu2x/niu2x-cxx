@@ -8,9 +8,6 @@ if(GTest_DIR)
 		target_link_libraries(${name} PRIVATE nxc GTest::gtest_main)
 		gtest_discover_tests(${name})
 
-
-	
-
 	endforeach()
 
 

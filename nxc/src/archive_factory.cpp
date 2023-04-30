@@ -6,9 +6,14 @@ namespace nxc {
 ArchiveFactory::ArchiveFactory() { }
 ArchiveFactory::~ArchiveFactory() { }
 
-ArchivePtr ArchiveFactory::create(const String& pathname)
+Result<ArchivePtr> ArchiveFactory::create(const String& pathname)
 {
-    return NXC_MAKE_PTR(ArchiveZip, pathname);
+    return static_cast<ArchivePtr>(NXC_MAKE_PTR(ArchiveZip, pathname));
+}
+
+Result<ArchivePtr> ArchiveFactory::create(const Data* data)
+{
+    return static_cast<ArchivePtr>(NXC_MAKE_PTR(ArchiveZip, data));
 }
 
 } // namespace nxc

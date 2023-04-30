@@ -115,6 +115,15 @@ ArchiveZip::ArchiveZip(const String& p)
 : pathname_(p)
 , zip_(nullptr)
 , read_streams_(0)
+, source_(nullptr)
+{
+}
+
+ArchiveZip::ArchiveZip(const Data* data)
+: pathname_("")
+, zip_(nullptr)
+, read_streams_(0)
+, source_(data)
 {
 }
 
@@ -125,7 +134,20 @@ Result<void> ArchiveZip::_open(OpenMode mode)
     NXC_ASSERT(!zip_, "zip_ is not nullptr");
     mode_ = mode;
     int flags = figure_flags(mode_);
-    zip_ = zip_open(pathname_.c_str(), flags, nullptr);
+    if (use_pathname()) {
+        zip_ = zip_open(pathname_.c_str(), flags, nullptr);
+    } else {
+        zip_error_t error;
+        zip_source_t* sb = zip_source_buffer_create(
+            source_->data(), source_->size(), 0, &error);
+        if (!sb) {
+            return E::ZIP_LIB_ERROR;
+        }
+        zip_ = zip_open_from_source(sb, flags, &error);
+        if (!zip_) {
+            zip_source_free(sb);
+        }
+    }
     return zip_ ? E::OK : E::ZIP_LIB_ERROR;
 }
 
@@ -138,14 +160,20 @@ void ArchiveZip::_close()
     }
 }
 
-ReadStreamPtr ArchiveZip::_read_entry(const String& entry)
+Result<ReadStreamPtr> ArchiveZip::_read_entry(const String& entry)
 {
     NXC_ASSERT(zip_, "zip_ is nullptr");
+
+    if (!_exist_entry(entry)) {
+        return E::NO_EXIST;
+    }
+
     auto file = NXC_MAKE_PTR(EntryFile, entry, zip_, mode_, read_streams_);
-    if (file->open(OpenMode::READ)) {
+    auto open_result = file->open(OpenMode::READ);
+    if (open_result) {
         return create_read_stream(file, true);
     }
-    return nullptr;
+    return open_result;
 }
 bool ArchiveZip::_exist_entry(const String& entry) const
 {

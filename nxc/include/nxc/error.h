@@ -9,6 +9,7 @@ enum class Error {
     FULL_OF_FILE,
     OS_ERROR,
     ZIP_LIB_ERROR,
+    NO_EXIST,
     TODO,
 };
 

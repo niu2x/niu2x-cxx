@@ -21,7 +21,7 @@ public:
 
     NXC_INLINE void close() { _close(); }
 
-    NXC_INLINE ReadStreamPtr read_entry(const String& entry)
+    NXC_INLINE Result<ReadStreamPtr> read_entry(const String& entry)
     {
         return _read_entry(entry);
     }
@@ -35,7 +35,7 @@ protected:
     virtual Result<void> _open(OpenMode mode) = 0;
     virtual void _close() = 0;
 
-    virtual ReadStreamPtr _read_entry(const String& entry) = 0;
+    virtual Result<ReadStreamPtr> _read_entry(const String& entry) = 0;
     virtual bool _exist_entry(const String& entry) const = 0;
 };
 
