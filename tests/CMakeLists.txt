@@ -11,6 +11,15 @@ if(GTest_DIR)
 	endforeach()
 
 
+	file(GLOB TEST_FILES "${CMAKE_CURRENT_SOURCE_DIR}/testx-*.cpp")
+	foreach(item IN LISTS TEST_FILES)
+		get_filename_component(name ${item} NAME_WE)
+		add_executable(${name} ${item})
+		target_link_libraries(${name} PRIVATE nxc )
+	endforeach()
+
+
+
 	if(WIN32) 
 		file(COPY "${PROJECT_BINARY_DIR}/external_deps/bin/gtest_main.dll" DESTINATION Debug)
 		file(COPY "${PROJECT_BINARY_DIR}/external_deps/bin/gtest.dll" DESTINATION Debug)

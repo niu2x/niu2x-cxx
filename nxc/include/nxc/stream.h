@@ -49,7 +49,8 @@ using ReadStreamPtr = Ptr<ReadStream>;
 using WriteStreamPtr = Ptr<WriteStream>;
 using StreamPtr = Ptr<Stream>;
 
-NXC_API extern WriteStream* const out;
+NXC_API extern const WriteStreamPtr out;
+NXC_API extern const ReadStreamPtr in;
 
 } // namespace nxc
 

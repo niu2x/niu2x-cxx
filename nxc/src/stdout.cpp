@@ -17,8 +17,6 @@ protected:
     }
 };
 
-static Stdout stdout_instance;
-
-WriteStream* const out = &stdout_instance;
+const WriteStreamPtr out = NXC_MAKE_PTR(Stdout);
 
 } // namespace nxc
