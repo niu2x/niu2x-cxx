@@ -7,10 +7,18 @@
 
 namespace nxc {
 
+// value
 class NXC_API Buffer : public Data, private Noncopyable {
 public:
     Buffer();
     Buffer(size_t alloc);
+
+    Buffer(const Buffer& other);
+    Buffer& operator=(const Buffer& other);
+
+    Buffer(Buffer&& other);
+    Buffer& operator=(Buffer&& other);
+
     ~Buffer();
 
     NXC_INLINE size_t capacity() const { return data_alloc_; }
@@ -19,7 +27,9 @@ public:
     void write(const void* ptr, size_t n);
 
     void reserve(size_t c);
-    void resize(size_t z);
+    void resize(size_t z, uint8_t default_value = 0);
+
+    void swap(Buffer& other) noexcept;
 
 protected:
     virtual uint8_t* _data() { return data_; }
@@ -30,11 +40,10 @@ private:
     size_t data_alloc_;
     size_t data_nr_;
     void _write(const void* ptr, size_t n);
-    void _resize(size_t z);
+    void _resize(size_t z, uint8_t default_value);
 };
 
-using BufferPtr = Ptr<Buffer>;
-using ConstBufferPtr = Ptr<const Buffer>;
+NXC_API void swap(Buffer& a, Buffer& b) noexcept;
 
 } // namespace nxc
 

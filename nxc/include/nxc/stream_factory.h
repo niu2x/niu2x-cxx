@@ -3,41 +3,21 @@
 
 #include <nxc/stream.h>
 #include <nxc/buffer.h>
-#include <nxc/file.h>
-#include <nxc/file_factory.h>
 
 namespace nxc {
 
-class NXC_API StreamFactory {
+class NXC_API StreamFactory : public Singleton<StreamFactory> {
 public:
     StreamFactory() { }
-    virtual ~StreamFactory() { }
+    ~StreamFactory() { }
 
-    void set_file_factory(FileFactoryPtr);
+    Result<ReadStreamPtr> create_read_stream(const String& pathname);
+    Result<WriteStreamPtr> create_write_stream(const String& pathname);
 
-    virtual ReadStreamPtr create_read_stream(File* file) = 0;
-    virtual WriteStreamPtr create_write_stream(File* file) = 0;
+    Result<ReadStreamPtr> create_read_stream(const Data& data);
+    Result<ReadStreamPtr> create_write_stream(Data& data);
 
-    virtual ReadStreamPtr create_read_stream(FilePtr file) = 0;
-    virtual WriteStreamPtr create_write_stream(FilePtr file) = 0;
-
-    ReadStreamPtr create_read_stream(const String& pathname);
-    WriteStreamPtr create_write_stream(const String& pathname);
-
-    virtual ReadStreamPtr create_read_stream(const Buffer* buffer) = 0;
-    virtual WriteStreamPtr create_write_stream(Buffer* buffer) = 0;
-
-    // NXC_INLINE ReadStreamPtr create_read_stream(const char* pathname)
-    // {
-    //     return create_read_stream(String(pathname));
-    // }
-    // NXC_INLINE WriteStreamPtr create_write_stream(const char* pathname)
-    // {
-    //     return create_write_stream(String(pathname));
-    // }
-
-private:
-    FileFactoryPtr file_factory_;
+    Result<WriteStreamPtr> create_write_stream(Buffer& buffer);
 };
 
 using StreamFactoryPtr = Ptr<StreamFactory>;

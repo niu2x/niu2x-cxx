@@ -8,8 +8,7 @@
 
 namespace nxc {
 
-NXC_API Result<size_t> pipe(ReadStream*, WriteStream*);
-
+NXC_API Result<size_t> pipe(Ptr<ReadStream>, Ptr<WriteStream>);
 }
 
 #endif

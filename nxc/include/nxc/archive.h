@@ -3,25 +3,28 @@
 
 #include <nxc/api.h>
 #include <nxc/utils.h>
-#include <nxc/file.h>
+#include <nxc/result.h>
+#include <nxc/stream.h>
 
 namespace nxc {
 
+// reference
 class NXC_API Archive : private Noncopyable {
 public:
     Archive();
     virtual ~Archive() = 0;
 
-    NXC_INLINE Result<void> open(int mode = O_READ) { return _open(mode); }
+    NXC_INLINE Result<void> open(OpenMode mode = OpenMode::READ)
+    {
+        return _open(mode);
+    }
 
     NXC_INLINE void close() { _close(); }
 
-    NXC_INLINE File* open_entry(const String& entry)
+    NXC_INLINE Result<ReadStreamPtr> read_entry(const String& entry)
     {
-        return _open_entry(entry);
+        return _read_entry(entry);
     }
-
-    NXC_INLINE void close_entry(File* file) { _close_entry(file); }
 
     NXC_INLINE bool exist_entry(const String& entry) const
     {
@@ -29,11 +32,10 @@ public:
     }
 
 protected:
-    virtual Result<void> _open(int mode) = 0;
+    virtual Result<void> _open(OpenMode mode) = 0;
     virtual void _close() = 0;
 
-    virtual File* _open_entry(const String& entry) = 0;
-    virtual void _close_entry(File* file) = 0;
+    virtual Result<ReadStreamPtr> _read_entry(const String& entry) = 0;
     virtual bool _exist_entry(const String& entry) const = 0;
 };
 

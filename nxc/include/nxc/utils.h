@@ -8,15 +8,21 @@
 #include <cmath>
 #include <vector>
 #include <functional>
-#include <boost/noncopyable.hpp>
+#include <nxc/api.h>
 
-#define NXC_INLINE BOOST_FORCEINLINE
+#define NXC_LOG_E(msg) fprintf(stderr, "%s\n", msg);
+
+#define NXC_INLINE inline
 
 #define NXC_COPYABLE_DEFAULT(clazz)                                            \
     clazz(const clazz&) = default;                                             \
     clazz& operator=(const clazz&) = default;
 
-#define NXC_THROW(e) throw e;
+#define NXC_MOVABLE_DEFAULT(clazz)                                             \
+    clazz(clazz&&) = default;                                                  \
+    clazz& operator=(clazz&&) = default;
+
+// #define NXC_THROW(e) throw e;
 
 #define NXC_ASSERT(cond, message)                                              \
     {                                                                          \
@@ -37,7 +43,14 @@ NXC_INLINE void do_nothing(Args&&...)
 {
 }
 
-using Noncopyable = boost::noncopyable;
+class NXC_API Noncopyable {
+    
+public:
+    Noncopyable() {}
+    ~Noncopyable() {}
+    Noncopyable(const Noncopyable& other) = delete;
+    Noncopyable& operator=(const Noncopyable& other) = delete;
+};
 
 template <class T>
 using Function = std::function<T>;
@@ -45,6 +58,12 @@ using Function = std::function<T>;
 template <class T>
 inline constexpr bool is_const_v = std::is_const_v<T>;
 
+template <class T>
+using decay_t = std::decay_t<T>;
+
+using std::forward;
+
+// value
 template <class T>
 class Ptr {
 public:
@@ -81,12 +100,23 @@ public:
         std::shared_ptr<T>::operator=(other);
         return *this;
     }
-    NXC_INLINE bool readonly() const { return is_const_v<type>; }
-
     NXC_INLINE T* get() const { return ptr_.get(); }
     NXC_INLINE T* operator->() const { return ptr_.get(); }
 
     NXC_INLINE operator bool() const { return !!ptr_; }
+
+    NXC_INLINE bool operator==(std::nullptr_t) const { return ptr_ == nullptr; }
+    NXC_INLINE bool operator!=(std::nullptr_t) const { return ptr_ != nullptr; }
+
+    NXC_INLINE bool operator==(const Ptr& other) const
+    {
+        return ptr_ == other.ptr_;
+    }
+
+    NXC_INLINE bool operator!=(const Ptr& other) const
+    {
+        return ptr_ != other.ptr_;
+    }
 
     // user should not use it
     NXC_INLINE const std::shared_ptr<T>& shared_ptr() const { return ptr_; }
@@ -95,36 +125,41 @@ private:
     std::shared_ptr<T> ptr_;
 };
 
+template <class T>
+class Singleton : private Noncopyable {
+public:
+    static T* get()
+    {
+        static T instance;
+        return &instance;
+    }
+
+protected:
+    Singleton() { }
+    ~Singleton() { }
+};
+
 using String = std::string;
 
 template <class T1, class T2>
-auto min(const T1& t1, const T2& t2)
+auto min(T1&& t1, T2&& t2)
 {
-    return std::min(t1, t2);
+    return std::min(std::forward<T1>(t1), std::forward<T2>(t2));
 }
 
 template <class T1, class T2>
-auto max(const T1& t1, const T2& t2)
+auto max(T1&& t1, T2&& t2)
 {
-    return std::max(t1, t2);
+    return std::max(std::forward<T1>(t1), std::forward<T2>(t2));
 }
-
-class Exception : public std::exception {
-public:
-    Exception(const String& msg)
-    : message_(msg)
-    {
-    }
-    virtual ~Exception() { }
-    virtual const char* what() const noexcept { return message_.c_str(); }
-
-private:
-    String message_;
-};
 
 }; // namespace nxc
 
-#define NXC_ABORT(message) NXC_THROW(nxc::Exception(message))
+#define NXC_ABORT(message)                                                     \
+    {                                                                          \
+        NXC_LOG_E(message);                                                    \
+        abort();                                                               \
+    }
 
 #define NXC_MALLOC(bytes)   (void*)(new uint8_t[bytes])
 #define NXC_ALLOC(T, count) (T*)(new uint8_t[(count) * sizeof(T)])
@@ -141,11 +176,13 @@ private:
 #define NXC_PTR_OFFSET(ptr, off) (void*)(off + ((uint8_t*)ptr))
 
 namespace nxc {
+
 template <class T>
 void delete_ptr(T* ptr)
 {
     NXC_DELETE(ptr);
 }
+
 } // namespace nxc
 
 #define NXC_MAKE_PTR(T, ...)                                                   \
@@ -154,6 +191,7 @@ void delete_ptr(T* ptr)
 namespace nxc {
 
 template <class T>
+// value
 class Iterator {
 public:
     Iterator() { }
@@ -164,7 +202,7 @@ public:
 };
 
 template <class T>
-
+// value
 class Vector {
 public:
     class VectorIterator : public Iterator<T> {
@@ -208,11 +246,20 @@ private:
     std::vector<T> backend_;
 };
 
-enum FileOpenMode {
-    O_READ = (1 << 0),
-    O_WRITE = (1 << 1),
-    O_RW = O_READ | O_WRITE,
+enum class OpenMode {
+    READ,
+    WRITE,
 };
+
+using std::swap;
+
+template <class T, class U>
+T& COPY_AND_SWAP(T& self, U&& other)
+{
+    decay_t<T> tmp(forward<U>(other));
+    swap(tmp, self);
+    return self;
+}
 
 } // namespace nxc
 

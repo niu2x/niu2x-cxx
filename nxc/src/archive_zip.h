@@ -2,7 +2,7 @@
 #define NXC_ARCHIVE_ZIP_H
 
 #include <nxc/archive.h>
-#include <nxc/file.h>
+#include "file.h"
 #include <nxc/buffer.h>
 #include <zip.h>
 
@@ -10,27 +10,25 @@ namespace nxc {
 
 class ArchiveZip : public Archive {
 public:
-    using FilePtrVector = Vector<FilePtr>;
-    using BufferPtrVector = Vector<BufferPtr>;
-
     ArchiveZip(const String& pathname);
+    ArchiveZip(const Data* data);
     virtual ~ArchiveZip();
 
 protected:
-    virtual Result<void> _open(int mode) override;
+    virtual Result<void> _open(OpenMode mode) override;
     virtual void _close() override;
 
-    virtual File* _open_entry(const String& entry) override;
-    virtual void _close_entry(File* file) override;
+    virtual Result<ReadStreamPtr> _read_entry(const String& entry) override;
     virtual bool _exist_entry(const String& entry) const override;
 
 private:
     String pathname_;
-    int mode_;
+    OpenMode mode_;
     zip_t* zip_;
+    int read_streams_;
+    const Data* source_;
 
-    FilePtrVector opened_files_;
-    BufferPtrVector write_buffers_;
+    NXC_INLINE bool use_pathname() const { return pathname_ != ""; }
 };
 
 } // namespace nxc

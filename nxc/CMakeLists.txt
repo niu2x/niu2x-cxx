@@ -40,7 +40,7 @@ target_include_directories(${LIB_NAME} PRIVATE
 target_include_directories(${LIB_NAME} PUBLIC
     $<BUILD_INTERFACE:${CMAKE_CURRENT_BINARY_DIR}/include>  
     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>  
-    $<BUILD_INTERFACE:${PROJECT_BINARY_DIR}/external_boost-prefix/src/external_boost>  
+    # $<BUILD_INTERFACE:${PROJECT_BINARY_DIR}/external_boost-prefix/src/external_boost>  
     $<INSTALL_INTERFACE:include> 
 )
 
@@ -48,7 +48,12 @@ target_link_directories(${LIB_NAME} PUBLIC
     $<INSTALL_INTERFACE:lib> 
 )
 
-list(APPEND THIRD_PARTY_LIBS zip z)
+set(zlib_name z)
+if(WIN32)
+    set(zlib_name zlibstaticd)
+endif()
+
+list(APPEND THIRD_PARTY_LIBS zip ${zlib_name})
 
 if(${BUILD_SHARED_LIBS})
     list(APPEND PRIVATE_LIBS ${THIRD_PARTY_LIBS})
@@ -86,7 +91,7 @@ install(TARGETS ${LIB_NAME}
 
 install(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/include/nxc DESTINATION include)
 install(DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/include/nxc DESTINATION include)
-install(DIRECTORY ${PROJECT_BINARY_DIR}/external_boost-prefix/src/external_boost/boost DESTINATION include)
+# install(DIRECTORY ${PROJECT_BINARY_DIR}/external_boost-prefix/src/external_boost/boost DESTINATION include)
 
 
 if(${BUILD_SHARED_LIBS})

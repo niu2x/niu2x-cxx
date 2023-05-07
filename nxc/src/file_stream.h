@@ -1,15 +1,14 @@
 #ifndef NXC_FILE_STREAM_H
 #define NXC_FILE_STREAM_H
 
-#include <nxc/file.h>
+#include "file.h"
 #include <nxc/stream.h>
 
 namespace nxc {
 
 class FileReadStream : public ReadStream {
 public:
-    FileReadStream(FilePtr file);
-    FileReadStream(File* file);
+    FileReadStream(FilePtr file, bool auto_close_file);
     virtual ~FileReadStream();
 
 protected:
@@ -18,7 +17,6 @@ protected:
 
 private:
     FilePtr file_;
-    File* weak_file_;
 
     bool should_close_;
     void _close_file();
@@ -26,8 +24,7 @@ private:
 
 class FileWriteStream : public WriteStream {
 public:
-    FileWriteStream(FilePtr file);
-    FileWriteStream(File* file);
+    FileWriteStream(FilePtr file, bool auto_close_file);
     virtual ~FileWriteStream();
 
 protected:
@@ -35,7 +32,6 @@ protected:
 
 private:
     FilePtr file_;
-    File* weak_file_;
     bool should_close_;
 
     void _close_file();

@@ -2,7 +2,7 @@
 #define NXC_PLAIN_FILE_H
 
 #include <nxc/api.h>
-#include <nxc/file.h>
+#include "file.h"
 
 namespace nxc {
 
@@ -14,21 +14,18 @@ public:
     virtual ~PlainFile();
 
 protected:
-    // virtual bool _eof() const override;
-    virtual void _seek(int relative, size_t offset) override;
-    virtual size_t _tell() const override;
-    virtual bool _readable() const override;
-    virtual bool _writable() const override;
+    virtual Result<void> _seek(SeekPos relative, long offset) override;
+    virtual Result<long> _tell() const override;
 
     virtual Result<size_t> _read(void* buf, size_t n) override;
     virtual Result<size_t> _write(const void* buf, size_t n) override;
 
-    virtual Result<void> _open(int mode) override;
+    virtual Result<void> _open(OpenMode mode) override;
     virtual void _close() override;
 
 private:
     FILE* fp_;
-    int mode_;
+    OpenMode mode_;
     String pathname_;
 };
 

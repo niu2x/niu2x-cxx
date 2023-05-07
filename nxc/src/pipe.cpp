@@ -5,7 +5,7 @@ const auto buf_size = 4096;
 
 namespace nxc {
 
-Result<size_t> pipe(ReadStream* r, WriteStream* w)
+Result<size_t> pipe(Ptr<ReadStream> r, Ptr<WriteStream> w)
 {
     Buffer buffer;
     buffer.resize(buf_size);

@@ -1,57 +1,53 @@
 #include "archive_zip.h"
+#include "file_helper.h"
+#include "file2stream.h"
 
 namespace nxc {
 
 class EntryFile : public File {
 public:
-    EntryFile(const String& path, zip_t* zip, int zip_mode,
-        ArchiveZip::BufferPtrVector& buffers)
+    EntryFile(const String& path, zip_t* zip, OpenMode zip_mode, int& counter)
     : pathname_(path)
     , zip_(zip)
     , file_(nullptr)
     , closed_(true)
     , zip_mode_(zip_mode)
-    , zip_buffers_(buffers)
+    , counter_(counter)
     {
+        counter_++;
     }
-    virtual ~EntryFile() { close(); }
+    virtual ~EntryFile()
+    {
+        NXC_ASSERT(file_ == nullptr, "file is not closed");
+        counter_--;
+    }
 
 protected:
     // virtual bool _eof() const override { return false; }
-    virtual void _seek(int relative, size_t offset) override
+    virtual Result<void> _seek(SeekPos relative, long offset) override
     {
         NXC_ASSERT(file_, "fp_ is nullptr");
-        switch (relative) {
-            case S_BEGIN: {
-                zip_fseek(file_, offset, SEEK_SET);
-                break;
-            }
-            case S_CURR: {
-                zip_fseek(file_, offset, SEEK_CUR);
-                break;
-            }
-            case S_END: {
-                zip_fseek(file_, offset, SEEK_END);
-                break;
-            }
-        }
+        auto flag = seek_flag(relative);
+        auto ret = zip_fseek(file_, offset, flag);
+        if (ret < 0)
+            return E::ZIP_LIB_ERROR;
+        return E::OK;
     }
-    virtual size_t _tell() const override
+    virtual Result<long> _tell() const override
     {
         NXC_ASSERT(file_ != nullptr, "file_ is nullptr")
-        return zip_ftell(file_);
+        auto pos = zip_ftell(file_);
+        if (pos < 0)
+            return E::ZIP_LIB_ERROR;
+        return pos;
     }
-
-    virtual bool _readable() const override { return mode_ == O_READ; }
-
-    virtual bool _writable() const override { return mode_ == O_WRITE; }
 
     virtual Result<size_t> _read(void* buf, size_t n) override
     {
         NXC_ASSERT(file_ != nullptr, "file_ is nullptr")
         auto ret = zip_fread(file_, buf, n);
         if (ret < 0)
-            return E::OS_ERROR;
+            return E::ZIP_LIB_ERROR;
         if (ret == 0)
             return E::END_OF_FILE;
         return ret;
@@ -59,26 +55,22 @@ protected:
 
     virtual Result<size_t> _write(const void* buf, size_t n) override
     {
-        buffer_->write(buf, n);
-        return n;
+        unused(buf);
+        unused(n);
+        return E::TODO;
     }
 
-    virtual Result<void> _open(int mode) override
+    virtual Result<void> _open(OpenMode mode) override
     {
         NXC_ASSERT(file_ == nullptr, "file_ is not nullptr")
-        NXC_ASSERT(mode != O_RW, "mode rw is not support")
-
         mode_ = mode;
         closed_ = false;
-
-        if (mode_ == O_READ) {
-            NXC_ASSERT(zip_mode_ & O_READ, "zip can not read");
+        if (mode_ == OpenMode::READ) {
+            NXC_ASSERT(zip_mode_ == OpenMode::READ, "zip can not read");
             file_ = zip_fopen(zip_, pathname_.c_str(), ZIP_FL_ENC_UTF_8);
             return file_ != nullptr ? E::OK : E::ZIP_LIB_ERROR;
         }
-
-        NXC_ASSERT(zip_mode_ & O_WRITE, "zip can not write");
-        buffer_ = NXC_MAKE_PTR(Buffer);
+        NXC_ASSERT(zip_mode_ == OpenMode::WRITE, "zip can not write");
         return E::OK;
     }
 
@@ -88,102 +80,105 @@ protected:
             return;
         closed_ = true;
 
-        if (mode_ == O_READ) {
+        if (mode_ == OpenMode::READ) {
             if (file_) {
                 zip_fclose(file_);
                 file_ = nullptr;
             }
-        }
-        if (mode_ == O_WRITE) {
-            struct zip_source* s
-                = zip_source_buffer(zip_, buffer_->data(), buffer_->size(), 0);
-
-            NXC_ASSERT(s != nullptr, "s is nullptr");
-            if (zip_file_add(zip_, pathname_.c_str(), s,
-                    ZIP_FL_ENC_UTF_8 | ZIP_FL_OVERWRITE)
-                < 0) {
-                zip_source_free(s);
-                NXC_ASSERT(false, "zip add file failed");
-            }
-
-            zip_buffers_.push_back(buffer_);
-
-            buffer_ = nullptr;
         }
     }
 
 private:
     String pathname_;
     zip_t* zip_;
-    int mode_;
+    OpenMode mode_;
     zip_file_t* file_;
-    BufferPtr buffer_;
+    // BufferPtr buffer_;
     bool closed_;
-    int zip_mode_;
-    ArchiveZip::BufferPtrVector& zip_buffers_;
+    OpenMode zip_mode_;
+    int& counter_;
 };
 
-static int figure_flags(int mode)
+static int figure_flags(OpenMode mode)
 {
-    if (mode == O_READ)
-        return ZIP_RDONLY;
-    if (mode == O_WRITE)
-        return ZIP_CREATE | ZIP_TRUNCATE;
-    return ZIP_CREATE;
+    switch (mode) {
+        case OpenMode::READ:
+            return ZIP_RDONLY;
+        case OpenMode::WRITE:
+            return ZIP_CREATE;
+        default:
+            return ZIP_RDONLY;
+    }
 }
 
 ArchiveZip::ArchiveZip(const String& p)
 : pathname_(p)
 , zip_(nullptr)
+, read_streams_(0)
+, source_(nullptr)
+{
+}
+
+ArchiveZip::ArchiveZip(const Data* data)
+: pathname_("")
+, zip_(nullptr)
+, read_streams_(0)
+, source_(data)
 {
 }
 
 ArchiveZip::~ArchiveZip() { close(); }
 
-Result<void> ArchiveZip::_open(int mode)
+Result<void> ArchiveZip::_open(OpenMode mode)
 {
     NXC_ASSERT(!zip_, "zip_ is not nullptr");
     mode_ = mode;
     int flags = figure_flags(mode_);
-    zip_ = zip_open(pathname_.c_str(), flags, nullptr);
+    if (use_pathname()) {
+        zip_ = zip_open(pathname_.c_str(), flags, nullptr);
+    } else {
+        zip_error_t error;
+        zip_source_t* sb = zip_source_buffer_create(
+            source_->data(), source_->size(), 0, &error);
+        if (!sb) {
+            return E::ZIP_LIB_ERROR;
+        }
+        zip_ = zip_open_from_source(sb, flags, &error);
+        if (!zip_) {
+            zip_source_free(sb);
+        }
+    }
     return zip_ ? E::OK : E::ZIP_LIB_ERROR;
 }
 
 void ArchiveZip::_close()
 {
     if (zip_) {
-        NXC_ASSERT(opened_files_.size() == 0, "there are opend files.");
+        NXC_ASSERT(read_streams_ == 0, "there are opend files.");
         zip_close(zip_);
         zip_ = nullptr;
     }
 }
 
-File* ArchiveZip::_open_entry(const String& entry)
+Result<ReadStreamPtr> ArchiveZip::_read_entry(const String& entry)
 {
     NXC_ASSERT(zip_, "zip_ is nullptr");
-    auto file = NXC_MAKE_PTR(EntryFile, entry, zip_, mode_, write_buffers_);
 
-    opened_files_.push_back(file);
-    return file.get();
+    if (!_exist_entry(entry)) {
+        return E::NO_EXIST;
+    }
+
+    auto file = NXC_MAKE_PTR(EntryFile, entry, zip_, mode_, read_streams_);
+    auto open_result = file->open(OpenMode::READ);
+    if (open_result) {
+        return create_read_stream(file, true);
+    }
+    return open_result;
 }
 bool ArchiveZip::_exist_entry(const String& entry) const
 {
     NXC_ASSERT(zip_, "zip_ is nullptr");
     return zip_name_locate(zip_, entry.c_str(), ZIP_FL_ENC_UTF_8) != -1;
-}
-
-void ArchiveZip::_close_entry(File* file)
-{
-    if (file) {
-        auto it = opened_files_.walk();
-        while (it.has_value()) {
-            if (it.get().get() == file) {
-                opened_files_.erase(it);
-                break;
-            }
-            it.next();
-        }
-    }
 }
 
 } // namespace nxc

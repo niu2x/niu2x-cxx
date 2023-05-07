@@ -1,4 +1,4 @@
-all: build-shared-library build-static-library
+all: test
 
 build-shared-library:
 	cmake -S. \
@@ -6,7 +6,7 @@ build-shared-library:
 		-DNXC_BUILD_TEST=ON \
 		-DBUILD_SHARED_LIBS=ON \
 		-DCMAKE_BUILD_TYPE=debug;
-	cmake --build build-shared
+	cmake --build build-shared;
 
 build-static-library:
 	cmake -S. \
@@ -14,6 +14,11 @@ build-static-library:
 		-DNXC_BUILD_TEST=ON \
 		-DBUILD_SHARED_LIBS=OFF \
 		-DCMAKE_BUILD_TYPE=debug;
-	cmake --build build-static
+	cmake --build build-static;
+
+test: build-shared-library build-static-library
+	cd build-shared && ctest;
+	cd build-static && ctest;
+
 
 .PHONY: 
