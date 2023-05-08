@@ -1,11 +1,15 @@
 %option noyywrap nodefault reentrant  
 
+%{
+	#include <stdio.h>
+%}
+
 %%
 
-\n { putchar(*yytext); }
-\r { putchar(*yytext); }
-. { putchar(*yytext); }
+\n { return 1; }
+\r { return 2; }
+. { return 3; }
 
-<<EOF>> { return 0; }
+<<EOF>> { return EOF; }
 
 %%

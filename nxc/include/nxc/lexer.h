@@ -41,10 +41,20 @@ protected:
         virtual ~NAME() { prefix##lex_destroy(scan_); }                        \
                                                                                \
     protected:                                                                 \
-        virtual void _push_input(FILE* fp) override { }                        \
+        virtual void _push_input(FILE* fp) override                            \
+        {                                                                      \
+            YY_BUFFER_STATE new_buffer                                         \
+                = prefix##_create_buffer(fp, YY_BUF_SIZE, scan_);              \
+            NXC_ASSERT(!new_buffer, "OOM");                                    \
+            prefix##push_buffer_state(new_buffer, scan_);                      \
+        }                                                                      \
         virtual nxc::Result<int> _lex() override                               \
         {                                                                      \
             return prefix##lex(scan_);                                         \
+        }                                                                      \
+        virtual void _pop_input() override                                     \
+        {                                                                      \
+            prefix##pop_buffer_state(scan_);                                   \
         }                                                                      \
                                                                                \
     private:                                                                   \
