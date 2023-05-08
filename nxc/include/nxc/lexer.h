@@ -6,6 +6,8 @@
 #include <nxc/result.h>
 #include <nxc/null_file.h>
 
+union YYSTYPE;
+
 namespace nxc {
 // reference
 class NXC_API Lexer {
@@ -24,6 +26,21 @@ protected:
 
     virtual Result<int> _lex() = 0;
 };
+
+class NXC_API Parser {
+public:
+    Parser();
+    virtual ~Parser();
+
+    NXC_INLINE Result<bool> parse(int token, YYSTYPE const* pushed_val)
+    {
+        return _parse(token, pushed_val);
+    }
+
+protected:
+    virtual Result<bool> _parse(int token, YYSTYPE const* pushed_val) = 0;
+};
+
 } // namespace nxc
 
 #define NXC_LEXER_DEFINE(NAME, prefix)                                         \
@@ -45,7 +62,7 @@ protected:
         {                                                                      \
             YY_BUFFER_STATE new_buffer                                         \
                 = prefix##_create_buffer(fp, YY_BUF_SIZE, scan_);              \
-            NXC_ASSERT(!new_buffer, "OOM");                                    \
+            NXC_ASSERT(new_buffer, "OOM");                                     \
             prefix##push_buffer_state(new_buffer, scan_);                      \
         }                                                                      \
         virtual nxc::Result<int> _lex() override                               \
@@ -59,6 +76,27 @@ protected:
                                                                                \
     private:                                                                   \
         yyscan_t scan_;                                                        \
+    };
+
+#define NXC_PARSER_DEFINE(NAME, prefix)                                        \
+    class NAME : public nxc::Parser {                                          \
+    public:                                                                    \
+        NAME()                                                                 \
+        {                                                                      \
+            state_ = prefix##pstate_new();                                     \
+            NXC_ASSERT(state_, "OOM");                                         \
+        }                                                                      \
+        virtual ~NAME() { prefix##pstate_delete(state_); }                     \
+                                                                               \
+    protected:                                                                 \
+        virtual Result<bool> _parse(                                           \
+            int token, YYSTYPE const* pushed_val) override                     \
+        {                                                                      \
+            return false;                                                      \
+        }                                                                      \
+                                                                               \
+    private:                                                                   \
+        jppstate* state_;                                                      \
     };
 
 #endif

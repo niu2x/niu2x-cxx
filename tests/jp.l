@@ -2,14 +2,15 @@
 
 %{
 	#include <stdio.h>
+	#include <jp-parser.h>
 %}
 
 %%
 
-\n { return 1; }
-\r { return 2; }
-. { return 3; }
+[a-z] { return T_NAME; }
+[0-9] { return T_NAME; }
+'=' { return '='; }
 
-<<EOF>> { return EOF; }
+<<EOF>> { return T_EOF; }
 
 %%

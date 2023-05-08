@@ -44,9 +44,17 @@ flex_target(LEXER "jp.l" "${CMAKE_CURRENT_BINARY_DIR}/jp-lexer.c"
 	COMPILE_FLAGS "--prefix=jp"
 )
 
+bison_target(PARSER "jp.y" "${CMAKE_CURRENT_BINARY_DIR}/jp-parser.c" 
+	DEFINES_FILE "${CMAKE_CURRENT_BINARY_DIR}/jp-parser.h"
+	COMPILE_FLAGS "--name-prefix=jp"
+)
+
+add_flex_bison_dependency(LEXER PARSER)
+
 target_sources(t-lexer PRIVATE 
 	t-lexer.cpp
 	${CMAKE_CURRENT_BINARY_DIR}/jp-lexer.c
+	${CMAKE_CURRENT_BINARY_DIR}/jp-parser.c
 )
 
 
