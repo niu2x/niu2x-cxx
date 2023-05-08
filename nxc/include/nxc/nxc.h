@@ -12,5 +12,8 @@
 #include <nxc/stream_factory.h>
 #include <nxc/archive_factory.h>
 #include <nxc/pipe.h>
+#include <nxc/filename_helper.h>
+#include <nxc/null_file.h>
+#include <nxc/lexer.h>
 
 #endif
