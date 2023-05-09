@@ -35,13 +35,13 @@ public:
     Parser();
     virtual ~Parser();
 
-    NXC_INLINE Result<void> parse(const nxc::Token& token)
+    NXC_INLINE Result<void> parse(const nxc::Token& token, void* userdata)
     {
-        return _parse(token);
+        return _parse(token, userdata);
     }
 
 protected:
-    virtual Result<void> _parse(const nxc::Token&) = 0;
+    virtual Result<void> _parse(const nxc::Token&, void* userdata) = 0;
 };
 
 } // namespace nxc
@@ -96,20 +96,23 @@ protected:
         virtual ~NAME() { prefix##pstate_delete(state_); }                     \
                                                                                \
     protected:                                                                 \
-        virtual nxc::Result<void> _parse(const nxc::Token& token) override     \
+        virtual nxc::Result<void> _parse(                                      \
+            const nxc::Token& token, void* userdata) override                  \
         {                                                                      \
             error_msg_ = "";                                                   \
             auto ret = prefix##push_parse(                                     \
-                state_, token.type, (YYSTYPE*)token.value, this);              \
+                state_, token.type, (YYSTYPE*)token.value, this, userdata);    \
             if (error_msg_.size() > 0) {                                       \
                 return nxc::Result<void>(nxc::E::PARSER, error_msg_);          \
             }                                                                  \
+            if (ret == 1)                                                      \
+                return nxc::E::PARSER;                                         \
             return nxc::E::OK;                                                 \
         }                                                                      \
                                                                                \
     private:                                                                   \
         void error(const char* msg) { error_msg_ = msg; }                      \
-        jppstate* state_;                                                      \
+        prefix##pstate* state_;                                                \
         std::string error_msg_;                                                \
         friend void prefix##error(void* p, const char*);                       \
     };                                                                         \

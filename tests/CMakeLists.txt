@@ -34,32 +34,34 @@ endif()
 
 
 
-add_executable(t-lexer "")
+add_executable(lisp "")
 
 find_package(FLEX 2.6 REQUIRED)
 find_package(BISON 2 REQUIRED)
 
-flex_target(LEXER "jp.l" "${CMAKE_CURRENT_BINARY_DIR}/jp-lexer.c" 
-	DEFINES_FILE "${CMAKE_CURRENT_BINARY_DIR}/jp-lexer.h"
-	COMPILE_FLAGS "--prefix=jp"
+flex_target(LEXER "lisp.l" "${CMAKE_CURRENT_BINARY_DIR}/lisp-lexer.c" 
+	DEFINES_FILE "${CMAKE_CURRENT_BINARY_DIR}/lisp-lexer.h"
+	COMPILE_FLAGS "--prefix=lisp"
 )
 
-bison_target(PARSER "jp.y" "${CMAKE_CURRENT_BINARY_DIR}/jp-parser.c" 
-	DEFINES_FILE "${CMAKE_CURRENT_BINARY_DIR}/jp-parser.h"
-	COMPILE_FLAGS "--name-prefix=jp"
+bison_target(PARSER "lisp.y" "${CMAKE_CURRENT_BINARY_DIR}/lisp-parser.c" 
+	DEFINES_FILE "${CMAKE_CURRENT_BINARY_DIR}/lisp-parser.h"
+	COMPILE_FLAGS "--name-prefix=lisp"
 )
 
 add_flex_bison_dependency(LEXER PARSER)
 
-target_sources(t-lexer PRIVATE 
-	t-lexer.cpp
-	${CMAKE_CURRENT_BINARY_DIR}/jp-lexer.c
-	${CMAKE_CURRENT_BINARY_DIR}/jp-parser.c
+target_sources(lisp PRIVATE 
+	lisp_main.cpp
+	lisp.cpp
+	${CMAKE_CURRENT_BINARY_DIR}/lisp-lexer.c
+	${CMAKE_CURRENT_BINARY_DIR}/lisp-parser.c
 )
 
 
-target_include_directories(t-lexer PRIVATE 
+target_include_directories(lisp PRIVATE 
 	${CMAKE_CURRENT_BINARY_DIR} 
 	${CMAKE_CURRENT_SOURCE_DIR}
 )
-target_link_libraries(t-lexer PRIVATE nxc )
+target_link_libraries(lisp PRIVATE nxc )
+
