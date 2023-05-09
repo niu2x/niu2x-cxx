@@ -28,6 +28,12 @@ public:
     {
     }
 
+    Result(const Error& e, const String& msg)
+    : error_(e)
+    , msg_(msg)
+    {
+    }
+
     NXC_COPYABLE_DEFAULT(Result)
 
     template <class U>
@@ -35,6 +41,7 @@ public:
     {
         NXC_ASSERT(!other, "not allowed");
         error_ = other.error();
+        msg_ = other.error_msg();
     }
 
     ~Result() { }
@@ -42,6 +49,7 @@ public:
     operator bool() const { return error_ == E::OK; }
 
     const Error& error() const { return error_; }
+    const std::string& error_msg() const { return msg_; }
 
     const T& operator*() const { return data_; }
     T& operator*() { return data_; }
@@ -49,6 +57,7 @@ public:
 private:
     T data_;
     Error error_;
+    String msg_;
 };
 
 template <>
@@ -59,8 +68,9 @@ public:
     {
     }
 
-    Result(const Error& e)
+    Result(const Error& e, const String& msg = "")
     : error_(e)
+    , msg_(msg)
     {
     }
 
@@ -77,9 +87,11 @@ public:
 
     operator bool() const { return error_ == E::OK; }
     const Error& error() const { return error_; }
+    const std::string& error_msg() const { return msg_; }
 
 private:
     Error error_;
+    String msg_;
 };
 
 } // namespace nxc

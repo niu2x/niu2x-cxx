@@ -10,6 +10,7 @@ enum class Error {
     OS_ERROR,
     ZIP_LIB_ERROR,
     NO_EXIST,
+    PARSER,
     TODO,
 };
 

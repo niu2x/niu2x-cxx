@@ -6,9 +6,13 @@
 #include <nxc/result.h>
 #include <nxc/null_file.h>
 
-union YYSTYPE;
-
 namespace nxc {
+
+struct NXC_API Token {
+    int type;
+    void* value;
+};
+
 // reference
 class NXC_API Lexer {
 public:
@@ -17,14 +21,13 @@ public:
 
     NXC_INLINE void push_input(FILE* fp) { _push_input(fp); }
     NXC_INLINE void pop_input() { _pop_input(); }
-
-    NXC_INLINE Result<int> lex() { return _lex(); }
+    NXC_INLINE Token lex() { return _lex(); }
 
 protected:
     virtual void _push_input(FILE* fp) = 0;
     virtual void _pop_input() = 0;
 
-    virtual Result<int> _lex() = 0;
+    virtual Token _lex() = 0;
 };
 
 class NXC_API Parser {
@@ -32,13 +35,13 @@ public:
     Parser();
     virtual ~Parser();
 
-    NXC_INLINE Result<bool> parse(int token, YYSTYPE const* pushed_val)
+    NXC_INLINE Result<void> parse(const nxc::Token& token)
     {
-        return _parse(token, pushed_val);
+        return _parse(token);
     }
 
 protected:
-    virtual Result<bool> _parse(int token, YYSTYPE const* pushed_val) = 0;
+    virtual Result<void> _parse(const nxc::Token&) = 0;
 };
 
 } // namespace nxc
@@ -48,7 +51,7 @@ protected:
     public:                                                                    \
         NAME()                                                                 \
         {                                                                      \
-            auto ret = prefix##lex_init_extra(this, &scan_);                   \
+            auto ret = prefix##lex_init_extra(&token_value_, &scan_);          \
             if (ret != 0) {                                                    \
                 NXC_ABORT(                                                     \
                     #prefix "lex_init_extra failed with error code: %d\n");    \
@@ -65,9 +68,9 @@ protected:
             NXC_ASSERT(new_buffer, "OOM");                                     \
             prefix##push_buffer_state(new_buffer, scan_);                      \
         }                                                                      \
-        virtual nxc::Result<int> _lex() override                               \
+        virtual nxc::Token _lex() override                                     \
         {                                                                      \
-            return prefix##lex(scan_);                                         \
+            return { .type = prefix##lex(scan_), .value = &token_value_ };     \
         }                                                                      \
         virtual void _pop_input() override                                     \
         {                                                                      \
@@ -76,9 +79,13 @@ protected:
                                                                                \
     private:                                                                   \
         yyscan_t scan_;                                                        \
+        YYSTYPE token_value_;                                                  \
     };
 
 #define NXC_PARSER_DEFINE(NAME, prefix)                                        \
+    extern "C" {                                                               \
+    extern void prefix##error(void* p, const char*);                           \
+    }                                                                          \
     class NAME : public nxc::Parser {                                          \
     public:                                                                    \
         NAME()                                                                 \
@@ -89,14 +96,29 @@ protected:
         virtual ~NAME() { prefix##pstate_delete(state_); }                     \
                                                                                \
     protected:                                                                 \
-        virtual Result<bool> _parse(                                           \
-            int token, YYSTYPE const* pushed_val) override                     \
+        virtual nxc::Result<void> _parse(const nxc::Token& token) override     \
         {                                                                      \
-            return false;                                                      \
+            error_msg_ = "";                                                   \
+            auto ret = prefix##push_parse(                                     \
+                state_, token.type, (YYSTYPE*)token.value, this);              \
+            if (error_msg_.size() > 0) {                                       \
+                return nxc::Result<void>(nxc::E::PARSER, error_msg_);          \
+            }                                                                  \
+            return nxc::E::OK;                                                 \
         }                                                                      \
                                                                                \
     private:                                                                   \
+        void error(const char* msg) { error_msg_ = msg; }                      \
         jppstate* state_;                                                      \
-    };
+        std::string error_msg_;                                                \
+        friend void prefix##error(void* p, const char*);                       \
+    };                                                                         \
+    extern "C" {                                                               \
+    void prefix##error(void* p, const char* msg)                               \
+    {                                                                          \
+        auto parser = (NAME*)(p);                                              \
+        parser->error(msg);                                                    \
+    }                                                                          \
+    }
 
 #endif
