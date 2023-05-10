@@ -111,7 +111,7 @@ protected:
         }                                                                      \
                                                                                \
     private:                                                                   \
-        void error(const char* msg) { error_msg_ = msg; }                      \
+        void error(const char* msg) { error_msg_ += msg; }                     \
         prefix##pstate* state_;                                                \
         std::string error_msg_;                                                \
         friend void prefix##error(void* p, const char*);                       \

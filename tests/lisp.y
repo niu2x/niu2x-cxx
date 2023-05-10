@@ -2,6 +2,7 @@
 %define api.push-pull push
 %define api.pure
 %parse-param {void* nxc_parser} {void *userdata}
+%error-verbose
 
 %token T_UNKNOWN
 %token T_EOF
