@@ -1,7 +1,7 @@
 extern "C" {
+#include "lisp.h"
 #include "lisp-lexer.h"
 #include "lisp-parser.h"
-#include "lisp.h"
 }
 
 #include <nxc/lexer.h>
@@ -20,7 +20,7 @@ int main(int argc, char* argv[])
     nxc::Token result;
     do {
         result = lexer->lex();
-        printf("token %d\n", result.type);
+        // printf("token %d\n", result.type);
         auto parse_ret = parser->parse(result, lisp);
         if (!parse_ret) {
             printf("error: %s\n", parse_ret.error_msg().c_str());

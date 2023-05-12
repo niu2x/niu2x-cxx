@@ -84,7 +84,7 @@ protected:
 
 #define NXC_PARSER_DEFINE(NAME, prefix)                                        \
     extern "C" {                                                               \
-    extern void prefix##error(void* p, const char*);                           \
+    extern void prefix##error(void* p, void*, const char*);                    \
     }                                                                          \
     class NAME : public nxc::Parser {                                          \
     public:                                                                    \
@@ -114,10 +114,10 @@ protected:
         void error(const char* msg) { error_msg_ += msg; }                     \
         prefix##pstate* state_;                                                \
         std::string error_msg_;                                                \
-        friend void prefix##error(void* p, const char*);                       \
+        friend void prefix##error(void* p, void*, const char*);                \
     };                                                                         \
     extern "C" {                                                               \
-    void prefix##error(void* p, const char* msg)                               \
+    void prefix##error(void* p, void*, const char* msg)                        \
     {                                                                          \
         auto parser = (NAME*)(p);                                              \
         parser->error(msg);                                                    \
