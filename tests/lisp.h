@@ -6,6 +6,12 @@
 struct lisp_t;
 typedef struct lisp_t lisp_t;
 
+enum {
+    LISP_VALUE_SYMBOL,
+    LISP_VALUE_NUMBER,
+    LISP_VALUE_FORM,
+};
+
 lisp_t* lisp_alloc();
 void lisp_free(lisp_t* self);
 
