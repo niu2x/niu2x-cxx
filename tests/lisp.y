@@ -9,6 +9,7 @@
 %token <number> T_NUMBER
 
 %nterm <value> value
+%nterm <value> form
 
 
 %{
@@ -16,7 +17,6 @@
 #include <stdio.h>
 #include <stdint.h>
 #include "lisp.h"
-
 #define LISP ((lisp_t*)userdata)
 
 %}
@@ -25,12 +25,7 @@
 %union {
     int number;
     char *str;
-    struct {
-        int type;
-        union {
-            uint64_t symbol;
-        };
-    } value;
+    struct lisp_value_t  value;
 };
 
 %%
@@ -46,13 +41,13 @@ formlist:
 formlist1: formlist1 form
     | form
 
-form: '(' valuelist1 ')'
+form: { $<value>$.type = LISP_VALUE_FORM;  $<value>$.form = lisp_create_form(LISP);    } '(' valuelist1 ')' {}
 
-valuelist1: value
+valuelist1: value 
     | valuelist1 value
 
 value: T_NAME { $$.symbol = lisp_create_symbol(LISP, $1); $$.type = LISP_VALUE_SYMBOL; printf("get symbol %d\n", $$); }
-    | T_NUMBER  { $$.type = LISP_VALUE_NUMBER; }
-    | form { $$.type = LISP_VALUE_FORM; }
+    | T_NUMBER  { $$.type = LISP_VALUE_NUMBER; $$.number = $1;}
+    | form { $$.type = LISP_VALUE_FORM;  }
 
 %%

@@ -26,6 +26,7 @@ int main(int argc, char* argv[])
             printf("error: %s\n", parse_ret.error_msg().c_str());
             break;
         }
+
     } while (result.type != T_EOF);
     lexer->pop_input();
 

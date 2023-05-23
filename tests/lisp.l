@@ -1,5 +1,9 @@
 %option noyywrap nodefault reentrant
 
+%top{
+	#include "lisp.h"
+}
+
 %{
 	#include <stdio.h>
 	#include <lisp-parser.h>

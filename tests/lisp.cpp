@@ -27,12 +27,24 @@ struct SymbolTable {
     int alloc;
 };
 
+struct Form {
+    lisp_value_t* base;
+    int nr;
+    int alloc;
+};
+
+struct FormTable {
+    Form** base;
+    int nr;
+    int alloc;
+};
+
 struct lisp_t {
     StringTable string_table;
     SymbolTable symbol_table;
+    FormTable form_table;
 };
 
-static uint64_t SymbolTable_add_symbol(SymbolTable* self, String* str);
 static void StringTable_init(StringTable* self);
 static String* StringTable_create_string(
     StringTable* self, const char* sz, int len = 0);
@@ -41,12 +53,20 @@ static uint64_t hash(const uint8_t* str);
 
 static void SymbolTable_init(SymbolTable* self);
 static void SymbolTable_resize(SymbolTable* self, int new_size);
+static uint64_t SymbolTable_add_symbol(SymbolTable* self, String* str);
+
+static void FormTable_init(FormTable* self);
+static void FormTable_resize(FormTable* self, int new_size);
+static uint64_t FormTable_new_form(FormTable* self);
+
+static Form* form_create();
 
 lisp_t* lisp_alloc()
 {
     lisp_t* self = (lisp_t*)malloc(sizeof(lisp_t));
     StringTable_init(&self->string_table);
     SymbolTable_init(&self->symbol_table);
+    FormTable_init(&self->form_table);
     return self;
 }
 
@@ -56,6 +76,14 @@ uint64_t lisp_create_symbol(lisp_t* lisp, const char* name)
 {
     String* str = StringTable_create_string(&lisp->string_table, name);
     return SymbolTable_add_symbol(&lisp->symbol_table, str);
+}
+
+uint64_t lisp_create_form(lisp_t* lisp)
+{
+    lisp_value_t form;
+    form.type = LISP_VALUE_FORM;
+    form.form = FormTable_new_form(&(lisp->form_table));
+    return form.form;
 }
 
 static void StringTable_init(StringTable* self)
@@ -135,4 +163,38 @@ static uint64_t SymbolTable_add_symbol(SymbolTable* self, String* str)
     SymbolTable_resize(self, self->nr + 1);
     self->base[self->nr - 1] = str;
     return self->nr - 1;
+}
+
+static void FormTable_init(FormTable* self)
+{
+    self->base = nullptr;
+    self->nr = 0;
+    self->alloc = 0;
+}
+
+static void FormTable_resize(FormTable* self, int new_size)
+{
+    if (new_size > self->alloc) {
+        int new_alloc = NEW_ALLOC(self->nr, self->alloc, new_size);
+        self->base = (Form**)realloc(self->base, sizeof(Form*) * new_alloc);
+        self->alloc = new_alloc;
+    }
+
+    self->nr = new_size;
+}
+
+static uint64_t FormTable_new_form(FormTable* self)
+{
+    FormTable_resize(self, self->nr + 1);
+    auto* form = form_create();
+    self->base[self->nr - 1] = form;
+    return self->nr - 1;
+}
+
+static Form* form_create()
+{
+    Form* self = (Form*)malloc(sizeof(Form));
+    self->base = nullptr;
+    self->nr = 0;
+    return self;
 }
