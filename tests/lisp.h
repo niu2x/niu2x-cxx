@@ -17,6 +17,8 @@ void lisp_free(lisp_t* self);
 
 uint64_t lisp_create_symbol(lisp_t* lisp, const char*);
 uint64_t lisp_create_form(lisp_t* lisp);
+void lisp_push_form(lisp_t* lisp, uint64_t id);
+uint64_t lisp_pop_form(lisp_t* lisp);
 
 struct lisp_value_t {
     int type;

@@ -35,6 +35,7 @@ public:
     }
 
     NXC_COPYABLE_DEFAULT(Result)
+    NXC_MOVABLE_DEFAULT(Result)
 
     template <class U>
     Result(const Result<U>& other)

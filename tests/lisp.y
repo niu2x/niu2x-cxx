@@ -11,7 +11,6 @@
 %nterm <value> value
 %nterm <value> form
 
-
 %{
 
 #include <stdio.h>
@@ -21,7 +20,6 @@
 
 %}
 
-
 %union {
     int number;
     char *str;
@@ -29,7 +27,6 @@
 };
 
 %%
-
 
 start: block T_EOF {puts("reduce start");}
 

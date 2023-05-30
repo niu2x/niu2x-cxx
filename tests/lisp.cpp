@@ -198,3 +198,7 @@ static Form* form_create()
     self->nr = 0;
     return self;
 }
+
+void lisp_push_form(lisp_t* lisp, uint64_t id) { }
+
+uint64_t lisp_pop_form(lisp_t* lisp) { }
