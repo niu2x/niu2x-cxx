@@ -67,3 +67,21 @@ ExternalProject_Add(external_googletest
     CMAKE_ARGS      ${TMP_CMAKE_ARGS}
 )
 set(GTest_DIR "${PROJECT_BINARY_DIR}/external_deps/lib/cmake/GTest")
+
+# curl
+set(TMP_CMAKE_ARGS "")
+list(APPEND TMP_CMAKE_ARGS "-DCMAKE_BUILD_TYPE=Release")
+list(APPEND TMP_CMAKE_ARGS "-DCMAKE_INSTALL_PREFIX=${PROJECT_BINARY_DIR}/external_deps")
+list(APPEND TMP_CMAKE_ARGS "-DBUILD_SHARED_LIBS=OFF")
+list(APPEND TMP_CMAKE_ARGS "-DCMAKE_POSITION_INDEPENDENT_CODE=ON")
+list(APPEND TMP_CMAKE_ARGS "-DHTTP_ONLY=ON")
+list(APPEND TMP_CMAKE_ARGS "-DZLIB_ROOT=${ZLIB_ROOT}")
+
+
+ExternalProject_Add(external_curl
+    GIT_REPOSITORY  https://github.com/curl/curl
+    GIT_TAG         curl-8_1_1
+    CMAKE_ARGS      ${TMP_CMAKE_ARGS}
+)
+set(CURL_ROOT "${PROJECT_BINARY_DIR}/external_deps")
+add_dependencies(external_curl external_zlib)

@@ -53,7 +53,7 @@ if(WIN32)
     set(zlib_name zlibstaticd)
 endif()
 
-list(APPEND THIRD_PARTY_LIBS zip ${zlib_name})
+list(APPEND THIRD_PARTY_LIBS zip ${zlib_name} curl)
 
 if(${BUILD_SHARED_LIBS})
     list(APPEND PRIVATE_LIBS ${THIRD_PARTY_LIBS})
