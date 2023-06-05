@@ -17,8 +17,8 @@ public:
     {
     }
 
-    Result(const T& t)
-    : data_(t)
+    Result(T&& t)
+    : data_(std::forward<T>(t))
     , error_(E::OK)
     {
     }
@@ -31,6 +31,12 @@ public:
     Result(const Error& e, const String& msg)
     : error_(e)
     , msg_(msg)
+    {
+    }
+
+    Result(const Error& e, String&& msg)
+    : error_(e)
+    , msg_(std::move(msg))
     {
     }
 

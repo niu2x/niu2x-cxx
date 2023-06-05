@@ -7,12 +7,13 @@
 #include <nxc/utils.h>
 #include <nxc/result.h>
 #include <nxc/buffer.h>
-#include <nxc/raw_memory.h>
+// #include <nxc/raw_memory.h>
 #include <nxc/stream.h>
 #include <nxc/stream_factory.h>
 #include <nxc/archive_factory.h>
 #include <nxc/pipe.h>
 #include <nxc/null_file.h>
 #include <nxc/lexer.h>
+#include <nxc/curlx.h>
 
 #endif
