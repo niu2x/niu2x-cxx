@@ -5,6 +5,7 @@
 #include <memory>
 #include <type_traits>
 #include <string>
+#include <sstream>
 #include <cmath>
 #include <vector>
 #include <functional>
@@ -32,6 +33,9 @@
     }
 
 namespace nxc {
+
+template <class T>
+using Vector = std::vector<T>;
 
 template <class... T>
 NXC_INLINE void unused(T&&...)
@@ -189,62 +193,6 @@ void delete_ptr(T* ptr)
     nxc::Ptr<T>(NXC_NEW(T, __VA_ARGS__), nxc::delete_ptr<T>)
 
 namespace nxc {
-
-template <class T>
-// value
-class Iterator {
-public:
-    Iterator() { }
-    virtual ~Iterator() { }
-    virtual bool has_value() const = 0;
-    virtual T& get() = 0;
-    virtual void next() = 0;
-};
-
-template <class T>
-// value
-class Vector {
-public:
-    class VectorIterator : public Iterator<T> {
-    public:
-        VectorIterator(std::vector<T>& backend)
-        : backend_(backend)
-        {
-            it_ = backend_.begin();
-        }
-
-        virtual ~VectorIterator() { }
-        virtual bool has_value() const override
-        {
-            return it_ != backend_.end();
-        }
-        virtual T& get() override { return *it_; }
-        virtual void next() override { it_++; }
-        friend class Vector<T>;
-
-    private:
-        std::vector<T>& backend_;
-        typename std::vector<T>::iterator it_;
-    };
-
-    Vector() { }
-    ~Vector() { }
-
-    NXC_INLINE void push_back(const T& t) { backend_.push_back(t); }
-
-    NXC_INLINE void erase(const T& t) { backend_.erase((t)); }
-    NXC_INLINE void erase(const VectorIterator& iterator)
-    {
-        backend_.erase(iterator.it_);
-    }
-
-    NXC_INLINE size_t size() const { return backend_.size(); }
-
-    VectorIterator walk() { return VectorIterator(backend_); }
-
-private:
-    std::vector<T> backend_;
-};
 
 enum class OpenMode {
     READ,
