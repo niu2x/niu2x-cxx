@@ -8,6 +8,8 @@
 #include <nxc/error.h>
 #include <nxc/result.h>
 
+#include <nxc/os.h>
+
 #include <nxc/buffer.h>
 // #include <nxc/raw_memory.h>
 #include <nxc/stream.h>
