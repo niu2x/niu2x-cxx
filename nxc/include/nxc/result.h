@@ -7,7 +7,7 @@
 
 namespace nxc {
 
-// user need handle error, even if no program error
+// user need handle error, even if no programming error
 template <class T>
 // value
 class Result {
