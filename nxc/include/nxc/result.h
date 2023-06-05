@@ -61,6 +61,9 @@ public:
     const T& operator*() const { return data_; }
     T& operator*() { return data_; }
 
+    const T& get() const { return data_; }
+    T& get() { return data_; }
+
 private:
     T data_;
     Error error_;
@@ -71,11 +74,16 @@ template <>
 class NXC_API Result<void> {
 public:
     Result()
-    : error_(E::OK)
+    : Result(E::OK)
     {
     }
 
-    Result(const Error& e, const String& msg = "")
+    Result(const Error& e)
+    : error_(e)
+    {
+    }
+
+    Result(const Error& e, const String& msg)
     : error_(e)
     , msg_(msg)
     {
@@ -101,6 +109,7 @@ public:
     ~Result() { }
 
     operator bool() const { return error_ == E::OK; }
+
     const Error& error() const { return error_; }
     const std::string& error_msg() const { return msg_; }
 
