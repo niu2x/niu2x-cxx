@@ -81,13 +81,21 @@ public:
     {
     }
 
+    Result(const Error& e, String&& msg)
+    : error_(e)
+    , msg_(std::move(msg))
+    {
+    }
+
     NXC_COPYABLE_DEFAULT(Result)
+    NXC_MOVABLE_DEFAULT(Result)
 
     template <class U>
     Result(const Result<U>& other)
     {
         NXC_ASSERT(!other, "not allowed");
         error_ = other.error();
+        msg_ = other.error_msg();
     }
 
     ~Result() { }
