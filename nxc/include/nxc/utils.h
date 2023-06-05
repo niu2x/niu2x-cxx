@@ -59,75 +59,15 @@ public:
 template <class T>
 using Function = std::function<T>;
 
-template <class T>
-inline constexpr bool is_const_v = std::is_const_v<T>;
-
-template <class T>
-using decay_t = std::decay_t<T>;
-
+using std::decay_t;
 using std::forward;
+using std::is_const_v;
+using std::max;
+using std::min;
 
 // value
 template <class T>
-class Ptr {
-public:
-    using type = T;
-
-    Ptr(T* obj, Function<void(T*)> del)
-    : ptr_(obj, del)
-    {
-    }
-
-    Ptr(std::nullptr_t n)
-    : ptr_(n)
-    {
-    }
-
-    Ptr()
-    : ptr_()
-    {
-    }
-
-    ~Ptr() { }
-
-    NXC_COPYABLE_DEFAULT(Ptr)
-
-    template <class U>
-    Ptr(const Ptr<U>& other)
-    {
-        ptr_ = other.shared_ptr();
-    }
-
-    template <class U>
-    NXC_INLINE Ptr& operator=(const Ptr<U>& other)
-    {
-        std::shared_ptr<T>::operator=(other);
-        return *this;
-    }
-    NXC_INLINE T* get() const { return ptr_.get(); }
-    NXC_INLINE T* operator->() const { return ptr_.get(); }
-
-    NXC_INLINE operator bool() const { return !!ptr_; }
-
-    NXC_INLINE bool operator==(std::nullptr_t) const { return ptr_ == nullptr; }
-    NXC_INLINE bool operator!=(std::nullptr_t) const { return ptr_ != nullptr; }
-
-    NXC_INLINE bool operator==(const Ptr& other) const
-    {
-        return ptr_ == other.ptr_;
-    }
-
-    NXC_INLINE bool operator!=(const Ptr& other) const
-    {
-        return ptr_ != other.ptr_;
-    }
-
-    // user should not use it
-    NXC_INLINE const std::shared_ptr<T>& shared_ptr() const { return ptr_; }
-
-private:
-    std::shared_ptr<T> ptr_;
-};
+using Ptr = std::shared_ptr<T>;
 
 template <class T>
 class Singleton : private Noncopyable {
@@ -144,18 +84,6 @@ protected:
 };
 
 using String = std::string;
-
-template <class T1, class T2>
-auto min(T1&& t1, T2&& t2)
-{
-    return std::min(std::forward<T1>(t1), std::forward<T2>(t2));
-}
-
-template <class T1, class T2>
-auto max(T1&& t1, T2&& t2)
-{
-    return std::max(std::forward<T1>(t1), std::forward<T2>(t2));
-}
 
 }; // namespace nxc
 
@@ -177,7 +105,11 @@ auto max(T1&& t1, T2&& t2)
 #define NXC_NEW_AT(ptr, T, ...) new (ptr) T(__VA_ARGS__)
 #define NXC_DELETE_AT(ptr, T)   (ptr)->~T()
 
-#define NXC_PTR_OFFSET(ptr, off) (void*)(off + ((uint8_t*)ptr))
+template <class T>
+NXC_INLINE T* NXC_PTR_OFFSET(T* ptr, ptrdiff_t off)
+{
+    return reinterpret_cast<T*>(off + (reinterpret_cast<uint8_t*>(ptr)));
+}
 
 namespace nxc {
 
