@@ -3,6 +3,7 @@
 
 #include <nxc/api.h>
 #include <nxc/utils.h>
+#include <nxc/result.h>
 
 namespace nxc {
 
@@ -10,7 +11,7 @@ class NXC_API OS : public Singleton<OS> {
 public:
     OS();
     virtual ~OS();
-    ResultVoid make_dirs(const String& pathname);
+    Result<void> make_dirs(const String& pathname);
     void ensure_dirs(const String& pathname);
     bool exist(const String& pathname);
     bool is_dir(const String& pathname);

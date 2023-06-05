@@ -79,8 +79,8 @@ list(APPEND TMP_CMAKE_ARGS "-DZLIB_ROOT=${ZLIB_ROOT}")
 
 
 ExternalProject_Add(external_curl
-    GIT_REPOSITORY  https://github.com/curl/curl
-    GIT_TAG         curl-8_1_1
+    GIT_REPOSITORY  https://gitee.com/chooosky/curl
+    GIT_TAG         curl-8_0_1
     CMAKE_ARGS      ${TMP_CMAKE_ARGS}
 )
 set(CURL_ROOT "${PROJECT_BINARY_DIR}/external_deps")
