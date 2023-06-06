@@ -10,12 +10,7 @@ namespace nxc {
 class NXC_API OS : public Singleton<OS> {
 public:
     OS();
-    virtual ~OS();
-    Result<void> make_dirs(const String& pathname);
-    void ensure_dirs(const String& pathname);
-    bool exist(const String& pathname);
-    bool is_dir(const String& pathname);
-    bool is_file(const String& pathname);
+    ~OS();
 };
 
 } // namespace nxc

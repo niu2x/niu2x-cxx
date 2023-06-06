@@ -1,5 +1,4 @@
 set(LIB_NAME nxc)
-set(EXPORT_LIB_NAME niu2x::nxc)
 
 add_library(${LIB_NAME} "")
 
@@ -40,7 +39,6 @@ target_include_directories(${LIB_NAME} PRIVATE
 target_include_directories(${LIB_NAME} PUBLIC
     $<BUILD_INTERFACE:${CMAKE_CURRENT_BINARY_DIR}/include>  
     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>  
-    # $<BUILD_INTERFACE:${PROJECT_BINARY_DIR}/external_boost-prefix/src/external_boost>  
     $<INSTALL_INTERFACE:include> 
 )
 
@@ -91,8 +89,6 @@ install(TARGETS ${LIB_NAME}
 
 install(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/include/nxc DESTINATION include)
 install(DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/include/nxc DESTINATION include)
-# install(DIRECTORY ${PROJECT_BINARY_DIR}/external_boost-prefix/src/external_boost/boost DESTINATION include)
-
 
 if(${BUILD_SHARED_LIBS})
 else()

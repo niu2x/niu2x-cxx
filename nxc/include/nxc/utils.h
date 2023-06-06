@@ -129,6 +129,7 @@ namespace nxc {
 enum class OpenMode {
     READ,
     WRITE,
+    RW,
 };
 
 using std::swap;
