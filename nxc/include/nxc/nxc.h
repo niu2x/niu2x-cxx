@@ -8,8 +8,9 @@
 #include <nxc/error.h>
 #include <nxc/result.h>
 
-#include <nxc/os.h>
+#include <nxc/preprocess.h>
 
+#include <nxc/os.h>
 #include <nxc/lexer.h>
 #include <nxc/curlx.h>
 
