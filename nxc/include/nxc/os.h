@@ -14,7 +14,7 @@ public:
     static Result<void> make_dirs(const char* pathname);
     static bool exist(const char* pathname);
     static bool is_dir(const char* pathname);
-    const char path_sep;
+    static const char path_sep;
 };
 
 } // namespace nxc
