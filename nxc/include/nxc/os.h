@@ -7,10 +7,14 @@
 
 namespace nxc {
 
-class NXC_API OS : public Singleton<OS> {
+// 没有标准跨平台实现的OS API
+class NXC_API OS {
 public:
-    OS();
-    ~OS();
+    static Result<void> make_dir(const char* dirname);
+    static Result<void> make_dirs(const char* pathname);
+    static bool exist(const char* pathname);
+    static bool is_dir(const char* pathname);
+    const char path_sep;
 };
 
 } // namespace nxc

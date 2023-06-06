@@ -18,6 +18,10 @@ set_target_properties(${LIB_NAME} PROPERTIES
     VISIBILITY_INLINES_HIDDEN ON
 )
 
+if(CMAKE_SYSTEM_NAME STREQUAL "Linux")
+    set(NXC_USE_POSIX 1)    
+endif()
+
 list(APPEND SOURCE_DIRECTORIES "src/*.cpp")
 
 set(PRIVATE_LIBS "")
