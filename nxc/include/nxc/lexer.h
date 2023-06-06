@@ -4,7 +4,6 @@
 #include <nxc/api.h>
 #include <nxc/utils.h>
 #include <nxc/result.h>
-#include <nxc/null_file.h>
 
 namespace nxc {
 
@@ -56,7 +55,7 @@ protected:
                 NXC_ABORT(                                                     \
                     #prefix "lex_init_extra failed with error code: %d\n");    \
             }                                                                  \
-            prefix##set_in(nxc::NullFile::get()->c_file(), scan_);             \
+            prefix##set_in(nullptr, scan_);                                    \
         }                                                                      \
         virtual ~NAME() { prefix##lex_destroy(scan_); }                        \
                                                                                \
