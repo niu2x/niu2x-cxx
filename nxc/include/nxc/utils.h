@@ -11,7 +11,9 @@
 #include <functional>
 #include <nxc/api.h>
 
-#define NXC_LOG_E(msg) fprintf(stderr, "%s\n", msg);
+#define NXC_LOG(...)                                                           \
+    fprintf(stderr, __VA_ARGS__);                                              \
+    fprintf(stderr, "\n");
 
 #define NXC_INLINE inline
 
@@ -89,7 +91,7 @@ using String = std::string;
 
 #define NXC_ABORT(message)                                                     \
     {                                                                          \
-        NXC_LOG_E(message);                                                    \
+        NXC_LOG(message);                                                      \
         abort();                                                               \
     }
 
