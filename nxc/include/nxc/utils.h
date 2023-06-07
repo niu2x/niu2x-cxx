@@ -89,9 +89,9 @@ using String = std::string;
 
 }; // namespace nxc
 
-#define NXC_ABORT(message)                                                     \
+#define NXC_ABORT(...)                                                         \
     {                                                                          \
-        NXC_LOG(message);                                                      \
+        NXC_LOG(__VA_ARGS__);                                                  \
         abort();                                                               \
     }
 

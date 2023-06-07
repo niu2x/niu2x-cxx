@@ -18,7 +18,13 @@ public:
     }
 
     Result(T&& t)
-    : data_(std::forward<T>(t))
+    : data_(std::move(t))
+    , error_(E::OK)
+    {
+    }
+
+    Result(const T& t)
+    : data_(t)
     , error_(E::OK)
     {
     }

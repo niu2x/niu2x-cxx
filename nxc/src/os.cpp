@@ -13,7 +13,7 @@
 
 namespace nxc {
 
-static Result<void> os_error()
+Result<void> OS::error()
 {
 #if NXC_USE_POSIX == 1
     char buf[256];
@@ -33,7 +33,7 @@ Result<void> OS::make_dir(const char* dirname)
 #if NXC_USE_POSIX == 1
     if (!mkdir(dirname, 0777))
         return E::OK;
-    return os_error();
+    return error();
 #else
     return E::TODO;
 #endif

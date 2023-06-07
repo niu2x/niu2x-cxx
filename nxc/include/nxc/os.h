@@ -15,6 +15,8 @@ public:
     static bool exist(const char* pathname);
     static bool is_dir(const char* pathname);
     static const char path_sep;
+
+    static Result<void> error();
 };
 
 } // namespace nxc

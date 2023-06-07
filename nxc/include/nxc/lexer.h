@@ -52,8 +52,9 @@ protected:
         {                                                                      \
             auto ret = prefix##lex_init_extra(&token_value_, &scan_);          \
             if (ret != 0) {                                                    \
-                NXC_ABORT(                                                     \
-                    #prefix "lex_init_extra failed with error code: %d\n");    \
+                NXC_ABORT(#prefix                                              \
+                    "lex_init_extra failed with error code: %d\n",             \
+                    ret);                                                      \
             }                                                                  \
             prefix##set_in(nullptr, scan_);                                    \
         }                                                                      \
