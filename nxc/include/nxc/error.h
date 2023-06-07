@@ -12,6 +12,7 @@ enum class Error {
     NO_EXIST,
     PARSER,
     TODO,
+    NAME_TOO_LONG,
 };
 
 using E = Error;

@@ -38,8 +38,29 @@ Result<void> OS::make_dir(const char* dirname)
 
 Result<void> OS::make_dirs(const char* path)
 {
-    char* tmp = strdup(path);
-    NXC_ASSERT(tmp, "OOM");
+    char tmp[PATH_MAX];
+    auto path_len = strlen(path);
+    if (*path == '/') {
+        if (strlen(path) + 1 > PATH_MAX)
+            return E::NAME_TOO_LONG;
+        strcpy(tmp, path);
+    } else {
+        if (!getcwd(tmp, PATH_MAX))
+            return E::NAME_TOO_LONG;
+        auto tmp_len = strlen(tmp);
+
+        if (tmp[tmp_len - 1] != '/') {
+            if (tmp_len + 1 + 1 > PATH_MAX)
+                return E::NAME_TOO_LONG;
+            tmp_len++;
+            tmp[tmp_len] = 0;
+            tmp[tmp_len - 1] = '/';
+        }
+
+        if (path_len + 1 + tmp_len > PATH_MAX)
+            return E::NAME_TOO_LONG;
+        strcat(tmp, path);
+    }
 
     char* it = tmp;
     char* end = tmp + strlen(tmp);
@@ -60,8 +81,6 @@ Result<void> OS::make_dirs(const char* path)
 
         it = it_end + 1;
     } while (it < end);
-
-    free(tmp);
 
     return ret;
 }
