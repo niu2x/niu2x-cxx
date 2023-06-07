@@ -6,6 +6,7 @@
     #include <fcntl.h>
     #include <unistd.h>
     #include <errno.h>
+    #include <limits.h>
     #include <sys/types.h>
     #include <sys/stat.h>
 #endif
@@ -17,7 +18,7 @@ static Result<void> os_error()
 #if NXC_USE_POSIX == 1
     char buf[256];
     if (strerror_r(errno, buf, 256)) {
-        snprintf(buf, 256, "strerror_r fail");
+        snprintf(buf, 256, "strerror_r fail(%d)", errno);
     }
     Result<void> r(E::OS_ERROR, buf);
     return r;
@@ -28,6 +29,7 @@ static Result<void> os_error()
 
 Result<void> OS::make_dir(const char* dirname)
 {
+    NXC_LOG("OS::make_dir %s", dirname);
 #if NXC_USE_POSIX == 1
     if (!mkdir(dirname, 0777))
         return E::OK;
@@ -64,6 +66,8 @@ Result<void> OS::make_dirs(const char* path)
     }
 
     char* it = tmp;
+    if (*tmp == '/')
+        it++;
     char* end = tmp + strlen(tmp);
 
     Result<void> ret = E::OK;
