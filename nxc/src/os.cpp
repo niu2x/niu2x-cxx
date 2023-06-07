@@ -1,5 +1,6 @@
 #include <nxc/os.h>
 #include <nxc/config.h>
+#include <nxc/utils.h>
 
 #if NXC_USE_POSIX == 1
     #include <fcntl.h>
@@ -73,8 +74,10 @@ Result<void> OS::make_dirs(const char* path)
         auto backup = *it_end;
         *it_end = 0;
 
-        if (!(ret = make_dir(it))) {
-            break;
+        if (!is_dir(tmp)) {
+            if (!(ret = make_dir(tmp))) {
+                break;
+            }
         }
 
         *it_end = backup;
