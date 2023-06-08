@@ -55,11 +55,13 @@ target_link_directories(${LIB_NAME} PUBLIC
 )
 
 set(zlib_name z)
+set(curl_name curl)
 if(CMAKE_SYSTEM_NAME STREQUAL "Windows")
     set(zlib_name zlibstaticd)
+    set(curl_name libcurl)
 endif()
 
-list(APPEND THIRD_PARTY_LIBS zip ${zlib_name} curl)
+list(APPEND THIRD_PARTY_LIBS zip ${zlib_name} ${curl_name})
 
 if(${BUILD_SHARED_LIBS})
     list(APPEND PRIVATE_LIBS ${THIRD_PARTY_LIBS})

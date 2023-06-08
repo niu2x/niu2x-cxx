@@ -1,3 +1,5 @@
+#define _CRT_SECURE_NO_WARNINGS
+
 #include <nxc/stream.h>
 #include <nxc/os.h>
 
