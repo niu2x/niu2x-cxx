@@ -18,8 +18,12 @@ set_target_properties(${LIB_NAME} PROPERTIES
     VISIBILITY_INLINES_HIDDEN ON
 )
 
+message(STATUS "CMAKE_SYSTEM_NAME ${CMAKE_SYSTEM_NAME}")
+
 if(CMAKE_SYSTEM_NAME STREQUAL "Linux")
     set(NXC_USE_POSIX 1)    
+elseif(CMAKE_SYSTEM_NAME STREQUAL "Windows")
+    set(NXC_USE_WINAPI 1)    
 endif()
 
 list(APPEND SOURCE_DIRECTORIES "src/*.cpp")
@@ -51,7 +55,7 @@ target_link_directories(${LIB_NAME} PUBLIC
 )
 
 set(zlib_name z)
-if(WIN32)
+if(CMAKE_SYSTEM_NAME STREQUAL "Windows")
     set(zlib_name zlibstaticd)
 endif()
 

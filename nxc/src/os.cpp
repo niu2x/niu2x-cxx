@@ -2,7 +2,7 @@
 #include <nxc/config.h>
 #include <nxc/utils.h>
 
-#if NXC_USE_POSIX == 1
+#if defined(NXC_USE_POSIX)
     #include <fcntl.h>
     #include <unistd.h>
     #include <errno.h>
@@ -15,7 +15,7 @@ namespace nxc {
 
 Result<void> OS::error()
 {
-#if NXC_USE_POSIX == 1
+#if defined(NXC_USE_POSIX)
     char buf[256];
     if (strerror_r(errno, buf, 256)) {
         snprintf(buf, 256, "strerror_r fail(%d)", errno);
@@ -30,7 +30,7 @@ Result<void> OS::error()
 Result<void> OS::make_dir(const char* dirname)
 {
     NXC_LOG("OS::make_dir %s", dirname);
-#if NXC_USE_POSIX == 1
+#if defined(NXC_USE_POSIX)
     if (!mkdir(dirname, 0777))
         return E::OK;
     return error();
@@ -94,7 +94,7 @@ Result<void> OS::make_dirs(const char* path)
 
 bool OS::exist(const char* path)
 {
-#if NXC_USE_POSIX == 1
+#if defined(NXC_USE_POSIX)
     return access(path, F_OK) == 0;
 #else
     return false;
@@ -103,7 +103,7 @@ bool OS::exist(const char* path)
 
 bool OS::is_dir(const char* path)
 {
-#if NXC_USE_POSIX == 1
+#if defined(NXC_USE_POSIX)
     struct stat buf;
     if (stat(path, &buf) == 0) {
         return S_ISDIR(buf.st_mode);
@@ -115,7 +115,7 @@ bool OS::is_dir(const char* path)
 }
 
 const char OS::path_sep =
-#if NXC_USE_POSIX == 1
+#if defined(NXC_USE_POSIX)
     '/'
 #else
     '/'
