@@ -59,16 +59,11 @@ public:
 
     ~Result() { }
 
-    operator bool() const { return error_ == E::OK; }
-
-    const Error& error() const { return error_; }
-    const std::string& error_msg() const { return msg_; }
-
-    const T& operator*() const { return data_; }
-    T& operator*() { return data_; }
-
-    const T& get() const { return data_; }
-    T& get() { return data_; }
+    NXC_INLINE operator bool() const { return error_ == E::OK; }
+    NXC_INLINE Error error() const { return error_; }
+    NXC_INLINE const std::string& error_msg() const { return msg_; }
+    NXC_INLINE const T& operator*() const { return data_; }
+    NXC_INLINE T& operator*() { return data_; }
 
 private:
     T data_;
@@ -114,10 +109,10 @@ public:
 
     ~Result() { }
 
-    operator bool() const { return error_ == E::OK; }
+    NXC_INLINE operator bool() const { return error_ == E::OK; }
 
-    const Error& error() const { return error_; }
-    const std::string& error_msg() const { return msg_; }
+    NXC_INLINE Error error() const { return error_; }
+    NXC_INLINE const std::string& error_msg() const { return msg_; }
 
 private:
     Error error_;

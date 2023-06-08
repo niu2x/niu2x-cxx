@@ -60,7 +60,7 @@ public:
 
     Result<void> write(Ch c)
     {
-        if (should_flush()) {
+        if (full()) {
             auto ret = flush();
             if (!ret)
                 return ret;
@@ -78,7 +78,7 @@ public:
             begin_ += *ret;
             if (next_ - begin_ > 0) {
                 auto count = next_ - begin_;
-                memmove(buf_, begin_, (next_ - begin_) * sizeof(Char));
+                memmove(buf_, begin_, count * sizeof(Char));
                 begin_ = buf_;
                 next_ = count + buf_;
             } else {
@@ -86,6 +86,15 @@ public:
             }
         }
         return ret;
+    }
+
+    void flush_all()
+    {
+        while (!empty()) {
+            auto ret = flush();
+            if (!ret && ret.error() != E ::WAIT_IO)
+                break;
+        }
     }
 
 protected:
@@ -96,22 +105,8 @@ private:
     Char* next_;
     Char* begin_;
 
-    bool should_flush() { return next_ >= buf_ + BUF_SIZE; }
-};
-
-class NXC_API FileReadStream : public ReadStream<uint8_t, 1024> {
-public:
-    FileReadStream();
-    virtual ~FileReadStream();
-
-    Result<void> open(const String& path);
-    void close();
-
-protected:
-    virtual Result<size_t> _pull(Char* buf, size_t count) override;
-
-private:
-    FILE* fp_;
+    bool full() const { return next_ >= buf_ + BUF_SIZE; }
+    bool empty() const { return next_ == begin_; }
 };
 
 } // namespace nxc

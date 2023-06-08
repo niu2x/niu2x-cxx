@@ -7,7 +7,7 @@ enum class Error {
     OK = 0,
     END_OF_FILE,
     FULL_OF_FILE,
-    WAIT,
+    WAIT_IO,
     OS_ERROR,
     ZIP_LIB_ERROR,
     NO_EXIST,

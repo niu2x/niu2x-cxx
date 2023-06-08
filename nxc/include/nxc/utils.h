@@ -131,7 +131,6 @@ namespace nxc {
 enum class OpenMode {
     READ,
     WRITE,
-    RW,
 };
 
 using std::swap;
@@ -163,5 +162,31 @@ T& COPY_AND_SWAP(T& self, U&& other)
         Function<void()> cleanup_;                                             \
                                                                                \
     } ______(setup, cleanup);
+
+namespace nxc {
+
+template <class T>
+struct DefalutValue {
+};
+
+template <class T>
+struct Release {
+};
+
+template <class T>
+struct ValueValidate {
+};
+
+template <class T>
+struct DefalutValue<T*> {
+    static T* const value = nullptr;
+};
+
+template <class T>
+struct ValueValidate<T*> {
+    static bool validate(T* v) { return v; }
+};
+
+} // namespace nxc
 
 #endif

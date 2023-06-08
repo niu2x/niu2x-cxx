@@ -10,7 +10,9 @@
 #include <nxc/result.h>
 
 #include <nxc/os.h>
+
 #include <nxc/stream.h>
+#include <nxc/file_stream.h>
 
 #include <nxc/lexer.h>
 #include <nxc/curlx.h>

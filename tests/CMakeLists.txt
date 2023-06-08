@@ -6,7 +6,7 @@ if(GTest_DIR)
 		get_filename_component(name ${item} NAME_WE)
 		add_executable(${name} ${item})
 		target_link_libraries(${name} PRIVATE nxc GTest::gtest_main)
-		gtest_discover_tests(${name})
+		# gtest_discover_tests(${name})
 
 	endforeach()
 

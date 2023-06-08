@@ -16,11 +16,20 @@ int main()
     A a;
     printf("&a.a = %p\n", &A::a);
     printf("&A.a = %p\n", &a.a);
-    nxc::FileReadStream fs;
-    if (fs.open("/home/niu2x/project/nxc/CMakeLists.txt")) {
-        while (auto ch = fs.read()) {
+    nxc::FileReadStream in("/home/niu2x/project/nxc/CMakeLists.txt");
+    if (in) {
+        while (auto ch = in.read()) {
             putchar(*ch);
         }
+    }
+
+    nxc::FileWriteStream out("/home/niu2x/project/nxc/CMakeLists.txt");
+    if (out) {
+        out.write('H');
+        //     out.write('e');
+        //     out.write('l');
+        //     out.write('l');
+        //     out.write('o');
     }
 
     return 0;
