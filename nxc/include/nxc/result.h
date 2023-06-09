@@ -102,7 +102,6 @@ public:
     template <class U>
     Result(const Result<U>& other)
     {
-        NXC_ASSERT(!other, "not allowed");
         error_ = other.error();
         msg_ = other.error_msg();
     }

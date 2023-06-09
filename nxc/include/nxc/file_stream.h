@@ -28,7 +28,7 @@ public:
     operator bool() const { return file_; }
 
 protected:
-    virtual Result<size_t> _pull(Char* buf, size_t count) override;
+    virtual Result<size_t> _read_from_device(Char* buf, size_t count) override;
 
 private:
     File file_;
@@ -41,7 +41,7 @@ public:
     operator bool() const { return file_; }
 
 protected:
-    virtual Result<size_t> _flush(Char* ptr, size_t count) override;
+    virtual Result<size_t> _write_to_device(Char* ptr, size_t count) override;
 
 private:
     File file_;

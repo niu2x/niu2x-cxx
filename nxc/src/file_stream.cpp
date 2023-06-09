@@ -12,7 +12,7 @@ FileReadStream::FileReadStream(const String& path)
 
 FileReadStream::~FileReadStream() { }
 
-Result<size_t> FileReadStream::_pull(Char* buf, size_t count)
+Result<size_t> FileReadStream::_read_from_device(Char* buf, size_t count)
 {
     auto n = fread(buf, sizeof(Char), count, file_.get());
     if (n)
@@ -37,13 +37,13 @@ File::File(const String& path, OpenMode open_mode)
 }
 
 FileWriteStream::FileWriteStream(const String& path)
-: file_(path, OpenMode::READ)
+: file_(path, OpenMode::WRITE)
 {
 }
 
-FileWriteStream::~FileWriteStream() { }
+FileWriteStream::~FileWriteStream() { flush(); }
 
-Result<size_t> FileWriteStream::_flush(Char* ptr, size_t count)
+Result<size_t> FileWriteStream::_write_to_device(Char* ptr, size_t count)
 {
     auto n = fwrite(ptr, sizeof(Char), count, file_.get());
     if (n)

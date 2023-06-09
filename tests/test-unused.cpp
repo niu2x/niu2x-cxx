@@ -18,19 +18,22 @@ int main()
     printf("&A.a = %p\n", &a.a);
     nxc::FileReadStream in("/home/niu2x/project/nxc/CMakeLists.txt");
     if (in) {
-        while (auto ch = in.read()) {
-            putchar(*ch);
-        }
+        uint8_t buf[512];
+        do {
+            auto ret = in.readx(buf, 32);
+            if (ret) {
+                buf[32] = 0;
+                printf("%s", buf);
+            } else if (ret.error() != nxc::E::WAIT_IO)
+                break;
+        } while (true);
     }
 
-    nxc::FileWriteStream out("/home/niu2x/project/nxc/CMakeLists.txt");
-    if (out) {
-        out.write('H');
-        //     out.write('e');
-        //     out.write('l');
-        //     out.write('l');
-        //     out.write('o');
-    }
+    // nxc::FileWriteStream out("/home/niu2x/project/nxc/test.txt");
+    // if (out) {
+    //     for (auto i = 0; i < 1025; i++)
+    //         out.write('H');
+    // }
 
     return 0;
 }
