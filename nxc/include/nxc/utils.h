@@ -180,4 +180,69 @@ struct DefalutValue<T*> {
 
 } // namespace nxc
 
+namespace nxc {
+
+template <typename... U>
+struct all_integral : std::conjunction<std::is_integral<U>...> {
+};
+
+template <class T>
+class Mask {
+public:
+    Mask()
+    : value_(0)
+    {
+    }
+    explicit Mask(T mask)
+    : value_(mask)
+    {
+    }
+
+    ~Mask() { }
+
+    template <class... U>
+    NXC_INLINE static std::enable_if_t<all_integral<U...>::value, Mask>
+    from_bit(int first, U... others)
+    {
+        return from_bit(first) | from_bit(others...);
+    }
+
+    NXC_INLINE static Mask from_bit(int n) { return Mask(bitmask(n)); }
+
+    static const Mask Zero;
+
+    NXC_INLINE T value() const { return value_; }
+
+    NXC_INLINE friend Mask operator|(const Mask& a, const Mask& b)
+    {
+        return Mask(a.value_ | b.value_);
+    }
+
+    NXC_INLINE friend Mask operator&(const Mask& a, const Mask& b)
+    {
+        return Mask(a.value_ & b.value_);
+    }
+
+    NXC_INLINE void set_bit(int n) { value_ |= bitmask(n); }
+
+    NXC_INLINE void reset_bit(int n) { value_ &= ~bitmask(n); }
+
+    NXC_INLINE bool test_bit(int n) const { return bitmask(n) & value_; }
+
+    NXC_INLINE bool operator==(const Mask& other) const
+    {
+        return value_ == other.value_;
+    }
+
+private:
+    T value_;
+
+    NXC_INLINE static T bitmask(int n) { return 1 << (n); }
+};
+
+template <class T>
+const Mask<T> Mask<T>::Zero = Mask<T>(0);
+
+}; // namespace nxc
+
 #endif
