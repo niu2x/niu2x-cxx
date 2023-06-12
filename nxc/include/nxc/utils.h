@@ -174,17 +174,8 @@ struct Release {
 };
 
 template <class T>
-struct ValueValidate {
-};
-
-template <class T>
 struct DefalutValue<T*> {
     static T* const value = nullptr;
-};
-
-template <class T>
-struct ValueValidate<T*> {
-    static bool validate(T* v) { return v; }
 };
 
 } // namespace nxc
