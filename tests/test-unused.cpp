@@ -17,7 +17,7 @@ int main()
     printf("&a.a = %p\n", &A::a);
     printf("&A.a = %p\n", &a.a);
     nxc::FileReadStream in("/home/niu2x/project/nxc/CMakeLists.txt");
-    if (in) {
+    if (in.valid()) {
         uint8_t buf[512];
         do {
             auto ret = in.readx(buf, 32);

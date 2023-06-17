@@ -20,8 +20,7 @@ public:
     NXC_INLINE const T& get() const { return *res_; }
     NXC_INLINE T& get() { return *res_; }
 
-    NXC_INLINE void set(const T& t) { res_ = t; }
-    NXC_INLINE operator bool() const { return res_; }
+    NXC_INLINE bool valid() const { return !!res_; }
     NXC_INLINE Error error() const { return res_.error(); }
 
     RAII(RAII&& other)

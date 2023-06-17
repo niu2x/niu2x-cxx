@@ -25,7 +25,7 @@ class NXC_API FileReadStream : public ReadStream<uint8_t, 1024> {
 public:
     FileReadStream(const String& path);
     virtual ~FileReadStream();
-    operator bool() const { return file_; }
+    NXC_INLINE bool valid() const { return file_.valid(); }
 
 protected:
     virtual Result<size_t> _read_from_device(Char* buf, size_t count) override;
@@ -38,7 +38,7 @@ class NXC_API FileWriteStream : public WriteStream<uint8_t, 1024> {
 public:
     FileWriteStream(const String& path);
     virtual ~FileWriteStream();
-    operator bool() const { return file_; }
+    NXC_INLINE bool valid() const { return file_.valid(); }
 
 protected:
     virtual Result<size_t> _write_to_device(Char* ptr, size_t count) override;
