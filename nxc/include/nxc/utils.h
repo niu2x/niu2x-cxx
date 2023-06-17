@@ -187,40 +187,41 @@ struct all_integral : std::conjunction<std::is_integral<U>...> {
 };
 
 template <class T>
-class Mask {
+class Bitmask {
 public:
-    Mask()
+    Bitmask()
     : value_(0)
     {
     }
-    explicit Mask(T mask)
+    explicit Bitmask(T mask)
     : value_(mask)
     {
     }
 
-    ~Mask() { }
+    ~Bitmask() { }
 
     template <class... U>
-    NXC_INLINE static std::enable_if_t<all_integral<U...>::value, Mask>
+    NXC_INLINE static std::enable_if_t<all_integral<U...>::value, Bitmask>
     from_bit(int first, U... others)
     {
         return from_bit(first) | from_bit(others...);
     }
 
-    NXC_INLINE static Mask from_bit(int n) { return Mask(bitmask(n)); }
+    NXC_INLINE static Bitmask from_bit(int n) { return Bitmask(bitmask(n)); }
 
-    static const Mask Zero;
+    static const Bitmask Zero;
 
-    NXC_INLINE T value() const { return value_; }
+    NXC_INLINE T get() const { return value_; }
+    NXC_INLINE void set(T v) { value_ = v; }
 
-    NXC_INLINE friend Mask operator|(const Mask& a, const Mask& b)
+    NXC_INLINE friend Bitmask operator|(const Bitmask& a, const Bitmask& b)
     {
-        return Mask(a.value_ | b.value_);
+        return Bitmask(a.value_ | b.value_);
     }
 
-    NXC_INLINE friend Mask operator&(const Mask& a, const Mask& b)
+    NXC_INLINE friend Bitmask operator&(const Bitmask& a, const Bitmask& b)
     {
-        return Mask(a.value_ & b.value_);
+        return Bitmask(a.value_ & b.value_);
     }
 
     NXC_INLINE void set_bit(int n) { value_ |= bitmask(n); }
@@ -229,7 +230,7 @@ public:
 
     NXC_INLINE bool test_bit(int n) const { return bitmask(n) & value_; }
 
-    NXC_INLINE bool operator==(const Mask& other) const
+    NXC_INLINE bool operator==(const Bitmask& other) const
     {
         return value_ == other.value_;
     }
@@ -241,7 +242,7 @@ private:
 };
 
 template <class T>
-const Mask<T> Mask<T>::Zero = Mask<T>(0);
+const Bitmask<T> Bitmask<T>::Zero = Bitmask<T>(0);
 
 }; // namespace nxc
 
