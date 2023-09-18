@@ -11,7 +11,7 @@ class File : private Noncopyable {
 public:
     File(const Path& path);
     ~File();
-    bool exist();
+    bool exists();
 
 private:
     Path path_;

@@ -8,6 +8,6 @@ File::File(const Path& path)
 }
 File::~File() { }
 
-bool File::exist() { return fs::exist(path_); }
+bool File::exists() { return fs::exists(path_); }
 
 } // namespace niu2x::fs
