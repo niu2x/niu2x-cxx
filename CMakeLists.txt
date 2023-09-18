@@ -7,16 +7,11 @@ include(warning_as_error)
 include(library)
 
 if(CMAKE_SYSTEM_NAME STREQUAL "Linux")
-    set(NXC_USE_POSIX 1)    
+    set(NIU2X_USE_POSIX 1)    
 elseif(CMAKE_SYSTEM_NAME STREQUAL "Windows")
-    set(NXC_USE_WINAPI 1)    
+    set(NIU2X_USE_WINAPI 1)    
 endif()
 
 set(CMAKE_CXX_STANDARD 17)
 
 add_subdirectory(core)
-
-# if(${NXC_BUILD_TEST})
-# 	enable_testing()
-# 	add_subdirectory(tests)
-# endif()

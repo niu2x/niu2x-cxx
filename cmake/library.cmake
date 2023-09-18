@@ -17,12 +17,6 @@ function(library_init LIB_NAME)
     )
 
     warning_as_error_enable(${LIB_NAME})
-    generate_export_header(${LIB_NAME}
-        EXPORT_FILE_NAME include/${LIB_NAME}/api.h
-        EXPORT_MACRO_NAME NXAPI
-        DEPRECATED_MACRO_NAME DEPRECATED_NXAPI
-        INCLUDE_GUARD_NAME NXAPI_H
-    )
 
     target_include_directories(${LIB_NAME} PUBLIC
         $<BUILD_INTERFACE:${CMAKE_CURRENT_BINARY_DIR}/include>  
