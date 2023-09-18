@@ -18,10 +18,14 @@ function(library_init LIB_NAME)
 
     warning_as_error_enable(${LIB_NAME})
 
+    target_include_directories(${LIB_NAME} PRIVATE
+        ${CMAKE_BINARY_DIR}/include
+    )
+
     target_include_directories(${LIB_NAME} PUBLIC
-        $<BUILD_INTERFACE:${CMAKE_CURRENT_BINARY_DIR}/include>  
-        $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>  
         $<INSTALL_INTERFACE:include> 
+        $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>  
+        $<BUILD_INTERFACE:${CMAKE_CURRENT_BINARY_DIR}/include>  
     )
 
     target_link_directories(${LIB_NAME} PUBLIC
