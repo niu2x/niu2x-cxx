@@ -10,4 +10,6 @@ File::~File() { }
 
 bool File::exists() { return fs::exists(path_); }
 
+void File::touch() { fs::touch(path_); }
+
 } // namespace niu2x::fs

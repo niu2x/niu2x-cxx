@@ -11,7 +11,11 @@ class File : private Noncopyable {
 public:
     File(const Path& path);
     ~File();
+
     bool exists();
+    void touch();
+
+    const Path& path() const { return path_; }
 
 private:
     Path path_;

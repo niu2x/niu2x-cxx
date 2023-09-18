@@ -10,6 +10,7 @@ namespace niu2x::fs {
 
 NXAPI FileType file_type(const Path& path);
 NXAPI bool exists(const Path& path);
+NXAPI void touch(const Path& path);
 
 } // namespace niu2x::fs
 

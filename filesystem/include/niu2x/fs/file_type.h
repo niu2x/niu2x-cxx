@@ -4,6 +4,7 @@
 namespace niu2x::fs {
 
 enum class FileType {
+    NONE,
     SOCKET,
     SYMBOLIC_LINK,
     REGULAR_FILE,
