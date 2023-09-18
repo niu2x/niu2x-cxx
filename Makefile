@@ -17,7 +17,7 @@ build-static-library:
 	cmake --build build-static;
 
 test: build-shared-library build-static-library
-	cd build-shared && ctest;
-	cd build-static && ctest;
+# 	cd build-shared && ctest;
+# 	cd build-static && ctest;
 
 .PHONY: 

@@ -13,8 +13,8 @@ elseif(CMAKE_SYSTEM_NAME STREQUAL "Windows")
 endif()
 
 set(CMAKE_CXX_STANDARD 17)
-add_subdirectory(noncopyable)
-add_subdirectory(preprocess)
+
+add_subdirectory(core)
 
 # if(${NXC_BUILD_TEST})
 # 	enable_testing()
