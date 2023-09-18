@@ -4,6 +4,7 @@
 #include <niu2x/type.h>
 #include <niu2x/fs/path.h>
 #include <niu2x/fs/file_type.h>
+#include <niu2x/fs/file.h>
 
 namespace niu2x::fs {
 
