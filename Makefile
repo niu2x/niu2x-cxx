@@ -1,4 +1,4 @@
-all: build-library
+all: build-library build-app
 
 build-library: build-shared-library build-static-library
 
@@ -17,5 +17,11 @@ build-static-library:
 		-DCMAKE_BUILD_TYPE=Release;
 	cmake --build build-static;
 	cmake --install build-static --prefix dist-static;
+
+build-app:
+	cmake -S app -Bbuild-app \
+		-Dniu2x_filesystem_DIR=$$PWD/dist-static/lib/cmake/niu2x \
+		-Dniu2x_core_DIR=$$PWD/dist-static/lib/cmake/niu2x
+	cmake --build build-app
 
 .PHONY: 
