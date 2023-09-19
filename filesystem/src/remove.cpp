@@ -5,11 +5,12 @@ namespace niu2x::fs {
 
 void remove(const Path& path)
 {
-    if (exists(path)) {
-        if (std::filesystem::remove_all(path) <= 0) {
-            throw_runtime_err(
-                "std::filesystem::remove_all for " + path.string());
-        }
+    if (!exists(path)) {
+        return;
+    }
+
+    if (std::filesystem::remove_all(path) <= 0) {
+        throw_runtime_err("std::filesystem::remove_all for " + path.string());
     }
 }
 
