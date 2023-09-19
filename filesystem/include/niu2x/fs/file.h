@@ -4,19 +4,24 @@
 #include <niu2x/noncopyable.h>
 #include <niu2x/type.h>
 #include <niu2x/fs/path.h>
+#include <niu2x/preprocess/class_utils.h>
 
 namespace niu2x::fs {
 
-class File : private Noncopyable {
+class File {
 public:
-    File(const Path& path);
+    explicit File(const Path& path);
     ~File();
 
-    bool exists();
-    void touch();
-    void create_dir();
-    void ensure_dirs();
-    void remove();
+    NIU2X_CLASS_DEFAULT_COPYABLE(File);
+    NIU2X_CLASS_DEFAULT_MOVABLE(File);
+
+    bool exists() const;
+    void touch() const;
+    void create_dir() const;
+    void ensure_dirs() const;
+    void remove() const;
+    File parent() const;
 
     const Path& path() const { return path_; }
 
