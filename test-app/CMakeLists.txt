@@ -4,6 +4,7 @@ set(CMAKE_CXX_STANDARD 17)
 
 find_package(niu2x_core REQUIRED)
 find_package(niu2x_filesystem REQUIRED)
+find_package(niu2x_stream REQUIRED)
 
 add_executable(touch "touch.cpp")
 target_link_libraries(touch PRIVATE niu2x_filesystem)
@@ -16,3 +17,6 @@ target_link_libraries(make_dirs PRIVATE niu2x_filesystem)
 
 add_executable(remove "remove.cpp")
 target_link_libraries(remove PRIVATE niu2x_filesystem)
+
+add_executable(file "file.cpp")
+target_link_libraries(file PRIVATE niu2x_stream)

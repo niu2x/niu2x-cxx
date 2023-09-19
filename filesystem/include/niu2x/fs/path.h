@@ -3,6 +3,7 @@
 
 #include <filesystem>
 #include <niu2x/type.h>
+#include <niu2x/preprocess/class_utils.h>
 
 namespace niu2x::fs {
 
@@ -10,7 +11,12 @@ using BasePath = std::filesystem::path;
 
 class NXAPI Path : public BasePath {
 public:
-    explicit Path(BasePath&&);
+    Path(BasePath&&);
+    Path(const BasePath&);
+    Path(const char*);
+
+    NIU2X_CLASS_DEFAULT_MOVABLE(Path);
+    NIU2X_CLASS_DEFAULT_COPYABLE(Path);
 
     Path();
     ~Path();

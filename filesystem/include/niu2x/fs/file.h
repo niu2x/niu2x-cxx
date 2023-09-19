@@ -25,6 +25,7 @@ public:
     File parent() const;
 
     const Path& path() const { return path_; }
+    const char* c_path() const { return path_.c_str(); }
 
 private:
     Path path_;

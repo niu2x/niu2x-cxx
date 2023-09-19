@@ -21,6 +21,7 @@ build-static-library:
 build-test-app:
 	cmake -S test-app -Bbuild-test-app-static \
 		-Dniu2x_filesystem_DIR=$$PWD/build-static/dist/lib/cmake/niu2x \
+		-Dniu2x_stream_DIR=$$PWD/build-static/dist/lib/cmake/niu2x \
 		-Dniu2x_core_DIR=$$PWD/build-static/dist/lib/cmake/niu2x
 	cmake --build build-test-app-static
 

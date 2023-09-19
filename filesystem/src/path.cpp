@@ -9,6 +9,16 @@ Path::Path(BasePath&& path)
 {
 }
 
+Path::Path(const BasePath& path)
+: BasePath(path)
+{
+}
+
+Path::Path(const char* path)
+: BasePath(path)
+{
+}
+
 Path::~Path() { }
 
 } // namespace niu2x::fs
