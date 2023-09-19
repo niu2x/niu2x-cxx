@@ -5,7 +5,7 @@ namespace niu2x::fs {
 Path::Path() { }
 
 Path::Path(const String& path)
-: String(path)
+: BasePath(path)
 {
 }
 

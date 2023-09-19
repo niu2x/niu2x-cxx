@@ -1,14 +1,17 @@
 #ifndef NIU2X_FS_PATH_H
 #define NIU2X_FS_PATH_H
 
+#include <filesystem>
 #include <niu2x/type.h>
 
 namespace niu2x::fs {
 
-class NXAPI Path : public String {
+using BasePath = std::filesystem::path;
+
+class NXAPI Path : public BasePath {
 public:
+    explicit Path(const String&);
     Path();
-    Path(const String&);
     ~Path();
 };
 

@@ -1,4 +1,4 @@
-all: build-library build-app
+all: build-library build-test-app
 
 build-library: build-shared-library build-static-library
 
@@ -18,10 +18,10 @@ build-static-library:
 	cmake --build build-static;
 	cmake --install build-static --prefix dist-static;
 
-build-app:
-	cmake -S app -Bbuild-app \
+build-test-app:
+	cmake -S test-app -Bbuild-test-app-static \
 		-Dniu2x_filesystem_DIR=$$PWD/dist-static/lib/cmake/niu2x \
 		-Dniu2x_core_DIR=$$PWD/dist-static/lib/cmake/niu2x
-	cmake --build build-app
+	cmake --build build-test-app-static
 
 .PHONY: 
