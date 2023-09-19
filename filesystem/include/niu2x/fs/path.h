@@ -10,9 +10,12 @@ using BasePath = std::filesystem::path;
 
 class NXAPI Path : public BasePath {
 public:
-    explicit Path(const String&);
+    explicit Path(BasePath&&);
+
     Path();
     ~Path();
+
+    Path parent() const { return Path(parent_path()); }
 };
 
 }; // namespace niu2x::fs
