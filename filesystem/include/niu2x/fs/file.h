@@ -11,6 +11,7 @@ namespace niu2x::fs {
 class File {
 public:
     explicit File(const Path& path);
+    explicit File(Path&& path);
     ~File();
 
     NIU2X_CLASS_DEFAULT_COPYABLE(File);
