@@ -15,6 +15,7 @@ NXAPI bool is_directory(const Path& path);
 NXAPI void touch(const Path& path);
 NXAPI void create_dir(const Path& path);
 NXAPI void ensure_dirs(const Path& path);
+
 } // namespace niu2x::fs
 
 #endif

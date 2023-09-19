@@ -8,7 +8,7 @@ build-shared-library:
 		-DBUILD_SHARED_LIBS=ON \
 		-DCMAKE_BUILD_TYPE=Release;
 	cmake --build build-shared;
-	cmake --install build-shared --prefix dist-shared;
+	cmake --install build-shared --prefix build-shared/dist;
 
 build-static-library:
 	cmake -S. \
@@ -16,12 +16,12 @@ build-static-library:
 		-DBUILD_SHARED_LIBS=OFF \
 		-DCMAKE_BUILD_TYPE=Release;
 	cmake --build build-static;
-	cmake --install build-static --prefix dist-static;
+	cmake --install build-static --prefix build-static/dist/
 
 build-test-app:
 	cmake -S test-app -Bbuild-test-app-static \
-		-Dniu2x_filesystem_DIR=$$PWD/dist-static/lib/cmake/niu2x \
-		-Dniu2x_core_DIR=$$PWD/dist-static/lib/cmake/niu2x
+		-Dniu2x_filesystem_DIR=$$PWD/build-static/dist/lib/cmake/niu2x \
+		-Dniu2x_core_DIR=$$PWD/build-static/dist/lib/cmake/niu2x
 	cmake --build build-test-app-static
 
 .PHONY: 
