@@ -14,7 +14,8 @@ endif()
 
 set(CMAKE_CXX_STANDARD 17)
 
-configure_file(${CMAKE_CURRENT_SOURCE_DIR}/build_config.h.in 
-    include/build_time/build_config.h)
+configure_file(build_config.h.in include/build_time/build_config.h)
+
 add_subdirectory(core)
 add_subdirectory(filesystem)
+

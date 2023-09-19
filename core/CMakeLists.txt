@@ -17,6 +17,11 @@ generate_export_header(niu2x_core
     INCLUDE_GUARD_NAME NXAPI_H
 )
 
-install(FILES ${CMAKE_CURRENT_BINARY_DIR}/include/niu2x/api.h 
+configure_file(version.h.in include/niu2x/config.h @ONLY)
+
+install(
+    FILES 
+        ${CMAKE_CURRENT_BINARY_DIR}/include/niu2x/api.h 
+        ${CMAKE_CURRENT_BINARY_DIR}/include/niu2x/config.h 
 	DESTINATION include/niu2x/
 )
