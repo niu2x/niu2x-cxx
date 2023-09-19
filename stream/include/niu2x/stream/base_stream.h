@@ -1,0 +1,4 @@
+#ifndef NIU2X_STREAM_BASE_STREAM_H
+#define NIU2X_STREAM_BASE_STREAM_H
+
+#endif
