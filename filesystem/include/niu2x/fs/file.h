@@ -14,6 +14,9 @@ public:
 
     bool exists();
     void touch();
+    void create_dir();
+    void ensure_dirs();
+    void remove();
 
     const Path& path() const { return path_; }
 

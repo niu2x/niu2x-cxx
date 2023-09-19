@@ -13,3 +13,6 @@ target_link_libraries(make_dir PRIVATE niu2x_filesystem)
 
 add_executable(make_dirs "make_dirs.cpp")
 target_link_libraries(make_dirs PRIVATE niu2x_filesystem)
+
+add_executable(remove "remove.cpp")
+target_link_libraries(remove PRIVATE niu2x_filesystem)
