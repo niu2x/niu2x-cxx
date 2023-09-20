@@ -10,16 +10,16 @@ public:
     MD5();
     ~MD5();
     void reset();
-    void update(void* data, size_t size);
+    void update(const void* data, size_t size);
+    void finalize();
 
 private:
-    union {
-        uint8_t buf[64];
-        uint32_t buf_w[16];
-    } buf_;
-    uint32_t hash_[4];
-    uint32_t len_high_;
-    uint32_t len_low_;
+    uint64_t size_; // Size of input in bytes
+    uint32_t buffer_[4]; // Current accumulation of hash
+    uint8_t input_[64]; // Input to be used in the next step
+    uint8_t digest_[16]; // Result of algorithm
+
+    void step(uint32_t* buffer, const uint32_t* input);
 };
 
 } // namespace niu2x::crypto

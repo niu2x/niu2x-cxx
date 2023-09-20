@@ -19,7 +19,7 @@ public:
     BaseWriteStream();
     virtual ~BaseWriteStream();
     virtual void write(const void* buf, size_t size) = 0;
-    virtual void flush() { }
+    virtual void finalize() { }
 };
 
 } // namespace niu2x::stream
