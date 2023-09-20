@@ -7,7 +7,7 @@
 namespace niu2x {
 
 NXAPI void throw_os_err();
-
+NXAPI void throw_runtime_err(const String& err);
 };
 
 #endif

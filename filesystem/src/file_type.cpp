@@ -16,7 +16,7 @@ FileType file_type(const Path& path)
         throw_os_err();
     }
 
-    FileType ft;
+    FileType ft = FileType::NONE;
     switch ((sb.st_mode & S_IFMT)) {
         case S_IFSOCK: {
             ft = FileType::SOCKET;

@@ -18,4 +18,6 @@ void throw_os_err()
 #endif
 }
 
+void throw_runtime_err(const String& err) { throw RuntimeError(err); }
+
 } // namespace niu2x

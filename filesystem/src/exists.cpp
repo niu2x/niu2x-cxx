@@ -9,7 +9,7 @@
 
 namespace niu2x::fs {
 
-bool exist(const Path& path)
+bool exists(const Path& path)
 {
 #if NIU2X_USE_POSIX
     return access(path.c_str(), F_OK) == 0;

@@ -31,6 +31,7 @@ function(library_init LIB_NAME)
     target_link_directories(${LIB_NAME} PUBLIC
         $<INSTALL_INTERFACE:lib> 
     )
+
 endfunction()
 
 

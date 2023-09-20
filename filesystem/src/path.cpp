@@ -4,8 +4,18 @@ namespace niu2x::fs {
 
 Path::Path() { }
 
-Path::Path(const String& path)
-: String(path)
+Path::Path(BasePath&& path)
+: BasePath(std::move(path))
+{
+}
+
+Path::Path(const BasePath& path)
+: BasePath(path)
+{
+}
+
+Path::Path(const char* path)
+: BasePath(path)
 {
 }
 

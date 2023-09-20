@@ -7,6 +7,8 @@ namespace niu2x {
 
 class NXAPI Noncopyable {
 public:
+    Noncopyable() { }
+    ~Noncopyable() { }
     Noncopyable(const Noncopyable&) = delete;
     Noncopyable& operator=(const Noncopyable&) = delete;
 };
