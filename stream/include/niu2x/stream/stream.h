@@ -6,18 +6,18 @@
 
 namespace niu2x::stream {
 
-class NXAPI BaseReadStream : private Noncopyable {
+class NXAPI ReadStream : private Noncopyable {
 public:
-    BaseReadStream();
-    virtual ~BaseReadStream();
+    ReadStream();
+    virtual ~ReadStream();
     virtual size_t read(void* buf, size_t size) = 0;
     virtual bool eof() = 0;
 };
 
-class NXAPI BaseWriteStream : private Noncopyable {
+class NXAPI WriteStream : private Noncopyable {
 public:
-    BaseWriteStream();
-    virtual ~BaseWriteStream();
+    WriteStream();
+    virtual ~WriteStream();
     virtual void write(const void* buf, size_t size) = 0;
     virtual void finalize() { }
 };

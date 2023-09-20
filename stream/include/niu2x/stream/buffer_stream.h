@@ -2,11 +2,11 @@
 #define NIU2X_STREAM_BUFFER_STREAM_H
 
 #include <niu2x/type.h>
-#include <niu2x/stream/base_stream.h>
+#include <niu2x/stream/stream.h>
 
 namespace niu2x::stream {
 
-class NXAPI BufferReadStream : public BaseReadStream {
+class NXAPI BufferReadStream : public ReadStream {
 public:
     BufferReadStream(const Buffer& buffer);
     virtual ~BufferReadStream();
@@ -18,7 +18,7 @@ private:
     size_t read_pos_;
 };
 
-class NXAPI BufferWriteStream : public BaseWriteStream {
+class NXAPI BufferWriteStream : public WriteStream {
 public:
     BufferWriteStream(const Buffer& buffer);
     virtual ~BufferWriteStream();

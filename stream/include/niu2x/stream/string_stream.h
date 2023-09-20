@@ -1,11 +1,11 @@
 #ifndef NIU2X_STREAM_FILE_STREAM_H
 #define NIU2X_STREAM_FILE_STREAM_H
 
-#include <niu2x/stream/base_stream.h>
+#include <niu2x/stream/stream.h>
 
 namespace niu2x::stream {
 
-class NXAPI StringReadStream : public BaseReadStream {
+class NXAPI StringReadStream : public ReadStream {
 public:
     StringReadStream(const fs::File& file);
     virtual ~StringReadStream();
@@ -16,7 +16,7 @@ private:
     String sz_;
 };
 
-class NXAPI StringWriteStream : public BaseWriteStream {
+class NXAPI StringWriteStream : public WriteStream {
 public:
     StringWriteStream(const fs::File& file);
     virtual ~StringWriteStream();

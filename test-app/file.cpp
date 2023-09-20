@@ -14,7 +14,7 @@ int main(int argc, char* argv[])
     stream::BufferWriteStream os(buffer);
     os.write("hello stream", 12);
 
-    auto msg = buffer.string();
+    auto msg = buffer.str();
 
     output.write(msg.c_str(), msg.size());
 

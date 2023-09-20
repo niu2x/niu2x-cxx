@@ -23,9 +23,13 @@ template <class T>
 using SharedPtr = std::shared_ptr<T>;
 
 template <class T>
+using UniquePtr = std::unique_ptr<T>;
+
+template <class T>
 using Vector = std::vector<T>;
 
 using std::make_shared;
+using std::make_unique;
 using std::max;
 using std::min;
 

@@ -3,6 +3,7 @@ project(NIU2X_TEST_APP)
 set(CMAKE_CXX_STANDARD 17)
 
 find_package(niu2x_core REQUIRED)
+find_package(niu2x_crypto REQUIRED)
 find_package(niu2x_filesystem REQUIRED)
 find_package(niu2x_stream REQUIRED)
 
@@ -20,3 +21,6 @@ target_link_libraries(remove PRIVATE niu2x_filesystem)
 
 add_executable(file "file.cpp")
 target_link_libraries(file PRIVATE niu2x_stream)
+
+add_executable(md5 "md5.cpp")
+target_link_libraries(md5 PRIVATE niu2x_stream)

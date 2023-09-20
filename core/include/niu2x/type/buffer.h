@@ -22,7 +22,7 @@ public:
 
     void resize(size_t s) { buf_->resize(s); }
 
-    String string() const { return String(buf_->begin(), buf_->end()); }
+    String str() const { return String(buf_->begin(), buf_->end()); }
 
 private:
     SharedPtr<MemBlock> buf_;

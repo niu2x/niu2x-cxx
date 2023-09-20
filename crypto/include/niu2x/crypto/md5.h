@@ -12,6 +12,7 @@ public:
     void reset();
     void update(const void* data, size_t size);
     void finalize();
+    const uint8_t* digest() const { return digest_; }
 
 private:
     uint64_t size_; // Size of input in bytes
