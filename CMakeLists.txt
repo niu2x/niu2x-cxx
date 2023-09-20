@@ -12,11 +12,12 @@ elseif(CMAKE_SYSTEM_NAME STREQUAL "Windows")
     set(NIU2X_USE_WINAPI ON)    
 endif()
 
-set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD 23)
 
 configure_file(build_config.h.in include/build_time/build_config.h)
 
 add_subdirectory(core)
 add_subdirectory(filesystem)
+add_subdirectory(crypto)
 add_subdirectory(stream)
 
