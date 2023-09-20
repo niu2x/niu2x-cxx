@@ -11,20 +11,26 @@ class Buffer {
 public:
     using MemBlock = Vector<uint8_t>;
 
-    Buffer(size_t capacity = 0);
+    Buffer(size_t size = 0);
     ~Buffer();
     NIU2X_CLASS_DEFAULT_COPYABLE(Buffer);
 
-    void write(const void* data, size_t size);
-    size_t read(void* data, size_t size);
+    void write(const void* data, off_t offset, size_t size);
+    void read(void* data, off_t offset, size_t size) const;
 
-    void reset_write();
-    void reset_read();
+    size_t size() const { return buf_->size(); }
+
+    void resize(size_t s) { buf_->resize(s); }
+
+    // void reset_write();
+    // void reset_read();
+    // bool eof() const;
 
 private:
     SharedPtr<MemBlock> buf_;
-    size_t write_pos_;
-    size_t read_pos_;
+    // size_t write_pos_;
+    // size_t read_pos_;
+    // size_t size_;
 };
 
 }; // namespace niu2x

@@ -6,7 +6,7 @@ build-shared-library:
 	cmake -S. \
 		-Bbuild-shared \
 		-DBUILD_SHARED_LIBS=ON \
-		-DCMAKE_BUILD_TYPE=Release;
+		-DCMAKE_BUILD_TYPE=Debug;
 	cmake --build build-shared -j2;
 	cmake --install build-shared --prefix build-shared/dist;
 
@@ -14,7 +14,7 @@ build-static-library:
 	cmake -S. \
 		-Bbuild-static \
 		-DBUILD_SHARED_LIBS=OFF \
-		-DCMAKE_BUILD_TYPE=Release;
+		-DCMAKE_BUILD_TYPE=Debug;
 	cmake --build build-static -j2;
 	cmake --install build-static --prefix build-static/dist/
 

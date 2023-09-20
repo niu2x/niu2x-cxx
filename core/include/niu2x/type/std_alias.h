@@ -26,6 +26,8 @@ template <class T>
 using Vector = std::vector<T>;
 
 using std::make_shared;
+using std::max;
+using std::min;
 
 } // namespace niu2x
 

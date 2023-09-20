@@ -4,41 +4,27 @@ namespace niu2x {
 
 Buffer::Buffer(size_t capacity)
 : buf_(make_shared<MemBlock>())
-, write_pos_(0)
-, read_pos_(0)
+
 {
     buf_->resize(capacity);
 }
 
 Buffer::~Buffer() { }
 
-void Buffer::write(const void* data, size_t size)
+// bool Buffer::eof() const { return read_pos_ >= size_; }
+
+void Buffer::write(const void* data, off_t offset, size_t size)
 {
-    size_t new_size = size + write_pos_;
-    if (new_size > buf_->size()) {
-        buf_->resize(new_size);
-    }
-    memcpy(buf_->data() + write_pos_, data, size);
-    write_pos_ += size;
+    assert(size + offset <= buf_->size());
+    memcpy(buf_->data() + offset, data, size);
 }
 
-size_t Buffer::read(void* data, size_t size)
+void Buffer::read(void* data, off_t offset, size_t size) const
 {
-    if (write_pos_ <= read_pos_)
-        return 0;
+    assert(offset >= 0);
+    assert(buf_->size() - offset >= size);
 
-    auto data_size = write_pos_ - read_pos_;
-    size = std::min(data_size, size);
-
-    if (size) {
-        memcpy(data, buf_->data() + read_pos_, size);
-        read_pos_ += size;
-    }
-
-    return size;
+    memcpy(data, buf_->data() + offset, size);
 }
-
-void Buffer::reset_write() { write_pos_ = 0; }
-void Buffer::reset_read() { read_pos_ = 0; }
 
 } // namespace niu2x
