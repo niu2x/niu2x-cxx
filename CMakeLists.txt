@@ -1,14 +1,23 @@
 cmake_minimum_required(VERSION 3.13.0 FATAL_ERROR)
-project(NIU2X_NXC VERSION 0.1.2 LANGUAGES CXX C)
+project(NIU2X_CXX_LIBRARY VERSION 1.0.0 LANGUAGES CXX C)
 
 list(APPEND CMAKE_MODULE_PATH ${CMAKE_CURRENT_LIST_DIR}/cmake)
-include(ExternalDeps)
+# include(external_deps)
 include(warning_as_error)
+include(library)
 
-set(CMAKE_CXX_STANDARD 17)
-add_subdirectory(nxc)
-
-if(${NXC_BUILD_TEST})
-	enable_testing()
-	add_subdirectory(tests)
+if(CMAKE_SYSTEM_NAME STREQUAL "Linux")
+    set(NIU2X_USE_POSIX ON)    
+elseif(CMAKE_SYSTEM_NAME STREQUAL "Windows")
+    set(NIU2X_USE_WINAPI ON)    
 endif()
+
+set(CMAKE_CXX_STANDARD 23)
+
+configure_file(build_config.h.in include/build_time/build_config.h)
+
+add_subdirectory(core)
+add_subdirectory(filesystem)
+add_subdirectory(crypto)
+add_subdirectory(stream)
+

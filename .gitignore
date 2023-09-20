@@ -1,6 +1,7 @@
 # Myself
 build
 build-*
+dist-*
 
 # Prerequisites
 *.d
