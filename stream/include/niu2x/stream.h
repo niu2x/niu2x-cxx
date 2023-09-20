@@ -4,5 +4,6 @@
 #include <niu2x/stream/base_stream.h>
 #include <niu2x/stream/file_stream.h>
 #include <niu2x/stream/string_stream.h>
+#include <niu2x/stream/buffer_stream.h>
 
 #endif

@@ -22,15 +22,10 @@ public:
 
     void resize(size_t s) { buf_->resize(s); }
 
-    // void reset_write();
-    // void reset_read();
-    // bool eof() const;
+    String string() const { return String(buf_->begin(), buf_->end()); }
 
 private:
     SharedPtr<MemBlock> buf_;
-    // size_t write_pos_;
-    // size_t read_pos_;
-    // size_t size_;
 };
 
 }; // namespace niu2x

@@ -11,8 +11,6 @@ Buffer::Buffer(size_t capacity)
 
 Buffer::~Buffer() { }
 
-// bool Buffer::eof() const { return read_pos_ >= size_; }
-
 void Buffer::write(const void* data, off_t offset, size_t size)
 {
     assert(size + offset <= buf_->size());
