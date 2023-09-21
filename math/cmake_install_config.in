@@ -1,0 +1,2 @@
+@PACKAGE_INIT@
+include ("/niu2x_math-targets.cmake" )

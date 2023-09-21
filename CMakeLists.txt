@@ -20,4 +20,4 @@ add_subdirectory(core)
 add_subdirectory(filesystem)
 add_subdirectory(crypto)
 add_subdirectory(stream)
-
+add_subdirectory(math)
