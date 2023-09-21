@@ -5,21 +5,30 @@ using namespace niu2x;
 
 int main(int argc, char* argv[])
 {
-    fs::File input_file(argv[1]);
+
+    fs::File input_file(argv[2]);
     stream::FileReadStream ins(input_file);
 
     Buffer buffer;
     stream::BufferWriteStream outs(buffer);
-    stream::WriteFilter md5_filter(stream::FilterType::MD5, &outs);
+
+    stream::FilterType alg;
+    String alg_name = argv[1];
+    if (alg_name == "md5")
+        alg = stream::FilterType::MD5;
+    else if (alg_name == "sha256")
+        alg = stream::FilterType::SHA256;
+
+    stream::WriteFilter filter(alg, &outs);
 
     uint8_t block[1024];
     while (!ins.eof()) {
         auto size = ins.read(block, 1024);
         if (size > 0) {
-            md5_filter.write(block, size);
+            filter.write(block, size);
         }
     }
-    md5_filter.finalize();
+    filter.finalize();
 
     printf("%s\n", buffer.str().c_str());
 
