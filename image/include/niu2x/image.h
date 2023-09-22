@@ -9,12 +9,12 @@ class NXAPI Image : public Resource {
 public:
     Image();
     virtual ~Image();
-    virtual void store_to(WriteStream* src) override;
+    virtual void store_to(WriteStream* dest) override;
     virtual void load_from(ReadStream* src) override;
 
 private:
-    uint16_t width_;
-    uint16_t height_;
+    IntSize size_;
+    // int channel_;
     std::vector<Color> pixels_;
 };
 

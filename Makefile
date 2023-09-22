@@ -12,7 +12,7 @@ build-debug-shared-library:
 		-Bbuild/shared/debug \
 		-DBUILD_SHARED_LIBS=ON \
 		-DCMAKE_BUILD_TYPE=Debug;
-	cmake --build build/shared/debug -j2;
+	cmake --build build/shared/debug -j;
 	cmake --install build/shared/debug --prefix build/shared/debug/dist;
 
 build-debug-static-library:
@@ -20,7 +20,7 @@ build-debug-static-library:
 		-Bbuild/static/debug \
 		-DBUILD_SHARED_LIBS=OFF \
 		-DCMAKE_BUILD_TYPE=Debug;
-	cmake --build build/static/debug -j2;
+	cmake --build build/static/debug -j;
 	cmake --install build/static/debug --prefix build/static/debug/dist/
 
 build-release-shared-library:
@@ -28,7 +28,7 @@ build-release-shared-library:
 		-Bbuild/shared/release \
 		-DBUILD_SHARED_LIBS=ON \
 		-DCMAKE_BUILD_TYPE=Release;
-	cmake --build build/shared/release -j2;
+	cmake --build build/shared/release -j;
 	cmake --install build/shared/release --prefix build/shared/release/dist;
 
 build-release-static-library:
@@ -36,7 +36,7 @@ build-release-static-library:
 		-Bbuild/static/release \
 		-DBUILD_SHARED_LIBS=OFF \
 		-DCMAKE_BUILD_TYPE=Release;
-	cmake --build build/static/release -j2;
+	cmake --build build/static/release -j;
 	cmake --install build/static/release --prefix build/static/release/dist/
 
 build-test-debug-app:
@@ -45,8 +45,9 @@ build-test-debug-app:
 		-Dniu2x_stream_DIR=$$PWD/build/static/debug/dist/lib/cmake/niu2x \
 		-Dniu2x_crypto_DIR=$$PWD/build/static/debug/dist/lib/cmake/niu2x \
 		-Dniu2x_core_DIR=$$PWD/build/static/debug/dist/lib/cmake/niu2x \
+		-Dniu2x_image_DIR=$$PWD/build/static/debug/dist/lib/cmake/niu2x \
 		-DCMAKE_BUILD_TYPE=Debug;
-	cmake --build build/test-app-static/debug
+	cmake --build build/test-app-static/debug -j
 
 
 build-test-release-app:
@@ -54,9 +55,10 @@ build-test-release-app:
 		-Dniu2x_filesystem_DIR=$$PWD/build/static/release/dist/lib/cmake/niu2x \
 		-Dniu2x_stream_DIR=$$PWD/build/static/release/dist/lib/cmake/niu2x \
 		-Dniu2x_crypto_DIR=$$PWD/build/static/release/dist/lib/cmake/niu2x \
+		-Dniu2x_image_DIR=$$PWD/build/static/release/dist/lib/cmake/niu2x \
 		-Dniu2x_core_DIR=$$PWD/build/static/release/dist/lib/cmake/niu2x \
 		-DCMAKE_BUILD_TYPE=Release;
-	cmake --build build/test-app-static/release
+	cmake --build build/test-app-static/release -j
 
 
 

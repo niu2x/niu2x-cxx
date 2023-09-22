@@ -23,6 +23,16 @@
 namespace niu2x {
 inline void unused(...) { }
 
+template <class T>
+struct Size {
+    T width;
+    T height;
+
+    T area() const { return width * height; }
+};
+
+using IntSize = Size<int>;
+
 } // namespace niu2x
 
 #endif

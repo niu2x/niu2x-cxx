@@ -22,6 +22,9 @@ public:
     virtual void finalize() { }
 };
 
+NXAPI void pipe(
+    ReadStream* reader, WriteStream* writer, bool auto_finalize = true);
+
 } // namespace niu2x
 
 #endif

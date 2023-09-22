@@ -6,6 +6,7 @@ find_package(niu2x_core REQUIRED)
 find_package(niu2x_crypto REQUIRED)
 find_package(niu2x_filesystem REQUIRED)
 find_package(niu2x_stream REQUIRED)
+find_package(niu2x_image REQUIRED)
 
 add_executable(touch "touch.cpp")
 target_link_libraries(touch PRIVATE niu2x_filesystem)
@@ -24,3 +25,6 @@ target_link_libraries(file PRIVATE niu2x_stream)
 
 add_executable(digest "digest.cpp")
 target_link_libraries(digest PRIVATE niu2x_stream)
+
+add_executable(image "image.cpp")
+target_link_libraries(image PRIVATE niu2x_image)

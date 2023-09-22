@@ -10,7 +10,7 @@ mkdir -p ${lib_name}/src
 
 cat <<EOF > ${lib_name}/cmake_install_config.in
 @PACKAGE_INIT@
-include ("${CMAKE_CURRENT_LIST_DIR}/niu2x_${lib_name}-targets.cmake" )
+include ("\${CMAKE_CURRENT_LIST_DIR}/niu2x_${lib_name}-targets.cmake" )
 EOF
 
 

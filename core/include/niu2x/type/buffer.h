@@ -20,6 +20,10 @@ public:
 
     size_t size() const { return buf_->size(); }
 
+    const uint8_t* data() const { return buf_->data(); }
+
+    uint8_t* data() { return buf_->data(); }
+
     void resize(size_t s) { buf_->resize(s); }
 
     String str() const { return String(buf_->begin(), buf_->end()); }
