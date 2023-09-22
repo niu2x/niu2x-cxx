@@ -12,5 +12,5 @@ library_init(niu2x_image)
 library_install(niu2x_image)
 
 target_link_libraries(niu2x_image PUBLIC 
-    niu2x_core
+    niu2x_stream
 )
