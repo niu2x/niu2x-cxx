@@ -1,4 +1,7 @@
 #include <niu2x/type/color.h>
+#include <niu2x/type/std_alias.h>
+
+#define NIU2X_COLOR_CLAMP(n) max(min((int)(n), 255), 0)
 
 namespace niu2x {
 
@@ -18,10 +21,24 @@ Color::Color()
 }
 
 Color::Color(const ColorF c)
-: : r(c.r * 255)
-    , g(c.g * 255)
-    , b(c.b * 255)
-    , a(255)
+: r(NIU2X_COLOR_CLAMP(c.r * 255))
+, g(NIU2X_COLOR_CLAMP(c.g * 255))
+, b(NIU2X_COLOR_CLAMP(c.b * 255))
+, a(255)
+{
+}
+
+ColorF::ColorF(double r, double g, double b)
+: r(r)
+, g(g)
+, b(b)
+{
+}
+
+ColorF::ColorF()
+: r(0)
+, g(0)
+, b(0)
 {
 }
 

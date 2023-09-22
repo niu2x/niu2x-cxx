@@ -7,6 +7,7 @@ find_package(niu2x_crypto REQUIRED)
 find_package(niu2x_filesystem REQUIRED)
 find_package(niu2x_stream REQUIRED)
 find_package(niu2x_image REQUIRED)
+find_package(niu2x_math REQUIRED)
 find_package(niu2x_painter REQUIRED)
 
 add_executable(touch "touch.cpp")
