@@ -2,7 +2,6 @@
 #define NIU2X_STREAM_FILTER_H
 
 #include <niu2x/type.h>
-#include <niu2x/stream/stream.h>
 #include <niu2x/stream/filter_algorithm.h>
 #include <niu2x/stream/filter_type.h>
 

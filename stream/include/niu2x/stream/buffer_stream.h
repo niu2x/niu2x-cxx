@@ -2,7 +2,6 @@
 #define NIU2X_STREAM_BUFFER_STREAM_H
 
 #include <niu2x/type.h>
-#include <niu2x/stream/stream.h>
 
 namespace niu2x::stream {
 

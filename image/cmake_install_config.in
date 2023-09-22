@@ -1,0 +1,2 @@
+@PACKAGE_INIT@
+include ("/niu2x_image-targets.cmake" )

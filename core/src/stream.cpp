@@ -1,6 +1,6 @@
-#include <niu2x/stream/stream.h>
+#include <niu2x/type/stream.h>
 
-namespace niu2x::stream {
+namespace niu2x {
 
 ReadStream::ReadStream() { }
 ReadStream::~ReadStream() { }
@@ -8,4 +8,4 @@ ReadStream::~ReadStream() { }
 WriteStream::WriteStream() { }
 WriteStream::~WriteStream() { }
 
-} // namespace niu2x::stream
+} // namespace niu2x
