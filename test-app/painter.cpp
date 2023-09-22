@@ -10,7 +10,7 @@ int main()
     image::Image canvas;
     canvas.reset(512, 512, Color::WHITE);
 
-    auto painter = painter::Painter::create(painter::PainterType::LEARNING_0_1);
+    auto painter = painter::Painter::create(painter::PainterType::RAY_TRACE);
     painter->paint(&canvas);
 
     fs::File canvas_file("test.png");

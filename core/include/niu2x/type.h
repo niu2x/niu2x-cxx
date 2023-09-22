@@ -32,6 +32,7 @@ struct Size {
 };
 
 using IntSize = Size<int>;
+using DoubleSize = Size<double>;
 
 } // namespace niu2x
 

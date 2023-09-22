@@ -13,4 +13,5 @@ library_install(niu2x_painter)
 
 target_link_libraries(niu2x_painter PUBLIC 
     niu2x_image
+    niu2x_math
 )
