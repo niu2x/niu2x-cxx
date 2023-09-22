@@ -28,6 +28,13 @@ RayTracePainter::RayTracePainter()
 }
 
 RayTracePainter::~RayTracePainter() { }
+
+static Color ray_color(const math::Ray& ray)
+{
+    auto a = 0.5 * (ray.direction().y + 1.0);
+    return (1.0 - a) * ColorF(1.0, 1.0, 1.0) + a * ColorF(0.5, 0.7, 1.0);
+}
+
 void RayTracePainter::paint(Image* image)
 {
     auto ray_origin = camera_.pos;
@@ -41,7 +48,8 @@ void RayTracePainter::paint(Image* image)
                 (row + 0.5) / image_size.height - 0.5, 0 };
             pixel_pos += screen_center;
             auto ray_dir = normalize(pixel_pos - ray_origin);
-            auto ray = Ray(ray_origin, ray_dir);
+            auto ray = math::Ray(ray_origin, ray_dir);
+            image->set_pixel(row, col, ray_color(ray));
         }
     }
 }

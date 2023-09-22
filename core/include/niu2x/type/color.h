@@ -6,9 +6,22 @@
 
 namespace niu2x {
 
-struct Color {
-    union {
+struct NXAPI ColorF {
+    float r, g, b;
 
+    ColorF operator*(float scale)
+    {
+        return ColorF(r * scale, g * scale, b * scale);
+    }
+
+    ColorF operator+(const ColorF& other)
+    {
+        return ColorF(r + other.r, g + other.g, b + other.b);
+    }
+};
+
+struct NXAPI Color {
+    union {
         struct {
             uint8_t r, g, b, a;
         };
@@ -16,7 +29,7 @@ struct Color {
     };
 
     Color(uint8_t r, uint8_t g, uint8_t b, uint8_t a);
-    Color();
+    Color(const ColorF c);
 
     static const Color WHITE;
 };
