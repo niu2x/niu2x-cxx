@@ -8,7 +8,7 @@
 
 namespace niu2x::fs {
 
-class File {
+class NXAPI File {
 public:
     explicit File(const Path& path);
     explicit File(Path&& path);
