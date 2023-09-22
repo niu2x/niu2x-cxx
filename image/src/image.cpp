@@ -33,8 +33,16 @@ static int image_png_encode(
         stbi_write_callback, writer, size.width, size.height, comp, data, 0);
 }
 
+static int image_jpg_encode(
+    WriteStream* writer, IntSize size, int comp, const void* data)
+{
+    return stbi_write_jpg_to_func(
+        stbi_write_callback, writer, size.width, size.height, comp, data, 100);
+}
+
 Image::Image()
 : size_ { .width = 0, .height = 0 }
+, store_format_(Format::PNG)
 // , channel_(0)
 {
 }
@@ -44,7 +52,16 @@ Image::~Image() { }
 void Image::store_to(WriteStream* dest)
 {
     int channels = 4;
-    image_png_encode(dest, size_, channels, pixels_.data());
+    switch (store_format_) {
+        case Format::PNG: {
+            image_png_encode(dest, size_, channels, pixels_.data());
+            break;
+        }
+        case Format::JPG: {
+            image_jpg_encode(dest, size_, channels, pixels_.data());
+            break;
+        }
+    }
 }
 
 void Image::load_from(ReadStream* src)

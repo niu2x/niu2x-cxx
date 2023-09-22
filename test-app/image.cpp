@@ -13,6 +13,7 @@ int main(int argc, char* argv[])
 
     fs::File out_file(argv[2]);
     stream::FileWriteStream image_out(out_file);
+    image.set_store_format(Image::Format::JPG);
     image.store_to(&image_out);
     image_out.finalize();
 
