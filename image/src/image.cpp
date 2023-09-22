@@ -10,7 +10,7 @@
 #define STB_IMAGE_WRITE_IMPLEMENTATION
 #include "stb_image_write.h"
 
-namespace niu2x {
+namespace niu2x::image {
 
 static auto image_decode(
     const Buffer* buffer, IntSize* size, int desired_channels)
@@ -49,6 +49,16 @@ Image::Image()
 
 Image::~Image() { }
 
+void Image::reset(int w, int h, const Color& color)
+{
+    size_ = { .width = w, .height = h };
+    pixels_.resize(size_.area());
+    for (int row = 0; row < h; row++)
+        for (int col = 0; col < w; col++) {
+            set_pixel(row, col, color);
+        }
+}
+
 void Image::store_to(WriteStream* dest)
 {
     int channels = 4;
@@ -85,4 +95,4 @@ void Image::load_from(ReadStream* src)
     stbi_image_free(image_data);
 }
 
-} // namespace niu2x
+} // namespace niu2x::image
