@@ -2,6 +2,7 @@
 #define NIU2X_MATH_RAY_H
 
 #include <niu2x/api.h>
+#include <niu2x/type/std_alias.h>
 #include <niu2x/math/linalg_alias.h>
 
 namespace niu2x::math {
@@ -24,6 +25,36 @@ public:
 private:
     Vec3 origin_;
     Vec3 dir_;
+};
+
+struct NXAPI HitRecord {
+    Vec3 p;
+    Vec3 normal;
+    double t;
+    bool front_face;
+
+    void set_normal(const Vec3& ray, const Vec3& normal);
+};
+
+class NXAPI Hittable {
+public:
+    virtual ~Hittable() = default;
+    virtual Optional<HitRecord> hit(
+        const Ray& r, double min, double max) const = 0;
+};
+
+class NXAPI HittableGroup : public Hittable {
+public:
+    HittableGroup() = default;
+    virtual ~HittableGroup() = default;
+
+    void insert(SharedPtr<Hittable> ptr);
+
+    virtual Optional<HitRecord> hit(
+        const Ray& r, double min, double max) const override;
+
+private:
+    Vector<SharedPtr<Hittable>> objs_;
 };
 
 } // namespace niu2x::math

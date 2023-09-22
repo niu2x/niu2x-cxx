@@ -11,6 +11,7 @@
 #include <thread>
 #include <vector>
 #include <atomic>
+#include <optional>
 
 namespace niu2x {
 
@@ -27,6 +28,9 @@ using UniquePtr = std::unique_ptr<T>;
 
 template <class T>
 using Vector = std::vector<T>;
+
+template <class T>
+using Optional = std::optional<T>;
 
 using std::make_shared;
 using std::make_unique;

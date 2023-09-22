@@ -2,6 +2,7 @@ add_library(niu2x_painter "")
 
 file(GLOB cpp_source 
     "src/*.cpp"
+    "src/ray_trace/*.cpp"
 )
 
 target_sources(niu2x_painter PRIVATE

@@ -1,18 +1,37 @@
 #include <niu2x/painter.h>
 #include <niu2x/math.h>
+#include "ray_trace/sphere.h"
 
 namespace niu2x::painter {
 
 using Vec3 = math::Vec3;
+using Ray = math::Ray;
 
 class RayTracePainter : public Painter {
 public:
+    using Sphere = ray_trace::Sphere;
     struct Camera {
-        DoubleSize size;
+        Camera(const DoubleSize& size, double focal_length)
+        : size(size)
+        , focal_length(focal_length)
+        {
+        }
+
+        const DoubleSize size;
+        const double focal_length;
+
+        void look_at(const Vec3& pos, const Vec3& look, const Vec3& up)
+        {
+            this->pos = pos;
+            this->look = normalize(look);
+            this->side = normalize(cross(this->look, up));
+            this->up = cross(this->side, this->look);
+        }
+
         Vec3 pos;
         Vec3 look;
         Vec3 up;
-        double focal_length;
+        Vec3 side;
     };
 
     RayTracePainter();
@@ -22,6 +41,9 @@ public:
 
 private:
     Camera camera_;
+    math::HittableGroup hittable_objects_;
+
+    Color ray_color(const Ray& ray);
 };
 
 } // namespace niu2x::painter
