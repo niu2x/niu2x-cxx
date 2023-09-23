@@ -17,4 +17,10 @@ double hit_sphere(const Vec3& center, double radius, const Ray& r)
     }
 }
 
+Color to_color(const Vec3& v)
+{
+    return Color(clamp((int)(v.x * 255), 0, 255),
+        clamp((int)(v.y * 255), 0, 255), clamp((int)(v.z * 255), 0, 255), 255);
+}
+
 } // namespace niu2x::math

@@ -2,6 +2,8 @@
 
 namespace niu2x::painter {
 
+using math::to_color;
+
 // const RayTracePainter::Camera default_camera = {
 //     { 4, 3 },
 //     {
@@ -26,27 +28,28 @@ RayTracePainter::RayTracePainter()
 : camera_({ 4, 3 }, 4)
 {
     for (int i = 0; i < 10; i++) {
-        hittable_objects_.insert(make_shared<Sphere>(Vec3(i, 8, 6), 0.5));
-        hittable_objects_.insert(make_shared<Sphere>(Vec3(i, 8, 7), 0.5));
-        hittable_objects_.insert(make_shared<Sphere>(Vec3(i, 8, 8), 0.5));
-        hittable_objects_.insert(make_shared<Sphere>(Vec3(i, 8, 9), 0.5));
+        hittable_objects_.insert(make_shared<Sphere>(Vec3(i, 8, 4), 0.5));
+        hittable_objects_.insert(make_shared<Sphere>(Vec3(i, 8, 1), 0.5));
+        hittable_objects_.insert(make_shared<Sphere>(Vec3(i, 8, 2), 0.5));
     }
 
-    camera_.look_at(Vec3(0, 0, 8), Vec3(0, 1, 0), Vec3(0, 0, 1));
+    hittable_objects_.insert(make_shared<Sphere>(Vec3(0, 8, -40), 40));
+
+    camera_.look_at(Vec3(0, 0, 0), Vec3(0, 1, -0.2), Vec3(0, 0, 1));
 }
 
 RayTracePainter::~RayTracePainter() { }
 
 Color RayTracePainter::ray_color(const Ray& ray)
 {
-    Vec3 light = normalize(Vec3(1, -1, 1));
-    auto hit = hittable_objects_.hit(ray, 0.1, 100);
+    // Vec3 light = normalize(Vec3(1, -1, 1));
+    auto hit = hittable_objects_.hit(ray, 0.1, math::infinity);
     if (hit) {
         auto normal = hit.value().normal;
-        return ColorF(1, 1, 1) * max(dot(light, normal), 0.0);
+        return to_color(0.5 * (normal + Vec3(1, 1, 1)));
     }
     auto a = 0.5 * (ray.direction().z + 1.0);
-    return ColorF(1.0, 1.0, 1.0) * (1.0 - a) + ColorF(0.5, 0.7, 1.0) * a;
+    return to_color(Vec3(1.0, 1.0, 1.0) * (1.0 - a) + Vec3(0.5, 0.7, 1.0) * a);
 }
 
 void RayTracePainter::paint(Image* image)

@@ -6,6 +6,7 @@
 namespace niu2x::painter::ray_trace {
 
 using Vec3 = math::Vec3;
+
 using Hittable = math::Hittable;
 using HitRecord = math::HitRecord;
 using Ray = math::Ray;
