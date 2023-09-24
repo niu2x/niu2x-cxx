@@ -4,26 +4,6 @@ namespace niu2x::painter {
 
 using math::to_color;
 
-// const RayTracePainter::Camera default_camera = {
-//     { 4, 3 },
-//     {
-//         0,
-//         0,
-//         8,
-//     },
-//     {
-//         0,
-//         1,
-//         0,
-//     },
-//     {
-//         0,
-//         0,
-//         1,
-//     },
-//     2,
-// };
-
 RayTracePainter::RayTracePainter()
 : camera_({ 4, 3 }, 4)
 {
@@ -42,7 +22,6 @@ RayTracePainter::~RayTracePainter() { }
 
 Color RayTracePainter::ray_color(const Ray& ray)
 {
-    // Vec3 light = normalize(Vec3(1, -1, 1));
     auto hit = hittable_objects_.hit(ray, 0.1, math::infinity);
     if (hit) {
         auto normal = hit.value().normal;
