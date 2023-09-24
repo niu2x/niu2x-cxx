@@ -4,9 +4,9 @@
 
 namespace niu2x::painter {
 
-using Vec3 = math::Vec3;
-using Ray = math::Ray;
-using DoubleSize = math::DoubleSize;
+using math::DoubleSize;
+using math::Ray;
+using math::Vec3;
 
 class RayTracePainter : public Painter {
 public:

@@ -4,6 +4,7 @@
 #include <niu2x/api.h>
 #include <niu2x/type/std_alias.h>
 #include <niu2x/math/linalg_alias.h>
+#include <niu2x/math/interval.h>
 
 namespace niu2x::math {
 
@@ -40,7 +41,7 @@ class NXAPI Hittable {
 public:
     virtual ~Hittable() = default;
     virtual Optional<HitRecord> hit(
-        const Ray& r, double min, double max) const = 0;
+        const Ray& r, const Interval& ray_interval) const = 0;
 };
 
 class NXAPI HittableGroup : public Hittable {
@@ -51,7 +52,7 @@ public:
     void insert(SharedPtr<Hittable> ptr);
 
     virtual Optional<HitRecord> hit(
-        const Ray& r, double min, double max) const override;
+        const Ray& r, const Interval& ray_interval) const override;
 
 private:
     Vector<SharedPtr<Hittable>> objs_;

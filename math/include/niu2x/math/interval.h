@@ -7,13 +7,13 @@ namespace niu2x::math {
 
 /**
  * @brief       区间 */
-class Interval {
+struct NXAPI Interval {
 public:
     /**
      * @brief       默认构造一个空的区间，不包含任何数 */
     Interval()
-    : min_(+infinity)
-    , max_(-infinity)
+    : min(+infinity)
+    , max(-infinity)
     {
     }
 
@@ -22,8 +22,8 @@ public:
      * @param       min   下界
      * @param       max   上界 */
     Interval(double min, double max)
-    : min_(min)
-    , max_(max)
+    : min(min)
+    , max(max)
     {
     }
 
@@ -31,13 +31,13 @@ public:
      * @brief       判断按[闭]区间考虑的话，是否包含数字x
      * @param       x     一个数字
      * @return      如果包含x，返回true。否则返回false */
-    bool contains(double x) const { return min_ <= x && x <= max_; }
+    bool contains(double x) const { return min <= x && x <= max; }
 
     /**
      * @brief       判断按[开]区间考虑的话，是否包含数字x
      * @param       x     一个数字
      * @return      如果包含x，返回true。否则返回false */
-    bool surrounds(double x) const { return min_ < x && x < max_; }
+    bool surrounds(double x) const { return min < x && x < max; }
 
     /**
      * @brief       空区间
@@ -49,8 +49,7 @@ public:
      */
     static const Interval universe;
 
-private:
-    double min_, max_;
+    double min, max;
 };
 
 } // namespace niu2x::math

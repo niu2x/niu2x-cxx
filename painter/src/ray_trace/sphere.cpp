@@ -9,11 +9,12 @@ Sphere::Sphere(const Vec3& center, double radius)
 {
 }
 
-Optional<HitRecord> Sphere::hit(const Ray& ray, double min, double max) const
+Optional<HitRecord> Sphere::hit(
+    const Ray& ray, const Interval& ray_interval) const
 {
     double t = math::hit_sphere(center_, radius_, ray);
     if (t >= 0) {
-        if (t >= min && t <= max) {
+        if (t >= ray_interval.min && t <= ray_interval.max) {
             HitRecord record;
             record.p = ray.at(t);
             record.t = t;

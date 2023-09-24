@@ -2,6 +2,7 @@
 
 namespace niu2x::painter {
 
+using math::Interval;
 using math::to_color;
 
 RayTracePainter::RayTracePainter()
@@ -22,7 +23,7 @@ RayTracePainter::~RayTracePainter() { }
 
 Color RayTracePainter::ray_color(const Ray& ray)
 {
-    auto hit = hittable_objects_.hit(ray, 0.1, math::infinity);
+    auto hit = hittable_objects_.hit(ray, math::Interval(0.1, math::infinity));
     if (hit) {
         auto normal = hit.value().normal;
         return to_color(0.5 * (normal + Vec3(1, 1, 1)));

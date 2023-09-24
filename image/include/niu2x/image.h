@@ -6,7 +6,7 @@
 
 namespace niu2x::image {
 
-using IntSize = math::IntSize;
+using math::IntSize;
 
 class NXAPI Image : public Resource {
 public:

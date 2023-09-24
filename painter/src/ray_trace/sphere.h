@@ -6,6 +6,7 @@
 namespace niu2x::painter::ray_trace {
 
 using Vec3 = math::Vec3;
+using Interval = math::Interval;
 
 using Hittable = math::Hittable;
 using HitRecord = math::HitRecord;
@@ -17,7 +18,7 @@ public:
     virtual ~Sphere() = default;
 
     virtual Optional<HitRecord> hit(
-        const Ray& r, double min, double max) const override;
+        const Ray& r, const Interval& ray_interval) const override;
 
 private:
     Vec3 center_;

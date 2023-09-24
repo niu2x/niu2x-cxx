@@ -7,7 +7,7 @@
 
 namespace niu2x::painter {
 
-using Image = image::Image;
+using image::Image;
 
 class NXAPI Painter {
 public:
