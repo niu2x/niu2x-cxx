@@ -7,9 +7,13 @@
 namespace niu2x::endian {
 
 /**
- * little
+ * @brief       is true if device is little-endian
  */
 constexpr bool little = std::endian::native == std::endian::little;
+
+/**
+ * @brief       is true if device is big-endian
+ */
 constexpr bool big = std::endian::native == std::endian::big;
 
 } // namespace niu2x::endian

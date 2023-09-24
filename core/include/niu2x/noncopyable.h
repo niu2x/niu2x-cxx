@@ -5,6 +5,8 @@
 
 namespace niu2x {
 
+/**
+ * @brief       Interface of noncopyable classes*/
 class NXAPI Noncopyable {
 public:
     Noncopyable() { }

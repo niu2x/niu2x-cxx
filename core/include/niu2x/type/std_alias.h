@@ -15,26 +15,60 @@
 
 namespace niu2x {
 
+/**
+ * @brief       String
+ */
 using String = std::string;
 using StringBuf = std::stringstream;
 using Exception = std::exception;
+
+/**
+ * @brief       RuntimeError
+ */
 using RuntimeError = std::runtime_error;
 
+/**
+ * @brief       SharedPtr
+ */
 template <class T>
 using SharedPtr = std::shared_ptr<T>;
 
+/**
+ * @brief       UniquePtr
+ */
 template <class T>
 using UniquePtr = std::unique_ptr<T>;
 
+/**
+ * @brief       Vector
+ */
 template <class T>
 using Vector = std::vector<T>;
 
+/**
+ * @brief       Optional
+ */
 template <class T>
 using Optional = std::optional<T>;
 
+/**
+ * @brief       make_shared
+ */
 using std::make_shared;
+
+/**
+ * @brief       make_unique
+ */
 using std::make_unique;
+
+/**
+ * @brief       maximum of two value
+ */
 using std::max;
+
+/**
+ * @brief       minimum of two value
+ */
 using std::min;
 
 } // namespace niu2x

@@ -33,14 +33,29 @@ public:
      * @param       size    size of data */
     void write(const void* data, off_t offset, size_t size);
 
+    /** @brief       get size of Buffer's memory
+     * @return      size of Buffer's memory */
     size_t size() const { return buf_->size(); }
 
+    /**
+     * @brief       get const ptr of Buffer's memory
+     * @return      const ptr of Buffer's memory  */
     const uint8_t* data() const { return buf_->data(); }
 
+    /**
+     * @brief       get ptr of Buffer's memory
+     * @return      ptr of Buffer's memory  */
     uint8_t* data() { return buf_->data(); }
 
+    /**
+     * @brief       resize Buffer's memory
+     * @param       s     new size
+     */
     void resize(size_t s) { buf_->resize(s); }
 
+    /**
+     * @brief       convert Buffer's momory to String
+     * @return      the String */
     String str() const { return String(buf_->begin(), buf_->end()); }
 
 private:
