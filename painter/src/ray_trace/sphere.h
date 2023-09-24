@@ -17,7 +17,7 @@ public:
     Sphere(const Vec3& center, double radius);
     virtual ~Sphere() = default;
 
-    virtual Optional<HitRecord> hit(
+    virtual Maybe<HitRecord> hit(
         const Ray& r, const Interval& ray_interval) const override;
 
 private:

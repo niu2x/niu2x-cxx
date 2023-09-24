@@ -28,8 +28,6 @@ T clamp(const T& n, const T& min, const T& max)
     return n;
 }
 
-NXAPI double hit_sphere(const Vec3& center, double radius, const Ray& r);
-
 inline double deg2rad(double degrees) { return degrees * pi / 180.0; }
 
 NXAPI Color to_color(const Vec3& v);

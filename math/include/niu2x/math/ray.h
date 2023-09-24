@@ -40,7 +40,7 @@ struct NXAPI HitRecord {
 class NXAPI Hittable {
 public:
     virtual ~Hittable() = default;
-    virtual Optional<HitRecord> hit(
+    virtual Maybe<HitRecord> hit(
         const Ray& r, const Interval& ray_interval) const = 0;
 };
 
@@ -51,7 +51,7 @@ public:
 
     void insert(SharedPtr<Hittable> ptr);
 
-    virtual Optional<HitRecord> hit(
+    virtual Maybe<HitRecord> hit(
         const Ray& r, const Interval& ray_interval) const override;
 
 private:

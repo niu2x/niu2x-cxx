@@ -10,11 +10,11 @@ void HitRecord::set_normal(const Vec3& ray, const Vec3& normal)
 
 void HittableGroup::insert(SharedPtr<Hittable> ptr) { objs_.push_back(ptr); }
 
-Optional<HitRecord> HittableGroup::hit(
+Maybe<HitRecord> HittableGroup::hit(
     const Ray& ray, const Interval& ray_interval) const
 {
 
-    Optional<HitRecord> rec;
+    Maybe<HitRecord> rec;
     auto closest_so_far = ray_interval;
 
     for (const auto& object : objs_) {

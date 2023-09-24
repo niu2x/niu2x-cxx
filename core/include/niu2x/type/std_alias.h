@@ -49,7 +49,7 @@ using Vector = std::vector<T>;
  * @brief       Optional
  */
 template <class T>
-using Optional = std::optional<T>;
+using Maybe = std::optional<T>;
 
 /**
  * @brief       make_shared

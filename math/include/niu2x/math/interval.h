@@ -1,6 +1,7 @@
 #ifndef NIU2X_MATH_INTERVAL_H
 #define NIU2X_MATH_INTERVAL_H
 
+#include <niu2x/api.h>
 #include <niu2x/math/constant.h>
 
 namespace niu2x::math {
