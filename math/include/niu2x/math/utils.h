@@ -32,11 +32,17 @@ inline double deg2rad(double degrees) { return degrees * pi / 180.0; }
 NXAPI Color to_color(const Vec3& v);
 
 template <class T>
-inline T random_double()
+inline T random()
 {
     thread_local std::uniform_real_distribution<T> distribution(0.0, 1.0);
     thread_local std::mt19937 generator;
     return distribution(generator);
+}
+
+template <class T>
+inline T random(const T& min, const T& max)
+{
+    return random<T>() * (max - min) + min;
 }
 
 } // namespace niu2x::math
