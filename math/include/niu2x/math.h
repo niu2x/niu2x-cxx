@@ -1,9 +1,10 @@
 #ifndef NIU2X_MATH_H
 #define NIU2X_MATH_H
 
-#include <limits>
 #include <niu2x/math/linalg_alias.h>
+#include <niu2x/math/constant.h>
 #include <niu2x/math/ray.h>
+#include <niu2x/math/interval.h>
 #include <niu2x/math/size.h>
 
 /**
@@ -28,19 +29,6 @@ T clamp(const T& n, const T& min, const T& max)
 }
 
 NXAPI double hit_sphere(const Vec3& center, double radius, const Ray& r);
-
-/**
- * @brief       max double value */
-inline constexpr double max_double = std::numeric_limits<double>::max();
-/**
- * @brief       infinity
- */
-inline constexpr double infinity = std::numeric_limits<double>::infinity();
-
-/**
- * @brief       PI
- */
-inline constexpr double pi = 3.1415926535897932385;
 
 inline double deg2rad(double degrees) { return degrees * pi / 180.0; }
 
