@@ -8,7 +8,7 @@ build-library: build-debug-shared-library \
 build-test-app: build-test-debug-app build-test-release-app
 
 build-debug-shared-library:
-	cmake -S. \
+	cmake -GNinja -S. \
 		-Bbuild/shared/debug \
 		-DBUILD_SHARED_LIBS=ON \
 		-DCMAKE_BUILD_TYPE=Debug;
@@ -16,7 +16,7 @@ build-debug-shared-library:
 	cmake --install build/shared/debug --prefix build/shared/debug/dist;
 
 build-debug-static-library:
-	cmake -S. \
+	cmake -GNinja -S. \
 		-Bbuild/static/debug \
 		-DBUILD_SHARED_LIBS=OFF \
 		-DCMAKE_BUILD_TYPE=Debug;
@@ -24,7 +24,7 @@ build-debug-static-library:
 	cmake --install build/static/debug --prefix build/static/debug/dist/
 
 build-release-shared-library:
-	cmake -S. \
+	cmake -GNinja -S. \
 		-Bbuild/shared/release \
 		-DBUILD_SHARED_LIBS=ON \
 		-DCMAKE_BUILD_TYPE=Release;
@@ -32,7 +32,7 @@ build-release-shared-library:
 	cmake --install build/shared/release --prefix build/shared/release/dist;
 
 build-release-static-library:
-	cmake -S. \
+	cmake -GNinja -S. \
 		-Bbuild/static/release \
 		-DBUILD_SHARED_LIBS=OFF \
 		-DCMAKE_BUILD_TYPE=Release;
@@ -40,7 +40,7 @@ build-release-static-library:
 	cmake --install build/static/release --prefix build/static/release/dist/
 
 build-test-debug-app:
-	cmake -S test-app -Bbuild/test-app-static/debug \
+	cmake -GNinja -S test-app -Bbuild/test-app-static/debug \
 		-Dniu2x_filesystem_DIR=$$PWD/build/static/debug/dist/lib/cmake/niu2x \
 		-Dniu2x_stream_DIR=$$PWD/build/static/debug/dist/lib/cmake/niu2x \
 		-Dniu2x_crypto_DIR=$$PWD/build/static/debug/dist/lib/cmake/niu2x \
@@ -53,7 +53,7 @@ build-test-debug-app:
 
 
 build-test-release-app:
-	cmake -S test-app -Bbuild/test-app-static/release \
+	cmake -GNinja -S test-app -Bbuild/test-app-static/release \
 		-Dniu2x_filesystem_DIR=$$PWD/build/static/release/dist/lib/cmake/niu2x \
 		-Dniu2x_stream_DIR=$$PWD/build/static/release/dist/lib/cmake/niu2x \
 		-Dniu2x_crypto_DIR=$$PWD/build/static/release/dist/lib/cmake/niu2x \
