@@ -2,7 +2,6 @@
 #define NIU2X_MATH_LINALG_ALIAS_H
 
 #include <niu2x/math/linalg.h>
-#include <niu2x/type/color.h>
 
 namespace niu2x::math {
 

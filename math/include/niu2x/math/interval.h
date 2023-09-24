@@ -3,6 +3,7 @@
 
 #include <niu2x/api.h>
 #include <niu2x/math/constant.h>
+#include <niu2x/math/utils.h>
 
 namespace niu2x::math {
 
@@ -39,6 +40,12 @@ public:
      * @param       x     一个数字
      * @return      如果包含x，返回true。否则返回false */
     bool surrounds(double x) const { return min < x && x < max; }
+
+    /**
+     * @brief       把x的值卡在这个区间里边
+     * @param       x     一个数字
+     * @return      如果x比min小，返回min。如果x比max大，返回max。否则返回x */
+    double clamp(double x) const { return math::clamp(x, min, max); }
 
     /**
      * @brief       空区间
