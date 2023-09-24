@@ -20,19 +20,17 @@
 #include <niu2x/type/resource.h>
 #include <niu2x/type/color.h>
 
+/**
+ * @brief       top most name space, contain all others
+ */
 namespace niu2x {
+
+/**
+ * @brief      silent compiler's warning about unused arguments
+ *
+ * @param[in]  <unnamed>  any argunemts
+ */
 inline void unused(...) { }
-
-template <class T>
-struct Size {
-    T width;
-    T height;
-
-    T area() const { return width * height; }
-};
-
-using IntSize = Size<int>;
-using DoubleSize = Size<double>;
 
 } // namespace niu2x
 

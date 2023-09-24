@@ -13,4 +13,5 @@ library_install(niu2x_image)
 
 target_link_libraries(niu2x_image PUBLIC 
     niu2x_stream
+    niu2x_math
 )

@@ -6,6 +6,9 @@
 
 namespace niu2x::endian {
 
+/**
+ * little
+ */
 constexpr bool little = std::endian::native == std::endian::little;
 constexpr bool big = std::endian::native == std::endian::big;
 

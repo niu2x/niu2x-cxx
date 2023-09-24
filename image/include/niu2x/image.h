@@ -2,8 +2,11 @@
 #define NIU2X_IMAGE_H
 
 #include <niu2x/type.h>
+#include <niu2x/math/size.h>
 
 namespace niu2x::image {
+
+using IntSize = math::IntSize;
 
 class NXAPI Image : public Resource {
 public:
