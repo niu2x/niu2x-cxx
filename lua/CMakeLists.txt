@@ -2,6 +2,7 @@ add_library(niu2x_lua "")
 
 file(GLOB cpp_source 
     "src/*.cpp"
+    "src/lua/*.cpp"
 )
 
 target_sources(niu2x_lua PRIVATE
@@ -14,5 +15,3 @@ library_install(niu2x_lua)
 target_link_libraries(niu2x_lua PUBLIC 
     niu2x_core
 )
-
-
