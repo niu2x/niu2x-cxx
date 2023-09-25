@@ -9,7 +9,7 @@ namespace niu2x {
 
 /**
  * @brief       A block of memory. shallow copy by SharedPtr */
-class Buffer {
+class NXAPI Buffer {
 public:
     using MemBlock = Vector<uint8_t>;
 
