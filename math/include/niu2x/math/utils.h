@@ -39,6 +39,13 @@ inline T random()
     return distribution(generator);
 }
 
+template <>
+inline Vec3 random()
+{
+    return normalize(
+        Vec3(random<double>(), random<double>(), random<double>()));
+}
+
 template <class T>
 inline T random(const T& min, const T& max)
 {
