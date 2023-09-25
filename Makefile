@@ -65,5 +65,18 @@ build-test-release-app:
 	cmake --build build/test-app-static/release -j
 
 
+build-nxlua:
+	cmake -GNinja -S app/nxlua -Bbuild/nxlua/release \
+		-Dniu2x_filesystem_DIR=$$PWD/build/static/release/dist/lib/cmake/niu2x \
+		-Dniu2x_stream_DIR=$$PWD/build/static/release/dist/lib/cmake/niu2x \
+		-Dniu2x_crypto_DIR=$$PWD/build/static/release/dist/lib/cmake/niu2x \
+		-Dniu2x_image_DIR=$$PWD/build/static/release/dist/lib/cmake/niu2x \
+		-Dniu2x_core_DIR=$$PWD/build/static/release/dist/lib/cmake/niu2x \
+		-Dniu2x_math_DIR=$$PWD/build/static/release/dist/lib/cmake/niu2x \
+		-Dniu2x_lua_DIR=$$PWD/build/static/release/dist/lib/cmake/niu2x \
+		-Dniu2x_painter_DIR=$$PWD/build/static/release/dist/lib/cmake/niu2x \
+		-DCMAKE_BUILD_TYPE=Release;
+	cmake --build build/nxlua/release -j
+
 
 .PHONY: 

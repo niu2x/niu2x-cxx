@@ -21,6 +21,7 @@ namespace niu2x {
 using String = std::string;
 using StringBuf = std::stringstream;
 using Exception = std::exception;
+using BadAlloc = std::bad_alloc;
 
 /**
  * @brief       RuntimeError
