@@ -19,4 +19,6 @@ LuaEngine::LuaEngine()
 
 LuaEngine::~LuaEngine() { lua_close(L()); }
 
+int LuaEngine::main(int argc, char* argv[]) { return lua_main(argc, argv); }
+
 } // namespace niu2x::lua

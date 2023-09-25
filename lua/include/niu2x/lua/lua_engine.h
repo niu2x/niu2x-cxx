@@ -10,6 +10,7 @@ class LuaEngine : Noncopyable {
 public:
     LuaEngine();
     ~LuaEngine();
+    int main(int argc, char* argv[]);
 
 private:
     void* L_;

@@ -1,3 +1,9 @@
 #include <niu2x/lua.h>
 
-int main() { return 0; }
+using namespace niu2x;
+
+int main(int argc, char* argv[])
+{
+    lua::LuaEngine lua_engine;
+    return lua_engine.main(argc, argv);
+}

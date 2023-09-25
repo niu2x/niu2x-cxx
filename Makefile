@@ -57,11 +57,19 @@ build-test-release-app: build-release-shared-library
 	cmake --build build/test-app-shared/release -j
 
 
-build-nxlua:
+build-nxlua: build-release-static-library
 	cmake -GNinja -S app/nxlua -Bbuild/nxlua/release \
 		-Dniu2x_lua_DIR=$$PWD/build/static/release/dist/lib/cmake/niu2x \
 		-DCMAKE_BUILD_TYPE=Release;
 	cmake --build build/nxlua/release -j
+
+
+build-debug-nxlua: build-debug-static-library
+	cmake -GNinja -S app/nxlua -Bbuild/nxlua/debug \
+		-Dniu2x_lua_DIR=$$PWD/build/static/debug/dist/lib/cmake/niu2x \
+		-DCMAKE_BUILD_TYPE=Debug;
+	cmake --build build/nxlua/debug -j
+
 
 
 .PHONY: 

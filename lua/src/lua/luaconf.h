@@ -9,6 +9,7 @@
 
 #include <limits.h>
 #include <stddef.h>
+#include <niu2x/readline.h>
 
 /*
 ** ==================================================================
@@ -31,8 +32,7 @@
 
 #if defined(LUA_USE_LINUX)
     #define LUA_USE_POSIX
-    #define LUA_USE_DLOPEN   /* needs an extra library: -ldl */
-    #define LUA_USE_READLINE /* needs some extra libraries */
+    #define LUA_USE_DLOPEN /* needs an extra library: -ldl */
 #endif
 
 #if defined(LUA_USE_MACOSX)
@@ -219,30 +219,13 @@
     ** CHANGE them if you want to improve this functionality (e.g., by using
     ** GNU readline and history facilities).
     */
-    #if defined(LUA_USE_READLINE)
-        #include <stdio.h>
-        #include <readline/readline.h>
-        #include <readline/history.h>
-        #define lua_readline(L, b, p) ((void)L, ((b) = readline(p)) != NULL)
-        #define lua_saveline(L, idx)                                           \
-            if (lua_strlen(L, idx) > 0) /* non-empty line? */                  \
-                add_history(lua_tostring(L, idx)); /* add it to history */
-        #define lua_freeline(L, b) ((void)L, free(b))
-    #else
-        #define lua_readline(L, b, p)                                          \
-            ((void)L, fputs(p, stdout), fflush(stdout), /* show prompt */      \
-                fgets(b, LUA_MAXINPUT, stdin) != NULL) /* get line */
-        #define lua_saveline(L, idx)                                           \
-            {                                                                  \
-                (void)L;                                                       \
-                (void)idx;                                                     \
-            }
-        #define lua_freeline(L, b)                                             \
-            {                                                                  \
-                (void)L;                                                       \
-                (void)b;                                                       \
-            }
-    #endif
+
+    #include <stdio.h>
+    #define lua_readline(L, b, p)                                              \
+        ((void)L, ((b) = niu2x::readline(p, b, LUA_MAXINPUT)) != NULL)
+    #define lua_saveline(L, idx) (void)0;
+
+    #define lua_freeline(L, b) ((void)L)
 
 #endif
 
