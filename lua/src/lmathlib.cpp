@@ -247,7 +247,7 @@ static const luaL_Reg mathlib[] = { { "abs", math_abs }, { "acos", math_acos },
 /*
 ** Open math library
 */
-int luaopen_math(lua_State* L)
+LUALIB_API int luaopen_math(lua_State* L)
 {
     luaL_register(L, LUA_MATHLIBNAME, mathlib);
     lua_pushnumber(L, PI);

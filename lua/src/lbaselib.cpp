@@ -620,7 +620,7 @@ static void base_open(lua_State* L)
     lua_setglobal(L, "newproxy"); /* set global `newproxy' */
 }
 
-int luaopen_base(lua_State* L)
+LUALIB_API int luaopen_base(lua_State* L)
 {
     base_open(L);
     luaL_register(L, LUA_COLIBNAME, co_funcs);

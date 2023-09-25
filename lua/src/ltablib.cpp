@@ -280,7 +280,7 @@ static const luaL_Reg tab_funcs[] = { { "concat", tconcat },
     { "maxn", maxn }, { "insert", tinsert }, { "remove", tremove },
     { "setn", setn }, { "sort", sort }, { NULL, NULL } };
 
-int luaopen_table(lua_State* L)
+LUALIB_API int luaopen_table(lua_State* L)
 {
     luaL_register(L, LUA_TABLIBNAME, tab_funcs);
     return 1;

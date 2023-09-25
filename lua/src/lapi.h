@@ -10,7 +10,6 @@
 #include "lobject.h"
 
 namespace niu2x::lua::imp {
-
 void luaA_pushobject(lua_State* L, const TValue* o);
 }
 
