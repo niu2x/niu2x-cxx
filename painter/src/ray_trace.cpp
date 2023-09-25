@@ -8,7 +8,7 @@ using math::to_color;
 
 RayTracePainter::RayTracePainter()
 : camera_({ 4, 3 }, 4)
-, samples_per_pixel_(1)
+, samples_per_pixel_(16)
 {
     for (int i = 0; i < 10; i++) {
         hittable_objects_.insert(make_shared<Sphere>(Vec3(i, 8, 4), 0.5));
