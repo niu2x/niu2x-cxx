@@ -2,11 +2,8 @@ cmake_minimum_required(VERSION 3.10.0 FATAL_ERROR)
 project(NIU2X_TEST_APP)
 set(CMAKE_CXX_STANDARD 17)
 
-find_package(niu2x_core REQUIRED)
-find_package(niu2x_crypto REQUIRED)
 find_package(niu2x_filesystem REQUIRED)
 find_package(niu2x_stream REQUIRED)
-find_package(niu2x_math REQUIRED)
 find_package(niu2x_image REQUIRED)
 find_package(niu2x_painter REQUIRED)
 
