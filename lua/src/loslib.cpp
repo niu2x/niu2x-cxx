@@ -223,7 +223,7 @@ static const luaL_Reg syslib[] = { { "clock", os_clock }, { "date", os_date },
 
 /* }====================================================== */
 
-LUALIB_API int luaopen_os(lua_State* L)
+int luaopen_os(lua_State* L)
 {
     luaL_register(L, LUA_OSLIBNAME, syslib);
     return 1;

@@ -491,7 +491,7 @@ static void newfenv(lua_State* L, lua_CFunction cls)
     lua_setfield(L, -2, "__close");
 }
 
-LUALIB_API int luaopen_io(lua_State* L)
+int luaopen_io(lua_State* L)
 {
     createmeta(L);
     /* create (private) environment (with fields IO_INPUT, IO_OUTPUT, __close)

@@ -604,7 +604,7 @@ static const luaL_Reg ll_funcs[]
 static const lua_CFunction loaders[]
     = { loader_preload, loader_Lua, loader_C, loader_Croot, NULL };
 
-LUALIB_API int luaopen_package(lua_State* L)
+int luaopen_package(lua_State* L)
 {
     int i;
     /* create new type _LOADLIB */

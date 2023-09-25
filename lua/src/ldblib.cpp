@@ -382,7 +382,7 @@ static const luaL_Reg dblib[] = { { "debug", db_debug },
     { "setmetatable", db_setmetatable }, { "setupvalue", db_setupvalue },
     { "traceback", db_errorfb }, { NULL, NULL } };
 
-LUALIB_API int luaopen_debug(lua_State* L)
+int luaopen_debug(lua_State* L)
 {
     luaL_register(L, LUA_DBLIBNAME, dblib);
     return 1;
