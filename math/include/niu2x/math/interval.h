@@ -2,6 +2,7 @@
 #define NIU2X_MATH_INTERVAL_H
 
 #include <niu2x/api.h>
+#include <niu2x/disable_windows_warning.h>
 #include <niu2x/math/constant.h>
 #include <niu2x/math/utils.h>
 

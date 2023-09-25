@@ -95,14 +95,14 @@ void SHA256::finalize()
 
     // Append to the padding the total message's length in bits and transform.
     bit_len_ += data_len_ * 8;
-    data_[63] = bit_len_;
-    data_[62] = bit_len_ >> 8;
-    data_[61] = bit_len_ >> 16;
-    data_[60] = bit_len_ >> 24;
-    data_[59] = bit_len_ >> 32;
-    data_[58] = bit_len_ >> 40;
-    data_[57] = bit_len_ >> 48;
-    data_[56] = bit_len_ >> 56;
+    data_[63] = static_cast<uint8_t>(bit_len_);
+    data_[62] = static_cast<uint8_t>(bit_len_ >> 8);
+    data_[61] = static_cast<uint8_t>(bit_len_ >> 16);
+    data_[60] = static_cast<uint8_t>(bit_len_ >> 24);
+    data_[59] = static_cast<uint8_t>(bit_len_ >> 32);
+    data_[58] = static_cast<uint8_t>(bit_len_ >> 40);
+    data_[57] = static_cast<uint8_t>(bit_len_ >> 48);
+    data_[56] = static_cast<uint8_t>(bit_len_ >> 56);
     step(data_);
 
     // Since this implementation uses little endian byte ordering and SHA uses

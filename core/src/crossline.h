@@ -36,6 +36,8 @@
 #ifndef __CROSSLINE_H
 #define __CROSSLINE_H
 
+#include <niu2x/disable_windows_warning.h>
+
 #ifdef __cplusplus
 extern "C" {
 #endif

@@ -2,9 +2,9 @@
 
 namespace niu2x::math {
 
-void HitRecord::set_normal(const Vec3& ray, const Vec3& normal)
+void HitRecord::set_normal(const Vec3& ray, const Vec3& p_normal)
 {
-    this->normal = normal;
+    normal = p_normal;
     front_face = dot(normal, ray) < 0;
 }
 

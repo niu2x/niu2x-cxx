@@ -3,6 +3,7 @@
 
 #include <cstdint>
 #include <niu2x/api.h>
+#include <niu2x/disable_windows_warning.h>
 
 namespace niu2x {
 

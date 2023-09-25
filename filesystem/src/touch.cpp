@@ -1,4 +1,7 @@
 #include <niu2x/fs.h>
+#include <iostream>
+#include <fstream>
+
 namespace niu2x::fs {
 
 void touch(const Path& path)
@@ -6,11 +9,12 @@ void touch(const Path& path)
     if (exists(path))
         return;
 
-    FILE* fp = fopen(path.c_str(), "w");
-    if (!fp)
+    std::ofstream out_file(path);
+
+    if (!out_file.is_open())
         throw_os_err();
 
-    fclose(fp);
+    out_file.close();
 }
 
 } // namespace niu2x::fs

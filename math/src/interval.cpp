@@ -1,3 +1,4 @@
+#include <niu2x/disable_windows_warning.h>
 #include <niu2x/math/interval.h>
 
 namespace niu2x::math {

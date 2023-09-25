@@ -4,6 +4,7 @@
 #include <niu2x/api.h>
 #include <niu2x/type/std_alias.h>
 #include <niu2x/math/linalg_alias.h>
+#include <niu2x/disable_windows_warning.h>
 #include <niu2x/math/interval.h>
 
 namespace niu2x::math {
