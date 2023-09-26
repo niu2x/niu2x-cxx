@@ -21,11 +21,11 @@ public:
         const DoubleSize size;
         const double focal_length;
 
-        void look_at(const Vec3& pos, const Vec3& look, const Vec3& up)
+        void look_at(const Vec3& p_pos, const Vec3& p_look, const Vec3& p_up)
         {
-            this->pos = pos;
-            this->look = normalize(look);
-            this->side = normalize(cross(this->look, up));
+            this->pos = p_pos;
+            this->look = normalize(p_look);
+            this->side = normalize(cross(this->look, p_up));
             this->up = cross(this->side, this->look);
         }
 

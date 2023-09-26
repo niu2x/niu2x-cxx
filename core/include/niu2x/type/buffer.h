@@ -24,14 +24,14 @@ public:
 
     NIU2X_CLASS_DEFAULT_COPYABLE(Buffer);
 
-    void read(void* data, off_t offset, size_t size) const;
+    void read(void* data, size_t offset, size_t size) const;
 
     /**
      * @brief       write data into Buffer's memory
      * @param       data    source
      * @param       offset  dest offset in Buffer's memory
      * @param       size    size of data */
-    void write(const void* data, off_t offset, size_t size);
+    void write(const void* data, size_t offset, size_t size);
 
     /** @brief       get size of Buffer's memory
      * @return      size of Buffer's memory */

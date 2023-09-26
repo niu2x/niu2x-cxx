@@ -2,6 +2,8 @@
 #include <niu2x/stream/push_back_read_stream.h>
 #include <niu2x/stream/buffer_stream.h>
 
+#include <niu2x/disable_windows_warning.h>
+
 #define STBI_NO_STDIO
 #define STB_IMAGE_IMPLEMENTATION
 #include "stb_image.h"
@@ -16,7 +18,7 @@ static auto image_decode(
     const Buffer* buffer, IntSize* size, int desired_channels)
 {
     int channels_in_file;
-    return stbi_load_from_memory(buffer->data(), buffer->size(), &size->width,
+    return stbi_load_from_memory(buffer->data(), static_cast<int>(buffer->size()), &size->width,
         &size->height, &channels_in_file, desired_channels);
 }
 

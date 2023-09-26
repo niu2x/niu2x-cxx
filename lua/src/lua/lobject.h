@@ -8,6 +8,7 @@
 #define lobject_h
 
 #include <stdarg.h>
+#include <niu2x/disable_windows_warning.h>
 
 #include "llimits.h"
 #include "lua.h"
