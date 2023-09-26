@@ -10,6 +10,7 @@
 
 #include <stdarg.h>
 #include <stddef.h>
+#include <niu2x/disable_windows_warning.h>
 
 #include "luaconf.h"
 
