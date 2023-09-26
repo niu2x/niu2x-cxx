@@ -1,7 +1,9 @@
-# Myself
+# My Build Dir
 build
 build-*
-dist-*
+
+# My Doc
+doc
 
 # Prerequisites
 *.d

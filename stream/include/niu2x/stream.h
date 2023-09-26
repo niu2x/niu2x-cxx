@@ -1,10 +1,11 @@
 #ifndef NIU2X_STREAM_H
 #define NIU2X_STREAM_H
 
-#include <niu2x/stream/stream.h>
+#include <niu2x/type/stream.h>
 #include <niu2x/stream/file_stream.h>
 #include <niu2x/stream/string_stream.h>
 #include <niu2x/stream/buffer_stream.h>
 #include <niu2x/stream/filter.h>
+#include <niu2x/stream/push_back_read_stream.h>
 
 #endif

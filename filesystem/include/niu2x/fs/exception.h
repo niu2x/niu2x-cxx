@@ -1,8 +1,8 @@
 #ifndef NIU2X_FS_EXCEPTION_H
-    #define NIU2X_FS_EXCEPTION_H
+#define NIU2X_FS_EXCEPTION_H
 
-    #include <niu2x/type.h>
-    #include <niu2x/fs/path.h>
+#include <niu2x/type.h>
+#include <niu2x/fs/path.h>
 
 namespace niu2x::exception {
 
@@ -14,6 +14,6 @@ public:
     }
 };
 
-#endif
-
 } // namespace niu2x::exception
+
+#endif

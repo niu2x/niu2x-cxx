@@ -1,10 +1,10 @@
-#ifndef NIU2X_STREAM_BASE_STREAM_H
-#define NIU2X_STREAM_BASE_STREAM_H
+#ifndef NIU2X_TYPE_SRREAM_H
+#define NIU2X_TYPE_SRREAM_H
 
-#include <niu2x/type.h>
 #include <niu2x/noncopyable.h>
+#include <niu2x/type/std_alias.h>
 
-namespace niu2x::stream {
+namespace niu2x {
 
 class NXAPI ReadStream : private Noncopyable {
 public:
@@ -22,6 +22,9 @@ public:
     virtual void finalize() { }
 };
 
-} // namespace niu2x::stream
+NXAPI void pipe(
+    ReadStream* reader, WriteStream* writer, bool auto_finalize = true);
+
+} // namespace niu2x
 
 #endif

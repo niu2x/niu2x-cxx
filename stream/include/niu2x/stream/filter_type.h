@@ -7,6 +7,7 @@ namespace niu2x::stream {
 
 enum class FilterType {
     MD5,
+    SHA256,
 };
 
 }; // namespace niu2x::stream

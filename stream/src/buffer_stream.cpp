@@ -48,6 +48,8 @@ void BufferWriteStream::write(const void* buf, size_t size)
     }
 
     buffer_.write(buf, write_pos_, size);
+
+    write_pos_ += size;
 }
 
 } // namespace niu2x::stream

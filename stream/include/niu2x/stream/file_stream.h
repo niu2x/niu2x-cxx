@@ -1,7 +1,6 @@
 #ifndef NIU2X_STREAM_FILE_STREAM_H
 #define NIU2X_STREAM_FILE_STREAM_H
 
-#include <niu2x/stream/stream.h>
 #include <niu2x/stream/file.h>
 #include <niu2x/fs/file.h>
 

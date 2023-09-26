@@ -8,7 +8,7 @@
 
 namespace niu2x::fs {
 
-class File {
+class NXAPI File {
 public:
     explicit File(const Path& path);
     explicit File(Path&& path);
@@ -25,7 +25,7 @@ public:
     File parent() const;
 
     const Path& path() const { return path_; }
-    const char* c_path() const { return path_.c_str(); }
+    const auto* c_path() const { return path_.u8string().c_str(); }
 
 private:
     Path path_;

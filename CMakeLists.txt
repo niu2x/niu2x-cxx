@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.13.0 FATAL_ERROR)
-project(NIU2X_CXX_LIBRARY VERSION 1.0.0 LANGUAGES CXX C)
+project(NIU2X_CPP_LIBRARY VERSION 1.1.0 LANGUAGES CXX C)
 
 list(APPEND CMAKE_MODULE_PATH ${CMAKE_CURRENT_LIST_DIR}/cmake)
 # include(external_deps)
@@ -20,4 +20,7 @@ add_subdirectory(core)
 add_subdirectory(filesystem)
 add_subdirectory(crypto)
 add_subdirectory(stream)
-
+add_subdirectory(math)
+add_subdirectory(image)
+add_subdirectory(painter)
+add_subdirectory(lua)
