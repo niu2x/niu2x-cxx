@@ -18,8 +18,9 @@ static auto image_decode(
     const Buffer* buffer, IntSize* size, int desired_channels)
 {
     int channels_in_file;
-    return stbi_load_from_memory(buffer->data(), static_cast<int>(buffer->size()), &size->width,
-        &size->height, &channels_in_file, desired_channels);
+    return stbi_load_from_memory(buffer->data(),
+        static_cast<int>(buffer->size()), &size->width, &size->height,
+        &channels_in_file, desired_channels);
 }
 
 static void stbi_write_callback(void* context, void* data, int size)
