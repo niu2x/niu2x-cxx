@@ -6,7 +6,7 @@
 
 namespace niu2x::lua {
 
-class LuaEngine : Noncopyable {
+class NXAPI LuaEngine : Noncopyable {
 public:
     LuaEngine();
     ~LuaEngine();

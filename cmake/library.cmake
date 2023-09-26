@@ -1,4 +1,3 @@
-include(GenerateExportHeader)
 include(CMakePackageConfigHelpers)
 
 function(library_header_only_init LIB_NAME)

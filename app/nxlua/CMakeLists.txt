@@ -10,4 +10,3 @@ target_sources(nxlua PRIVATE "main.cpp")
 find_package(niu2x_lua REQUIRED)
 
 target_link_libraries(nxlua PRIVATE niu2x_lua)
-

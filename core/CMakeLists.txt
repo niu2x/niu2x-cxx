@@ -1,3 +1,5 @@
+include(GenerateExportHeader)
+
 add_library(niu2x_core "")
 
 file(GLOB cpp_source "src/*.cpp")
@@ -9,7 +11,6 @@ target_sources(niu2x_core PRIVATE
 library_init(niu2x_core)
 
 get_target_property(TARGET_TYPE niu2x_core TYPE)
-
 if(TARGET_TYPE STREQUAL "STATIC_LIBRARY")
     target_compile_definitions(niu2x_core PUBLIC NXAPI_STATIC)
 endif()

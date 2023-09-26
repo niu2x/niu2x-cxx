@@ -1,2 +1,9 @@
 @PACKAGE_INIT@
 include ("${CMAKE_CURRENT_LIST_DIR}/niu2x_core-targets.cmake" )
+
+get_target_property(TARGET_TYPE niu2x_core TYPE)
+if(TARGET_TYPE STREQUAL "STATIC_LIBRARY")
+    set_target_properties(niu2x_core PROPERTIES
+        COMPILE_DEFINITIONS NXAPI_STATIC
+    )
+endif()
