@@ -7,7 +7,9 @@ File::File(const fs::File& file, OpenMode open_mode)
 , path_(file.path())
 {
     assert(open_mode == OpenMode::READ || open_mode == OpenMode::WRITE);
-    fp_ = fopen(file.c_path(), open_mode == OpenMode::READ ? "rb" : "wb");
+    const char* mode = open_mode == OpenMode::READ ? "rb" : "wb";
+
+    fp_ = fopen(reinterpret_cast<const char*>(file.c_path()), mode);
 
     if (!fp_)
         throw_runtime_err("fopen fail: " + file.path().string());

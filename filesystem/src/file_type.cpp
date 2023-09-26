@@ -19,6 +19,7 @@ FileType file_type(const Path& path)
     using std_ftype = std::filesystem::file_type;
 
     switch (f_type) {
+        case std_ftype::unknown:
         case std_ftype::none:
         case std_ftype::not_found: {
             throw_os_err();
