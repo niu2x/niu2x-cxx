@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.11.0 FATAL_ERROR)
 
-project(NIU2X_LUA VERSION 0.1.0 LANGUAGES CXX C)
+project(NIU2X_LUA VERSION 1.1.0 LANGUAGES CXX C)
 
 add_executable(nxlua "")
 
