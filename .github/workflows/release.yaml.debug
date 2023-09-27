@@ -1,0 +1,110 @@
+name: CMake on multiple platforms
+
+on:
+  push:
+    tags: [ "v**" ]
+
+jobs:
+  build:
+    runs-on: ${{ matrix.os }}
+
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+        build_type: [Release]
+
+    steps:
+    - uses: actions/checkout@v3
+
+    - name: Set reusable strings
+      id: strings
+      shell: bash
+      run: |
+        echo "build-nxlua-dir=${{ github.workspace }}/build-nxlua" >> "$GITHUB_OUTPUT"
+        echo "build-dir=${{ github.workspace }}/build" >> "$GITHUB_OUTPUT"
+        echo "install-dir=${{ github.workspace }}/dist" >> "$GITHUB_OUTPUT"
+
+    - name: Configure Static Library Build
+      run: >
+        cmake -B ${{ steps.strings.outputs.build-dir }}
+        -DCMAKE_BUILD_TYPE=${{ matrix.build_type }}
+        -DBUILD_SHARED_LIBS=OFF
+        -S ${{ github.workspace }}
+
+    - name: Build Static Library
+      run: cmake --build ${{ steps.strings.outputs.build-dir }} --config ${{ matrix.build_type }}
+
+    - name: Install Static Library
+      run: cmake --install ${{ steps.strings.outputs.build-dir }} --prefix ${{ steps.strings.outputs.install-dir }} 
+
+    - name: Pack Static Library
+      run: |
+        cd ${{ steps.strings.outputs.build-dir }}
+        cpack -G ZIP -C ${{ matrix.build_type }}
+
+    - name: Archive Static Library
+      uses: actions/upload-artifact@v3
+      with:
+        name: NIU2X_CPP_LIBRARY-${{ matrix.os }}-${{ matrix.build_type }}
+        path: |
+          ${{ steps.strings.outputs.build-dir }}/NIU2X_CPP_LIBRARY-*.zip
+
+    - name: Configure nxlua
+      run: >
+        cmake -B ${{ steps.strings.outputs.build-nxlua-dir }}
+        -DCMAKE_BUILD_TYPE=${{ matrix.build_type }}
+        -Dniu2x_lua_DIR=${{ steps.strings.outputs.install-dir }}/lib/cmake/niu2x
+        -S ${{ github.workspace }}/app/nxlua
+
+    - name: Build nxlua
+      run: cmake --build ${{ steps.strings.outputs.build-nxlua-dir }} --config ${{ matrix.build_type }}
+
+    - name: Archive nxlua
+      uses: actions/upload-artifact@v3
+      with:
+        name: nxlua-${{ matrix.os }}-${{ matrix.build_type }}
+        path: |
+          ${{ steps.strings.outputs.build-dir }}/nxlua*
+
+  create_release:
+    runs-on : ubuntu-latest
+    needs: build
+
+    steps:
+
+    - name: Download Windows Static Library
+      uses: actions/download-artifact@v2
+      with:
+        name: NIU2X_CPP_LIBRARY-windows-latest-Release
+        path: artifacts/windows-static-library
+
+    - name: Download Windows nxlua
+      uses: actions/download-artifact@v2
+      with:
+        name: nxlua-windows-latest-Release
+        path: artifacts/windows-nxlua
+
+    - name: Download Linux Static Library
+      uses: actions/download-artifact@v2
+      with:
+        name: NIU2X_CPP_LIBRARY-ubuntu-latest-Release
+        path: artifacts/linux-static-library
+
+    - name: Download Linux nxlua
+      uses: actions/download-artifact@v2
+      with:
+        name: nxlua-ubuntu-latest-Release
+        path: artifacts/linux-nxlua
+
+    - name: Create Release
+      id: create_release
+      uses: actions/create-release@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        tag_name: ${{ github.ref }}
+        release_name: Release ${{ github.ref }}
+        draft: false
+        prerelease: false
+    
