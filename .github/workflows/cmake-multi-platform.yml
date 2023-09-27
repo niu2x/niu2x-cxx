@@ -35,31 +35,45 @@ jobs:
       shell: bash
       run: |
         echo "build-nxlua-dir=${{ github.workspace }}/build-nxlua" >> "$GITHUB_OUTPUT"
-        echo "build-static-dir=${{ github.workspace }}/build-static" >> "$GITHUB_OUTPUT"
-        echo "install-static-dir=${{ github.workspace }}/install-static" >> "$GITHUB_OUTPUT"
+        echo "build-dir=${{ github.workspace }}/build" >> "$GITHUB_OUTPUT"
+        echo "install-dir=${{ github.workspace }}/dist" >> "$GITHUB_OUTPUT"
 
     - name: Configure Static Library Build
       # Configure CMake in a 'build' subdirectory. `CMAKE_BUILD_TYPE` is only required if you are using a single-configuration generator such as make.
       # See https://cmake.org/cmake/help/latest/variable/CMAKE_BUILD_TYPE.html?highlight=cmake_build_type
       run: >
-        cmake -B ${{ steps.strings.outputs.build-static-dir }}
+        cmake -B ${{ steps.strings.outputs.build-dir }}
         -DCMAKE_BUILD_TYPE=${{ matrix.build_type }}
         -DBUILD_SHARED_LIBS=OFF
         -S ${{ github.workspace }}
 
     - name: Build Static Library
       # Build your program with the given configuration. Note that --config is needed because the default Windows generator is a multi-config generator (Visual Studio generator).
-      run: cmake --build ${{ steps.strings.outputs.build-static-dir }} --config ${{ matrix.build_type }}
+      run: cmake --build ${{ steps.strings.outputs.build-dir }} --config ${{ matrix.build_type }}
 
     - name: Install Static Library
-      run: cmake --install ${{ steps.strings.outputs.build-static-dir }} --prefix ${{ steps.strings.outputs.install-static-dir }} 
+      run: cmake --install ${{ steps.strings.outputs.build-dir }} --prefix ${{ steps.strings.outputs.install-dir }} 
+
+    - name: Pack Static Library
+      run: >
+        cd ${{ steps.strings.outputs.build-dir }}
+        cpack -G ZIP -C ${{ matrix.build_type }}
+
+    - name: Archive Static Library
+        uses: actions/upload-artifact@v3
+        with:
+          name: NIU2X_CPP_LIBRARY-${{ matrix.os }}-${{ matrix.build_type }}
+          path: |
+            ${{ steps.strings.outputs.build-dir }}/NIU2X_CPP_LIBRARY-*.zip
 
     - name: Configure nxlua
       run: >
         cmake -B ${{ steps.strings.outputs.build-nxlua-dir }}
         -DCMAKE_BUILD_TYPE=${{ matrix.build_type }}
-        -Dniu2x_lua_DIR=${{ steps.strings.outputs.install-static-dir }}/lib/cmake/niu2x
+        -Dniu2x_lua_DIR=${{ steps.strings.outputs.install-dir }}/lib/cmake/niu2x
         -S ${{ github.workspace }}/app/nxlua
 
     - name: Build nxlua
       run: cmake --build ${{ steps.strings.outputs.build-nxlua-dir }} --config ${{ matrix.build_type }}
+
+    
