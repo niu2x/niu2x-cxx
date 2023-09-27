@@ -57,7 +57,7 @@ jobs:
     - name: Pack Static Library
       run: >
         cd ${{ steps.strings.outputs.build-dir }}
-        cpack -G ZIP -C ${{ matrix.build_type }}
+        cpack -G ZIP
 
     - name: Archive Static Library
       uses: actions/upload-artifact@v3
