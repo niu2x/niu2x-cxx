@@ -55,9 +55,9 @@ jobs:
       run: cmake --install ${{ steps.strings.outputs.build-dir }} --prefix ${{ steps.strings.outputs.install-dir }} 
 
     - name: Pack Static Library
-      run: >
+      run: |
         cd ${{ steps.strings.outputs.build-dir }}
-        cpack -G ZIP
+        cpack -G ZIP -C ${{ matrix.build_type }}
 
     - name: Archive Static Library
       uses: actions/upload-artifact@v3
