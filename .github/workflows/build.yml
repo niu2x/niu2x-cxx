@@ -68,4 +68,4 @@ jobs:
       with:
         name: nxlua-${{ matrix.os }}-${{ matrix.build_type }}
         path: |
-          ${{ steps.strings.outputs.build-dir }}/nxlua*
+          ${{ steps.strings.outputs.build-nxlua-dir }}/nxlua*
