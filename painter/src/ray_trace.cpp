@@ -9,6 +9,7 @@ using math::to_color;
 RayTracePainter::RayTracePainter()
 : camera_({ 4, 3 }, 4)
 , samples_per_pixel_(16)
+, max_depth_(4)
 {
     // for (int i = 0; i < 10; i++) {
     //     hittable_objects_.insert(make_shared<Sphere>(Vec3(i, 8, 4), 0.5));
@@ -26,19 +27,21 @@ RayTracePainter::~RayTracePainter() { }
 inline Vec3 random_on_hemisphere(const Vec3& normal)
 {
     Vec3 on_unit_sphere = random<Vec3>();
-    if (dot(on_unit_sphere, normal)
-        > 0.0) // In the same hemisphere as the normal
+    if (dot(on_unit_sphere, normal) > 0.0) {
+        // In the same hemisphere as the normal
         return on_unit_sphere;
-    else
+    } else
         return -on_unit_sphere;
 }
 
-Vec3 RayTracePainter::ray_color(const Ray& ray)
+Vec3 RayTracePainter::ray_color(const Ray& ray, int depth)
 {
+    if (depth <= 0)
+        return Vec3(0, 0, 0);
     auto hit = hittable_objects_.hit(ray, math::Interval(0.1, math::infinity));
     if (hit) {
         Vec3 direction = random_on_hemisphere(hit.value().normal);
-        return 0.5 * ray_color(Ray(hit.value().p, direction));
+        return 0.5 * ray_color(Ray(hit.value().p, direction), depth);
     }
     auto a = 0.5 * (ray.direction().z + 1.0);
     return Vec3(1.0, 1.0, 1.0) * (1.0 - a) + Vec3(0.5, 0.7, 1.0) * a;
@@ -72,7 +75,7 @@ void RayTracePainter::paint(Image* image)
 
                 auto ray_dir = normalize(pixel_pos - ray_origin);
                 auto ray = math::Ray(ray_origin, ray_dir);
-                color += ray_color(ray);
+                color += ray_color(ray, max_depth_);
             }
 
             color /= samples_per_pixel_;

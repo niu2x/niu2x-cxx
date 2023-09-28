@@ -44,8 +44,9 @@ private:
     Camera camera_;
     math::HittableGroup hittable_objects_;
     int samples_per_pixel_;
+    int max_depth_;
 
-    Vec3 ray_color(const Ray& ray);
+    Vec3 ray_color(const Ray& ray, int depth);
 };
 
 } // namespace niu2x::painter
