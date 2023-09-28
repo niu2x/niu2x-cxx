@@ -24,5 +24,6 @@ add_subdirectory(math)
 add_subdirectory(image)
 add_subdirectory(painter)
 add_subdirectory(lua)
+add_subdirectory(uv)
 
 include(CPack)
