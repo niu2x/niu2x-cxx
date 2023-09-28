@@ -25,7 +25,6 @@ public:
     File parent() const;
 
     const Path& path() const { return path_; }
-    const auto* c_path() const { return path_.u8string().c_str(); }
 
 private:
     Path path_;

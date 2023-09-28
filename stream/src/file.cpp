@@ -1,5 +1,7 @@
 #include <niu2x/stream/file.h>
 
+using si = std::ios_base;
+
 namespace niu2x::stream {
 
 File::File(const fs::File& file, OpenMode open_mode)
@@ -7,14 +9,17 @@ File::File(const fs::File& file, OpenMode open_mode)
 , path_(file.path())
 {
     assert(open_mode == OpenMode::READ || open_mode == OpenMode::WRITE);
-    const char* mode = open_mode == OpenMode::READ ? "rb" : "wb";
+    si::openmode mode = open_mode == OpenMode::READ ? si::in : si::out;
 
-    fp_ = fopen(reinterpret_cast<const char*>(file.c_path()), mode);
+    fp_.open(file.path(), mode);
 
-    if (!fp_)
+    if (!fp_.is_open())
         throw_runtime_err("fopen fail: " + file.path().string());
+
+    fp_.exceptions(std::ifstream::failbit);
+    fp_.exceptions(std::ifstream::badbit);
 }
 
-File::~File() { fclose(fp_); }
+File::~File() { fp_.close(); }
 
 } // namespace niu2x::stream

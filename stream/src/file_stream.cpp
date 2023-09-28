@@ -11,7 +11,8 @@ FileReadStream::~FileReadStream() { }
 
 size_t FileReadStream::read(void* buf, size_t size)
 {
-    return fread(buf, 1, size, file_.raw());
+    file_.raw()->read(reinterpret_cast<char*>(buf), size);
+    return file_.raw()->gcount();
 }
 
 bool FileReadStream::eof() { return file_.eof(); }
@@ -25,9 +26,7 @@ FileWriteStream::~FileWriteStream() { }
 
 void FileWriteStream::write(const void* buf, size_t size)
 {
-    if (fwrite(buf, 1, size, file_.raw()) != size) {
-        throw_runtime_err("fwrite fail: " + file_.path().string());
-    }
+    file_.raw()->write(reinterpret_cast<const char*>(buf), size);
 }
 
 } // namespace niu2x::stream

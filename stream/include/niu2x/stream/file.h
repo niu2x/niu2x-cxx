@@ -1,6 +1,7 @@
 #ifndef NIU2X_STREAM_FILE__H
 #define NIU2X_STREAM_FILE__H
 
+#include <fstream>
 #include <niu2x/noncopyable.h>
 #include <niu2x/preprocess/class_utils.h>
 #include <niu2x/fs/open_mode.h>
@@ -16,12 +17,12 @@ public:
     File(const fs::File& file, OpenMode open_mode);
     ~File();
 
-    FILE* raw() { return fp_; }
-    bool eof() const { return feof(fp_); }
+    std::fstream* raw() { return &fp_; }
+    bool eof() const { return fp_.eof(); }
     const Path& path() const { return path_; }
 
 private:
-    FILE* fp_;
+    std::fstream fp_;
     Path path_;
 };
 
