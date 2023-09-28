@@ -1,4 +1,6 @@
-add_library(niu2x_uv "")
+add_subdirectory(src/uv-1.46.0)
+
+add_library(niu2x_uv $<TARGET_OBJECTS:uv>)
 
 file(GLOB cpp_source 
     "src/*.cpp"
@@ -15,4 +17,7 @@ target_link_libraries(niu2x_uv PUBLIC
     niu2x_core
 )
 
-add_subdirectory(src/uv-1.46.0)
+target_include_directories(niu2x_uv PRIVATE src/uv-1.46.0/include)
+
+get_target_property(uv_sys_libraries uv INTERFACE_LINK_LIBRARIES)
+target_link_libraries(niu2x_uv PUBLIC ${uv_sys_libraries})

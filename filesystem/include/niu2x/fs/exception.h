@@ -4,7 +4,7 @@
 #include <niu2x/type.h>
 #include <niu2x/fs/path.h>
 
-namespace niu2x::exception {
+namespace niu2x::fs {
 
 class FileAlreadyExists : public RuntimeError {
 public:
@@ -14,6 +14,6 @@ public:
     }
 };
 
-} // namespace niu2x::exception
+} // namespace niu2x::fs
 
 #endif

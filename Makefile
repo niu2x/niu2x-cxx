@@ -34,6 +34,7 @@ build-test-app: build-debug-library
 		-Dniu2x_image_DIR=$$PWD/build/debug/dist/lib/cmake/niu2x \
 		-Dniu2x_painter_DIR=$$PWD/build/debug/dist/lib/cmake/niu2x \
 		-Dniu2x_math_DIR=$$PWD/build/debug/dist/lib/cmake/niu2x \
+		-Dniu2x_uv_DIR=$$PWD/build/debug/dist/lib/cmake/niu2x \
 		-DCMAKE_BUILD_TYPE=Debug;
 	cmake --build build/test-app-static/debug -j
 

@@ -7,7 +7,7 @@ namespace niu2x::fs {
 void create_dir(const Path& path)
 {
     if (!std_fs::create_directory(path)) {
-        throw exception::FileAlreadyExists(path);
+        throw FileAlreadyExists(path);
     }
 }
 

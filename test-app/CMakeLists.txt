@@ -6,6 +6,7 @@ find_package(niu2x_filesystem REQUIRED)
 find_package(niu2x_stream REQUIRED)
 find_package(niu2x_image REQUIRED)
 find_package(niu2x_painter REQUIRED)
+find_package(niu2x_uv REQUIRED)
 
 add_executable(touch "touch.cpp")
 target_link_libraries(touch PRIVATE niu2x_filesystem)
@@ -30,3 +31,6 @@ target_link_libraries(image PRIVATE niu2x_image)
 
 add_executable(painter "painter.cpp")
 target_link_libraries(painter PRIVATE niu2x_painter)
+
+add_executable(uv "uv.cpp")
+target_link_libraries(uv PRIVATE niu2x_uv)
