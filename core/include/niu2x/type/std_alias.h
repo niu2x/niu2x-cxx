@@ -12,6 +12,7 @@
 #include <vector>
 #include <atomic>
 #include <optional>
+#include <functional>
 
 namespace niu2x {
 
@@ -51,6 +52,9 @@ using Vector = std::vector<T>;
  */
 template <class T>
 using Maybe = std::optional<T>;
+
+template <class T>
+using Function = std::function<T>;
 
 /**
  * @brief       make_shared

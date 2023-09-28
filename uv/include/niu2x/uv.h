@@ -14,9 +14,20 @@ public:
     Loop();
     ~Loop();
     void close();
+    void run();
+
+    using IdleCallback = Function<void()>;
+
+    void* create_idle();
+    void destroy_idle(void*);
+
+    void idle_start(void*, const IdleCallback& idle_cb);
+    void idle_stop(void*);
 
 private:
     UniquePtr<LoopImp> pimp_;
+
+    LoopImp* imp() { return pimp_.get(); }
 };
 
 } // namespace niu2x::uv
