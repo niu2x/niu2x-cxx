@@ -9,8 +9,7 @@ int main(int argc, char* argv[])
     fs::File input_file(argv[2]);
     stream::FileReadStream ins(input_file);
 
-    Buffer buffer;
-    stream::BufferWriteStream outs(buffer);
+    stream::BufferWriteStream outs;
 
     stream::FilterType alg;
     String alg_name = argv[1];
@@ -30,6 +29,7 @@ int main(int argc, char* argv[])
     }
     filter.finalize();
 
+    auto& buffer = outs.buffer();
     printf("%s\n", buffer.str().c_str());
 
     return 0;

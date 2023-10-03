@@ -79,10 +79,11 @@ void Image::store_to(WriteStream* dest)
 
 void Image::load_from(ReadStream* src)
 {
-    Buffer file_content;
-    stream::BufferWriteStream file_content_writer(file_content);
+    stream::BufferWriteStream file_content_writer;
 
     pipe(src, &file_content_writer);
+
+    auto& file_content = file_content_writer.buffer();
 
     int desired_channels = 4;
 

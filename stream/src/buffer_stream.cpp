@@ -8,6 +8,12 @@ BufferReadStream::BufferReadStream(const Buffer& buffer)
 {
 }
 
+BufferReadStream::BufferReadStream(Buffer&& buffer)
+: buffer_(std::move(buffer))
+, read_pos_(0)
+{
+}
+
 BufferReadStream::~BufferReadStream() { }
 
 size_t BufferReadStream::read(void* buf, size_t size)
@@ -31,9 +37,8 @@ bool BufferReadStream::eof()
     return read_pos_ >= buf_size;
 }
 
-BufferWriteStream::BufferWriteStream(const Buffer& buffer)
-: buffer_(buffer)
-, write_pos_(0)
+BufferWriteStream::BufferWriteStream()
+: write_pos_(0)
 {
 }
 

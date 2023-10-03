@@ -8,6 +8,7 @@ namespace niu2x::stream {
 class NXAPI BufferReadStream : public ReadStream {
 public:
     BufferReadStream(const Buffer& buffer);
+    BufferReadStream(Buffer&& buffer);
     virtual ~BufferReadStream();
     virtual size_t read(void* buf, size_t size) override;
     virtual bool eof() override;
@@ -19,9 +20,11 @@ private:
 
 class NXAPI BufferWriteStream : public WriteStream {
 public:
-    BufferWriteStream(const Buffer& buffer);
+    BufferWriteStream();
     virtual ~BufferWriteStream();
     virtual void write(const void* buf, size_t size) override;
+    const Buffer& buffer() const { return buffer_; }
+    Buffer&& move_buffer() { return std::move(buffer_); }
 
 private:
     Buffer buffer_;

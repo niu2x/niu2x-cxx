@@ -27,7 +27,7 @@ public:
     const Path& path() const { return path_; }
 
 private:
-    Path path_;
+    const Path path_;
 };
 
 } // namespace niu2x::fs

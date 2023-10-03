@@ -10,10 +10,10 @@ int main(int argc, char* argv[])
     stream::FileWriteStream output(file);
     output.write("Hello world", 11);
 
-    Buffer buffer;
-    stream::BufferWriteStream os(buffer);
+    stream::BufferWriteStream os;
     os.write("hello stream", 12);
 
+    auto& buffer = os.buffer();
     auto msg = buffer.str();
 
     output.write(msg.c_str(), msg.size());

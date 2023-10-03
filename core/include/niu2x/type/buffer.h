@@ -8,7 +8,7 @@
 namespace niu2x {
 
 /**
- * @brief       A block of memory. shallow copy by SharedPtr */
+ * @brief       A block of memory */
 class NXAPI Buffer {
 public:
     using MemBlock = Vector<uint8_t>;
@@ -23,6 +23,7 @@ public:
     ~Buffer();
 
     NIU2X_CLASS_DEFAULT_COPYABLE(Buffer);
+    NIU2X_CLASS_DEFAULT_MOVABLE(Buffer);
 
     void read(void* data, size_t offset, size_t size) const;
 
@@ -35,31 +36,31 @@ public:
 
     /** @brief       get size of Buffer's memory
      * @return      size of Buffer's memory */
-    size_t size() const { return buf_->size(); }
+    size_t size() const { return buf_.size(); }
 
     /**
      * @brief       get const ptr of Buffer's memory
      * @return      const ptr of Buffer's memory  */
-    const uint8_t* data() const { return buf_->data(); }
+    const uint8_t* data() const { return buf_.data(); }
 
     /**
      * @brief       get ptr of Buffer's memory
      * @return      ptr of Buffer's memory  */
-    uint8_t* data() { return buf_->data(); }
+    uint8_t* data() { return buf_.data(); }
 
     /**
      * @brief       resize Buffer's memory
      * @param       s     new size
      */
-    void resize(size_t s) { buf_->resize(s); }
+    void resize(size_t s) { buf_.resize(s); }
 
     /**
      * @brief       convert Buffer's momory to String
      * @return      the String */
-    String str() const { return String(buf_->begin(), buf_->end()); }
+    String str() const { return String(buf_.begin(), buf_.end()); }
 
 private:
-    SharedPtr<MemBlock> buf_;
+    MemBlock buf_;
 };
 
 }; // namespace niu2x
