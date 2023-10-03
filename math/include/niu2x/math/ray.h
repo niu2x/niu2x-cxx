@@ -29,36 +29,6 @@ private:
     Vec3 dir_;
 };
 
-struct NXAPI HitRecord {
-    Vec3 p;
-    Vec3 normal;
-    double t;
-    bool front_face;
-
-    void set_normal(const Vec3& ray, const Vec3& normal);
-};
-
-class NXAPI Hittable {
-public:
-    virtual ~Hittable() = default;
-    virtual Maybe<HitRecord> hit(
-        const Ray& r, const Interval& ray_interval) const = 0;
-};
-
-class NXAPI HittableGroup : public Hittable {
-public:
-    HittableGroup() = default;
-    virtual ~HittableGroup() = default;
-
-    void insert(SharedPtr<Hittable> ptr);
-
-    virtual Maybe<HitRecord> hit(
-        const Ray& r, const Interval& ray_interval) const override;
-
-private:
-    Vector<SharedPtr<Hittable>> objs_;
-};
-
 } // namespace niu2x::math
 
 #endif

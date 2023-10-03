@@ -17,9 +17,9 @@ RayTracePainter::RayTracePainter()
     //     hittable_objects_.insert(make_shared<Sphere>(Vec3(i, 8, 2), 0.5));
     // }
 
-    hittable_objects_.insert(make_shared<Sphere>(Vec3(0, 8, 1), 2));
+    hittable_objects_.insert(make_shared<Sphere>(Vec3(0, 8, 1), 1));
     hittable_objects_.insert(make_shared<Sphere>(Vec3(0, 8, -40), 40));
-    camera_.look_at(Vec3(0, 0, 0), Vec3(0, 1, -0.2), Vec3(0, 0, 1));
+    camera_.look_at(Vec3(0, 0, 2), Vec3(0, 1, -0.2), Vec3(0, 0, 1));
 }
 
 RayTracePainter::~RayTracePainter() { }
@@ -34,14 +34,21 @@ inline Vec3 random_on_hemisphere(const Vec3& normal)
         return -on_unit_sphere;
 }
 
+static inline Vec3 linear_to_gamma(const Vec3& c)
+{
+    return Vec3(sqrt(c[0]), sqrt(c[1]), sqrt(c[2]));
+}
+
 Vec3 RayTracePainter::ray_color(const Ray& ray, int depth)
 {
     if (depth <= 0)
         return Vec3(0, 0, 0);
-    auto hit = hittable_objects_.hit(ray, math::Interval(0.1, math::infinity));
+    auto hit
+        = hittable_objects_.hit(ray, math::Interval(0.001, math::infinity));
     if (hit) {
-        Vec3 direction = random_on_hemisphere(hit.value().normal);
-        return 0.5 * ray_color(Ray(hit.value().p, direction), depth);
+        auto normal = hit.value().normal;
+        Vec3 direction = random_on_hemisphere(normal) + normal;
+        return 0.2 * ray_color(Ray(hit.value().p, direction), depth);
     }
     auto a = 0.5 * (ray.direction().z + 1.0);
     return Vec3(1.0, 1.0, 1.0) * (1.0 - a) + Vec3(0.5, 0.7, 1.0) * a;
@@ -79,6 +86,7 @@ void RayTracePainter::paint(Image* image)
             }
 
             color /= samples_per_pixel_;
+            color = linear_to_gamma(color);
             image->set_pixel(row, col, to_color(color));
         }
     }

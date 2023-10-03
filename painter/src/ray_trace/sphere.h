@@ -1,15 +1,15 @@
 #ifndef NIU2X_PAINTER_RAY_TRACE_SPHERE_H
 #define NIU2X_PAINTER_RAY_TRACE_SPHERE_H
 
-#include <niu2x/math/ray.h>
+#include "math.h"
 
 namespace niu2x::painter::ray_trace {
 
 using Vec3 = math::Vec3;
 using Interval = math::Interval;
 
-using Hittable = math::Hittable;
-using HitRecord = math::HitRecord;
+using Hittable = Hittable;
+using HitRecord = HitRecord;
 using Ray = math::Ray;
 
 class Sphere : public Hittable {

@@ -1,6 +1,7 @@
 #include <niu2x/painter.h>
 #include <niu2x/math.h>
 #include "ray_trace/sphere.h"
+#include "ray_trace/math.h"
 
 namespace niu2x::painter {
 
@@ -42,7 +43,7 @@ public:
 
 private:
     Camera camera_;
-    math::HittableGroup hittable_objects_;
+    ray_trace::HittableGroup hittable_objects_;
     int samples_per_pixel_;
     int max_depth_;
 
