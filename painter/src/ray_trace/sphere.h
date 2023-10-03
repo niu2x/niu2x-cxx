@@ -7,14 +7,11 @@ namespace niu2x::painter::ray_trace {
 
 using Vec3 = math::Vec3;
 using Interval = math::Interval;
-
-using Hittable = Hittable;
-using HitRecord = HitRecord;
 using Ray = math::Ray;
 
 class Sphere : public Hittable {
 public:
-    Sphere(const Vec3& center, double radius);
+    Sphere(const Vec3& center, double radius, const SharedPtr<Material>& mat);
     virtual ~Sphere() = default;
 
     virtual Maybe<HitRecord> hit(
@@ -23,6 +20,7 @@ public:
 private:
     Vec3 center_;
     double radius_;
+    SharedPtr<Material> mat_;
 };
 
 } // namespace niu2x::painter::ray_trace

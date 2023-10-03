@@ -3,6 +3,8 @@
 
 #include <niu2x/math/ray.h>
 
+#include "material.h"
+
 namespace niu2x::painter::ray_trace {
 
 using Ray = math::Ray;
@@ -14,6 +16,7 @@ struct NXAPI HitRecord {
     Vec3 normal;
     double t;
     bool front_face;
+    SharedPtr<Material> material;
 
     void set_normal(const Vec3& ray, const Vec3& normal);
 };

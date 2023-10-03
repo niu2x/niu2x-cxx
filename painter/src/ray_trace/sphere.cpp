@@ -3,17 +3,21 @@
 
 namespace niu2x::painter::ray_trace {
 
-Sphere::Sphere(const Vec3& center, double radius)
+Sphere::Sphere(
+    const Vec3& center, double radius, const SharedPtr<Material>& mat)
 : center_(center)
 , radius_(radius)
+, mat_(mat)
 {
 }
 
-static HitRecord make_hit_record(const Ray& ray, double t, const Vec3& center)
+static HitRecord make_hit_record(const Ray& ray, double t, const Vec3& center,
+    const SharedPtr<Material>& mat)
 {
     HitRecord record;
     record.p = ray.at(t);
     record.t = t;
+    record.material = mat;
     record.normal = normalize(record.p - center);
     return record;
 }
@@ -30,11 +34,11 @@ Maybe<HitRecord> Sphere::hit(const Ray& ray, const Interval& ray_interval) const
         double sqrtd = sqrt(discriminant);
         double root = (-half_b - sqrtd) / a;
         if (ray_interval.surrounds(root)) {
-            return make_hit_record(ray, root, center_);
+            return make_hit_record(ray, root, center_, mat_);
         } else {
             root = (-half_b + sqrtd) / a;
             if (ray_interval.surrounds(root)) {
-                return make_hit_record(ray, root, center_);
+                return make_hit_record(ray, root, center_, mat_);
             }
         }
     }

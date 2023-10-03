@@ -1,3 +1,6 @@
+#ifndef NIU2X_PAINTER_RAY_TRACE_H
+#define NIU2X_PAINTER_RAY_TRACE_H
+
 #include <niu2x/painter.h>
 #include <niu2x/math.h>
 #include "ray_trace/sphere.h"
@@ -51,3 +54,5 @@ private:
 };
 
 } // namespace niu2x::painter
+
+#endif

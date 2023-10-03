@@ -1,4 +1,5 @@
 #include "ray_trace.h"
+#include "ray_trace/lambertian.h"
 
 namespace niu2x::painter {
 
@@ -11,28 +12,15 @@ RayTracePainter::RayTracePainter()
 , samples_per_pixel_(16)
 , max_depth_(4)
 {
-    // for (int i = 0; i < 10; i++) {
-    //     hittable_objects_.insert(make_shared<Sphere>(Vec3(i, 8, 4), 0.5));
-    //     hittable_objects_.insert(make_shared<Sphere>(Vec3(i, 8, 1), 0.5));
-    //     hittable_objects_.insert(make_shared<Sphere>(Vec3(i, 8, 2), 0.5));
-    // }
+    auto lambertian = make_shared<ray_trace::Lambertian>(Vec3(0.1, 0.1, 0.3));
 
-    hittable_objects_.insert(make_shared<Sphere>(Vec3(0, 8, 1), 1));
-    hittable_objects_.insert(make_shared<Sphere>(Vec3(0, 8, -40), 40));
+    hittable_objects_.insert(make_shared<Sphere>(Vec3(0, 8, 1), 1, lambertian));
+    hittable_objects_.insert(
+        make_shared<Sphere>(Vec3(0, 8, -40), 40, lambertian));
     camera_.look_at(Vec3(0, 0, 2), Vec3(0, 1, -0.2), Vec3(0, 0, 1));
 }
 
 RayTracePainter::~RayTracePainter() { }
-
-inline Vec3 random_on_hemisphere(const Vec3& normal)
-{
-    Vec3 on_unit_sphere = random<Vec3>();
-    if (dot(on_unit_sphere, normal) > 0.0) {
-        // In the same hemisphere as the normal
-        return on_unit_sphere;
-    } else
-        return -on_unit_sphere;
-}
 
 static inline Vec3 linear_to_gamma(const Vec3& c)
 {
@@ -46,11 +34,14 @@ Vec3 RayTracePainter::ray_color(const Ray& ray, int depth)
     auto hit
         = hittable_objects_.hit(ray, math::Interval(0.001, math::infinity));
     if (hit) {
-        auto normal = hit.value().normal;
-        Vec3 direction = random_on_hemisphere(normal) + normal;
-        return 0.2 * ray_color(Ray(hit.value().p, direction), depth);
+        auto& record = hit.value();
+        Vec3 attenuation;
+        Ray scattered;
+        if (record.material->scatter(ray, record, attenuation, scattered)) {
+            return attenuation * ray_color(scattered, depth - 1);
+        }
     }
-    auto a = 0.5 * (ray.direction().z + 1.0);
+    auto a = 0.5 * (ray.direction().y + 1.0);
     return Vec3(1.0, 1.0, 1.0) * (1.0 - a) + Vec3(0.5, 0.7, 1.0) * a;
 }
 
