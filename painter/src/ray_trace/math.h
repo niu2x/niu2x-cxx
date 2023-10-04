@@ -57,6 +57,17 @@ inline Vec3 refract(const Vec3& uv, const Vec3& n, double etai_over_etat)
     return refracted_t + refracted_n;
 }
 
+inline Vec3 random_unit_vec3()
+{
+    double theta = math::random<double>(0, 2 * math::pi);
+    double phi = math::random<double>(0, math::pi);
+
+    double x = cos(theta) * sin(phi);
+    double y = sin(theta) * sin(phi);
+    double z = cos(phi);
+    return Vec3(x, y, z);
+}
+
 } // namespace niu2x::painter::ray_trace
 
 #endif
