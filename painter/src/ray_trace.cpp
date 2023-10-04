@@ -10,7 +10,7 @@ using math::random;
 using math::to_color;
 
 RayTracePainter::RayTracePainter()
-: camera_({ 4, 3 }, 4)
+: camera_(4 / 3.0, 90)
 , samples_per_pixel_(100)
 , max_depth_(50)
 {
@@ -33,7 +33,7 @@ RayTracePainter::RayTracePainter()
     hittable_objects_.insert(
         make_shared<Sphere>(Vec3(-1.0, 0.0, -1.0), -0.4, material_left));
 
-    camera_.look_at(Vec3(0, 0, 8), Vec3(0, 0, -1), Vec3(0, 1, 0));
+    camera_.look_at(Vec3(0, 0, 4), Vec3(0, 0, -1), Vec3(0, 1, 0));
 }
 
 RayTracePainter::~RayTracePainter() { }

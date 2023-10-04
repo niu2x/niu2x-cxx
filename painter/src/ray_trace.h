@@ -16,9 +16,12 @@ class RayTracePainter : public Painter {
 public:
     using Sphere = ray_trace::Sphere;
     struct Camera {
-        Camera(const DoubleSize& size, double focal_length)
-        : size(size)
-        , focal_length(focal_length)
+        Camera(double aspect_ratio, double fov)
+        : size({
+            aspect_ratio,
+            1.0,
+        })
+        , focal_length(size.width / 2 / tan(math::deg2rad(fov / 2)))
         {
         }
 
