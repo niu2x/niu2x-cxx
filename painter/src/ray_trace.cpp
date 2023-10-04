@@ -1,5 +1,6 @@
 #include "ray_trace.h"
 #include "ray_trace/lambertian.h"
+#include "ray_trace/metal.h"
 
 namespace niu2x::painter {
 
@@ -9,15 +10,26 @@ using math::to_color;
 
 RayTracePainter::RayTracePainter()
 : camera_({ 4, 3 }, 4)
-, samples_per_pixel_(16)
-, max_depth_(4)
+, samples_per_pixel_(100)
+, max_depth_(50)
 {
-    auto lambertian = make_shared<ray_trace::Lambertian>(Vec3(0.1, 0.1, 0.3));
+    auto material_ground
+        = make_shared<ray_trace::Lambertian>(Vec3(0.8, 0.8, 0.0));
+    auto material_center
+        = make_shared<ray_trace::Lambertian>(Vec3(0.7, 0.3, 0.3));
+    auto material_left = make_shared<ray_trace::Metal>(Vec3(0.8, 0.8, 0.8));
+    auto material_right = make_shared<ray_trace::Metal>(Vec3(0.8, 0.6, 0.2));
 
-    hittable_objects_.insert(make_shared<Sphere>(Vec3(0, 8, 1), 1, lambertian));
     hittable_objects_.insert(
-        make_shared<Sphere>(Vec3(0, 8, -40), 40, lambertian));
-    camera_.look_at(Vec3(0, 0, 2), Vec3(0, 1, -0.2), Vec3(0, 0, 1));
+        make_shared<Sphere>(Vec3(0.0, -100.5, -1.0), 100.0, material_ground));
+    hittable_objects_.insert(
+        make_shared<Sphere>(Vec3(0.0, 0.0, -1.0), 0.5, material_center));
+    hittable_objects_.insert(
+        make_shared<Sphere>(Vec3(-1.0, 0.0, -1.0), 0.5, material_left));
+    hittable_objects_.insert(
+        make_shared<Sphere>(Vec3(1.0, 0.0, -1.0), 0.5, material_right));
+
+    camera_.look_at(Vec3(0, 0, 8), Vec3(0, 0, -1), Vec3(0, 1, 0));
 }
 
 RayTracePainter::~RayTracePainter() { }
@@ -40,8 +52,9 @@ Vec3 RayTracePainter::ray_color(const Ray& ray, int depth)
         if (record.material->scatter(ray, record, attenuation, scattered)) {
             return attenuation * ray_color(scattered, depth - 1);
         }
+        return Vec3(0, 0, 0);
     }
-    auto a = 0.5 * (ray.direction().y + 1.0);
+    auto a = 0.5 * (ray.direction().z + 1.0);
     return Vec3(1.0, 1.0, 1.0) * (1.0 - a) + Vec3(0.5, 0.7, 1.0) * a;
 }
 
