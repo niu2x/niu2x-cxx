@@ -21,17 +21,17 @@ public:
             aspect_ratio,
             1.0,
         })
-        , focal_length(size.width / 2 / tan(math::deg2rad(fov / 2)))
+        , focal_length(size.height / 2 / tan(math::deg2rad(fov / 2)))
         {
         }
 
         const DoubleSize size;
         const double focal_length;
 
-        void look_at(const Vec3& p_pos, const Vec3& p_look, const Vec3& p_up)
+        void look_at(const Vec3& p_pos, const Vec3& target, const Vec3& p_up)
         {
             this->pos = p_pos;
-            this->look = normalize(p_look);
+            this->look = normalize(target - p_pos);
             this->side = normalize(cross(this->look, p_up));
             this->up = cross(this->side, this->look);
         }

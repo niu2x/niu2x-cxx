@@ -8,7 +8,7 @@ using namespace niu2x;
 int main()
 {
     image::Image canvas;
-    canvas.reset(800, 600, Color::WHITE);
+    canvas.reset(1600, 900, Color::WHITE);
 
     auto painter = painter::Painter::create(painter::PainterType::RAY_TRACE);
     painter->paint(&canvas);

@@ -10,41 +10,30 @@ using math::random;
 using math::to_color;
 
 RayTracePainter::RayTracePainter()
-: camera_(4 / 3.0, 90)
+: camera_(16 / 9.0, 20)
 , samples_per_pixel_(100)
 , max_depth_(50)
 {
-    // auto material_ground
-    //     = make_shared<ray_trace::Lambertian>(Vec3(0.8, 0.8, 0.0));
-    // auto material_center
-    //     = make_shared<ray_trace::Lambertian>(Vec3(0.1, 0.2, 0.5));
-    // auto material_left = make_shared<ray_trace::Dielectric>(1.5);
-    // auto material_right
-    //     = make_shared<ray_trace::Metal>(Vec3(0.8, 0.6, 0.2), 1.0);
+    auto material_ground
+        = make_shared<ray_trace::Lambertian>(Vec3(0.8, 0.8, 0.0));
+    auto material_center
+        = make_shared<ray_trace::Lambertian>(Vec3(0.1, 0.2, 0.5));
+    auto material_left = make_shared<ray_trace::Dielectric>(1.5);
+    auto material_right
+        = make_shared<ray_trace::Metal>(Vec3(0.8, 0.6, 0.2), 1.0);
 
-    // hittable_objects_.insert(
-    //     make_shared<Sphere>(Vec3(0.0, -100.5, -1.0), 100.0,
-    //     material_ground));
-    // hittable_objects_.insert(
-    //     make_shared<Sphere>(Vec3(0.0, 0.0, -1.0), 0.5, material_center));
-    // hittable_objects_.insert(
-    //     make_shared<Sphere>(Vec3(-1.0, 0.0, -1.0), 0.5, material_left));
-    // hittable_objects_.insert(
-    //     make_shared<Sphere>(Vec3(1.0, 0.0, -1.0), 0.5, material_right));
-    // hittable_objects_.insert(
-    //     make_shared<Sphere>(Vec3(-1.0, 0.0, -1.0), -0.4, material_left));
+    hittable_objects_.insert(
+        make_shared<Sphere>(Vec3(0.0, -100.5, -1.0), 100.0, material_ground));
+    hittable_objects_.insert(
+        make_shared<Sphere>(Vec3(0.0, 0.0, -1.0), 0.5, material_center));
+    hittable_objects_.insert(
+        make_shared<Sphere>(Vec3(-1.0, 0.0, -1.0), 0.5, material_left));
+    hittable_objects_.insert(
+        make_shared<Sphere>(Vec3(1.0, 0.0, -1.0), 0.5, material_right));
+    hittable_objects_.insert(
+        make_shared<Sphere>(Vec3(-1.0, 0.0, -1.0), -0.4, material_left));
 
-    // camera_.look_at(Vec3(0, 0, 4), Vec3(0, 0, -1), Vec3(0, 1, 0));
-
-    auto R = cos(math::pi / 4);
-
-    auto blue = make_shared<ray_trace::Lambertian>(Vec3(0, 0, 1));
-    auto red = make_shared<ray_trace::Lambertian>(Vec3(1, 0, 0));
-
-    hittable_objects_.insert(make_shared<Sphere>(Vec3(R, 0, -1), R, red));
-    hittable_objects_.insert(make_shared<Sphere>(Vec3(-R, 0, -1), R, blue));
-
-    camera_.look_at(Vec3(0, 0, R), Vec3(0, 0, -1), Vec3(0, 1, 0));
+    camera_.look_at(Vec3(-2, 2, 1), Vec3(0, 0, -1), Vec3(0, 1, 0));
 }
 
 RayTracePainter::~RayTracePainter() { }
