@@ -8,20 +8,21 @@ WriteFilter::WriteFilter(FilterType filter_type, WriteStream* next)
 : next_(next)
 , filter_alg_(FilterAlgorithmFactory::create_algorithm(filter_type))
 {
+    delegate_ = [this](const void* buf, size_t size) { 
+        next_->write(buf, size); 
+    };
 }
 
 WriteFilter::~WriteFilter() { }
 
 void WriteFilter::write(const void* buf, size_t size)
 {
-    filter_alg_->write(buf, size,
-        [this](const void* buf, size_t size) { next_->write(buf, size); });
+    filter_alg_->write(buf, size, delegate_);
 }
 
 void WriteFilter::finalize()
 {
-    filter_alg_->finalize(
-        [this](const void* buf, size_t size) { next_->write(buf, size); });
+    filter_alg_->finalize(delegate_);
 
     next_->finalize();
 }

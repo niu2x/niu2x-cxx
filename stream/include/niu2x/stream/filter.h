@@ -15,6 +15,8 @@ public:
     virtual void finalize() override;
 
 private:
+    FilterAlgorithm::Output delegate_;
+
     WriteStream* next_;
     UniquePtr<FilterAlgorithm> filter_alg_;
 };
