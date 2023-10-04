@@ -19,8 +19,8 @@ public:
     {
     }
 
-    Vec3 origin() const { return origin_; }
-    Vec3 direction() const { return dir_; }
+    const Vec3& origin() const { return origin_; }
+    const Vec3& direction() const { return dir_; }
 
     Vec3 at(double t) const { return origin_ + t * dir_; }
 

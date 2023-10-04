@@ -1,5 +1,5 @@
-#ifndef NIU2X_PAINTER_RAY_TRACE_METAL_H
-#define NIU2X_PAINTER_RAY_TRACE_METAL_H
+#ifndef NIU2X_PAINTER_RAY_TRACE_DIELECTRIC_H
+#define NIU2X_PAINTER_RAY_TRACE_DIELECTRIC_H
 
 #include <niu2x/type/color.h>
 #include <niu2x/math.h>
@@ -11,19 +11,18 @@ using Ray = math::Ray;
 using Vec3 = math::Vec3;
 class HitRecord;
 
-class Metal : public Material {
+class Dielectric : public Material {
 public:
-    Metal(const Vec3& a, double f)
-    : albedo_(a)
-    , fuzz_(math::clamp(f, 0.0, 1.0))
+    Dielectric(double index_of_refraction)
+    : ir_(index_of_refraction)
     {
     }
+
     bool scatter(const Ray& r_in, const HitRecord& rec, Vec3& attenuation,
         Ray& scattered) const override;
 
 private:
-    Vec3 albedo_;
-    double fuzz_;
+    double ir_;
 };
 
 } // namespace niu2x::painter::ray_trace

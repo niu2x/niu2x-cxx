@@ -47,6 +47,16 @@ inline Vec3 reflect(const Vec3& v, const Vec3& n)
     return v - 2 * dot(v, n) * n;
 }
 
+inline Vec3 refract(const Vec3& uv, const Vec3& n, double etai_over_etat)
+{
+    Vec3 proj_n = dot(uv, n) * n;
+    Vec3 proj_t = uv - proj_n;
+
+    Vec3 refracted_t = etai_over_etat * proj_t;
+    Vec3 refracted_n = sqrt(1 - length2(refracted_t)) * normalize(proj_n);
+    return refracted_t + refracted_n;
+}
+
 } // namespace niu2x::painter::ray_trace
 
 #endif

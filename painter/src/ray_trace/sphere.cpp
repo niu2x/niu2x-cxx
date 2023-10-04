@@ -12,13 +12,13 @@ Sphere::Sphere(
 }
 
 static HitRecord make_hit_record(const Ray& ray, double t, const Vec3& center,
-    const SharedPtr<Material>& mat)
+    const SharedPtr<Material>& mat, double sign)
 {
     HitRecord record;
     record.p = ray.at(t);
     record.t = t;
     record.material = mat;
-    record.normal = normalize(record.p - center);
+    record.set_normal(ray.direction(), normalize(record.p - center) * sign);
     return record;
 }
 
@@ -34,11 +34,13 @@ Maybe<HitRecord> Sphere::hit(const Ray& ray, const Interval& ray_interval) const
         double sqrtd = sqrt(discriminant);
         double root = (-half_b - sqrtd) / a;
         if (ray_interval.surrounds(root)) {
-            return make_hit_record(ray, root, center_, mat_);
+            return make_hit_record(
+                ray, root, center_, mat_, math::sign(radius_));
         } else {
             root = (-half_b + sqrtd) / a;
             if (ray_interval.surrounds(root)) {
-                return make_hit_record(ray, root, center_, mat_);
+                return make_hit_record(
+                    ray, root, center_, mat_, math::sign(radius_));
             }
         }
     }

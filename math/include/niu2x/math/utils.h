@@ -18,7 +18,7 @@ namespace niu2x::math {
  * @param       max   upper bound
  * @return      clampd value */
 template <class T>
-T clamp(const T& n, const T& min, const T& max)
+constexpr T clamp(const T& n, const T& min, const T& max)
 {
     if (n < min)
         return min;
@@ -50,6 +50,12 @@ template <class T>
 inline T random(const T& min, const T& max)
 {
     return random<T>() * (max - min) + min;
+}
+
+template <class T>
+inline T sign(const T& n)
+{
+    return n > 0 ? 1 : (n < 0 ? -1 : 0);
 }
 
 } // namespace niu2x::math
