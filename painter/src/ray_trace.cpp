@@ -2,6 +2,7 @@
 #include "ray_trace/lambertian.h"
 #include "ray_trace/metal.h"
 #include "ray_trace/dielectric.h"
+#include "ray_trace/math.h"
 
 namespace niu2x::painter {
 
@@ -10,7 +11,7 @@ using math::random;
 using math::to_color;
 
 RayTracePainter::RayTracePainter()
-: camera_(16 / 9.0, 20)
+: camera_(16 / 9.0, 20, 10, 3.4)
 , samples_per_pixel_(100)
 , max_depth_(50)
 {
@@ -66,6 +67,7 @@ Vec3 RayTracePainter::ray_color(const Ray& ray, int depth)
 void RayTracePainter::paint(Image* image)
 {
     auto ray_origin = camera_.pos;
+
     auto screen_center = ray_origin + camera_.look * camera_.focal_length;
     auto image_size = image->size();
 
@@ -79,6 +81,14 @@ void RayTracePainter::paint(Image* image)
 
             for (int n = 0; n < samples_per_pixel_; n++) {
 
+                Vec2 defocus_unit
+                    // = ray_trace::random_unit_vec2() * camera_.defocus_radius;
+                    = ray_trace::random_unit_vec2()
+                    * math::random<double>(0, camera_.defocus_radius);
+                Vec3 defocus_ray_origin = ray_origin
+                    + defocus_unit.x * camera_.side
+                    + defocus_unit.y * camera_.up;
+
                 double px
                     = (pixel_x + random(-0.5, 0.5)) / image_size.width - 0.5;
                 double py
@@ -89,8 +99,8 @@ void RayTracePainter::paint(Image* image)
                 auto pixel_pos
                     = screen_center + px * camera_.side + py * camera_.up;
 
-                auto ray_dir = normalize(pixel_pos - ray_origin);
-                auto ray = math::Ray(ray_origin, ray_dir);
+                auto ray_dir = normalize(pixel_pos - defocus_ray_origin);
+                auto ray = math::Ray(defocus_ray_origin, ray_dir);
                 color += ray_color(ray, max_depth_);
             }
 

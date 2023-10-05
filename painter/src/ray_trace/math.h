@@ -10,6 +10,7 @@ namespace niu2x::painter::ray_trace {
 using Ray = math::Ray;
 using Interval = math::Interval;
 using Vec3 = math::Vec3;
+using Vec2 = math::Vec2;
 
 struct NXAPI HitRecord {
     Vec3 p;
@@ -66,6 +67,14 @@ inline Vec3 random_unit_vec3()
     double y = sin(theta) * sin(phi);
     double z = cos(phi);
     return Vec3(x, y, z);
+}
+
+inline Vec2 random_unit_vec2()
+{
+    double theta = math::random<double>(0, 2 * math::pi);
+    double x = cos(theta);
+    double y = sin(theta);
+    return Vec2(x, y);
 }
 
 } // namespace niu2x::painter::ray_trace

@@ -10,23 +10,32 @@ namespace niu2x::painter {
 
 using math::DoubleSize;
 using math::Ray;
+using math::Vec2;
 using math::Vec3;
 
 class RayTracePainter : public Painter {
 public:
     using Sphere = ray_trace::Sphere;
     struct Camera {
-        Camera(double aspect_ratio, double fov)
+        Camera(double aspect_ratio, double fov, double defocus_angle,
+            double focus_dist)
         : size({
             aspect_ratio,
             1.0,
         })
         , focal_length(size.height / 2 / tan(math::deg2rad(fov / 2)))
+        , defocus_radius(focus_dist * tan(math::deg2rad(defocus_angle / 2)))
         {
+            double scale = focus_dist / focal_length;
+            focal_length = focus_dist;
+
+            size.width *= scale;
+            size.height *= scale;
         }
 
-        const DoubleSize size;
-        const double focal_length;
+        DoubleSize size;
+        double focal_length;
+        double defocus_radius;
 
         void look_at(const Vec3& p_pos, const Vec3& target, const Vec3& p_up)
         {

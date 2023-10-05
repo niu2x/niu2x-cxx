@@ -6,6 +6,7 @@
 namespace niu2x::math {
 
 using Vec3 = linalg::vec<double, 3>;
+using Vec2 = linalg::vec<double, 2>;
 
 } // namespace niu2x::math
 
