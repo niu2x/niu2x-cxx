@@ -107,7 +107,11 @@ void RayTracePainter::paint(Image* image)
     auto screen_center = ray_origin + camera_.look * camera_.focal_length;
     auto image_size = image->size();
 
+    double total = image_size.height * image_size.width;
+    double current = 0;
+
     for (int row = 0; row < image_size.height; row++) {
+        current += image_size.width;
         for (int col = 0; col < image_size.width; col++) {
 
             double pixel_x = col + 0.5;
@@ -144,6 +148,7 @@ void RayTracePainter::paint(Image* image)
             color = linear_to_gamma(color);
             image->set_pixel(row, col, to_color(color));
         }
+        printf("progress: %.2lf%%\n", current / total * 100);
     }
 }
 
