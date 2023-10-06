@@ -2,5 +2,4 @@
 2. linalg
 3. lua5.1.5
 4. Crossline
-4. libuv
-4. rapidyaml
+5. libuv

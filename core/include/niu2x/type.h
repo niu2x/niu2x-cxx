@@ -19,7 +19,6 @@
 #include <niu2x/type/deserializable.h>
 #include <niu2x/type/resource.h>
 #include <niu2x/type/color.h>
-#include <niu2x/type/yaml.h>
 
 /**
  * @brief       top most name space, contain all others
