@@ -25,6 +25,13 @@ public:
     NIU2X_CLASS_DEFAULT_COPYABLE(Buffer);
     NIU2X_CLASS_DEFAULT_MOVABLE(Buffer);
 
+    /**
+     * @brief      read date from Buffer's memory
+     *
+     * @param      data    The buffer to receive data
+     * @param[in]  offset  The offset
+     * @param[in]  size    The size
+     */
     void read(void* data, size_t offset, size_t size) const;
 
     /**

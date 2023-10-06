@@ -7,6 +7,9 @@
 
 namespace niu2x {
 
+/**
+ * @brief      RGBA Color, 8 bit per channel
+ */
 struct NXAPI Color {
     union {
         struct {
@@ -15,11 +18,29 @@ struct NXAPI Color {
         uint32_t rgba8;
     };
 
+    /**
+     * @brief      constructor
+     *
+     * @param[in]  r     red
+     * @param[in]  g     green
+     * @param[in]  b     blue
+     * @param[in]  a     alpha
+     */
     Color(uint8_t r, uint8_t g, uint8_t b, uint8_t a);
-    // Color(const Vec3 &c);
+
+    /**
+     * @brief      constructor that all bits is set to zero
+     */
     Color();
 
+    /**
+     * white color
+     */
     static const Color WHITE;
+    /**
+     * black color
+     */
+    static const Color BLACK;
 };
 
 } // namespace niu2x
