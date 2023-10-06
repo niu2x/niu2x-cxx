@@ -121,9 +121,7 @@ void RayTracePainter::paint(Image* image)
 
             for (int n = 0; n < samples_per_pixel_; n++) {
 
-                Vec2 defocus_unit
-                    // = ray_trace::random_unit_vec2() * camera_.defocus_radius;
-                    = ray_trace::random_unit_vec2()
+                Vec2 defocus_unit = ray_trace::random_unit_vec2()
                     * math::random<double>(0, camera_.defocus_radius);
                 Vec3 defocus_ray_origin = ray_origin
                     + defocus_unit.x * camera_.side

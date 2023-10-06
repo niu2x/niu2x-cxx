@@ -3,7 +3,6 @@
 
 namespace niu2x ::painter {
 enum class PainterType {
-    LEARNING_0_1,
     RAY_TRACE,
 };
 }
