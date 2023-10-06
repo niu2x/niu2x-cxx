@@ -3,7 +3,7 @@
 
 #include <niu2x/type/color.h>
 #include <niu2x/math.h>
-#include "material.h"
+#include <niu2x/painter/ray_trace/material.h>
 
 namespace niu2x::painter::ray_trace {
 
@@ -25,5 +25,9 @@ private:
 };
 
 } // namespace niu2x::painter::ray_trace
+
+namespace niu2x::painter {
+using RayTraceLambertian = ray_trace::Lambertian;
+}
 
 #endif

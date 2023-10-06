@@ -1,7 +1,8 @@
 #ifndef NIU2X_PAINTER_RAY_TRACE_SPHERE_H
 #define NIU2X_PAINTER_RAY_TRACE_SPHERE_H
 
-#include "math.h"
+#include <niu2x/math.h>
+#include <niu2x/painter/ray_trace/hittable.h>
 
 namespace niu2x::painter::ray_trace {
 
@@ -24,5 +25,9 @@ private:
 };
 
 } // namespace niu2x::painter::ray_trace
+
+namespace niu2x::painter {
+using RayTraceSphere = niu2x::painter::ray_trace::Sphere;
+}
 
 #endif

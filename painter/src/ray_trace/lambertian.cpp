@@ -1,4 +1,4 @@
-#include "lambertian.h"
+#include <niu2x/painter/ray_trace/lambertian.h>
 #include <niu2x/type.h>
 #include <niu2x/math/utils.h>
 #include "math.h"

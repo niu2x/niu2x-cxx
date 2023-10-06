@@ -1,5 +1,5 @@
-#include "sphere.h"
 #include <niu2x/math.h>
+#include <niu2x/painter/ray_trace/sphere.h>
 
 namespace niu2x::painter::ray_trace {
 

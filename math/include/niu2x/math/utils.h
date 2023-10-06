@@ -52,6 +52,25 @@ inline T random(const T& min, const T& max)
     return random<T>() * (max - min) + min;
 }
 
+inline Vec3 random_unit_vec3()
+{
+    double theta = math::random<double>(0, 2 * math::pi);
+    double phi = math::random<double>(0, math::pi);
+
+    double x = cos(theta) * sin(phi);
+    double y = sin(theta) * sin(phi);
+    double z = cos(phi);
+    return Vec3(x, y, z);
+}
+
+inline Vec2 random_unit_vec2()
+{
+    double theta = math::random<double>(0, 2 * math::pi);
+    double x = cos(theta);
+    double y = sin(theta);
+    return Vec2(x, y);
+}
+
 template <class T>
 inline T sign(const T& n)
 {

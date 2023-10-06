@@ -1,5 +1,5 @@
-#include "dielectric.h"
 #include <niu2x/type.h>
+#include <niu2x/painter/ray_trace/dielectric.h>
 #include <niu2x/math/utils.h>
 #include "math.h"
 
@@ -31,7 +31,6 @@ bool Dielectric::scatter(const Ray& r_in, const HitRecord& rec,
     if (connot_refract || random_reflect) {
         Vec3 reflected = reflect(unit_direction, rec.normal);
         scattered = Ray(rec.p, normalize(reflected));
-        // return  dot(scattered.direction(), rec.normal) > 0;
         return true;
     } else {
         Vec3 refracted = refract(unit_direction, rec.normal, refraction_ratio);

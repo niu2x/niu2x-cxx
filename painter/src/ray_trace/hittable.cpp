@@ -1,4 +1,4 @@
-#include "math.h"
+#include <niu2x/painter/ray_trace/hittable.h>
 
 namespace niu2x::painter::ray_trace {
 

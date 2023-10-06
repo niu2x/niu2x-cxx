@@ -1,4 +1,4 @@
-#include "metal.h"
+#include <niu2x/painter/ray_trace/metal.h>
 #include <niu2x/type.h>
 #include <niu2x/math/utils.h>
 #include "math.h"
