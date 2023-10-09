@@ -9,7 +9,7 @@ bool Metal::scatter(const Ray& r_in, const HitRecord& rec, Vec3& attenuation,
     Ray& scattered) const
 {
     Vec3 reflected = reflect(normalize(r_in.direction()), rec.normal);
-    scattered = Ray(rec.p, reflected + fuzz_ * random_unit_vec3());
+    scattered = Ray(rec.p, reflected + fuzz_ * random_unit_vec3(), r_in.time());
     attenuation = albedo_;
     return dot(scattered.direction(), rec.normal) > 0;
 }

@@ -11,7 +11,7 @@ int main()
     using Vec3 = math::Vec3;
 
     image::Image canvas;
-    canvas.reset(1200, 675, Color::WHITE);
+    canvas.reset(400, 225, Color::WHITE);
 
     painter::RayTraceCamera::Options camera_options
         = { .aspect_ratio = 16 / 9.0,
@@ -52,8 +52,9 @@ int main()
                     auto fuzz = math::random<double>(0, 0.5);
                     sphere_material
                         = make_shared<painter::RayTraceMetal>(albedo, fuzz);
+                    auto center2 = center + Vec3(0, math::random(.0, .5), 0);
                     objs.insert(make_shared<painter::RayTraceSphere>(
-                        center, 0.2, sphere_material));
+                        center, center2, 0.2, sphere_material));
                 } else {
                     // glass
                     sphere_material
@@ -81,7 +82,7 @@ int main()
 
     camera.look(Vec3(13, 2, 3), Vec3(0, 0, 0), Vec3(0, 1, 0));
 
-    painter::RayTracePainter painter(50, 4);
+    painter::RayTracePainter painter(50, 100);
     painter.paint(&canvas, &camera, &objs);
 
     fs::File canvas_file("test.png");

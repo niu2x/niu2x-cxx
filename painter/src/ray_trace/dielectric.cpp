@@ -30,11 +30,11 @@ bool Dielectric::scatter(const Ray& r_in, const HitRecord& rec,
 
     if (connot_refract || random_reflect) {
         Vec3 reflected = reflect(unit_direction, rec.normal);
-        scattered = Ray(rec.p, normalize(reflected));
+        scattered = Ray(rec.p, normalize(reflected), r_in.time());
         return true;
     } else {
         Vec3 refracted = refract(unit_direction, rec.normal, refraction_ratio);
-        scattered = Ray(rec.p, normalize(refracted));
+        scattered = Ray(rec.p, normalize(refracted), r_in.time());
         return true;
     }
 }

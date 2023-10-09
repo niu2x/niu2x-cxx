@@ -8,6 +8,9 @@ namespace niu2x::math {
 using Vec3 = linalg::vec<double, 3>;
 using Vec2 = linalg::vec<double, 2>;
 
+inline const Vec3 vec3_zero = Vec3(0, 0, 0);
+inline const Vec2 vec2_zero = Vec2(0, 0);
+
 } // namespace niu2x::math
 
 #endif

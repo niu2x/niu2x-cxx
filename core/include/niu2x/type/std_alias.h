@@ -53,6 +53,8 @@ using Vector = std::vector<T>;
 template <class T>
 using Maybe = std::optional<T>;
 
+inline const auto maybe_null = std::nullopt;
+
 template <class T>
 using Function = std::function<T>;
 

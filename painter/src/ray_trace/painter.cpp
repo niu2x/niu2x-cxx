@@ -65,7 +65,7 @@ void Painter::paint(Image* image, const Camera* camera, const Objests* objects)
                 pixel_pos += py * camera_up;
 
                 auto ray_dir = normalize(pixel_pos - defocus_eye);
-                auto ray = math::Ray(defocus_eye, ray_dir);
+                auto ray = math::Ray(defocus_eye, ray_dir, random(0.0, 1.0));
                 color += ray_color(ray, max_depth_, objects);
             }
 
