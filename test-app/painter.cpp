@@ -43,8 +43,9 @@ int main()
                         * math::random<Vec3>(Vec3(0, 0, 0), Vec3(1, 1, 1));
                     sphere_material
                         = make_shared<painter::RayTraceLambertian>(albedo);
+                    auto center2 = center + Vec3(0, math::random(.0, .5), 0);
                     objs.insert(make_shared<painter::RayTraceSphere>(
-                        center, 0.2, sphere_material));
+                        center, center2, 0.2, sphere_material));
                 } else if (choose_mat < 0.95) {
                     // metal
                     auto albedo = math::random<Vec3>(
@@ -52,9 +53,8 @@ int main()
                     auto fuzz = math::random<double>(0, 0.5);
                     sphere_material
                         = make_shared<painter::RayTraceMetal>(albedo, fuzz);
-                    auto center2 = center + Vec3(0, math::random(.0, .5), 0);
                     objs.insert(make_shared<painter::RayTraceSphere>(
-                        center, center2, 0.2, sphere_material));
+                        center, 0.2, sphere_material));
                 } else {
                     // glass
                     sphere_material
