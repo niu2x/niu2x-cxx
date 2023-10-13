@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.10.0 FATAL_ERROR)
 project(NIU2X_TEST_APP)
-set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD 20)
 
 find_package(niu2x_filesystem REQUIRED)
 find_package(niu2x_stream REQUIRED)
@@ -34,3 +34,6 @@ target_link_libraries(painter PRIVATE niu2x_painter)
 
 add_executable(uv "uv.cpp")
 target_link_libraries(uv PRIVATE niu2x_uv)
+
+add_executable(sysinfo "sysinfo.cpp")
+target_link_libraries(sysinfo PRIVATE niu2x_filesystem)
