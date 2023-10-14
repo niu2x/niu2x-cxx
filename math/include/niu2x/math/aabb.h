@@ -84,12 +84,12 @@ public:
     }
 };
 
-AABB operator+(const AABB& a, const AABB& b)
+inline AABB operator+(const AABB& a, const AABB& b)
 {
     return AABB(a.x + b.x, a.y + b.y, a.z + b.z);
 }
 
-AABB operator*(const AABB& a, const AABB& b)
+inline AABB operator*(const AABB& a, const AABB& b)
 {
     return AABB(a.x * b.x, a.y * b.y, a.z * b.z);
 }

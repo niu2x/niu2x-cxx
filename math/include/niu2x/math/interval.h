@@ -75,12 +75,12 @@ public:
     double min, max;
 };
 
-Interval operator+(const Interval& a, const Interval& b)
+inline Interval operator+(const Interval& a, const Interval& b)
 {
     return Interval(fmin(a.min, b.min), fmax(a.max, b.max));
 }
 
-Interval operator*(const Interval& a, const Interval& b)
+inline Interval operator*(const Interval& a, const Interval& b)
 {
     return Interval(fmin(a.min, b.min), fmax(a.max, b.max));
 }
