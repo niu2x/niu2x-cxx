@@ -21,6 +21,11 @@ Sphere::Sphere(const Vec3& center, const Vec3& target_center, double radius,
 , radius_(radius)
 , mat_(mat)
 {
+
+    auto rvec = Vec3(radius, radius, radius);
+    AABB box1(center - rvec, center + rvec);
+    AABB box2(target_center - rvec, target_center + rvec);
+    bbox_ = box1 + box2;
 }
 
 static HitRecord make_hit_record(const Ray& ray, double t, const Vec3& center,

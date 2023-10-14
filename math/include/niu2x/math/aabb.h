@@ -47,18 +47,52 @@ public:
     bool hit(const Ray& r, Interval ray_t) const
     {
         for (int a = 0; a < 3; a++) {
-            auto tmp_r0 = (axis(a).min - r.origin()[a]) / r.direction()[a];
-            auto tmp_r1 = (axis(a).max - r.origin()[a]) / r.direction()[a];
-            auto t0 = fmin(tmp_r0, tmp_r1);
-            auto t1 = fmax(tmp_r0, tmp_r1);
-            ray_t.min = fmax(t0, ray_t.min);
-            ray_t.max = fmin(t1, ray_t.max);
+            auto invD = 1 / r.direction()[a];
+            auto orig = r.origin()[a];
+
+            auto t0 = (axis(a).min - orig) * invD;
+            auto t1 = (axis(a).max - orig) * invD;
+
+            if (invD < 0)
+                swap(t0, t1);
+
+            if (t0 > ray_t.min)
+                ray_t.min = t0;
+            if (t1 < ray_t.max)
+                ray_t.max = t1;
+
             if (ray_t.max <= ray_t.min)
                 return false;
         }
         return true;
     }
+
+    AABB& operator+=(const AABB& p)
+    {
+        x = x + p.x;
+        y = y + p.y;
+        z = z + p.z;
+        return *this;
+    }
+
+    AABB& operator*=(const AABB& p)
+    {
+        x = x * p.x;
+        y = y * p.y;
+        z = z * p.z;
+        return *this;
+    }
 };
+
+AABB operator+(const AABB& a, const AABB& b)
+{
+    return AABB(a.x + b.x, a.y + b.y, a.z + b.z);
+}
+
+AABB operator*(const AABB& a, const AABB& b)
+{
+    return AABB(a.x * b.x, a.y * b.y, a.z * b.z);
+}
 
 } // namespace niu2x::math
 

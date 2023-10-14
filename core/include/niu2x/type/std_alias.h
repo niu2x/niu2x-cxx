@@ -82,6 +82,8 @@ using std::min;
 using std::fmax;
 using std::fmin;
 
+using std::swap;
+
 } // namespace niu2x
 
 #endif

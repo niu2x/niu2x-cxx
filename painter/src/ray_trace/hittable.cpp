@@ -8,7 +8,11 @@ void HitRecord::set_normal(const Vec3& ray, const Vec3& p_normal)
     front_face = dot(normal, ray) < 0;
 }
 
-void HittableGroup::insert(SharedPtr<Hittable> ptr) { objs_.push_back(ptr); }
+void HittableGroup::insert(SharedPtr<Hittable> ptr)
+{
+    objs_.push_back(ptr);
+    bbox_ += ptr->bounding_box();
+}
 
 Maybe<HitRecord> HittableGroup::hit(
     const Ray& ray, const Interval& ray_interval) const

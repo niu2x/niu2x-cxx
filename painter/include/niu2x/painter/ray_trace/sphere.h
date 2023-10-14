@@ -6,10 +6,6 @@
 
 namespace niu2x::painter::ray_trace {
 
-using Vec3 = math::Vec3;
-using Interval = math::Interval;
-using Ray = math::Ray;
-
 class Sphere : public Hittable {
 public:
     Sphere(const Vec3& center, double radius, const SharedPtr<Material>& mat);
@@ -22,6 +18,8 @@ public:
 
     Vec3 center(double t) const { return center_ + center_vec_ * t; }
 
+    AABB bounding_box() const override { return bbox_; }
+
 private:
     Vec3 center_;
     Vec3 center_vec_;
@@ -29,6 +27,7 @@ private:
 
     double radius_;
     SharedPtr<Material> mat_;
+    AABB bbox_;
 };
 
 } // namespace niu2x::painter::ray_trace
