@@ -6,6 +6,7 @@
 #include <string>
 #include <sstream>
 #include <memory>
+#include <cmath>
 #include <mutex>
 #include <condition_variable>
 #include <thread>
@@ -77,6 +78,9 @@ using std::max;
  * @brief       minimum of two value
  */
 using std::min;
+
+using std::fmax;
+using std::fmin;
 
 } // namespace niu2x
 

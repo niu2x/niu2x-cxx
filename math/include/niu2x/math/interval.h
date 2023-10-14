@@ -49,6 +49,20 @@ public:
     double clamp(double x) const { return math::clamp(x, min, max); }
 
     /**
+     * @brief      扩大一个区间
+     *
+     * @param[in]  delta 具体要扩大多少
+     *
+     * @return     扩大后的区间(min-delta/2, max+delta/2)
+     */
+
+    Interval expand(double delta) const
+    {
+        auto padding = delta / 2;
+        return Interval(min - padding, max + padding);
+    }
+
+    /**
      * @brief       空区间
      */
     static const Interval empty;
