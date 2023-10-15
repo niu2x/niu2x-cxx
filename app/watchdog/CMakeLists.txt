@@ -9,6 +9,12 @@ target_sources(watchdog PRIVATE "main.cpp")
 
 find_package(niu2x_lua REQUIRED)
 find_package(niu2x_application REQUIRED)
+find_package(niu2x_filesystem REQUIRED)
+find_package(niu2x_uv REQUIRED)
 
-target_link_libraries(watchdog PRIVATE niu2x_lua)
-target_link_libraries(watchdog PRIVATE niu2x_application)
+target_link_libraries(watchdog PRIVATE 
+	niu2x_lua 
+	niu2x_application
+	niu2x_filesystem
+	niu2x_uv
+)

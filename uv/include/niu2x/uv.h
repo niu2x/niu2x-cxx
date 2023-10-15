@@ -24,6 +24,21 @@ public:
     void idle_start(void*, const IdleCallback& idle_cb);
     void idle_stop(void*);
 
+    using TimerCallback = Function<void()>;
+
+    void* create_timer();
+    void destroy_timer(void*);
+
+    void timer_start(void*, uint64_t timeout, uint64_t repeat,
+        const TimerCallback& timer_cb);
+    void timer_stop(void*);
+
+    using SignalCallback = Function<void(int signum)>;
+    void* create_signal();
+    void destroy_signal(void*);
+    void signal_start(void*, int signum, const SignalCallback& timer_cb);
+    void signal_stop(void*);
+
 private:
     UniquePtr<LoopImp> pimp_;
 

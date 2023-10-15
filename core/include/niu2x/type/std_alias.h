@@ -86,6 +86,15 @@ using std::fmax;
 using std::fmin;
 
 using std::swap;
+using std::to_string;
+
+inline String to_string(bool b)
+{
+    if (b)
+        return "true";
+    else
+        return "false";
+}
 
 } // namespace niu2x
 
