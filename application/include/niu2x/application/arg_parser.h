@@ -7,12 +7,25 @@ namespace niu2x::app {
 
 class ArgParser : private Noncopyable {
 public:
+    enum ArgType {
+        INT,
+        BOOL,
+        STRING,
+    };
+
     ArgParser(const String& program_name, const String& desc);
     ~ArgParser();
-    void add_option(const String& opt, const String& desc, bool defval = false);
-    void add_option(const String& opt, const String& desc, int defval = 0);
+
+    void add_option(const String& opt, const String& desc, ArgType arg_type,
+        const char* defval = nullptr);
+
+    void parse_positional(const String& opt_name);
+    void parse_positional(const InitializerList<String>& opt_name_list);
+
     void parse(int argc, const char* argv[]);
     String help() const;
+
+    String opt_string(const String& opt_name) const;
 
     int count(const String& opt_name) const;
     Vector<String> unmatched() const;

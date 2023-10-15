@@ -8,16 +8,17 @@ public:
     IMP(const String& program_name, const String& desc)
     : opts_(program_name, desc)
     {
-        opts_.allow_unrecognised_options();
+        opts_.show_positional_help();
     }
 
-    void add_option(const String& opt, const String& desc, bool defval)
+    template <class ArgType>
+    void add_option(const String& opt, const String& desc, const char* defval)
     {
-        opts_.add_options()(opt, desc, cxxopts::value<bool>(defval));
-    }
-    void add_option(const String& opt, const String& desc, int defval)
-    {
-        opts_.add_options()(opt, desc, cxxopts::value<int>(defval));
+        auto value = cxxopts::value<ArgType>();
+        if (defval) {
+            value->default_value(defval);
+        }
+        opts_.add_options()(opt, desc, value);
     }
 
     void parse(int argc, const char* argv[])
@@ -30,6 +31,26 @@ public:
     int count(const String& opt_name) const
     {
         return arguments_.count(opt_name);
+    }
+
+    void parse_positional(const String& opt_name)
+    {
+        opts_.parse_positional(opt_name);
+        opts_.positional_help(opt_name);
+    }
+    void parse_positional(const InitializerList<String>& opt_name_list)
+    {
+        opts_.parse_positional(opt_name_list);
+        StringBuf sb;
+        for (auto& opt_name : opt_name_list) {
+            sb << opt_name << " ";
+        }
+        opts_.positional_help(sb.str());
+    }
+
+    String opt_string(const String& opt_name) const
+    {
+        return arguments_[opt_name].as<String>();
     }
 
     Vector<String> unmatched() const { return arguments_.unmatched(); }
@@ -45,13 +66,23 @@ ArgParser::ArgParser(const String& program_name, const String& desc)
 }
 ArgParser::~ArgParser() { delete pimp_; }
 
-void ArgParser::add_option(const String& opt, const String& desc, bool defval)
+void ArgParser::add_option(
+    const String& opt, const String& desc, ArgType arg_type, const char* defval)
 {
-    pimp_->add_option(opt, desc, defval);
-}
-void ArgParser::add_option(const String& opt, const String& desc, int defval)
-{
-    pimp_->add_option(opt, desc, defval);
+    switch (arg_type) {
+        case ArgType::INT: {
+            pimp_->add_option<int>(opt, desc, defval);
+            break;
+        }
+        case ArgType::BOOL: {
+            pimp_->add_option<bool>(opt, desc, defval);
+            break;
+        }
+        case ArgType::STRING: {
+            pimp_->add_option<String>(opt, desc, defval);
+            break;
+        }
+    }
 }
 
 void ArgParser::parse(int argc, const char* argv[])
@@ -67,5 +98,20 @@ int ArgParser::count(const String& opt_name) const
 }
 
 Vector<String> ArgParser::unmatched() const { return pimp_->unmatched(); }
+
+void ArgParser::parse_positional(const String& opt_name)
+{
+    pimp_->parse_positional(opt_name);
+}
+
+void ArgParser::parse_positional(const InitializerList<String>& opt_name_list)
+{
+    pimp_->parse_positional(opt_name_list);
+}
+
+String ArgParser::opt_string(const String& opt_name) const
+{
+    return pimp_->opt_string(opt_name);
+}
 
 } // namespace niu2x::app

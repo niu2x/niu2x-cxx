@@ -36,6 +36,9 @@ using RuntimeError = std::runtime_error;
 template <class T>
 using SharedPtr = std::shared_ptr<T>;
 
+template <class T>
+using InitializerList = std::initializer_list<T>;
+
 /**
  * @brief       UniquePtr
  */
