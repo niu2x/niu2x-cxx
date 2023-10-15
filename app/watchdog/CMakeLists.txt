@@ -8,5 +8,7 @@ add_executable(watchdog "")
 target_sources(watchdog PRIVATE "main.cpp")
 
 find_package(niu2x_lua REQUIRED)
+find_package(niu2x_application REQUIRED)
 
 target_link_libraries(watchdog PRIVATE niu2x_lua)
+target_link_libraries(watchdog PRIVATE niu2x_application)

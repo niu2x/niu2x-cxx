@@ -3,3 +3,4 @@
 3. lua5.1.5
 4. Crossline
 5. libuv
+6. cxxopts

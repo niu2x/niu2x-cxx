@@ -27,6 +27,7 @@ build-nxlua: build-release-library
 build-watchdog: build-release-library
 	cmake -GNinja -S app/watchdog -Bbuild/watchdog/release \
 		-Dniu2x_lua_DIR=$$PWD/build/release/dist/lib/cmake/niu2x \
+		-Dniu2x_application_DIR=$$PWD/build/release/dist/lib/cmake/niu2x \
 		-DCMAKE_BUILD_TYPE=Release;
 	cmake --build build/watchdog/release -j
 
@@ -41,6 +42,7 @@ build-test-app: build-release-library
 		-Dniu2x_painter_DIR=$$PWD/build/release/dist/lib/cmake/niu2x \
 		-Dniu2x_math_DIR=$$PWD/build/release/dist/lib/cmake/niu2x \
 		-Dniu2x_uv_DIR=$$PWD/build/release/dist/lib/cmake/niu2x \
+		-Dniu2x_application_DIR=$$PWD/build/release/dist/lib/cmake/niu2x \
 		-DCMAKE_BUILD_TYPE=Release;
 	cmake --build build/test-app-static/release -j
 

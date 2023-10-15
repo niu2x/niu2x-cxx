@@ -5,6 +5,7 @@
 #include <niu2x/api.h>
 #include <niu2x/type/color.h>
 #include <niu2x/math/linalg_alias.h>
+#include <niu2x/math/constant.h>
 
 /**
  * @brief       math utils
