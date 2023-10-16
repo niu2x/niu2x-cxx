@@ -16,11 +16,10 @@ using math::Vec3;
 class Painter {
 public:
     using Camera = niu2x::painter::ray_trace::Camera;
-    using Objests = HittableGroup;
 
     Painter(int max_depth, int samples_per_pixel);
     ~Painter();
-    void paint(Image* image, const Camera* camera, const Objests* objects);
+    void paint(Image* image, const Camera* camera, const Hittable* obj);
 
     void set_max_depth(int d) { max_depth_ = d; }
     void set_samples(int samples) { samples_per_pixel_ = samples; }
@@ -28,7 +27,7 @@ public:
 private:
     int max_depth_;
     int samples_per_pixel_;
-    Vec3 ray_color(const Ray& ray, int depth, const Objests* objects);
+    Vec3 ray_color(const Ray& ray, int depth, const Hittable* obj);
 };
 
 } // namespace niu2x::painter::ray_trace

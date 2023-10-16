@@ -11,6 +11,9 @@ Sphere::Sphere(
 , radius_(radius)
 , mat_(mat)
 {
+    auto rvec = Vec3(radius, radius, radius);
+    AABB box1(center - rvec, center + rvec);
+    bbox_ = box1;
 }
 
 Sphere::Sphere(const Vec3& center, const Vec3& target_center, double radius,

@@ -32,25 +32,22 @@ inline double deg2rad(double degrees) { return degrees * pi / 180.0; }
 
 NXAPI Color to_color(const Vec3& v);
 
-template <class T>
-inline T random()
+inline double random()
 {
-    thread_local std::uniform_real_distribution<T> distribution(0.0, 1.0);
+    thread_local std::uniform_real_distribution<double> distribution(0.0, 1.0);
     thread_local std::mt19937 generator;
     return distribution(generator);
 }
 
-template <>
-inline Vec3 random()
+inline Vec3 random_vec3()
 {
-    return normalize(
-        Vec3(random<double>(), random<double>(), random<double>()));
+    return normalize(Vec3(random(), random(), random()));
 }
 
 template <class T>
 inline T random(const T& min, const T& max)
 {
-    return random<T>() * (max - min) + min;
+    return static_cast<T>(random() * (max - min) + min);
 }
 
 inline Vec3 random_unit_vec3()

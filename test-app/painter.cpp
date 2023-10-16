@@ -29,9 +29,9 @@ int main()
 
     for (int a = -11; a < 11; a++) {
         for (int b = -11; b < 11; b++) {
-            auto choose_mat = math::random<double>();
-            Vec3 center(a + 0.9 * math::random<double>(), 0.2,
-                b + 0.9 * math::random<double>());
+            auto choose_mat = math::random();
+            Vec3 center(
+                a + 0.9 * math::random(), 0.2, b + 0.9 * math::random());
 
             if (length(center - Vec3(4, 0.2, 0)) > 0.9) {
                 SharedPtr<painter::RayTraceMaterial> sphere_material;
@@ -50,7 +50,7 @@ int main()
                     // metal
                     auto albedo = math::random<Vec3>(
                         Vec3(0.5, 0.5, 0.5), Vec3(1, 1, 1));
-                    auto fuzz = math::random<double>(0, 0.5);
+                    auto fuzz = math::random(0.0, 0.5);
                     sphere_material
                         = make_shared<painter::RayTraceMetal>(albedo, fuzz);
                     objs.insert(make_shared<painter::RayTraceSphere>(
@@ -80,10 +80,13 @@ int main()
     objs.insert(
         make_shared<painter::RayTraceSphere>(Vec3(4, 1, 0), 1.0, material3));
 
+    painter::RayTraceBVH world(objs);
+
     camera.look(Vec3(13, 2, 3), Vec3(0, 0, 0), Vec3(0, 1, 0));
 
-    painter::RayTracePainter painter(50, 100);
-    painter.paint(&canvas, &camera, &objs);
+    painter::RayTracePainter painter(50, 900);
+    painter.paint(&canvas, &camera, &world);
+    // painter.paint(&canvas, &camera, &objs);
 
     fs::File canvas_file("test.png");
     stream::FileWriteStream canvas_file_writer(canvas_file);

@@ -26,7 +26,7 @@ bool Dielectric::scatter(const Ray& r_in, const HitRecord& rec,
 
     bool connot_refract = refraction_ratio * sin_theta > 1.0;
     bool random_reflect
-        = reflectance(cos_theta, refraction_ratio) > math::random<double>();
+        = reflectance(cos_theta, refraction_ratio) > math::random();
 
     if (connot_refract || random_reflect) {
         Vec3 reflected = reflect(unit_direction, rec.normal);

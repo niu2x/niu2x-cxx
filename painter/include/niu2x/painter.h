@@ -6,5 +6,6 @@
 #include <niu2x/painter/ray_trace/metal.h>
 #include <niu2x/painter/ray_trace/sphere.h>
 #include <niu2x/painter/ray_trace/dielectric.h>
+#include <niu2x/painter/ray_trace/bvh_node.h>
 
 #endif

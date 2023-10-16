@@ -19,7 +19,7 @@ Painter::Painter(int max_depth, int samples)
 
 Painter::~Painter() { }
 
-void Painter::paint(Image* image, const Camera* camera, const Objests* objects)
+void Painter::paint(Image* image, const Camera* camera, const Hittable* obj)
 {
 
     auto& eye = camera->eye();
@@ -66,7 +66,7 @@ void Painter::paint(Image* image, const Camera* camera, const Objests* objects)
 
                 auto ray_dir = normalize(pixel_pos - defocus_eye);
                 auto ray = math::Ray(defocus_eye, ray_dir, random(0.0, 1.0));
-                color += ray_color(ray, max_depth_, objects);
+                color += ray_color(ray, max_depth_, obj);
             }
 
             color /= samples_per_pixel_;
@@ -77,18 +77,18 @@ void Painter::paint(Image* image, const Camera* camera, const Objests* objects)
     }
 }
 
-Vec3 RayTracePainter::ray_color(const Ray& ray, int depth, const Objests* objs)
+Vec3 RayTracePainter::ray_color(const Ray& ray, int depth, const Hittable* obj)
 {
     if (depth <= 0)
         return Vec3(0, 0, 0);
 
-    auto hit = objs->hit(ray, math::Interval(0.001, math::infinity));
+    auto hit = obj->hit(ray, math::Interval(0.001, math::infinity));
     if (hit) {
         auto& record = hit.value();
         Vec3 attenuation;
         Ray scattered;
         if (record.material->scatter(ray, record, attenuation, scattered)) {
-            return attenuation * ray_color(scattered, depth - 1, objs);
+            return attenuation * ray_color(scattered, depth - 1, obj);
         }
         return Vec3(0, 0, 0);
     }

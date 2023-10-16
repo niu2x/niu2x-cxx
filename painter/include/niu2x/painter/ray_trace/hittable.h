@@ -44,6 +44,8 @@ public:
 
     virtual AABB bounding_box() const override { return bbox_; }
 
+    const auto& objects() const { return objs_; }
+
 private:
     Vector<SharedPtr<Hittable>> objs_;
     AABB bbox_;
