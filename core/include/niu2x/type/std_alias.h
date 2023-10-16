@@ -37,6 +37,9 @@ template <class T>
 using SharedPtr = std::shared_ptr<T>;
 
 template <class T>
+using SPtr = SharedPtr<T>;
+
+template <class T>
 using InitializerList = std::initializer_list<T>;
 
 /**
