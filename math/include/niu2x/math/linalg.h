@@ -51,7 +51,7 @@
 
 #include <cmath>        // For various unary math functions, such as std::sqrt
 #include <cstdlib>      // To resolve std::abs ambiguity on clang
-#include <cstdint>      // For implementing namespace linalg::aliases
+#include <cstdint>      // For implementing namespace NAMESPACE::aliases
 #include <array>        // For std::array
 #include <iosfwd>       // For forward definitions of std::ostream
 #include <type_traits>  // For std::enable_if, std::is_same, std::declval
@@ -64,7 +64,9 @@
 #define LINALG_CONSTEXPR14 constexpr
 #endif
 
-namespace linalg
+#define NAMESPACE niu2x::third_party::linalg
+
+namespace NAMESPACE
 {
     // Small, fixed-length vector type, consisting of exactly M elements of type T, and presumed to be a column-vector unless otherwise noted.
     template<class T, int M> struct vec;
@@ -591,7 +593,7 @@ namespace linalg
     template<class T> mat<T,4,4> frustum_matrix    (T x0, T x1, T y0, T y1, T n, T f, fwd_axis a = neg_z, z_range z = neg_one_to_one);
     template<class T> mat<T,4,4> perspective_matrix(T fovy, T aspect, T n, T f, fwd_axis a = neg_z, z_range z = neg_one_to_one) { T y = n*std::tan(fovy / 2), x = y*aspect; return frustum_matrix(-x, x, -y, y, n, f, a, z); }
 
-    // Provide implicit conversion between linalg::vec<T,M> and std::array<T,M>
+    // Provide implicit conversion between NAMESPACE::vec<T,M> and std::array<T,M>
     template<class T> struct converter<vec<T,1>, std::array<T,1>> { vec<T,1> operator() (const std::array<T,1> & a) const { return {a[0]}; } };
     template<class T> struct converter<vec<T,2>, std::array<T,2>> { vec<T,2> operator() (const std::array<T,2> & a) const { return {a[0], a[1]}; } };
     template<class T> struct converter<vec<T,3>, std::array<T,3>> { vec<T,3> operator() (const std::array<T,3> & a) const { return {a[0], a[1], a[2]}; } };
@@ -649,26 +651,26 @@ namespace linalg
 namespace std 
 {
     // Provide specializations for std::hash<...> with linalg types
-    template<class T> struct hash<linalg::vec<T,1>> { std::size_t operator()(const linalg::vec<T,1> & v) const { std::hash<T> h; return h(v.x); } };
-    template<class T> struct hash<linalg::vec<T,2>> { std::size_t operator()(const linalg::vec<T,2> & v) const { std::hash<T> h; return h(v.x) ^ (h(v.y) << 1); } };
-    template<class T> struct hash<linalg::vec<T,3>> { std::size_t operator()(const linalg::vec<T,3> & v) const { std::hash<T> h; return h(v.x) ^ (h(v.y) << 1) ^ (h(v.z) << 2); } };
-    template<class T> struct hash<linalg::vec<T,4>> { std::size_t operator()(const linalg::vec<T,4> & v) const { std::hash<T> h; return h(v.x) ^ (h(v.y) << 1) ^ (h(v.z) << 2) ^ (h(v.w) << 3); } };
+    template<class T> struct hash<NAMESPACE::vec<T,1>> { std::size_t operator()(const NAMESPACE::vec<T,1> & v) const { std::hash<T> h; return h(v.x); } };
+    template<class T> struct hash<NAMESPACE::vec<T,2>> { std::size_t operator()(const NAMESPACE::vec<T,2> & v) const { std::hash<T> h; return h(v.x) ^ (h(v.y) << 1); } };
+    template<class T> struct hash<NAMESPACE::vec<T,3>> { std::size_t operator()(const NAMESPACE::vec<T,3> & v) const { std::hash<T> h; return h(v.x) ^ (h(v.y) << 1) ^ (h(v.z) << 2); } };
+    template<class T> struct hash<NAMESPACE::vec<T,4>> { std::size_t operator()(const NAMESPACE::vec<T,4> & v) const { std::hash<T> h; return h(v.x) ^ (h(v.y) << 1) ^ (h(v.z) << 2) ^ (h(v.w) << 3); } };
 
-    template<class T, int M> struct hash<linalg::mat<T,M,1>> { std::size_t operator()(const linalg::mat<T,M,1> & v) const { std::hash<linalg::vec<T,M>> h; return h(v.x); } };
-    template<class T, int M> struct hash<linalg::mat<T,M,2>> { std::size_t operator()(const linalg::mat<T,M,2> & v) const { std::hash<linalg::vec<T,M>> h; return h(v.x) ^ (h(v.y) << M); } };
-    template<class T, int M> struct hash<linalg::mat<T,M,3>> { std::size_t operator()(const linalg::mat<T,M,3> & v) const { std::hash<linalg::vec<T,M>> h; return h(v.x) ^ (h(v.y) << M) ^ (h(v.z) << (M*2)); } };
-    template<class T, int M> struct hash<linalg::mat<T,M,4>> { std::size_t operator()(const linalg::mat<T,M,4> & v) const { std::hash<linalg::vec<T,M>> h; return h(v.x) ^ (h(v.y) << M) ^ (h(v.z) << (M*2)) ^ (h(v.w) << (M*3)); } };
+    template<class T, int M> struct hash<NAMESPACE::mat<T,M,1>> { std::size_t operator()(const NAMESPACE::mat<T,M,1> & v) const { std::hash<NAMESPACE::vec<T,M>> h; return h(v.x); } };
+    template<class T, int M> struct hash<NAMESPACE::mat<T,M,2>> { std::size_t operator()(const NAMESPACE::mat<T,M,2> & v) const { std::hash<NAMESPACE::vec<T,M>> h; return h(v.x) ^ (h(v.y) << M); } };
+    template<class T, int M> struct hash<NAMESPACE::mat<T,M,3>> { std::size_t operator()(const NAMESPACE::mat<T,M,3> & v) const { std::hash<NAMESPACE::vec<T,M>> h; return h(v.x) ^ (h(v.y) << M) ^ (h(v.z) << (M*2)); } };
+    template<class T, int M> struct hash<NAMESPACE::mat<T,M,4>> { std::size_t operator()(const NAMESPACE::mat<T,M,4> & v) const { std::hash<NAMESPACE::vec<T,M>> h; return h(v.x) ^ (h(v.y) << M) ^ (h(v.z) << (M*2)) ^ (h(v.w) << (M*3)); } };
 }
 
 // Definitions of functions too long to be defined inline
-template<class T> constexpr linalg::mat<T,3,3> linalg::adjugate(const mat<T,3,3> & a) 
+template<class T> constexpr NAMESPACE::mat<T,3,3> NAMESPACE::adjugate(const mat<T,3,3> & a) 
 {
     return {{a.y.y*a.z.z - a.z.y*a.y.z, a.z.y*a.x.z - a.x.y*a.z.z, a.x.y*a.y.z - a.y.y*a.x.z},
             {a.y.z*a.z.x - a.z.z*a.y.x, a.z.z*a.x.x - a.x.z*a.z.x, a.x.z*a.y.x - a.y.z*a.x.x},
             {a.y.x*a.z.y - a.z.x*a.y.y, a.z.x*a.x.y - a.x.x*a.z.y, a.x.x*a.y.y - a.y.x*a.x.y}}; 
 }
 
-template<class T> constexpr linalg::mat<T,4,4> linalg::adjugate(const mat<T,4,4> & a) 
+template<class T> constexpr NAMESPACE::mat<T,4,4> NAMESPACE::adjugate(const mat<T,4,4> & a) 
 {
     return {{a.y.y*a.z.z*a.w.w + a.w.y*a.y.z*a.z.w + a.z.y*a.w.z*a.y.w - a.y.y*a.w.z*a.z.w - a.z.y*a.y.z*a.w.w - a.w.y*a.z.z*a.y.w,
              a.x.y*a.w.z*a.z.w + a.z.y*a.x.z*a.w.w + a.w.y*a.z.z*a.x.w - a.w.y*a.x.z*a.z.w - a.z.y*a.w.z*a.x.w - a.x.y*a.z.z*a.w.w,
@@ -688,7 +690,7 @@ template<class T> constexpr linalg::mat<T,4,4> linalg::adjugate(const mat<T,4,4>
              a.x.x*a.y.y*a.z.z + a.z.x*a.x.y*a.y.z + a.y.x*a.z.y*a.x.z - a.x.x*a.z.y*a.y.z - a.y.x*a.x.y*a.z.z - a.z.x*a.y.y*a.x.z}}; 
 }
 
-template<class T> constexpr T linalg::determinant(const mat<T,4,4> & a) 
+template<class T> constexpr T NAMESPACE::determinant(const mat<T,4,4> & a) 
 {
     return a.x.x*(a.y.y*a.z.z*a.w.w + a.w.y*a.y.z*a.z.w + a.z.y*a.w.z*a.y.w - a.y.y*a.w.z*a.z.w - a.z.y*a.y.z*a.w.w - a.w.y*a.z.z*a.y.w)
          + a.x.y*(a.y.z*a.w.w*a.z.x + a.z.z*a.y.w*a.w.x + a.w.z*a.z.w*a.y.x - a.y.z*a.z.w*a.w.x - a.w.z*a.y.w*a.z.x - a.z.z*a.w.w*a.y.x)
@@ -696,7 +698,7 @@ template<class T> constexpr T linalg::determinant(const mat<T,4,4> & a)
          + a.x.w*(a.y.x*a.w.y*a.z.z + a.z.x*a.y.y*a.w.z + a.w.x*a.z.y*a.y.z - a.y.x*a.z.y*a.w.z - a.w.x*a.y.y*a.z.z - a.z.x*a.w.y*a.y.z); 
 }
 
-template<class T> linalg::vec<T,4> linalg::rotation_quat(const mat<T,3,3> & m)
+template<class T> NAMESPACE::vec<T,4> NAMESPACE::rotation_quat(const mat<T,3,3> & m)
 {
     const vec<T,4> q {m.x.x-m.y.y-m.z.z, m.y.y-m.x.x-m.z.z, m.z.z-m.x.x-m.y.y, m.x.x+m.y.y+m.z.z}, s[] {
         {1, m.x.y + m.y.x, m.z.x + m.x.z, m.y.z - m.z.y}, 
@@ -706,13 +708,13 @@ template<class T> linalg::vec<T,4> linalg::rotation_quat(const mat<T,3,3> & m)
     return copysign(normalize(sqrt(max(T(0), T(1)+q))), s[argmax(q)]);
 }
 
-template<class T> linalg::mat<T,4,4> linalg::lookat_matrix(const vec<T,3> & eye, const vec<T,3> & center, const vec<T,3> & view_y_dir, fwd_axis a)
+template<class T> NAMESPACE::mat<T,4,4> NAMESPACE::lookat_matrix(const vec<T,3> & eye, const vec<T,3> & center, const vec<T,3> & view_y_dir, fwd_axis a)
 {
     const vec<T,3> f = normalize(center - eye), z = a == pos_z ? f : -f, x = normalize(cross(view_y_dir, z)), y = cross(z, x);
     return inverse(mat<T,4,4>{{x,0},{y,0},{z,0},{eye,1}});
 }
 
-template<class T> linalg::mat<T,4,4> linalg::frustum_matrix(T x0, T x1, T y0, T y1, T n, T f, fwd_axis a, z_range z) 
+template<class T> NAMESPACE::mat<T,4,4> NAMESPACE::frustum_matrix(T x0, T x1, T y0, T y1, T n, T f, fwd_axis a, z_range z) 
 {
     const T s = a == pos_z ? T(1) : T(-1), o = z == neg_one_to_one ? n : 0;
     return {{2*n/(x1-x0),0,0,0}, {0,2*n/(y1-y0),0,0}, {-s*(x0+x1)/(x1-x0),-s*(y0+y1)/(y1-y0),s*(f+o)/(f-n),s}, {0,0,-(n+o)*f/(f-n),0}};
