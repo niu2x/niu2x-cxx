@@ -8,13 +8,17 @@ Buffer::~Buffer() { }
 
 void Buffer::write(const void* data, size_t offset, size_t size)
 {
-    assert(size + offset <= buf_.size());
+    if (size + offset > buf_.size())
+        throw OutOfRange("");
+
     memcpy(buf_.data() + offset, data, size);
 }
 
 void Buffer::read(void* data, size_t offset, size_t size) const
 {
-    assert(buf_.size() - offset >= size);
+    if (buf_.size() - offset < size)
+        throw OutOfRange("");
+
     memcpy(data, buf_.data() + offset, size);
 }
 

@@ -24,6 +24,7 @@ using String = std::string;
 using StringBuf = std::stringstream;
 using Exception = std::exception;
 using BadAlloc = std::bad_alloc;
+using OutOfRange = std::out_of_range;
 
 /**
  * @brief       RuntimeError
