@@ -1,18 +1,18 @@
 #ifndef NIU2X_CRYPTO_MD5_H
 #define NIU2X_CRYPTO_MD5_H
 
-#include <niu2x/type.h>
+#include <niu2x/crypto/digest.h>
 
 namespace niu2x::crypto {
 
-class NXAPI MD5 {
+class NXAPI MD5 : public Digest {
 public:
     MD5();
     ~MD5();
-    void reset();
-    void update(const void* data, size_t size);
-    void finalize();
-    const uint8_t* digest() const { return digest_; }
+    void reset() override;
+    void update(const void* data, size_t size) override;
+    void finalize() override;
+    const uint8_t* digest() const override { return digest_; }
 
 private:
     uint64_t size_; // Size of input in bytes
