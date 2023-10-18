@@ -17,14 +17,6 @@ public:
      * @brief       constructor
      * @param       size of Buffer's memory*/
     Buffer(size_t size = 0);
-
-    /**
-     * @brief       destructor */
-    ~Buffer();
-
-    NIU2X_CLASS_DEFAULT_COPYABLE(Buffer);
-    NIU2X_CLASS_DEFAULT_MOVABLE(Buffer);
-
     /**
      * @brief      read date from Buffer's memory
      *
@@ -69,6 +61,8 @@ public:
 private:
     MemBlock buf_;
 };
+
+static_assert(is_movable<Buffer>);
 
 }; // namespace niu2x
 

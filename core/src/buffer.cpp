@@ -4,8 +4,6 @@ namespace niu2x {
 
 Buffer::Buffer(size_t capacity) { buf_.resize(capacity); }
 
-Buffer::~Buffer() { }
-
 void Buffer::write(const void* data, size_t offset, size_t size)
 {
     if (size + offset > buf_.size())

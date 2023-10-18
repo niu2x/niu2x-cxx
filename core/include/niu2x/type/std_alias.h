@@ -14,6 +14,7 @@
 #include <atomic>
 #include <optional>
 #include <functional>
+#include <type_traits>
 
 namespace niu2x {
 
@@ -100,6 +101,10 @@ inline String to_string(bool b)
     else
         return "false";
 }
+
+template <class T>
+inline constexpr bool is_movable = std::is_nothrow_move_constructible_v<T>&&
+    std::is_nothrow_move_assignable_v<T>;
 
 } // namespace niu2x
 
