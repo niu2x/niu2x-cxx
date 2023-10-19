@@ -22,8 +22,10 @@ int main()
 
     painter::RayTraceObjects objs;
 
-    auto ground_material
-        = make_shared<painter::RayTraceLambertian>(Vec3(0.5, 0.5, 0.5));
+    auto checker = make_shared<painter::ray_trace::CheckerTexture>(0.32,
+        math::to_color(Vec3(.2, .3, .1)), math::to_color(Vec3(.9, .9, .9)));
+
+    auto ground_material = make_shared<painter::RayTraceLambertian>(checker);
     objs.insert(make_shared<painter::RayTraceSphere>(
         Vec3(0, -1000, 0), 1000, ground_material));
 
@@ -84,7 +86,7 @@ int main()
 
     camera.look(Vec3(13, 2, 3), Vec3(0, 0, 0), Vec3(0, 1, 0));
 
-    painter::RayTracePainter painter(50, 900);
+    painter::RayTracePainter painter(50, 100);
     painter.paint(&canvas, &camera, &world);
     // painter.paint(&canvas, &camera, &objs);
 

@@ -94,6 +94,8 @@ using std::sort;
 using std::swap;
 using std::to_string;
 
+using std::floor;
+
 inline String to_string(bool b)
 {
     if (b)

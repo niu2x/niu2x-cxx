@@ -17,9 +17,10 @@ struct NXAPI HitRecord {
     Vec3 p;
     Vec3 normal;
     double t;
+    double u;
+    double v;
     bool front_face;
     SharedPtr<Material> material;
-
     void set_normal(const Vec3& ray, const Vec3& normal);
 };
 

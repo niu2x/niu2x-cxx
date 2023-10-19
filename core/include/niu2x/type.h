@@ -19,19 +19,6 @@
 #include <niu2x/type/deserializable.h>
 #include <niu2x/type/resource.h>
 #include <niu2x/type/color.h>
-
-/**
- * @brief       top most name space, contain all others
- */
-namespace niu2x {
-
-/**
- * @brief      silent compiler's warning about unused arguments
- *
- * @param[in]  <unnamed>  any argunemts
- */
-inline void unused(...) { }
-
-} // namespace niu2x
+#include <niu2x/unused.h>
 
 #endif
