@@ -31,14 +31,25 @@ Sphere::Sphere(const Vec3& center, const Vec3& target_center, double radius,
     bbox_ = box1 + box2;
 }
 
+static void get_sphere_uv(const Vec3& p, double* u, double* v)
+{
+    auto theta = acos(-p.y);
+    auto phi = atan2(-p.z, p.x) + math::pi;
+    *u = phi / (2 * math::pi);
+    *v = theta / math::pi;
+}
+
 static HitRecord make_hit_record(const Ray& ray, double t, const Vec3& center,
-    const SharedPtr<Material>& mat, double sign)
+    double radius, const SharedPtr<Material>& mat, double sign)
 {
     HitRecord record;
     record.p = ray.at(t);
     record.t = t;
     record.material = mat;
     record.set_normal(ray.direction(), normalize(record.p - center) * sign);
+
+    Vec3 outward_normal = (record.p - center) / radius;
+    get_sphere_uv(outward_normal, &record.u, &record.v);
     return record;
 }
 
@@ -56,12 +67,12 @@ Maybe<HitRecord> Sphere::hit(const Ray& ray, const Interval& ray_interval) const
         double root = (-half_b - sqrtd) / a;
         if (ray_interval.surrounds(root)) {
             return make_hit_record(
-                ray, root, my_center, mat_, math::sign(radius_));
+                ray, root, my_center, radius_, mat_, math::sign(radius_));
         } else {
             root = (-half_b + sqrtd) / a;
             if (ray_interval.surrounds(root)) {
                 return make_hit_record(
-                    ray, root, my_center, mat_, math::sign(radius_));
+                    ray, root, my_center, radius_, mat_, math::sign(radius_));
             }
         }
     }

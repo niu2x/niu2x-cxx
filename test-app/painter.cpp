@@ -6,7 +6,7 @@
 
 using namespace niu2x;
 
-int main()
+static void random_sphere()
 {
     using Vec3 = math::Vec3;
 
@@ -93,6 +93,47 @@ int main()
     fs::File canvas_file("test.png");
     stream::FileWriteStream canvas_file_writer(canvas_file);
     canvas.store_to(&canvas_file_writer);
+}
 
+static void two_spheres()
+{
+
+    using Vec3 = math::Vec3;
+
+    image::Image canvas;
+    canvas.reset(400, 225, Color::WHITE);
+
+    painter::RayTraceCamera::Options camera_options
+        = { .aspect_ratio = 16 / 9.0,
+              .fov = 20,
+              .focus_dist = 10,
+              .defocus_angle = 0 };
+    painter::RayTraceCamera camera(camera_options);
+
+    painter::RayTraceObjects objs;
+
+    auto checker = make_shared<painter::ray_trace::CheckerTexture>(0.8,
+        math::to_color(Vec3(.2, .3, .1)), math::to_color(Vec3(.9, .9, .9)));
+
+    objs.insert(make_shared<painter::RayTraceSphere>(Vec3(0, -10, 0), 10,
+        make_shared<painter::RayTraceLambertian>(checker)));
+    objs.insert(make_shared<painter::RayTraceSphere>(
+        Vec3(0, 10, 0), 10, make_shared<painter::RayTraceLambertian>(checker)));
+
+    painter::RayTraceBVH world(objs);
+
+    camera.look(Vec3(13, 2, 3), Vec3(0, 0, 0), Vec3(0, 1, 0));
+
+    painter::RayTracePainter painter(50, 100);
+    painter.paint(&canvas, &camera, &world);
+
+    fs::File canvas_file("test.png");
+    stream::FileWriteStream canvas_file_writer(canvas_file);
+    canvas.store_to(&canvas_file_writer);
+}
+
+int main()
+{
+    two_spheres();
     return 0;
 }

@@ -14,12 +14,13 @@ class HitRecord;
 class Lambertian : public Material {
 public:
     Lambertian(const math::Vec3& a)
-    : albedo_(a)
+    : albedo_(make_shared<SolidColor>(static_cast<uint8_t>(a.x * 255),
+        static_cast<uint8_t>(a.y * 255), static_cast<uint8_t>(a.z * 255)))
     {
     }
 
     Lambertian(SPtr<Texture> tex)
-    : texture_(tex)
+    : albedo_(tex)
     {
     }
 
@@ -27,8 +28,7 @@ public:
         Ray& scattered) const override;
 
 private:
-    math::Vec3 albedo_;
-    SPtr<Texture> texture_;
+    SPtr<Texture> albedo_;
 };
 
 } // namespace niu2x::painter::ray_trace
