@@ -8,5 +8,6 @@
 #include <niu2x/painter/ray_trace/dielectric.h>
 #include <niu2x/painter/ray_trace/bvh_node.h>
 #include <niu2x/painter/ray_trace/texture.h>
+#include <niu2x/painter/ray_trace/image_texture.h>
 
 #endif

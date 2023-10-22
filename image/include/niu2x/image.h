@@ -32,6 +32,13 @@ public:
         pixels_[row * size_.width + col] = c;
     }
 
+    Color& pixel(int row, int col) { return pixels_[row * size_.width + col]; }
+
+    const Color& pixel(int row, int col) const
+    {
+        return pixels_[row * size_.width + col];
+    }
+
 private:
     IntSize size_;
     std::vector<Color> pixels_;

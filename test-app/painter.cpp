@@ -132,8 +132,42 @@ static void two_spheres()
     canvas.store_to(&canvas_file_writer);
 }
 
+static void earth()
+{
+    using Vec3 = math::Vec3;
+    const fs::Path earth_map = "/home/niu2x/Downloads/earthmap.jpg";
+
+    auto earth_texture
+        = make_shared<painter::ray_trace::ImageTexture>(earth_map);
+    auto earth_surface
+        = make_shared<painter::RayTraceLambertian>(earth_texture);
+    auto globe
+        = make_shared<painter::RayTraceSphere>(Vec3(0, 0, 0), 2, earth_surface);
+
+    image::Image canvas;
+    canvas.reset(400, 225, Color::WHITE);
+
+    painter::RayTraceCamera::Options camera_options
+        = { .aspect_ratio = 16 / 9.0,
+              .fov = 20,
+              .focus_dist = 10,
+              .defocus_angle = 0 };
+    painter::RayTraceCamera camera(camera_options);
+    painter::RayTraceObjects objs;
+    objs.insert(globe);
+
+    camera.look(Vec3(13, 2, 3), Vec3(0, 0, 0), Vec3(0, 1, 0));
+
+    painter::RayTracePainter painter(50, 100);
+    painter.paint(&canvas, &camera, &objs);
+
+    fs::File canvas_file("test.png");
+    stream::FileWriteStream canvas_file_writer(canvas_file);
+    canvas.store_to(&canvas_file_writer);
+}
+
 int main()
 {
-    two_spheres();
+    earth();
     return 0;
 }
