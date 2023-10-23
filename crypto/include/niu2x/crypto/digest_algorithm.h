@@ -4,13 +4,15 @@
 #include <niu2x/type.h>
 namespace niu2x::crypto {
 
-class Digest {
+class DigestAlgorithm {
 public:
-    virtual ~Digest() { }
+    using SpanDigest = Span<const uint8_t>;
+
+    virtual ~DigestAlgorithm() { }
     virtual void reset() = 0;
     virtual void update(const void* data, size_t size) = 0;
     virtual void finalize() = 0;
-    virtual const Span<const uint8_t> digest() const = 0;
+    virtual SpanDigest digest() const = 0;
 };
 
 } // namespace niu2x::crypto
