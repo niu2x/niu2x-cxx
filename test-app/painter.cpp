@@ -166,8 +166,43 @@ static void earth()
     canvas.store_to(&canvas_file_writer);
 }
 
+static void two_perlin_spheres()
+{
+    using Vec3 = math::Vec3;
+
+    image::Image canvas;
+    canvas.reset(400, 225, Color::WHITE);
+
+    painter::RayTraceCamera::Options camera_options
+        = { .aspect_ratio = 16 / 9.0,
+              .fov = 20,
+              .focus_dist = 10,
+              .defocus_angle = 0 };
+    painter::RayTraceCamera camera(camera_options);
+
+    painter::RayTraceObjects objs;
+
+    auto pertext = make_shared<painter::ray_trace::NoiseTexture>(4);
+
+    objs.insert(make_shared<painter::RayTraceSphere>(Vec3(0, -1000, 0), 1000,
+        make_shared<painter::RayTraceLambertian>(pertext)));
+    objs.insert(make_shared<painter::RayTraceSphere>(
+        Vec3(0, 2, 0), 2, make_shared<painter::RayTraceLambertian>(pertext)));
+
+    painter::RayTraceBVH world(objs);
+
+    camera.look(Vec3(13, 2, 3), Vec3(0, 0, 0), Vec3(0, 1, 0));
+
+    painter::RayTracePainter painter(50, 100);
+    painter.paint(&canvas, &camera, &world);
+
+    fs::File canvas_file("test.png");
+    stream::FileWriteStream canvas_file_writer(canvas_file);
+    canvas.store_to(&canvas_file_writer);
+}
+
 int main()
 {
-    earth();
+    two_perlin_spheres();
     return 0;
 }

@@ -9,5 +9,6 @@
 #include <niu2x/painter/ray_trace/bvh_node.h>
 #include <niu2x/painter/ray_trace/texture.h>
 #include <niu2x/painter/ray_trace/image_texture.h>
+#include <niu2x/painter/ray_trace/noise_texture.h>
 
 #endif

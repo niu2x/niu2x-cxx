@@ -8,5 +8,6 @@
 #include <niu2x/math/aabb.h>
 #include <niu2x/math/size.h>
 #include <niu2x/math/utils.h>
+#include <niu2x/math/perlin.h>
 
 #endif
