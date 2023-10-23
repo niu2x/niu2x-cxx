@@ -1,6 +1,8 @@
 #ifndef NIU2X_SPAN_H
 #define NIU2X_SPAN_H
 
+#include <niu2x/type/convention.h>
+
 namespace niu2x {
 
 template <class T>
@@ -25,11 +27,11 @@ public:
     inline size_t size() const { return nr_; }
     inline T* data() const { return base_; }
 
-    T& operator[](int i) const { return base_[i]; }
+    T& operator[](Index i) const { return base_[i]; }
 
 private:
     T* base_ = nullptr;
-    size_t nr_ = 0;
+    NR nr_ = 0;
 };
 
 } // namespace niu2x

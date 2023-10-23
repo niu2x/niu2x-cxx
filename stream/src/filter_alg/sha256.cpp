@@ -18,8 +18,8 @@ void SHA256::finalize(Output output)
 
     char digest_sz[64];
     auto digest = imp_.digest();
-    int i = 0;
-    while (i < 32) {
+    Index i = 0;
+    while (i < digest.size()) {
         digest_sz[(i << 1)] = hex_digits[digest[i] >> 4];
         digest_sz[(i << 1) + 1] = hex_digits[digest[i] & 0xF];
         i++;

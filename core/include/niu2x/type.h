@@ -12,6 +12,7 @@
 #include <niu2x/api.h>
 #include <niu2x/config.h>
 #include <niu2x/type/std_alias.h>
+#include <niu2x/type/convention.h>
 #include <niu2x/type/exception.h>
 #include <niu2x/type/stream.h>
 #include <niu2x/type/buffer.h>

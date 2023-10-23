@@ -17,8 +17,8 @@ void MD5::finalize(Output output)
 
     char digest_sz[32];
     auto digest = imp_.digest();
-    int i = 0;
-    while (i < 16) {
+    Index i = 0;
+    while (i < digest.size()) {
         digest_sz[(i << 1)] = hex_digits[digest[i] >> 4];
         digest_sz[(i << 1) + 1] = hex_digits[digest[i] & 0xF];
         i++;
