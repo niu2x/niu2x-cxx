@@ -12,7 +12,10 @@ public:
     void reset() override;
     void update(const void* data, size_t size) override;
     void finalize() override;
-    const uint8_t* digest() const override { return digest_; }
+    const Span<const uint8_t> digest() const override
+    {
+        return Span<const uint8_t>(digest_);
+    }
 
 private:
     uint64_t bit_len_;
