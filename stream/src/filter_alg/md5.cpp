@@ -1,4 +1,5 @@
 #include "md5.h"
+#include <niu2x/unused.h>
 
 namespace niu2x::stream::filter_alg {
 

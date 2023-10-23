@@ -19,6 +19,5 @@
 #include <niu2x/type/deserializable.h>
 #include <niu2x/type/resource.h>
 #include <niu2x/type/color.h>
-#include <niu2x/unused.h>
 
 #endif

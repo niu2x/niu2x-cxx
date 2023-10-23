@@ -19,6 +19,8 @@ public:
     virtual void write(const void* buf, size_t size) = 0;
 };
 
+class
+
 } // namespace niu2x::stream
 
 #endif

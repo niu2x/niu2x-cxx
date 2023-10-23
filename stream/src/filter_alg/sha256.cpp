@@ -1,5 +1,6 @@
 #include "sha256.h"
 #include <niu2x/disable_windows_warning.h>
+#include <niu2x/unused.h>
 
 namespace niu2x::stream::filter_alg {
 
