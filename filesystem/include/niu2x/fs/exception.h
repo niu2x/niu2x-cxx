@@ -14,6 +14,14 @@ public:
     }
 };
 
+class FileAlreadyOpen : public RuntimeError {
+public:
+    explicit FileAlreadyOpen(const fs::Path& filename)
+    : RuntimeError("File already open: " + filename.string())
+    {
+    }
+};
+
 } // namespace niu2x::fs
 
 #endif

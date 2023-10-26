@@ -6,17 +6,6 @@
 #include <niu2x/fs/file_type.h>
 #include <niu2x/fs/file.h>
 #include <niu2x/fs/exception.h>
-
-namespace niu2x::fs {
-
-NXAPI FileType file_type(const Path& path);
-NXAPI bool exists(const Path& path);
-NXAPI bool is_directory(const Path& path);
-NXAPI void touch(const Path& path);
-NXAPI void create_dir(const Path& path);
-NXAPI void ensure_dirs(const Path& path);
-NXAPI void remove(const Path& path);
-
-} // namespace niu2x::fs
+#include <niu2x/fs/simple_func.h>
 
 #endif

@@ -11,8 +11,12 @@ class NXAPI Noncopyable {
 public:
     Noncopyable() { }
     ~Noncopyable() { }
+
     Noncopyable(const Noncopyable&) = delete;
     Noncopyable& operator=(const Noncopyable&) = delete;
+
+    Noncopyable(Noncopyable&&) = default;
+    Noncopyable& operator=(Noncopyable&&) = default;
 };
 
 }; // namespace niu2x
