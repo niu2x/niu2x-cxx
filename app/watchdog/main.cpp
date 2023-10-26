@@ -20,6 +20,13 @@ struct Config {
     bool daemon = false;
 };
 
+struct Item {
+    String name;
+    String exec_path;
+};
+
+static Vector<Item> items;
+
 static const fs::Path pid_path = "/run/niu2x/watchdog.pid";
 static Config config;
 
@@ -54,13 +61,13 @@ static int start()
     if (config.daemon) {
         auto r = fork();
         if (r == -1) {
-            printf("fork fail\n");
+            std::cerr << "fork fail\n";
             return 1;
         } else if (r == 0) {
 
             auto r1 = fork();
             if (r1 == -1) {
-                printf("fork fail\n");
+                std::cerr << "fork fail\n";
                 return 1;
             } else if (r1 == 0) {
                 {
@@ -101,14 +108,14 @@ static int stop()
         if (!kill(pid, SIGINT)) {
             fs::remove(pid_path);
         } else if (EPERM == errno) {
-            printf("no permission\n");
+            std::cerr << "no permission\n";
             return 1;
         }
     }
     return 0;
 }
 
-static int status()
+static Maybe<Status> query_status()
 {
     Status status;
     if (fs::exists(pid_path)) {
@@ -122,13 +129,22 @@ static int status()
         if (!kill(pid, 0))
             status.running = true;
         else if (EPERM == errno) {
-            printf("no permission\n");
-            return 1;
+            std::cerr << "no permission\n";
+            return maybe_null;
         }
     }
+    return status;
+}
 
-    Status_show(&status);
-    return 0;
+static int status()
+{
+    auto status = query_status();
+    if (status) {
+        Status_show(&(*status));
+        return 0;
+    } else {
+        return 1;
+    }
 }
 
 int main(int argc, const char* argv[])
@@ -137,7 +153,7 @@ int main(int argc, const char* argv[])
     using ArgType = app::ArgParser::ArgType;
     arg_parser.add_option("h,help", "show help info", ArgType::BOOL, "false");
     arg_parser.add_option("c,config", "config file", ArgType::STRING);
-    arg_parser.add_option("d,daemon", "daemon mode", ArgType::BOOL, "false");
+    // arg_parser.add_option("d,daemon", "daemon mode", ArgType::BOOL, "false");
     arg_parser.add_option(
         "operation", "start/stop/status", ArgType::STRING, "status");
     arg_parser.parse_positional("operation");
@@ -148,9 +164,9 @@ int main(int argc, const char* argv[])
         return 1;
     }
 
-    if (arg_parser.count("daemon")) {
-        config.daemon = true;
-    }
+    // if (arg_parser.count("daemon")) {
+    config.daemon = true;
+    // }
 
     auto operation = arg_parser.opt_string("operation");
     if (operation == "status") {
@@ -160,7 +176,14 @@ int main(int argc, const char* argv[])
             std::cerr << "please give me a config" << std::endl;
             return 1;
         }
-        return start();
+
+        auto cur_status = query_status();
+        if (cur_status && (*cur_status).running == false)
+            return start();
+        else {
+            std::cerr << "already running" << std::endl;
+            return 1;
+        }
     } else if (operation == "stop") {
         return stop();
     } else {
