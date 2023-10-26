@@ -26,8 +26,8 @@ build-nxlua: build-release-library
 
 build-watchdog: build-release-library
 	cmake -GNinja -S app/watchdog -Bbuild/watchdog/release \
-		-Dniu2x_lua_DIR=$$PWD/build/release/dist/lib/cmake/niu2x \
 		-Dniu2x_filesystem_DIR=$$PWD/build/release/dist/lib/cmake/niu2x \
+		-Dniu2x_lua_DIR=$$PWD/build/release/dist/lib/cmake/niu2x \
 		-Dniu2x_uv_DIR=$$PWD/build/release/dist/lib/cmake/niu2x \
 		-Dniu2x_stream_DIR=$$PWD/build/release/dist/lib/cmake/niu2x \
 		-Dniu2x_application_DIR=$$PWD/build/release/dist/lib/cmake/niu2x \

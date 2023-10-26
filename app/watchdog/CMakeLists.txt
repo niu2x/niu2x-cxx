@@ -14,9 +14,9 @@ find_package(niu2x_uv REQUIRED)
 find_package(niu2x_stream REQUIRED)
 
 target_link_libraries(watchdog PRIVATE 
+	niu2x_filesystem
 	niu2x_lua 
 	niu2x_application
-	niu2x_filesystem
 	niu2x_uv
 	niu2x_stream
 )

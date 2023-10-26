@@ -13,5 +13,5 @@ library_init(niu2x_lua)
 library_install(niu2x_lua)
 
 target_link_libraries(niu2x_lua PUBLIC 
-    niu2x_core
+    niu2x_filesystem
 )

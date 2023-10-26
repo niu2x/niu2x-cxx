@@ -96,7 +96,6 @@ static int start()
 
 static int stop()
 {
-
     if (fs::exists(pid_path)) {
         fs::File pid_file(pid_path);
 
@@ -176,7 +175,6 @@ int main(int argc, const char* argv[])
             std::cerr << "please give me a config" << std::endl;
             return 1;
         }
-
         auto cur_status = query_status();
         if (cur_status && (*cur_status).running == false)
             return start();
