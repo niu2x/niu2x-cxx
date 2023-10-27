@@ -82,6 +82,17 @@ public:
         z = z * p.z;
         return *this;
     }
+
+    AABB pad(double delta = 0.0001)
+    {
+        // Return an AABB that has no side narrower than some delta, padding if
+        // necessary.
+        auto new_x = (x.size() >= delta) ? x : x.expand(delta);
+        auto new_y = (y.size() >= delta) ? y : y.expand(delta);
+        auto new_z = (z.size() >= delta) ? z : z.expand(delta);
+
+        return AABB(new_x, new_y, new_z);
+    }
 };
 
 inline AABB operator+(const AABB& a, const AABB& b)

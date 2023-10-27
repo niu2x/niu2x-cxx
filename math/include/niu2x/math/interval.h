@@ -62,6 +62,8 @@ public:
         return Interval(min - padding, max + padding);
     }
 
+    double size() const { return max - min; }
+
     /**
      * @brief       空区间
      */
