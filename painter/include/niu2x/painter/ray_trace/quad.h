@@ -16,6 +16,8 @@ public:
     {
 
         auto n = cross(u_, v_);
+        w_ = n / dot(n, n);
+
         normal_ = normalize(n);
         D_ = dot(normal_, Q_);
 
@@ -41,8 +43,18 @@ public:
             return maybe_null;
 
         auto intersection = r.at(t);
+        Vec3 planar_hitpt_vector = intersection - Q_;
+        auto alpha = dot(w_, cross(planar_hitpt_vector, v_));
+        auto beta = dot(w_, cross(u_, planar_hitpt_vector));
+
+        if (alpha < 0 || alpha > 1 || beta < 0 || beta > 1) {
+            return maybe_null;
+        }
 
         HitRecord rec;
+
+        rec.u = alpha;
+        rec.v = beta;
 
         rec.t = t;
         rec.p = intersection;
@@ -58,6 +70,7 @@ private:
     SPtr<Material> mat_;
     AABB bbox_;
     Vec3 normal_;
+    Vec3 w_;
     double D_;
 };
 } // namespace niu2x::painter::ray_trace
