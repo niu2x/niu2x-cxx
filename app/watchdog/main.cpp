@@ -36,7 +36,10 @@ static void Status_show(Status* self)
     std::cout << "running: " << to_string(self->running) << std::endl;
 }
 
-static void do_job() { }
+static void do_job()
+{
+    // todo
+}
 
 static void job()
 {
@@ -64,6 +67,8 @@ static int start()
     if (!lua_engine.execute_file(config.script)) {
         std::cerr << "load config script fail\n";
     }
+
+    // todo load lua script config
 
     if (config.daemon) {
         auto r = fork();
