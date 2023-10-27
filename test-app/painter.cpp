@@ -201,8 +201,59 @@ static void two_perlin_spheres()
     canvas.store_to(&canvas_file_writer);
 }
 
+static void quads()
+{
+    using Vec3 = math::Vec3;
+    image::Image canvas;
+    canvas.reset(400, 225, Color::WHITE);
+
+    painter::RayTraceCamera::Options camera_options
+        = { .aspect_ratio = 16 / 9.0,
+              .fov = 80,
+              .focus_dist = 10,
+              .defocus_angle = 0 };
+    painter::RayTraceCamera camera(camera_options);
+
+    painter::RayTraceObjects objs;
+
+    // Materials
+    auto left_red
+        = make_shared<painter::RayTraceLambertian>((Vec3(1.0, 0.2, 0.2)));
+    auto back_green
+        = make_shared<painter::RayTraceLambertian>((Vec3(0.2, 1.0, 0.2)));
+    auto right_blue
+        = make_shared<painter::RayTraceLambertian>((Vec3(0.2, 0.2, 1.0)));
+    auto upper_orange
+        = make_shared<painter::RayTraceLambertian>((Vec3(1.0, 0.5, 0.0)));
+    auto lower_teal
+        = make_shared<painter::RayTraceLambertian>((Vec3(0.2, 0.8, 0.8)));
+
+    // Quads
+    objs.insert(make_shared<painter::ray_trace::Quad>(
+        Vec3(-3, -2, 5), Vec3(0, 0, -4), Vec3(0, 4, 0), left_red));
+    objs.insert(make_shared<painter::ray_trace::Quad>(
+        Vec3(-2, -2, 0), Vec3(4, 0, 0), Vec3(0, 4, 0), back_green));
+    objs.insert(make_shared<painter::ray_trace::Quad>(
+        Vec3(3, -2, 1), Vec3(0, 0, 4), Vec3(0, 4, 0), right_blue));
+    objs.insert(make_shared<painter::ray_trace::Quad>(
+        Vec3(-2, 3, 1), Vec3(4, 0, 0), Vec3(0, 0, 4), upper_orange));
+    objs.insert(make_shared<painter::ray_trace::Quad>(
+        Vec3(-2, -3, 5), Vec3(4, 0, 0), Vec3(0, 0, -4), lower_teal));
+
+    painter::RayTraceBVH world(objs);
+
+    camera.look(Vec3(0, 0, 9), Vec3(0, 0, 0), Vec3(0, 1, 0));
+
+    painter::RayTracePainter painter(50, 100);
+    painter.paint(&canvas, &camera, &world);
+
+    fs::File canvas_file("test.png");
+    stream::FileWriteStream canvas_file_writer(canvas_file);
+    canvas.store_to(&canvas_file_writer);
+}
+
 int main()
 {
-    two_perlin_spheres();
+    quads();
     return 0;
 }
