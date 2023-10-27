@@ -11,10 +11,9 @@ class NXAPI LuaEngine : Noncopyable {
 public:
     LuaEngine();
     ~LuaEngine();
-
     int main(int argc, char* argv[]);
-
-    void execute_file(const fs::Path& path);
+    bool execute_file(const fs::Path& path);
+    void fetch_config();
 
 private:
     void* L_;

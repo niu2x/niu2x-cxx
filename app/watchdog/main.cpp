@@ -18,11 +18,12 @@ struct Status {
 
 struct Config {
     bool daemon = false;
+    fs::Path script;
 };
 
 struct Item {
     String name;
-    String exec_path;
+    fs::Path exec_path;
 };
 
 static Vector<Item> items;
@@ -58,6 +59,12 @@ static void job()
 
 static int start()
 {
+
+    lua::LuaEngine lua_engine;
+    if (!lua_engine.execute_file(config.script)) {
+        std::cerr << "load config script fail\n";
+    }
+
     if (config.daemon) {
         auto r = fork();
         if (r == -1) {
@@ -163,9 +170,9 @@ int main(int argc, const char* argv[])
         return 1;
     }
 
-    // if (arg_parser.count("daemon")) {
-    config.daemon = true;
-    // }
+    if (arg_parser.count("daemon")) {
+        config.daemon = true;
+    }
 
     auto operation = arg_parser.opt_string("operation");
     if (operation == "status") {
@@ -176,9 +183,10 @@ int main(int argc, const char* argv[])
             return 1;
         }
         auto cur_status = query_status();
-        if (cur_status && (*cur_status).running == false)
+        if (cur_status && (*cur_status).running == false) {
+            config.script = arg_parser.opt_string("config");
             return start();
-        else {
+        } else {
             std::cerr << "already running" << std::endl;
             return 1;
         }

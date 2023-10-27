@@ -53,6 +53,9 @@ public:
      */
     void resize(size_t s) { buf_.resize(s); }
 
+    uint8_t& operator[](Index i) { return buf_[i]; }
+
+    const uint8_t& operator[](Index i) const { return buf_[i]; }
     /**
      * @brief       convert Buffer's momory to String
      * @return      the String */

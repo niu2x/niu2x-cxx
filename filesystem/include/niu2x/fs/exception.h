@@ -22,6 +22,14 @@ public:
     }
 };
 
+class FileNotExists : public RuntimeError {
+public:
+    explicit FileNotExists(const fs::Path& filename)
+    : RuntimeError("File not exists: " + filename.string())
+    {
+    }
+};
+
 } // namespace niu2x::fs
 
 #endif

@@ -36,6 +36,7 @@ bool File::open(OpenMode open_mode)
     }
 
     si::openmode mode = open_mode == OpenMode::READ ? si::in : si::out;
+    mode |= std::ifstream::binary;
 
     fs_ = make_unique<std::fstream>();
     fs_->open(path_, mode);
@@ -93,6 +94,43 @@ NR File::read(void* data, NR max_size)
 
     fs_->read(static_cast<char*>(data), max_size);
     return fs_->gcount(); // Return the number of bytes read from the file
+}
+
+Buffer File::as_buffer(bool end_with_null)
+{
+    Buffer buf;
+    auto file_size = size();
+    buf.resize(file_size + (end_with_null ? 1 : 0));
+
+    open(OpenMode::READ);
+    check_file_opend();
+
+    read(buf.data(), file_size);
+    if (end_with_null)
+        buf[file_size] = 0;
+
+    close();
+
+    return buf;
+}
+
+NR File::size()
+{
+    bool opened = is_open();
+    if (!opened) {
+        open(OpenMode::READ);
+    }
+
+    Offset old_offset = tell();
+    seek(0, SeekPos::END);
+    Offset offset = tell();
+    if (opened) {
+        seek(old_offset, SeekPos::SET);
+    } else {
+        close();
+    }
+
+    return offset;
 }
 
 } // namespace niu2x::fs

@@ -14,6 +14,7 @@ public:
     Path(BasePath&&);
     Path(const BasePath&);
     Path(const char*);
+    Path(const String&);
 
     NIU2X_CLASS_DEFAULT_MOVABLE(Path);
     NIU2X_CLASS_DEFAULT_COPYABLE(Path);

@@ -28,20 +28,34 @@ public:
     void ensure_dirs() const;
     void remove() const;
     File parent() const;
+
     const Path& path() const { return path_; }
     bool open(OpenMode open_mode);
     bool eof() const;
 
+    bool is_open() const { return !!fs_; }
+
     void seek(Offset offset, SeekPos seek_pos);
     void write(const void* data, NR size);
     NR read(void* data, NR max_size);
+
+    NR size();
+
+    Offset tell() const
+    {
+        check_file_opend();
+        return fs_->tellg();
+    }
+
+    Buffer as_buffer(bool end_with_null = false);
+    void close() { fs_.reset(); }
 
 private:
     Path path_;
     UniquePtr<std::fstream> fs_;
     void check_file_opend() const
     {
-        if (!fs_) {
+        if (!is_open()) {
             throw_runtime_err("File not open");
         }
     }

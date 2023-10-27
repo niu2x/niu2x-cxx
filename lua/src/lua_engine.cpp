@@ -16,11 +16,22 @@ LuaEngine::LuaEngine()
     if (!L_) {
         throw BadAlloc();
     }
+
+    luaL_openlibs(L());
 }
 
 LuaEngine::~LuaEngine() { lua_close(L()); }
 
-void LuaEngine::execute_file(const fs::Path& path) { unused(path); }
+bool LuaEngine::execute_file(const fs::Path& path)
+{
+    fs::File script_file(path);
+    if (!script_file.exists()) {
+        throw fs::FileNotExists(path);
+    }
+    auto buf = script_file.as_buffer(true);
+    bool succ = !luaL_dostring(L(), reinterpret_cast<const char*>(buf.data()));
+    return succ;
+}
 
 int LuaEngine::main(int argc, char* argv[]) { return lua_main(argc, argv); }
 
