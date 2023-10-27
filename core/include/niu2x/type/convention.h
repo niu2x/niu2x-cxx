@@ -7,7 +7,7 @@ namespace niu2x {
 
 using Index = size_t;
 using NR = size_t;
-
+using Offset = ssize_t;
 } // namespace niu2x
 
 #endif
