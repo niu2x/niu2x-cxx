@@ -3,8 +3,7 @@
 
 #include <niu2x/math/ray.h>
 #include <niu2x/painter/ray_trace/hittable.h>
-
-#include "material.h"
+#include <niu2x/painter/ray_trace/material.h>
 
 namespace niu2x::painter::ray_trace {
 

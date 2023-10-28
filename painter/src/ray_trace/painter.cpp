@@ -66,7 +66,7 @@ void Painter::paint(Image* image, const Camera* camera, const Hittable* obj)
 
                 auto ray_dir = normalize(pixel_pos - defocus_eye);
                 auto ray = math::Ray(defocus_eye, ray_dir, random(0.0, 1.0));
-                color += ray_color(ray, max_depth_, obj);
+                color += ray_color(ray, max_depth_, obj, camera);
             }
 
             color /= samples_per_pixel_;
@@ -77,7 +77,8 @@ void Painter::paint(Image* image, const Camera* camera, const Hittable* obj)
     }
 }
 
-Vec3 RayTracePainter::ray_color(const Ray& ray, int depth, const Hittable* obj)
+Vec3 RayTracePainter::ray_color(
+    const Ray& ray, int depth, const Hittable* obj, const Camera* camera)
 {
     if (depth <= 0)
         return Vec3(0, 0, 0);
@@ -86,14 +87,17 @@ Vec3 RayTracePainter::ray_color(const Ray& ray, int depth, const Hittable* obj)
     if (hit) {
         auto& record = hit.value();
         Vec3 attenuation;
+        Vec3 color_from_scatter { 0, 0, 0 };
         Ray scattered;
         if (record.material->scatter(ray, record, attenuation, scattered)) {
-            return attenuation * ray_color(scattered, depth - 1, obj);
+            color_from_scatter
+                = attenuation * ray_color(scattered, depth - 1, obj, camera);
         }
-        return Vec3(0, 0, 0);
+        Vec3 color_from_emission
+            = record.material->emitted(record.u, record.v, record.p);
+        return color_from_emission + color_from_scatter;
     }
-    auto a = 0.5 * (ray.direction().z + 1.0);
-    return Vec3(1.0, 1.0, 1.0) * (1.0 - a) + Vec3(0.4, 0.4, 1.0) * a;
+    return camera->background();
 }
 
 } // namespace niu2x::painter::ray_trace

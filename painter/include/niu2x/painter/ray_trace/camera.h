@@ -33,6 +33,8 @@ public:
          * @brief      defocus
          */
         double defocus_angle;
+
+        Vec3 background;
     };
 
     /**
@@ -65,6 +67,8 @@ public:
 
     inline double defocus_radius() const { return defocus_radius_; }
 
+    const Vec3& background() const { return background_; }
+
 private:
     DoubleSize size_;
     double focal_length_;
@@ -74,6 +78,8 @@ private:
     Vec3 look_;
     Vec3 up_;
     Vec3 side_;
+
+    Vec3 background_;
 };
 
 } // namespace niu2x::painter::ray_trace

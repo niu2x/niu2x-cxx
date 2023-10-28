@@ -17,7 +17,8 @@ static void random_sphere()
         = { .aspect_ratio = 16 / 9.0,
               .fov = 20,
               .focus_dist = 10,
-              .defocus_angle = 0.6 };
+              .defocus_angle = 0.6,
+              .background = Vec3(0.70, 0.80, 1.00) };
     painter::RayTraceCamera camera(camera_options);
 
     painter::RayTraceObjects objs;
@@ -107,7 +108,8 @@ static void two_spheres()
         = { .aspect_ratio = 16 / 9.0,
               .fov = 20,
               .focus_dist = 10,
-              .defocus_angle = 0 };
+              .defocus_angle = 0,
+              .background = Vec3(0.70, 0.80, 1.00) };
     painter::RayTraceCamera camera(camera_options);
 
     painter::RayTraceObjects objs;
@@ -123,6 +125,47 @@ static void two_spheres()
     painter::RayTraceBVH world(objs);
 
     camera.look(Vec3(13, 2, 3), Vec3(0, 0, 0), Vec3(0, 1, 0));
+
+    painter::RayTracePainter painter(50, 100);
+    painter.paint(&canvas, &camera, &world);
+
+    fs::File canvas_file("test.png");
+    stream::FileWriteStream canvas_file_writer(canvas_file);
+    canvas.store_to(&canvas_file_writer);
+}
+
+static void simple_light()
+{
+
+    using Vec3 = math::Vec3;
+
+    image::Image canvas;
+    canvas.reset(400 * 2, 225 * 2, Color::WHITE);
+
+    painter::RayTraceCamera::Options camera_options
+        = { .aspect_ratio = 16 / 9.0,
+              .fov = 20,
+              .focus_dist = 10,
+              .defocus_angle = 0,
+              .background = Vec3(0, 0, 0) };
+    painter::RayTraceCamera camera(camera_options);
+
+    painter::RayTraceObjects objs;
+
+    auto pertext = make_shared<painter::ray_trace::NoiseTexture>(4);
+    objs.insert(make_shared<painter::RayTraceSphere>(Vec3(0, -1000, 0), 1000,
+        make_shared<painter::RayTraceLambertian>(pertext)));
+    objs.insert(make_shared<painter::RayTraceSphere>(
+        Vec3(0, 2, 0), 2, make_shared<painter::RayTraceLambertian>(pertext)));
+
+    auto difflight
+        = make_shared<painter::ray_trace::DiffuseLight>(Vec3(4, 4, 4));
+    objs.insert(make_shared<painter::ray_trace::Quad>(
+        Vec3(3, 1, -2), Vec3(2, 0, 0), Vec3(0, 2, 0), difflight));
+
+    painter::RayTraceBVH world(objs);
+
+    camera.look(Vec3(26, 3, 6), Vec3(0, 2, 0), Vec3(0, 1, 0));
 
     painter::RayTracePainter painter(50, 100);
     painter.paint(&canvas, &camera, &world);
@@ -151,7 +194,8 @@ static void earth()
         = { .aspect_ratio = 16 / 9.0,
               .fov = 20,
               .focus_dist = 10,
-              .defocus_angle = 0 };
+              .defocus_angle = 0,
+              .background = Vec3(0.70, 0.80, 1.00) };
     painter::RayTraceCamera camera(camera_options);
     painter::RayTraceObjects objs;
     objs.insert(globe);
@@ -177,7 +221,8 @@ static void two_perlin_spheres()
         = { .aspect_ratio = 16 / 9.0,
               .fov = 20,
               .focus_dist = 10,
-              .defocus_angle = 0 };
+              .defocus_angle = 0,
+              .background = Vec3(0.70, 0.80, 1.00) };
     painter::RayTraceCamera camera(camera_options);
 
     painter::RayTraceObjects objs;
@@ -211,7 +256,8 @@ static void quads()
         = { .aspect_ratio = 16 / 9.0,
               .fov = 80,
               .focus_dist = 10,
-              .defocus_angle = 0 };
+              .defocus_angle = 0,
+              .background = Vec3(0.70, 0.80, 1.00) };
     painter::RayTraceCamera camera(camera_options);
 
     painter::RayTraceObjects objs;
@@ -254,6 +300,6 @@ static void quads()
 
 int main()
 {
-    quads();
+    simple_light();
     return 0;
 }

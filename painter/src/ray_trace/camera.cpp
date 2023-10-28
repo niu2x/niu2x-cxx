@@ -14,6 +14,7 @@ Camera::Camera(const Options& opt)
     focal_length_ = opt.focus_dist;
     size_.width *= scale;
     size_.height *= scale;
+    background_ = opt.background;
 }
 
 void Camera::look(const Vec3& eye, const Vec3& target, const Vec3& p_up)

@@ -27,7 +27,8 @@ public:
 private:
     int max_depth_;
     int samples_per_pixel_;
-    Vec3 ray_color(const Ray& ray, int depth, const Hittable* obj);
+    Vec3 ray_color(
+        const Ray& ray, int depth, const Hittable* obj, const Camera* camera);
 };
 
 } // namespace niu2x::painter::ray_trace
