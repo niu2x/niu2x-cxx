@@ -23,8 +23,8 @@ static void random_sphere()
 
     painter::RayTraceObjects objs;
 
-    auto checker = make_shared<painter::ray_trace::CheckerTexture>(0.32,
-        math::to_color(Vec3(.2, .3, .1)), math::to_color(Vec3(.9, .9, .9)));
+    auto checker = make_shared<painter::ray_trace::CheckerTexture>(
+        0.32, (Vec3(.2, .3, .1)), (Vec3(.9, .9, .9)));
 
     auto ground_material = make_shared<painter::RayTraceLambertian>(checker);
     objs.insert(make_shared<painter::RayTraceSphere>(
@@ -114,8 +114,8 @@ static void two_spheres()
 
     painter::RayTraceObjects objs;
 
-    auto checker = make_shared<painter::ray_trace::CheckerTexture>(0.8,
-        math::to_color(Vec3(.2, .3, .1)), math::to_color(Vec3(.9, .9, .9)));
+    auto checker = make_shared<painter::ray_trace::CheckerTexture>(
+        0.8, (Vec3(.2, .3, .1)), (Vec3(.9, .9, .9)));
 
     objs.insert(make_shared<painter::RayTraceSphere>(Vec3(0, -10, 0), 10,
         make_shared<painter::RayTraceLambertian>(checker)));
@@ -127,6 +127,59 @@ static void two_spheres()
     camera.look(Vec3(13, 2, 3), Vec3(0, 0, 0), Vec3(0, 1, 0));
 
     painter::RayTracePainter painter(50, 100);
+    painter.paint(&canvas, &camera, &world);
+
+    fs::File canvas_file("test.png");
+    stream::FileWriteStream canvas_file_writer(canvas_file);
+    canvas.store_to(&canvas_file_writer);
+}
+
+static void cornell_box()
+{
+
+    using Vec3 = math::Vec3;
+
+    image::Image canvas;
+    canvas.reset(800, 800, Color::WHITE);
+
+    painter::RayTraceCamera::Options camera_options = { .aspect_ratio = 1,
+        .fov = 40,
+        .focus_dist = 10,
+        .defocus_angle = 0,
+        .background = Vec3(0.0, 0.0, 0.0) };
+    painter::RayTraceCamera camera(camera_options);
+
+    painter::RayTraceObjects objs;
+
+    auto red = make_shared<painter::RayTraceLambertian>(Vec3(.65, .05, .05));
+    auto white = make_shared<painter::RayTraceLambertian>(Vec3(.73, .73, .73));
+    auto green = make_shared<painter::RayTraceLambertian>(Vec3(.12, .45, .15));
+    auto light
+        = make_shared<painter::ray_trace::DiffuseLight>(Vec3(15, 15, 15));
+
+    objs.insert(make_shared<painter::ray_trace::Quad>(
+        Vec3(555, 0, 0), Vec3(0, 0, 555), Vec3(0, 555, 0), red));
+
+    objs.insert(make_shared<painter::ray_trace::Quad>(
+        Vec3(0, 0, 0), Vec3(0, 555, 0), Vec3(0, 0, 555), green));
+
+    objs.insert(make_shared<painter::ray_trace::Quad>(
+        Vec3(343, 554, 332), Vec3(-130, 0, 0), Vec3(0, 0, -105), light));
+
+    objs.insert(make_shared<painter::ray_trace::Quad>(
+        Vec3(0, 0, 0), Vec3(0, 0, 555), Vec3(555, 0, 0), white));
+
+    objs.insert(make_shared<painter::ray_trace::Quad>(
+        Vec3(555, 555, 555), Vec3(-555, 0, 0), Vec3(0, 0, -555), white));
+
+    objs.insert(make_shared<painter::ray_trace::Quad>(
+        Vec3(0, 0, 555), Vec3(0, 555, 0), Vec3(555, 0, 0), white));
+
+    painter::RayTraceBVH world(objs);
+
+    camera.look(Vec3(278, 278, -800), Vec3(278, 278, 0), Vec3(0, 1, 0));
+
+    painter::RayTracePainter painter(50, 200);
     painter.paint(&canvas, &camera, &world);
 
     fs::File canvas_file("test.png");
@@ -160,6 +213,8 @@ static void simple_light()
 
     auto difflight
         = make_shared<painter::ray_trace::DiffuseLight>(Vec3(4, 4, 4));
+    objs.insert(
+        make_shared<painter::RayTraceSphere>(Vec3(0, 7, 0), 2, difflight));
     objs.insert(make_shared<painter::ray_trace::Quad>(
         Vec3(3, 1, -2), Vec3(2, 0, 0), Vec3(0, 2, 0), difflight));
 
@@ -300,6 +355,6 @@ static void quads()
 
 int main()
 {
-    simple_light();
+    cornell_box();
     return 0;
 }

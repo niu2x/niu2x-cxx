@@ -19,7 +19,7 @@ public:
     {
     }
     DiffuseLight(const Vec3& c)
-    : emit_(make_shared<SolidColor>(math::to_color(c)))
+    : emit_(make_shared<SolidColor>((c)))
     {
     }
 
@@ -35,9 +35,7 @@ public:
 
     Vec3 emitted(double u, double v, const Vec3& p) const override
     {
-        static double scale = 1 / 255.0;
-        auto color = emit_->value(u, v, p);
-        return Vec3(color.r * scale, color.g * scale, color.b * scale);
+        return emit_->value(u, v, p);
     }
 
 private:

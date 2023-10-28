@@ -11,7 +11,7 @@ namespace niu2x::painter::ray_trace {
 class ImageTexture : public Texture {
 public:
     ImageTexture(const fs::Path& path);
-    Color value(double u, double v, const Vec3& p) const override;
+    Vec3 value(double u, double v, const Vec3& p) const override;
 
 private:
     image::Image image_;

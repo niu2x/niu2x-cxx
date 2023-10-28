@@ -13,22 +13,17 @@ class Texture {
 public:
     virtual ~Texture() = default;
 
-    virtual Color value(double u, double v, const Vec3& p) const = 0;
+    virtual Vec3 value(double u, double v, const Vec3& p) const = 0;
 };
 
 class SolidColor : public Texture {
 public:
-    SolidColor(const Color& c)
+    SolidColor(const Vec3& c)
     : color_value_(c)
     {
     }
 
-    SolidColor(uint8_t red, uint8_t green, uint8_t blue)
-    : SolidColor(Color(red, green, blue, 255))
-    {
-    }
-
-    Color value(double u, double v, const Vec3& p) const override
+    Vec3 value(double u, double v, const Vec3& p) const override
     {
         unused(u);
         unused(v);
@@ -37,7 +32,7 @@ public:
     }
 
 private:
-    Color color_value_;
+    Vec3 color_value_;
 };
 
 class CheckerTexture : public Texture {
@@ -49,14 +44,14 @@ public:
     {
     }
 
-    CheckerTexture(double _scale, const Color& c1, const Color& c2)
+    CheckerTexture(double _scale, const Vec3& c1, const Vec3& c2)
     : inv_scale_(1.0 / _scale)
     , even_(make_shared<SolidColor>(c1))
     , odd_(make_shared<SolidColor>(c2))
     {
     }
 
-    Color value(double u, double v, const Vec3& p) const override
+    Vec3 value(double u, double v, const Vec3& p) const override
     {
         auto xInteger = static_cast<int>(floor(inv_scale_ * p.x));
         auto yInteger = static_cast<int>(floor(inv_scale_ * p.y));

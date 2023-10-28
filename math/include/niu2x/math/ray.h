@@ -15,14 +15,14 @@ public:
 
     Ray(const Vec3& origin, const Vec3& direction)
     : origin_(origin)
-    , dir_(direction)
+    , dir_(normalize(direction))
     , time_(0)
     {
     }
 
     Ray(const Vec3& origin, const Vec3& direction, double time)
     : origin_(origin)
-    , dir_(direction)
+    , dir_(normalize(direction))
     , time_(time)
     {
     }

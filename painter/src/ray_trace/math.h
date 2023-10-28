@@ -30,7 +30,7 @@ inline Vec3 refract(const Vec3& uv, const Vec3& n, double etai_over_etat)
 inline Vec3 random_unit_vec3()
 {
     double theta = math::random<double>(0, 2 * math::pi);
-    double phi = math::random<double>(0, math::pi);
+    double phi = acos(math::random<double>(-1, 1));
 
     double x = cos(theta) * sin(phi);
     double y = sin(theta) * sin(phi);

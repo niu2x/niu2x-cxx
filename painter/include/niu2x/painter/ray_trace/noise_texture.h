@@ -13,15 +13,14 @@ public:
     : scale_(sc)
     {
     }
-    Color value(double u, double v, const Vec3& p) const override
+    Vec3 value(double u, double v, const Vec3& p) const override
     {
         unused(u);
         unused(v);
         // return math::to_color(Vec3(1, 1, 1) * noise_.turb(p * scale_));
 
         auto s = scale_ * p;
-        return math::to_color(
-            Vec3(1, 1, 1) * 0.5 * (1 + sin(s.z + 10 * noise_.turb(s))));
+        return Vec3(1, 1, 1) * 0.5 * (1 + sin(s.z + 10 * noise_.turb(s)));
     }
 
 private:

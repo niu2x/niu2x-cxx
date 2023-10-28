@@ -14,8 +14,7 @@ class HitRecord;
 class Lambertian : public Material {
 public:
     Lambertian(const math::Vec3& a)
-    : albedo_(make_shared<SolidColor>(static_cast<uint8_t>(a.x * 255),
-        static_cast<uint8_t>(a.y * 255), static_cast<uint8_t>(a.z * 255)))
+    : albedo_(make_shared<SolidColor>(Vec3((a.x), (a.y), (a.z))))
     {
     }
 
