@@ -34,6 +34,16 @@ build-watchdog: build-release-library
 		-DCMAKE_BUILD_TYPE=Release;
 	cmake --build build/watchdog/release -j
 
+build-poe: build-release-library
+	cmake -GNinja -S app/poe -Bbuild/poe/release \
+		-Dniu2x_filesystem_DIR=$$PWD/build/release/dist/lib/cmake/niu2x \
+		-Dniu2x_lua_DIR=$$PWD/build/release/dist/lib/cmake/niu2x \
+		-Dniu2x_uv_DIR=$$PWD/build/release/dist/lib/cmake/niu2x \
+		-Dniu2x_stream_DIR=$$PWD/build/release/dist/lib/cmake/niu2x \
+		-Dniu2x_application_DIR=$$PWD/build/release/dist/lib/cmake/niu2x \
+		-Dniu2x_gfx_DIR=$$PWD/build/release/dist/lib/cmake/niu2x \
+		-DCMAKE_BUILD_TYPE=Release;
+	cmake --build build/poe/release -j
 
 build-test-app: build-release-library
 	cmake -GNinja -S test-app -Bbuild/test-app-static/release \

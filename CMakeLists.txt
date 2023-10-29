@@ -26,6 +26,7 @@ add_subdirectory(painter)
 add_subdirectory(lua)
 add_subdirectory(application)
 add_subdirectory(uv)
+add_subdirectory(gfx)
 
 
 
