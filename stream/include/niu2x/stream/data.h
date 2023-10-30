@@ -1,5 +1,5 @@
-#ifndef NIU2X_TYPE_SRREAM_H
-#define NIU2X_TYPE_SRREAM_H
+#ifndef NIU2X_TYPE_SRREAM_DATA_H
+#define NIU2X_TYPE_SRREAM_DATA_H
 
 #include <niu2x/noncopyable.h>
 #include <niu2x/type/std_alias.h>
@@ -18,8 +18,6 @@ public:
     virtual ~DataOut() { }
     virtual void write(const void* buf, size_t size) = 0;
 };
-
-class
 
 } // namespace niu2x::stream
 

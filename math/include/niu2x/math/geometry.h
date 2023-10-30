@@ -14,6 +14,19 @@ struct Size {
 using IntSize = Size<int>;
 using DoubleSize = Size<double>;
 
+template <class T>
+struct Pos2D {
+    T x, y;
+};
+
+template <class T>
+struct Rect {
+    Size<T> size;
+    Pos2D<T> origin;
+};
+
+using IntRect = Rect<int>;
+
 } // namespace niu2x::math
 
 #endif

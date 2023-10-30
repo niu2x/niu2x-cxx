@@ -30,7 +30,16 @@ private:
     GLuint native_id_;
 };
 
-void GL_RenderProgram::bind() { glUseProgram(native_id_); }
+GLuint GL_RenderProgram::current_binding_id_ = 0;
+
+void GL_RenderProgram::bind()
+{
+    if (current_binding_id_ != native_id_) {
+        current_binding_id_ = native_id_;
+
+        glUseProgram(native_id_);
+    }
+}
 
 GL_RenderProgram::GL_RenderProgram(const Options& options)
 {

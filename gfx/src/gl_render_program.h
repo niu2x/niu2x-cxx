@@ -15,6 +15,7 @@ public:
 
 private:
     GLuint native_id_;
+    static GLuint current_binding_id_;
 };
 
 } // namespace niu2x::gfx

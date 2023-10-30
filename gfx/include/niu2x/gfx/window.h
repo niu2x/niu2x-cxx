@@ -2,7 +2,7 @@
 #define NIU2X_GFX_WINDOW_H
 
 #include <niu2x/unused.h>
-#include <niu2x/math/size.h>
+#include <niu2x/math/geometry.h>
 #include <niu2x/type/std_alias.h>
 
 namespace niu2x::gfx {

@@ -4,7 +4,7 @@
 #include <niu2x/painter/ray_trace/texture.h>
 #include <niu2x/image.h>
 #include <niu2x/fs.h>
-#include <niu2x/math/size.h>
+#include <niu2x/math/geometry.h>
 
 namespace niu2x::painter::ray_trace {
 

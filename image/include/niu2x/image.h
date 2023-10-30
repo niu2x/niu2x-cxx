@@ -2,7 +2,7 @@
 #define NIU2X_IMAGE_H
 
 #include <niu2x/type.h>
-#include <niu2x/math/size.h>
+#include <niu2x/math/geometry.h>
 
 namespace niu2x::image {
 
