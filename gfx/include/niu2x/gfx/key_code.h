@@ -2,6 +2,7 @@
 #define NIU2X_GFX_KEY_CODE_H
 
 #include <niu2x/singleton.h>
+#include <niu2x/type/std_alias.h>
 
 namespace niu2x::gfx {
 
@@ -124,6 +125,8 @@ enum class KeyCode {
     KEY_KP_DECIMAL,
     KEY_KP_ENTER,
 };
+
+String to_string(KeyCode key);
 
 } // namespace niu2x::gfx
 

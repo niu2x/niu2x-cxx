@@ -12,13 +12,16 @@ static void error_callback(int error, const char* description)
 }
 
 static void key_callback(
-    GLFWwindow* window, int key, int scancode, int action, int mods)
+    GLFWwindow* window, int key_code, int scancode, int action, int mods)
 {
     unused(window);
-    unused(key);
     unused(scancode);
     unused(action);
     unused(mods);
+
+    KeyCode key = glfw_key_map[key_code];
+    printf("key: %s\n", to_string(key).c_str());
+
     // if (key == GLFW_KEY_E && action == GLFW_PRESS)
 }
 
