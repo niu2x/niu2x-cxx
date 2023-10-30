@@ -3,5 +3,7 @@
 
 #include <niu2x/gfx/window.h>
 #include <niu2x/gfx/window_factory.h>
+#include <niu2x/gfx/key_code.h>
+#include <niu2x/gfx/input_manager.h>
 
 #endif

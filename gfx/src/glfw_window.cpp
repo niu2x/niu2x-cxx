@@ -2,12 +2,24 @@
 
 #include <niu2x/type/exception.h>
 #include <niu2x/unused.h>
+#include "glfw_key_map.h"
 
 namespace niu2x::gfx {
 
 static void error_callback(int error, const char* description)
 {
     fprintf(stderr, "Error: %d %s\n", error, description);
+}
+
+static void key_callback(
+    GLFWwindow* window, int key, int scancode, int action, int mods)
+{
+    unused(window);
+    unused(key);
+    unused(scancode);
+    unused(action);
+    unused(mods);
+    // if (key == GLFW_KEY_E && action == GLFW_PRESS)
 }
 
 GLFW_Window::GLFW_Window()
@@ -26,6 +38,7 @@ GLFW_Window::GLFW_Window()
     }
 
     glfwMakeContextCurrent(native_win_);
+    glfwSetKeyCallback(native_win_, key_callback);
 }
 
 GLFW_Window::~GLFW_Window()
