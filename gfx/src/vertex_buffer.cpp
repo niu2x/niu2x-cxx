@@ -1,4 +1,4 @@
-#include <niu2x/gfx/vertex_buffer.h>
+#include <niu2x/gfx/hardward_resource.h>
 
 namespace niu2x::gfx {
 

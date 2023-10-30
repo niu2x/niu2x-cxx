@@ -1,7 +1,7 @@
 #ifndef NIU2X_GFX_GL_VERTEX_BUFFER_H
 #define NIU2X_GFX_GL_VERTEX_BUFFER_H
 
-#include <niu2x/gfx/vertex_buffer.h>
+#include <niu2x/gfx/hardward_resource.h>
 #include "glad/glad.h"
 
 namespace niu2x::gfx {

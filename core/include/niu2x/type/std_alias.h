@@ -11,6 +11,8 @@
 #include <condition_variable>
 #include <thread>
 #include <vector>
+#include <map>
+#include <unordered_map>
 #include <atomic>
 #include <optional>
 #include <functional>
@@ -56,6 +58,12 @@ using UniquePtr = std::unique_ptr<T>;
  */
 template <class T>
 using Vector = std::vector<T>;
+
+template <class Key, class Value>
+using Map = std::map<Key, Value>;
+
+template <class Key, class Value>
+using HashMap = std::unordered_map<Key, Value>;
 
 /**
  * @brief       Optional
