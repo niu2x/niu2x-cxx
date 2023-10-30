@@ -14,6 +14,7 @@
 #include <atomic>
 #include <optional>
 #include <functional>
+#include <chrono>
 #include <type_traits>
 
 namespace niu2x {
@@ -107,6 +108,26 @@ inline String to_string(bool b)
 template <class T>
 inline constexpr bool is_movable = std::is_nothrow_move_constructible_v<T>&&
     std::is_nothrow_move_assignable_v<T>;
+
+using TimePoint = std::chrono::time_point<std::chrono::system_clock>;
+inline TimePoint time_now() { return std::chrono::system_clock::now(); }
+
+using TimeDuration = double;
+
+inline TimeDuration time_diff(const TimePoint& t_old, const TimePoint& t_new)
+{
+    static double scale = 1.0 / 1000;
+    using std_ms = std::chrono::milliseconds;
+    return std::chrono::duration_cast<std_ms>(t_new - t_old).count() * scale;
+}
+
+inline TimeDuration time_diff(const TimePoint& t_new)
+{
+    static double scale = 1.0 / 1000;
+    using std_ms = std::chrono::milliseconds;
+    return std::chrono::duration_cast<std_ms>(t_new.time_since_epoch()).count()
+        * scale;
+}
 
 } // namespace niu2x
 

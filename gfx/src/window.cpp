@@ -4,4 +4,6 @@ namespace niu2x::gfx {
 
 Window::~Window() { }
 
+Window::Delegate::~Delegate() { }
+
 } // namespace niu2x::gfx

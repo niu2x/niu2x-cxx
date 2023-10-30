@@ -21,8 +21,6 @@ static void key_callback(
 
     KeyCode key = glfw_key_map[key_code];
     printf("key: %s\n", to_string(key).c_str());
-
-    // if (key == GLFW_KEY_E && action == GLFW_PRESS)
 }
 
 GLFW_Window::GLFW_Window()
@@ -46,6 +44,7 @@ GLFW_Window::GLFW_Window()
 
 GLFW_Window::~GLFW_Window()
 {
+
     glfwDestroyWindow(native_win_);
     glfwTerminate();
 }
@@ -57,10 +56,17 @@ void GLFW_Window::set_window_size(IntSize window_size)
 
 void GLFW_Window::poll()
 {
+    delegate_->setup();
+    auto now = time_now();
+    auto prev = now;
     while (!glfwWindowShouldClose(native_win_)) {
-        glfwSwapBuffers(native_win_);
         glfwPollEvents();
+        now = time_now();
+        delegate_->update(time_diff(prev, now));
+        prev = now;
+        glfwSwapBuffers(native_win_);
     }
+    delegate_->cleanup();
 }
 
 void GLFW_Window::cache_window_size()

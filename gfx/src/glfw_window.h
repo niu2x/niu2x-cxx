@@ -15,11 +15,15 @@ public:
     void set_window_size(IntSize window_size) override;
     void poll() override;
     void set_full_screen(bool b) override;
+    void set_delegate(UniquePtr<Delegate> delegate) override
+    {
+        delegate_ = move(delegate);
+    }
 
 private:
     GLFWwindow* native_win_;
-
     IntSize window_size_cache_;
+    UniquePtr<Delegate> delegate_;
 
     void cache_window_size();
 };
