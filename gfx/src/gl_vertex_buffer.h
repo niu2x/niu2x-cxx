@@ -12,10 +12,12 @@ public:
     ~GL_VertexBuffer();
 
     void resize(NR vertex_count) override;
-    void set_vertex(NR offset, NR count, const Vertex*) override;
+    void set_vertexs(NR offset, NR count, const Vertex*) override;
+    void bind() override;
 
 private:
     GLuint native_id_;
+    static GLuint current_binding_id_;
 };
 
 } // namespace niu2x::gfx

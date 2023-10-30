@@ -3,6 +3,7 @@
 #include <niu2x/type/exception.h>
 #include <niu2x/unused.h>
 #include "glfw_key_map.h"
+#include <niu2x/gfx/draw.h>
 
 namespace niu2x::gfx {
 
@@ -23,13 +24,35 @@ static void key_callback(
     printf("key: %s\n", to_string(key).c_str());
 }
 
-GLFW_Window::GLFW_Window()
+GLFW_Init::GLFW_Init()
 {
     if (!glfwInit()) {
         throw_runtime_err("glfw init fail");
     }
-    glfwSetErrorCallback(error_callback);
+}
 
+GLFW_Init::~GLFW_Init() { glfwTerminate(); }
+
+GLFW_WindowWithRenderContext::GLFW_WindowWithRenderContext()
+{
+    gladLoadGLLoader((GLADloadproc)glfwGetProcAddress);
+    if (!gladLoadGL()) {
+        throw_runtime_err("gladLoadGL failed");
+    }
+
+    glGenVertexArrays(1, &vao_);
+    glBindVertexArray(vao_);
+}
+
+GLFW_WindowWithRenderContext::~GLFW_WindowWithRenderContext()
+{
+
+    glDeleteVertexArrays(1, &vao_);
+}
+
+GLFW_Window::GLFW_Window()
+{
+    glfwSetErrorCallback(error_callback);
     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 5);
 
@@ -42,12 +65,7 @@ GLFW_Window::GLFW_Window()
     glfwSetKeyCallback(native_win_, key_callback);
 }
 
-GLFW_Window::~GLFW_Window()
-{
-
-    glfwDestroyWindow(native_win_);
-    glfwTerminate();
-}
+GLFW_Window::~GLFW_Window() { glfwDestroyWindow(native_win_); }
 
 void GLFW_Window::set_window_size(IntSize window_size)
 {
@@ -61,9 +79,11 @@ void GLFW_Window::poll()
     auto prev = now;
     while (!glfwWindowShouldClose(native_win_)) {
         glfwPollEvents();
+
         now = time_now();
         delegate_->update(time_diff(prev, now));
         prev = now;
+
         glfwSwapBuffers(native_win_);
     }
     delegate_->cleanup();

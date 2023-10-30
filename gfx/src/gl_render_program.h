@@ -8,8 +8,10 @@ namespace niu2x::gfx {
 
 class GL_RenderProgram : public RenderProgram, private Noncopyable {
 public:
-    GL_RenderProgram(const RenderProgramOptions& options);
+    GL_RenderProgram(const Options& options);
     ~GL_RenderProgram();
+
+    void bind() override;
 
 private:
     GLuint native_id_;

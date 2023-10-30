@@ -8,6 +8,12 @@
 
 namespace niu2x::gfx {
 
+class GLFW_Init : private Noncopyable {
+public:
+    GLFW_Init();
+    ~GLFW_Init();
+};
+
 class GLFW_Window : public Window, private Noncopyable {
 public:
     GLFW_Window();
@@ -24,8 +30,17 @@ private:
     GLFWwindow* native_win_;
     IntSize window_size_cache_;
     UniquePtr<Delegate> delegate_;
-
+    GLFW_Init glfw_init_;
     void cache_window_size();
+};
+
+class GLFW_WindowWithRenderContext : public GLFW_Window {
+public:
+    GLFW_WindowWithRenderContext();
+    ~GLFW_WindowWithRenderContext();
+
+private:
+    GLuint vao_;
 };
 
 } // namespace niu2x::gfx

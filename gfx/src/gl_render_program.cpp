@@ -30,7 +30,9 @@ private:
     GLuint native_id_;
 };
 
-GL_RenderProgram::GL_RenderProgram(const RenderProgramOptions& options)
+void GL_RenderProgram::bind() { glUseProgram(native_id_); }
+
+GL_RenderProgram::GL_RenderProgram(const Options& options)
 {
     UniquePtr<GL_Shader> vertex_shader;
     UniquePtr<GL_Shader> fragment_shader;

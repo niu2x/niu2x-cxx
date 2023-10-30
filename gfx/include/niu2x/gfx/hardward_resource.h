@@ -10,8 +10,21 @@ namespace niu2x::gfx {
 class VertexBuffer {
 public:
     virtual ~VertexBuffer() = 0;
+
     virtual void resize(NR vertex_count) = 0;
-    virtual void set_vertex(NR offset, NR count, const Vertex*) = 0;
+
+    virtual void set_vertexs(NR offset, NR count, const Vertex*) = 0;
+
+    inline void set_vertex(Index index, const Vertex& vertex)
+    {
+        set_vertexs(index, 1, &vertex);
+    }
+
+    virtual void bind() = 0;
+};
+
+enum class RenderProgramID {
+    COLOR,
 };
 
 class RenderProgram {
@@ -21,11 +34,12 @@ public:
         FRAGMENT,
     };
 
-    struct RenderProgramOptions {
+    struct Options {
         HashMap<Stage, String> source_code;
     };
 
     virtual ~RenderProgram() = 0;
+    virtual void bind() = 0;
 };
 
 } // namespace niu2x::gfx

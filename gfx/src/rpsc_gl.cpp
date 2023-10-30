@@ -1,0 +1,45 @@
+#include "rpsc_gl.h"
+
+namespace niu2x::gfx::rpsc::gl {
+
+const char* color_vertex = R"RAW(
+#version 450 core
+
+layout (location = 0) in vec3 in_position; // x, y, z
+layout (location = 1) in vec4 in_color;    // r, g, b, a
+layout (location = 2) in vec2 in_tex_coord; // u, v
+
+out vec4 frag_color;
+out vec2 tex_coord;
+
+uniform mat4 model;
+uniform mat4 view;
+uniform mat4 projection;
+
+void main()
+{
+    // gl_Position = projection * view * model * vec4(in_position, 1.0);
+    gl_Position = vec4(in_position, 1.0);
+    frag_color = in_color;
+    tex_coord = in_tex_coord;
+}
+
+)RAW";
+const char* color_fragment = R"RAW(
+#version 450 core
+
+in vec4 frag_color;
+in vec2 tex_coord;
+
+out vec4 color;
+
+// uniform sampler2D texture0;
+
+void main()
+{
+    // color = texture(texture0, tex_coord) * frag_color;
+    color = frag_color;
+}
+)RAW";
+
+} // namespace niu2x::gfx::rpsc::gl

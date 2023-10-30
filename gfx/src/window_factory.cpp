@@ -5,7 +5,7 @@ namespace niu2x::gfx {
 
 UniquePtr<Window> WindowFactory::create_window()
 {
-    return make_unique<GLFW_Window>();
+    return make_unique<GLFW_WindowWithRenderContext>();
 }
 
 } // namespace niu2x::gfx
