@@ -23,6 +23,12 @@ template <class T>
 struct Rect {
     Size<T> size;
     Pos2D<T> origin;
+
+    Rect(T x, T y, T w, T h)
+    {
+        origin = { x, y };
+        size = { w, h };
+    }
 };
 
 using IntRect = Rect<int>;

@@ -1,26 +1,21 @@
-#include <niu2x/image/image.h>
-#include <niu2x/stream/push_back_read_stream.h>
+#include <niu2x/image/image_data.h>
 #include <niu2x/stream/buffer_stream.h>
-
 #include <niu2x/disable_windows_warning.h>
 
 #define STBI_NO_STDIO
-#define STB_IMAGE_IMPLEMENTATION
 #include "stb_image.h"
 
 #define STBI_WRITE_NO_STDIO
-#define STB_IMAGE_WRITE_IMPLEMENTATION
 #include "stb_image_write.h"
 
 namespace niu2x::image {
 
 static auto image_decode(
-    const Buffer* buffer, IntSize* size, int desired_channels)
+    const Buffer* buffer, IntSize* size, int* channels_in_file)
 {
-    int channels_in_file;
     return stbi_load_from_memory(buffer->data(),
         static_cast<int>(buffer->size()), &size->width, &size->height,
-        &channels_in_file, desired_channels);
+        channels_in_file, 0);
 }
 
 static void stbi_write_callback(void* context, void* data, int size)
@@ -43,41 +38,37 @@ static int image_jpg_encode(
         stbi_write_callback, writer, size.width, size.height, comp, data, 100);
 }
 
-Image::Image()
+ImageData::ImageData()
 : size_ { .width = 0, .height = 0 }
 , store_format_(Format::PNG)
-// , channel_(0)
+, channels_(0)
 {
 }
 
-Image::~Image() { }
+ImageData::~ImageData() { }
 
-void Image::reset(int w, int h, const Color& color)
+void ImageData::reset(int w, int h, int channels)
 {
     size_ = { .width = w, .height = h };
-    pixels_.resize(size_.area());
-    for (int row = 0; row < h; row++)
-        for (int col = 0; col < w; col++) {
-            set_pixel(row, col, color);
-        }
+    channels_ = channels;
+    pixels_.resize(size_.area() * channels_);
 }
 
-void Image::store_to(WriteStream* dest)
+void ImageData::store_to(WriteStream* dest)
 {
-    int channels = 4;
     switch (store_format_) {
         case Format::PNG: {
-            image_png_encode(dest, size_, channels, pixels_.data());
+            image_png_encode(dest, size_, channels_, pixels_.data());
             break;
         }
         case Format::JPG: {
-            image_jpg_encode(dest, size_, channels, pixels_.data());
+            image_jpg_encode(dest, size_, channels_, pixels_.data());
             break;
         }
     }
 }
 
-void Image::load_from(ReadStream* src)
+void ImageData::load_from(ReadStream* src)
 {
     stream::BufferWriteStream file_content_writer;
 
@@ -85,16 +76,14 @@ void Image::load_from(ReadStream* src)
 
     auto& file_content = file_content_writer.buffer();
 
-    int desired_channels = 4;
-
-    auto image_data = image_decode(&file_content, &size_, desired_channels);
+    auto image_data = image_decode(&file_content, &size_, &channels_);
 
     if (!image_data) {
         throw_runtime_err(stbi_failure_reason());
     }
 
-    pixels_.resize(size_.area());
-    memcpy(pixels_.data(), image_data, pixels_.size() * sizeof(Color));
+    pixels_.resize(size_.area() * channels_);
+    memcpy(pixels_.data(), image_data, pixels_.size() * channels_);
 
     stbi_image_free(image_data);
 }
