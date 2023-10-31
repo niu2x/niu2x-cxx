@@ -8,12 +8,12 @@ using si = std::ios_base;
 namespace niu2x::fs {
 
 File::File(const Path& path)
-: path_(path)
+: path_(std::filesystem::absolute(path))
 {
 }
 
 File::File(Path&& path)
-: path_(std::move(path))
+: path_(std::filesystem::absolute(std::move(path)))
 {
 }
 

@@ -35,14 +35,18 @@ public:
         vertex_buffer_->resize(6);
         vertex_buffer_->set_vertexs(0, 6, triangle);
 
-        tex_ = gfx_factory->create_texture2d();
+        auto res_mgr = gfx::ResourceManager::get();
 
-        fs::File png_file("test_00.png");
-        stream::FileReadStream png_in(png_file);
-        tex_->load(&png_in, gfx::PixelFormat::RGB_888);
+        res_mgr->load_texture2d("resource/test_00.yml");
+        tex_ = res_mgr->get_texture2d("resource/test_00.yml");
     }
 
-    void cleanup() override { printf("cleanup\n"); }
+    void cleanup() override
+    {
+        auto res_mgr = gfx::ResourceManager::get();
+        res_mgr->clear();
+        printf("cleanup\n");
+    }
 
     void update(TimeDuration delta) override
     {
@@ -58,7 +62,7 @@ public:
 private:
     UniquePtr<gfx::RenderProgram> render_program_;
     UniquePtr<gfx::VertexBuffer> vertex_buffer_;
-    UniquePtr<gfx::Texture2D> tex_;
+    gfx::Texture2D* tex_;
 };
 
 int main()

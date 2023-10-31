@@ -5,6 +5,7 @@ build-debug-library:
 	cmake -GNinja -S. \
 		-Bbuild/debug \
 		-DBUILD_SHARED_LIBS=OFF \
+		-Dyaml-cpp_DIR=/home/niu2x/project/yaml-cpp/dist/lib/cmake/yaml-cpp \
 		-DCMAKE_BUILD_TYPE=Debug;
 	cmake --build build/debug -j;
 	cmake --install build/debug --prefix build/debug/dist/
@@ -14,6 +15,7 @@ build-release-library:
 	cmake -GNinja -S. \
 		-Bbuild/release \
 		-DBUILD_SHARED_LIBS=OFF \
+		-Dyaml-cpp_DIR=/home/niu2x/project/yaml-cpp/dist/lib/cmake/yaml-cpp \
 		-DCMAKE_BUILD_TYPE=Release;
 	cmake --build build/release -j;
 	cmake --install build/release --prefix build/release/dist/
@@ -36,6 +38,7 @@ build-watchdog: build-release-library
 
 build-poe: build-release-library
 	cmake -GNinja -S app/poe -Bbuild/poe/release \
+		-Dyaml-cpp_DIR=/home/niu2x/project/yaml-cpp/dist/lib/cmake/yaml-cpp \
 		-Dniu2x_filesystem_DIR=$$PWD/build/release/dist/lib/cmake/niu2x \
 		-Dniu2x_lua_DIR=$$PWD/build/release/dist/lib/cmake/niu2x \
 		-Dniu2x_uv_DIR=$$PWD/build/release/dist/lib/cmake/niu2x \

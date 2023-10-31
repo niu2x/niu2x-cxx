@@ -8,5 +8,6 @@
 #include <niu2x/gfx/hardward_resource.h>
 #include <niu2x/gfx/gfx_factory.h>
 #include <niu2x/gfx/draw.h>
+#include <niu2x/gfx/resource_manager.h>
 
 #endif
