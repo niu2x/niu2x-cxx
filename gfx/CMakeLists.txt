@@ -22,4 +22,7 @@ target_link_libraries(niu2x_gfx PUBLIC
 target_include_directories(niu2x_gfx PRIVATE src/glad/include)
 
 find_package(glfw3 REQUIRED)
-target_link_libraries(niu2x_gfx PRIVATE glfw dl)
+find_package(Freetype REQUIRED)
+
+target_link_libraries(niu2x_gfx PUBLIC glfw dl Freetype::Freetype)
+
