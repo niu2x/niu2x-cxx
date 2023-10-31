@@ -12,10 +12,12 @@ public:
     ~GL_RenderProgram();
 
     void bind() override;
+    void set_uniform_integer(Uniform uniform, int64_t n) override;
 
 private:
     GLuint native_id_;
     static GLuint current_binding_id_;
+    HashMap<Uniform, GLuint> uniform_locations_;
 };
 
 } // namespace niu2x::gfx

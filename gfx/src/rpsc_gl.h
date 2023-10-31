@@ -8,6 +8,9 @@ namespace niu2x::gfx::rpsc::gl {
 extern const char* color_vertex;
 extern const char* color_fragment;
 
+extern const char* texture_color_vertex;
+extern const char* texture_color_fragment;
+
 } // namespace niu2x::gfx::rpsc::gl
 
 #endif

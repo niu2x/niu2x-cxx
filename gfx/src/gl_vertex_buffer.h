@@ -18,6 +18,7 @@ public:
 private:
     GLuint native_id_;
     static GLuint current_binding_id_;
+    NR max_vertex_count_ = 0;
 };
 
 } // namespace niu2x::gfx

@@ -46,8 +46,9 @@ GLFW_WindowWithRenderContext::GLFW_WindowWithRenderContext()
 
 GLFW_WindowWithRenderContext::~GLFW_WindowWithRenderContext()
 {
-
     glDeleteVertexArrays(1, &vao_);
+    // TODO release RenderContext
+    // TODO destroy delegate_
 }
 
 GLFW_Window::GLFW_Window()
@@ -65,7 +66,17 @@ GLFW_Window::GLFW_Window()
     glfwSetKeyCallback(native_win_, key_callback);
 }
 
-GLFW_Window::~GLFW_Window() { glfwDestroyWindow(native_win_); }
+GLFW_Window::~GLFW_Window()
+{
+    // TODO move this into ~GLFW_WindowWithRenderContext,
+    // 保持RAII构造器和析构器的对称
+    if (delegate_) {
+        delegate_->cleanup();
+        delegate_.reset();
+    }
+
+    glfwDestroyWindow(native_win_);
+}
 
 void GLFW_Window::set_window_size(IntSize window_size)
 {
@@ -87,6 +98,7 @@ void GLFW_Window::poll()
         glfwSwapBuffers(native_win_);
     }
     delegate_->cleanup();
+    delegate_.reset();
 }
 
 void GLFW_Window::cache_window_size()

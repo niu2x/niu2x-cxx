@@ -28,6 +28,7 @@ public:
 
 enum class RenderProgramID {
     COLOR,
+    TEXTURE_COLOR,
 };
 
 class RenderProgram {
@@ -37,12 +38,18 @@ public:
         FRAGMENT,
     };
 
+    enum class Uniform {
+        UNKNOWN,
+        TEX_0,
+    };
+
     struct Options {
         HashMap<Stage, String> source_code;
     };
 
     virtual ~RenderProgram() = 0;
     virtual void bind() = 0;
+    virtual void set_uniform_integer(Uniform uniform, int64_t n) = 0;
 };
 
 enum class PixelFormat {

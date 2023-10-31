@@ -10,6 +10,7 @@ namespace niu2x::gfx {
 class GFX_Factory : public Singleton<GFX_Factory> {
 public:
     UniquePtr<VertexBuffer> create_vertex_buffer();
+    UniquePtr<Texture2D> create_texture2d();
     UniquePtr<RenderProgram> create_render_program(RenderProgramID id);
 };
 

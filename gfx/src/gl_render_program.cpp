@@ -41,6 +41,16 @@ void GL_RenderProgram::bind()
     }
 }
 
+using Uniform = RenderProgram::Uniform;
+
+static Uniform uniform_from_str(const String& name)
+{
+    if (name == "texture0") {
+        return Uniform::TEX_0;
+    }
+    return Uniform::UNKNOWN;
+}
+
 GL_RenderProgram::GL_RenderProgram(const Options& options)
 {
     UniquePtr<GL_Shader> vertex_shader;
@@ -69,8 +79,31 @@ GL_RenderProgram::GL_RenderProgram(const Options& options)
         glDeleteProgram(native_id_);
         throw_runtime_err(log);
     }
+
+    GLint total = -1;
+    glGetProgramiv(native_id_, GL_ACTIVE_UNIFORMS, &total);
+
+    for (GLint i = 0; i < total; ++i) {
+        GLint name_len = -1, num = -1;
+        GLenum type = GL_ZERO;
+        char name[100];
+        glGetActiveUniform(native_id_, GLuint(i), sizeof(name) - 1, &name_len,
+            &num, &type, name);
+        name[name_len] = 0;
+
+        auto uniform_key = uniform_from_str(name);
+        if (uniform_key != Uniform::UNKNOWN) {
+            GLuint location = glGetUniformLocation(native_id_, name);
+            uniform_locations_[uniform_key] = location;
+        }
+    }
 }
 
 GL_RenderProgram::~GL_RenderProgram() { glDeleteProgram(native_id_); }
+
+void GL_RenderProgram::set_uniform_integer(Uniform p_uniform, int64_t n)
+{
+    glUniform1i(uniform_locations_[p_uniform], n);
+}
 
 } // namespace niu2x::gfx

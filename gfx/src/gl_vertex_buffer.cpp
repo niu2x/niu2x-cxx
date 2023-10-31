@@ -1,4 +1,5 @@
 #include "gl_vertex_buffer.h"
+#include <niu2x/type/exception.h>
 
 namespace niu2x::gfx {
 
@@ -10,13 +11,20 @@ GL_VertexBuffer::~GL_VertexBuffer() { glDeleteBuffers(1, &native_id_); }
 
 void GL_VertexBuffer::resize(NR vertex_count)
 {
-    bind();
-    auto bytes = sizeof(Vertex) * vertex_count;
-    glBufferData(GL_ARRAY_BUFFER, bytes, nullptr, GL_DYNAMIC_DRAW);
+    if (max_vertex_count_ != vertex_count) {
+        bind();
+        auto bytes = sizeof(Vertex) * vertex_count;
+        glBufferData(GL_ARRAY_BUFFER, bytes, nullptr, GL_DYNAMIC_DRAW);
+        max_vertex_count_ = vertex_count;
+    }
 }
 
 void GL_VertexBuffer::set_vertexs(NR offset, NR count, const Vertex* vertexs)
 {
+    if (offset + count > max_vertex_count_) {
+        throw_runtime_err("too many vertex");
+    }
+
     bind();
     auto offset_bytes = offset * sizeof(Vertex);
     auto bytes = sizeof(Vertex) * count;

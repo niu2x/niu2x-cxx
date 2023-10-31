@@ -83,7 +83,7 @@ void ImageData::load_from(ReadStream* src)
     }
 
     pixels_.resize(size_.area() * channels_);
-    memcpy(pixels_.data(), image_data, pixels_.size() * channels_);
+    memcpy(pixels_.data(), image_data, pixels_.size());
 
     stbi_image_free(image_data);
 }
