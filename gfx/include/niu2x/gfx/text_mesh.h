@@ -1,0 +1,4 @@
+#ifndef NIU2X_GFX_TEXT_MESH_H
+#define NIU2X_GFX_TEXT_MESH_H
+
+#endif
