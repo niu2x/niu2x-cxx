@@ -10,19 +10,17 @@ GL_VertexBuffer::~GL_VertexBuffer() { glDeleteBuffers(1, &native_id_); }
 
 void GL_VertexBuffer::resize(NR vertex_count)
 {
+    bind();
     auto bytes = sizeof(Vertex) * vertex_count;
-    glBindBuffer(GL_ARRAY_BUFFER, native_id_);
     glBufferData(GL_ARRAY_BUFFER, bytes, nullptr, GL_DYNAMIC_DRAW);
-    current_binding_id_ = 0;
 }
 
 void GL_VertexBuffer::set_vertexs(NR offset, NR count, const Vertex* vertexs)
 {
+    bind();
     auto offset_bytes = offset * sizeof(Vertex);
     auto bytes = sizeof(Vertex) * count;
-    glBindBuffer(GL_ARRAY_BUFFER, native_id_);
     glBufferSubData(GL_ARRAY_BUFFER, offset_bytes, bytes, vertexs);
-    current_binding_id_ = 0;
 }
 
 #define OFFSET(n) ((void*)((n) * sizeof(float)))
