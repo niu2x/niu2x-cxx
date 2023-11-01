@@ -10,5 +10,7 @@
 #include <niu2x/gfx/draw.h>
 #include <niu2x/gfx/resource_manager.h>
 #include <niu2x/gfx/gui.h>
+#include <niu2x/gfx/simple_function.h>
+#include <niu2x/gfx/render_command_queue.h>
 
 #endif

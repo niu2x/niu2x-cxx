@@ -4,6 +4,7 @@
 #include <niu2x/noncopyable.h>
 #include <niu2x/type/std_alias.h>
 #include <niu2x/math/geometry.h>
+#include <niu2x/gfx/gui/canvas.h>
 
 namespace niu2x::gfx::gui {
 
@@ -63,6 +64,8 @@ public:
     float layout_left() const;
     float layout_right() const;
 
+    virtual void draw() { }
+
 private:
     Rect rect_;
 
@@ -110,6 +113,8 @@ private:
     // float height_;
 
     void* yoga_;
+
+    Canvas canvas_;
 };
 
 static_assert(!is_movable<Node>);

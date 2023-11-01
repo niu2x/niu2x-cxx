@@ -1,14 +1,13 @@
 #ifndef NIU2X_GFX_GUI_CANVAS_H
 #define NIU2X_GFX_GUI_CANVAS_H
 
-#include <niu2x/gfx/gui/node.h>
+#include <niu2x/noncopyable.h>
 
 namespace niu2x::gfx::gui {
 
-class Canvas : public Node {
+class Canvas : private Noncopyable {
 public:
     ~Canvas();
-    void draw();
 };
 
 } // namespace niu2x::gfx::gui

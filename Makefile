@@ -5,6 +5,7 @@ build-debug-library:
 	cmake -GNinja -S. \
 		-Bbuild/debug \
 		-DBUILD_SHARED_LIBS=OFF \
+		-Dyoga_DIR=/home/niu2x/project/yoga/dist/lib/cmake/yoga \
 		-Dyaml-cpp_DIR=/home/niu2x/project/yaml-cpp/dist/lib/cmake/yaml-cpp \
 		-DCMAKE_BUILD_TYPE=Debug;
 	cmake --build build/debug -j;

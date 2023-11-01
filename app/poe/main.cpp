@@ -39,6 +39,8 @@ public:
 
         res_mgr->load_texture2d("resource/test_00.yml");
         tex_ = res_mgr->get_texture2d("resource/test_00.yml");
+
+        gui_root_ = make_unique<gfx::gui::Node>();
     }
 
     void cleanup() override
@@ -50,32 +52,38 @@ public:
 
     void update(TimeDuration delta) override
     {
-        gfx::Draw::clear();
-        vertex_buffer_->bind();
-        tex_->bind(0);
-        render_program_->bind();
-        render_program_->set_uniform_integer(
-            gfx::RenderProgram::Uniform::TEX_0, 0);
+        gfx::RenderCommandQueue::get()->enqueue(
+            gfx::RenderCommandFactory::get()->create_clear());
+        gui_root_->draw();
+        gfx::render();
 
-        gfx::Mat4 unit_mat4 { { 1, 0, 0, 0 }, { 0, 1, 0, 0 }, { 0, 0, 1, 0 },
-            { 0, 0, 0, 1 } };
+        // gfx::Draw::clear();
+        // vertex_buffer_->bind();
+        // tex_->bind(0);
+        // render_program_->bind();
+        // render_program_->set_uniform_integer(
+        //     gfx::RenderProgram::Uniform::TEX_0, 0);
 
-        render_program_->set_uniform_mat4(
-            gfx::RenderProgram::Uniform::MODEL, unit_mat4);
+        // gfx::Mat4 unit_mat4 { { 1, 0, 0, 0 }, { 0, 1, 0, 0 }, { 0, 0, 1, 0 },
+        //     { 0, 0, 0, 1 } };
 
-        render_program_->set_uniform_mat4(
-            gfx::RenderProgram::Uniform::VIEW, unit_mat4);
+        // render_program_->set_uniform_mat4(
+        //     gfx::RenderProgram::Uniform::MODEL, unit_mat4);
 
-        render_program_->set_uniform_mat4(
-            gfx::RenderProgram::Uniform::PROJECTION, unit_mat4);
+        // render_program_->set_uniform_mat4(
+        //     gfx::RenderProgram::Uniform::VIEW, unit_mat4);
 
-        gfx::Draw::draw_triangles(0, 6);
+        // render_program_->set_uniform_mat4(
+        //     gfx::RenderProgram::Uniform::PROJECTION, unit_mat4);
+
+        // gfx::Draw::draw_triangles(0, 6);
     }
 
 private:
     UniquePtr<gfx::RenderProgram> render_program_;
     UniquePtr<gfx::VertexBuffer> vertex_buffer_;
     gfx::Texture2D* tex_;
+    UniquePtr<gfx::gui::Node> gui_root_;
 };
 
 int main()

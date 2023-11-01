@@ -102,6 +102,9 @@ void GLFW_Window::poll()
     delegate_->setup();
     auto now = time_now();
     auto prev = now;
+
+    glClearColor(1, 1, 1, 1);
+
     while (!glfwWindowShouldClose(native_win_)) {
         glfwPollEvents();
 
