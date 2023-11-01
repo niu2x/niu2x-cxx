@@ -16,6 +16,7 @@ build-release-library:
 		-Bbuild/release \
 		-DBUILD_SHARED_LIBS=OFF \
 		-Dyaml-cpp_DIR=/home/niu2x/project/yaml-cpp/dist/lib/cmake/yaml-cpp \
+		-Dyoga_DIR=/home/niu2x/project/yoga/dist/lib/cmake/yoga \
 		-DCMAKE_BUILD_TYPE=Release;
 	cmake --build build/release -j;
 	cmake --install build/release --prefix build/release/dist/
@@ -39,6 +40,7 @@ build-watchdog: build-release-library
 build-poe: build-release-library
 	cmake -GNinja -S app/poe -Bbuild/poe/release \
 		-Dyaml-cpp_DIR=/home/niu2x/project/yaml-cpp/dist/lib/cmake/yaml-cpp \
+		-Dyoga_DIR=/home/niu2x/project/yoga/dist/lib/cmake/yoga \
 		-Dniu2x_filesystem_DIR=$$PWD/build/release/dist/lib/cmake/niu2x \
 		-Dniu2x_lua_DIR=$$PWD/build/release/dist/lib/cmake/niu2x \
 		-Dniu2x_uv_DIR=$$PWD/build/release/dist/lib/cmake/niu2x \

@@ -9,5 +9,6 @@
 #include <niu2x/gfx/gfx_factory.h>
 #include <niu2x/gfx/draw.h>
 #include <niu2x/gfx/resource_manager.h>
+#include <niu2x/gfx/gui.h>
 
 #endif

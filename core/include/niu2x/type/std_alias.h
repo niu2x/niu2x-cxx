@@ -11,6 +11,7 @@
 #include <condition_variable>
 #include <thread>
 #include <vector>
+#include <variant>
 #include <map>
 #include <unordered_map>
 #include <atomic>
@@ -64,6 +65,9 @@ using Map = std::map<Key, Value>;
 
 template <class Key, class Value>
 using HashMap = std::unordered_map<Key, Value>;
+
+template <class... ArgTypes>
+using Variant = std::variant<ArgTypes...>;
 
 /**
  * @brief       Optional
@@ -136,6 +140,9 @@ inline TimeDuration time_diff(const TimePoint& t_new)
     return std::chrono::duration_cast<std_ms>(t_new.time_since_epoch()).count()
         * scale;
 }
+
+template <class T>
+inline const T nan = std::numeric_limits<T>::quiet_NaN();
 
 } // namespace niu2x
 

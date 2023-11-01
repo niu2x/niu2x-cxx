@@ -2,6 +2,7 @@ add_library(niu2x_gfx "")
 
 file(GLOB cpp_source 
     "src/*.cpp"
+    "src/gui/*.cpp"
 )
 
 target_sources(niu2x_gfx PRIVATE
@@ -24,6 +25,7 @@ target_include_directories(niu2x_gfx PRIVATE src/glad/include)
 find_package(glfw3 REQUIRED)
 find_package(Freetype REQUIRED)
 find_package(yaml-cpp REQUIRED)
+find_package(yoga REQUIRED)
 
-target_link_libraries(niu2x_gfx PUBLIC glfw dl Freetype::Freetype yaml-cpp::yaml-cpp )
+target_link_libraries(niu2x_gfx PUBLIC glfw dl Freetype::Freetype yaml-cpp::yaml-cpp yoga::yogacore)
 

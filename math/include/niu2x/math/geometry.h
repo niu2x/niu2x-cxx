@@ -29,6 +29,12 @@ struct Rect {
         origin = { x, y };
         size = { w, h };
     }
+
+    Rect()
+    {
+        origin = { 0, 0 };
+        size = { 0, 0 };
+    }
 };
 
 using IntRect = Rect<int>;
