@@ -24,6 +24,18 @@ static void key_callback(
     printf("key: %s\n", to_string(key).c_str());
 }
 
+static void window_size_callback(GLFWwindow* window, int width, int height)
+{
+    unused(width);
+    unused(height);
+    // Get the size of the framebuffer to use this for the viewport
+    int fbWidth, fbHeight;
+    glfwGetFramebufferSize(window, &fbWidth, &fbHeight);
+
+    // Set the viewport to cover the new framebuffer
+    glViewport(0, 0, fbWidth, fbHeight);
+}
+
 GLFW_Init::GLFW_Init()
 {
     if (!glfwInit()) {
@@ -64,6 +76,8 @@ GLFW_Window::GLFW_Window()
 
     glfwMakeContextCurrent(native_win_);
     glfwSetKeyCallback(native_win_, key_callback);
+
+    glfwSetWindowSizeCallback(native_win_, window_size_callback);
 }
 
 GLFW_Window::~GLFW_Window()
