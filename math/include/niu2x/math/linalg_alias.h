@@ -8,6 +8,11 @@ namespace niu2x::math {
 using Vec3 = third_party::linalg::vec<double, 3>;
 using Vec2 = third_party::linalg::vec<double, 2>;
 
+template <class T, int M, int N>
+using Mat = third_party::linalg::mat<T, M, N>;
+
+using Mat4 = Mat<double, 4, 4>;
+
 inline const Vec3 vec3_zero = Vec3(0, 0, 0);
 inline const Vec2 vec2_zero = Vec2(0, 0);
 

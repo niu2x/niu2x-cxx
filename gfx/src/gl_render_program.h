@@ -12,7 +12,8 @@ public:
     ~GL_RenderProgram();
 
     void bind() override;
-    void set_uniform_integer(Uniform uniform, int64_t n) override;
+    void set_uniform_integer(Uniform uniform, int n) override;
+    void set_uniform_mat4(Uniform uniform, const Mat4& m) override;
 
 private:
     GLuint native_id_;

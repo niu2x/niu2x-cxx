@@ -56,6 +56,19 @@ public:
         render_program_->bind();
         render_program_->set_uniform_integer(
             gfx::RenderProgram::Uniform::TEX_0, 0);
+
+        gfx::Mat4 unit_mat4 { { 1, 0, 0, 0 }, { 0, 1, 0, 0 }, { 0, 0, 1, 0 },
+            { 0, 0, 0, 1 } };
+
+        render_program_->set_uniform_mat4(
+            gfx::RenderProgram::Uniform::MODEL, unit_mat4);
+
+        render_program_->set_uniform_mat4(
+            gfx::RenderProgram::Uniform::VIEW, unit_mat4);
+
+        render_program_->set_uniform_mat4(
+            gfx::RenderProgram::Uniform::PROJECTION, unit_mat4);
+
         gfx::Draw::draw_triangles(0, 6);
     }
 

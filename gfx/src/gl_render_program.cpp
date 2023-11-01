@@ -45,9 +45,18 @@ using Uniform = RenderProgram::Uniform;
 
 static Uniform uniform_from_str(const String& name)
 {
-    if (name == "texture0") {
-        return Uniform::TEX_0;
+    static const HashMap<String, Uniform> map {
+        { "texture0", Uniform::TEX_0 },
+        { "model", Uniform::MODEL },
+        { "view", Uniform::VIEW },
+        { "projection", Uniform::PROJECTION },
+    };
+
+    auto iter = map.find(name);
+    if (iter != map.end()) {
+        return iter->second;
     }
+
     return Uniform::UNKNOWN;
 }
 
@@ -101,9 +110,16 @@ GL_RenderProgram::GL_RenderProgram(const Options& options)
 
 GL_RenderProgram::~GL_RenderProgram() { glDeleteProgram(native_id_); }
 
-void GL_RenderProgram::set_uniform_integer(Uniform p_uniform, int64_t n)
+void GL_RenderProgram::set_uniform_integer(Uniform p_uniform, int n)
 {
-    glUniform1i(uniform_locations_[p_uniform], n);
+    auto loc = uniform_locations_[p_uniform];
+    glUniform1i(loc, n);
+}
+
+void GL_RenderProgram::set_uniform_mat4(Uniform p_uniform, const Mat4& m)
+{
+    auto loc = uniform_locations_[p_uniform];
+    glUniformMatrix4fv(loc, 1, GL_FALSE, reinterpret_cast<const float*>(&m));
 }
 
 } // namespace niu2x::gfx

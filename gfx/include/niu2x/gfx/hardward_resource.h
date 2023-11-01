@@ -7,8 +7,11 @@
 #include <niu2x/gfx/vertex.h>
 #include <niu2x/math/geometry.h>
 #include <niu2x/stream/data.h>
+#include <niu2x/math/linalg_alias.h>
 
 namespace niu2x::gfx {
+
+using Mat4 = math::Mat<float, 4, 4>;
 
 class VertexBuffer {
 public:
@@ -41,6 +44,9 @@ public:
     enum class Uniform {
         UNKNOWN,
         TEX_0,
+        MODEL,
+        VIEW,
+        PROJECTION,
     };
 
     struct Options {
@@ -49,7 +55,8 @@ public:
 
     virtual ~RenderProgram() = 0;
     virtual void bind() = 0;
-    virtual void set_uniform_integer(Uniform uniform, int64_t n) = 0;
+    virtual void set_uniform_integer(Uniform uniform, int n) = 0;
+    virtual void set_uniform_mat4(Uniform uniform, const Mat4& m) = 0;
 };
 
 enum class PixelFormat {
