@@ -14,6 +14,7 @@ public:
     void resize(NR vertex_count) override;
     void set_vertexs(NR offset, NR count, const Vertex*) override;
     void bind() override;
+    NR size() const override { return max_vertex_count_; };
 
 private:
     GLuint native_id_;

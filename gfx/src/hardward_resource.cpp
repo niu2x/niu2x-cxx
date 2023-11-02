@@ -37,4 +37,25 @@ void Texture2D::load(ReadStream* in, PixelFormat format)
     set_data({ 0, 0, size.width, size.height }, image_data.data());
 }
 
+void RenderProgram::set_uniforms(const UniformPacket& uniforms_)
+{
+    for (auto elem : uniforms_) {
+        switch (elem.first) {
+            case Uniform::UNKNOWN: {
+                break;
+            }
+            case Uniform::TEX_0: {
+                set_uniform_integer(elem.first, get<int>(elem.second));
+                break;
+            }
+            case Uniform::MODEL:
+            case Uniform::VIEW:
+            case Uniform::PROJECTION: {
+                set_uniform_mat4(elem.first, get<Mat4>(elem.second));
+                break;
+            }
+        }
+    }
+}
+
 } // namespace niu2x::gfx

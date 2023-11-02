@@ -8,24 +8,36 @@
 namespace niu2x::gfx {
 
 using Path = fs::Path;
+using ResId = String;
 
 class ResourceManager : public Singleton<ResourceManager> {
 public:
-    using ResId = String;
     ResourceManager();
+
+    void clear();
 
     void load_texture2d(const Path& path);
     void load_texture2d(const ResId& id, const Path& path, PixelFormat format);
 
-    inline Texture2D* get_texture2d(const ResId& id) const
-    {
-        return texture2ds_.at(id).get();
+#define GET(type, name, ResIdType)                                             \
+    inline type* get_##name(const ResIdType& id) const                         \
+    {                                                                          \
+        return name##s_.at(id).get();                                          \
     }
 
-    void clear();
+    GET(Texture2D, texture2d, ResId);
+    GET(VertexBuffer, vertex_buffer, ResId);
+    GET(RenderProgram, render_program, RenderProgramID);
+
+    void load_vertex_buffer(const ResId& id, const Path& path);
+    void load_vertex_buffer(const Path& path) { load_vertex_buffer("", path); }
+
+    void load_render_program(RenderProgramID id);
 
 private:
     HashMap<ResId, UniquePtr<Texture2D>> texture2ds_;
+    HashMap<ResId, UniquePtr<VertexBuffer>> vertex_buffers_;
+    HashMap<RenderProgramID, UniquePtr<RenderProgram>> render_programs_;
 };
 
 } // namespace niu2x::gfx

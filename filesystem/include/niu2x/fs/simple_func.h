@@ -15,6 +15,9 @@ NXAPI void create_dir(const Path& path);
 NXAPI void ensure_dirs(const Path& path);
 NXAPI void remove(const Path& path);
 
+NXAPI void abs_path(const Path& path);
+NXAPI void dirname(const Path& path);
+
 } // namespace niu2x::fs
 
 #endif

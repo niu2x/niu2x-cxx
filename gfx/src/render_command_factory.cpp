@@ -2,6 +2,8 @@
 
 namespace niu2x::gfx {
 
+namespace rc = render_command;
+
 RenderCommandFactory::RenderCommandFactory()
 
 : memory_({
@@ -15,6 +17,18 @@ RenderCommandFactory::RenderCommandFactory()
 RenderCommand* RenderCommandFactory::create_clear()
 {
     return alloctor_.new_object<rc::Clear>();
+}
+
+RenderCommand* RenderCommandFactory::create_triangles(
+    VertexBuffer* vb, RenderProgramID program_id, UniformPacket&& uniforms)
+{
+    return alloctor_.new_object<rc::Triangles>(vb, program_id, move(uniforms));
+}
+
+RenderCommand* RenderCommandFactory::create_triangles(
+    VertexBuffer* vb, RenderProgramID program_id, const UniformPacket& uniforms)
+{
+    return alloctor_.new_object<rc::Triangles>(vb, program_id, uniforms);
 }
 
 void RenderCommandFactory::destroy(RenderCommand* obj)

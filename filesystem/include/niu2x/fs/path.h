@@ -23,6 +23,7 @@ public:
     ~Path();
 
     Path parent() const { return Path(parent_path()); }
+    Path abs() const { return std::filesystem::absolute(*this); }
 };
 
 }; // namespace niu2x::fs

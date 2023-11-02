@@ -103,7 +103,7 @@ void GLFW_Window::poll()
     auto now = time_now();
     auto prev = now;
 
-    glClearColor(1, 1, 1, 1);
+    glClearColor(0.5, 0, 0, 1);
 
     while (!glfwWindowShouldClose(native_win_)) {
         glfwPollEvents();

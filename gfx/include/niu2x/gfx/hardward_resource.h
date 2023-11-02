@@ -26,6 +26,8 @@ public:
         set_vertexs(index, 1, &vertex);
     }
 
+    virtual NR size() const = 0;
+
     virtual void bind() = 0;
 };
 
@@ -49,6 +51,8 @@ public:
         PROJECTION,
     };
 
+    using UniformPacket = HashMap<Uniform, Variant<int, Mat4>>;
+
     struct Options {
         HashMap<Stage, String> source_code;
     };
@@ -57,6 +61,7 @@ public:
     virtual void bind() = 0;
     virtual void set_uniform_integer(Uniform uniform, int n) = 0;
     virtual void set_uniform_mat4(Uniform uniform, const Mat4& m) = 0;
+    void set_uniforms(const UniformPacket&);
 };
 
 enum class PixelFormat {

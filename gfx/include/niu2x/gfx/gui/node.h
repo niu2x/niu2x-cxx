@@ -64,7 +64,7 @@ public:
     float layout_left() const;
     float layout_right() const;
 
-    virtual void draw() { }
+    virtual void draw() const;
 
 private:
     Rect rect_;

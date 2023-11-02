@@ -37,7 +37,6 @@ out vec4 color;
 
 void main()
 {
-    // color = texture(texture0, tex_coord) * frag_color;
     color = frag_color;
 }
 )RAW";

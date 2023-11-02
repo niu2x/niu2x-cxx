@@ -1,5 +1,8 @@
 #include <yoga/Yoga.h>
 #include <niu2x/gfx/gui/node.h>
+#include <niu2x/gfx/resource_manager.h>
+#include <niu2x/gfx/render_command_queue.h>
+#include <niu2x/gfx/hardward_resource.h>
 
 #define yoga() (reinterpret_cast<YGNodeRef>(yoga_))
 
@@ -37,6 +40,19 @@ float Node::layout_left() const { return YGNodeLayoutGetLeft(yoga()); }
 
 float Node::layout_right() const { return YGNodeLayoutGetRight(yoga()); }
 
+void Node::draw() const
+{
+    auto queue = RenderCommandQueue::get();
+    auto res_mgr = ResourceManager::get();
+    auto rf = RenderCommandFactory::get();
+    UniformPacket uniforms;
+
+    auto square_vb = res_mgr->get_vertex_buffer("common/vb/square");
+    auto program_id = RenderProgramID::COLOR;
+
+    auto cmd = rf->create_triangles(square_vb, program_id, move(uniforms));
+    queue->enqueue(cmd);
+}
 // WIN_EXPORT YGDirection YGNodeLayoutGetDirection(YGNodeRef node);
 // WIN_EXPORT bool YGNodeLayoutGetHadOverflow(YGNodeRef node);
 // WIN_EXPORT float YGNodeLayoutGetMargin(YGNodeRef node, YGEdge edge);

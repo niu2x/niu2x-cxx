@@ -69,6 +69,8 @@ using HashMap = std::unordered_map<Key, Value>;
 template <class... ArgTypes>
 using Variant = std::variant<ArgTypes...>;
 
+using std::get;
+
 /**
  * @brief       Optional
  */

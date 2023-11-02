@@ -38,18 +38,18 @@ build-watchdog: build-release-library
 		-DCMAKE_BUILD_TYPE=Release;
 	cmake --build build/watchdog/release -j
 
-build-poe: build-release-library
-	cmake -GNinja -S app/poe -Bbuild/poe/release \
+build-poe: build-debug-library
+	cmake -GNinja -S app/poe -Bbuild/poe/debug \
 		-Dyaml-cpp_DIR=/home/niu2x/project/yaml-cpp/dist/lib/cmake/yaml-cpp \
 		-Dyoga_DIR=/home/niu2x/project/yoga/dist/lib/cmake/yoga \
-		-Dniu2x_filesystem_DIR=$$PWD/build/release/dist/lib/cmake/niu2x \
-		-Dniu2x_lua_DIR=$$PWD/build/release/dist/lib/cmake/niu2x \
-		-Dniu2x_uv_DIR=$$PWD/build/release/dist/lib/cmake/niu2x \
-		-Dniu2x_stream_DIR=$$PWD/build/release/dist/lib/cmake/niu2x \
-		-Dniu2x_application_DIR=$$PWD/build/release/dist/lib/cmake/niu2x \
-		-Dniu2x_gfx_DIR=$$PWD/build/release/dist/lib/cmake/niu2x \
-		-DCMAKE_BUILD_TYPE=Release;
-	cmake --build build/poe/release -j
+		-Dniu2x_filesystem_DIR=$$PWD/build/debug/dist/lib/cmake/niu2x \
+		-Dniu2x_lua_DIR=$$PWD/build/debug/dist/lib/cmake/niu2x \
+		-Dniu2x_uv_DIR=$$PWD/build/debug/dist/lib/cmake/niu2x \
+		-Dniu2x_stream_DIR=$$PWD/build/debug/dist/lib/cmake/niu2x \
+		-Dniu2x_application_DIR=$$PWD/build/debug/dist/lib/cmake/niu2x \
+		-Dniu2x_gfx_DIR=$$PWD/build/debug/dist/lib/cmake/niu2x \
+		-DCMAKE_BUILD_TYPE=Debug;
+	cmake --build build/poe/debug -j
 
 build-test-app: build-release-library
 	cmake -GNinja -S test-app -Bbuild/test-app-static/release \
