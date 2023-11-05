@@ -5,11 +5,19 @@
 #include <niu2x/singleton.h>
 #include <niu2x/type/std_alias.h>
 #include <niu2x/math/geometry.h>
+#include <niu2x/math/linalg_alias.h>
 #include <niu2x/gfx/hardward_resource.h>
 
 namespace niu2x::gfx {
 
 using Rect = math::Rect<float>;
+
+struct Color {
+    float r, g, b, a;
+};
+
+static const Mat4 unit_mat4 { { 1, 0, 0, 0 }, { 0, 1, 0, 0 }, { 0, 0, 1, 0 },
+    { 0, 0, 0, 1 } };
 
 class RenderCommand {
 public:
@@ -35,8 +43,11 @@ public:
 
     RenderCommand* create_triangles(
         VertexBuffer* vb, RenderProgramID program_id, UniformPacket&& uniforms);
+
     RenderCommand* create_triangles(VertexBuffer* vb,
         RenderProgramID program_id, const UniformPacket& uniforms);
+
+    RenderCommand* create_rect(const Rect& rect, const Color& color);
 
 private:
     std::pmr::unsynchronized_pool_resource memory_;
@@ -57,12 +68,13 @@ public:
 
 class DrawRect : public RenderCommand {
 public:
-    DrawRect();
+    DrawRect(const Rect& rect, const Color& color);
     ~DrawRect();
     void run() override;
 
 private:
     Rect rect_;
+    Color color_;
 };
 
 class Triangles : public RenderCommand {

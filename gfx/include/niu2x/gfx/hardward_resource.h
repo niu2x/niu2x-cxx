@@ -12,6 +12,7 @@
 namespace niu2x::gfx {
 
 using Mat4 = math::Mat<float, 4, 4>;
+using Vec3 = math::Vec<float, 3>;
 
 class VertexBuffer {
 public:

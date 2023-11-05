@@ -66,6 +66,26 @@ public:
         res_mgr->load_vertex_buffer("resource/vertex_buffer/square.yml");
 
         gui_root_ = make_unique<gfx::gui::Node>();
+
+        auto child = make_unique<gfx::gui::Node>();
+
+        child->set_width_percent(10);
+        child->set_height(50);
+
+        auto child2 = make_unique<gfx::gui::Node>();
+
+        child2->set_width_percent(10);
+        child2->set_height(50);
+
+        gui_root_->set_width_percent(100);
+        gui_root_->set_height_percent(100);
+
+        gui_root_->add_child(move(child));
+        gui_root_->add_child(move(child2));
+
+        gui_root_->set_flex_direction(gfx::gui::FlexDirection::reverse_row);
+
+        gui_root_->layout(640, 480);
     }
 
     void cleanup() override

@@ -31,6 +31,12 @@ RenderCommand* RenderCommandFactory::create_triangles(
     return alloctor_.new_object<rc::Triangles>(vb, program_id, uniforms);
 }
 
+RenderCommand* RenderCommandFactory::create_rect(
+    const Rect& rect, const Color& color)
+{
+    return alloctor_.new_object<rc::DrawRect>(rect, color);
+}
+
 void RenderCommandFactory::destroy(RenderCommand* obj)
 {
     alloctor_.delete_object(obj);

@@ -8,10 +8,10 @@
 
 namespace niu2x::gfx::gui {
 
-// enum class PositionType {
-//     absolute,
-//     relative,
-// };
+enum class PositionType {
+    absolute,
+    relative,
+};
 
 // enum class Align {
 //     AUTO,
@@ -24,12 +24,12 @@ namespace niu2x::gfx::gui {
 //     space_around,
 // };
 
-// enum class FlexDirection {
-//     row,
-//     column,
-//     reverse_row,
-//     reverse_column,
-// };
+enum class FlexDirection {
+    row,
+    column,
+    reverse_row,
+    reverse_column,
+};
 
 // enum class FlexWrap {
 //     no_wrap,
@@ -44,6 +44,10 @@ namespace niu2x::gfx::gui {
 
 // struct Auto {};
 
+struct Edge {
+    float left, right, top, bottom;
+};
+
 using Rect = math::Rect<float>;
 
 class Node : private Noncopyable {
@@ -57,6 +61,10 @@ public:
     void set_width_percent(float v);
     void set_height_percent(float v);
 
+    void set_potition_type(PositionType pt);
+
+    void set_flex_direction(FlexDirection direction);
+
     float layout_width() const;
     float layout_height() const;
     float layout_top() const;
@@ -64,7 +72,16 @@ public:
     float layout_left() const;
     float layout_right() const;
 
+    Edge layout_margin() const;
+    Edge layout_border() const;
+    Edge layout_padding() const;
+
+    void layout(float available_width, float available_height);
+
     virtual void draw() const;
+    virtual void draw_self() const;
+
+    void add_child(UniquePtr<Node> child);
 
 private:
     Rect rect_;
