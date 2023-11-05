@@ -5,3 +5,5 @@
 5. libuv
 6. cxxopts
 7. nlohmann/json
+8. yoga
+9. yaml-cpp

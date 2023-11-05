@@ -77,6 +77,8 @@ void ResourceManager::load_vertex_buffer(const ResId& id, const Path& path)
     YAML::Node config = load_yaml(path);
     auto vertex_count = config["position"].size();
 
+    printf("vertex_count %ld\n", vertex_count);
+
     auto vb = GFX_Factory::get()->create_vertex_buffer();
     vb->resize(vertex_count);
 
@@ -97,15 +99,15 @@ void ResourceManager::load_vertex_buffer(const ResId& id, const Path& path)
     i = 0;
 
     for (const auto& vertex : config["color"]) {
-        // float r = vertex[0].as<float>();
-        // float g = vertex[1].as<float>();
-        // float b = vertex[2].as<float>();
-        // float a = vertex[3].as<float>();
+        float r = vertex[0].as<float>();
+        float g = vertex[1].as<float>();
+        float b = vertex[2].as<float>();
+        float a = vertex[3].as<float>();
 
-        vertexs[i].r = 0;
-        vertexs[i].g = 0;
-        vertexs[i].b = 0;
-        vertexs[i++].a = 0;
+        vertexs[i].r = r;
+        vertexs[i].g = g;
+        vertexs[i].b = b;
+        vertexs[i++].a = a;
     }
 
     vb->set_vertexs(0, vertex_count, vertexs.data());

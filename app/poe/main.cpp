@@ -81,7 +81,6 @@ public:
             gfx::RenderCommandFactory::get()->create_clear());
         gui_root_->draw();
         gfx::render();
-
         // gfx::Draw::clear();
         // vertex_buffer_->bind();
         // tex_->bind(0);

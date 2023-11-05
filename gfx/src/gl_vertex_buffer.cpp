@@ -38,9 +38,6 @@ void GL_VertexBuffer::bind()
     constexpr auto vertex_size = sizeof(Vertex);
     if (current_binding_id_ != native_id_) {
         glBindBuffer(GL_ARRAY_BUFFER, native_id_);
-    }
-
-    if (current_binding_id_ == 0) {
 
         glEnableVertexAttribArray(0);
         glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, vertex_size, (void*)0);
