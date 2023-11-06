@@ -26,6 +26,14 @@ find_package(glfw3 REQUIRED)
 find_package(Freetype REQUIRED)
 find_package(yaml-cpp REQUIRED)
 find_package(yoga REQUIRED)
+find_package(pugixml REQUIRED)
 
-target_link_libraries(niu2x_gfx PUBLIC glfw dl Freetype::Freetype yaml-cpp::yaml-cpp yoga::yogacore)
+target_link_libraries(niu2x_gfx PUBLIC
+    glfw
+    dl
+    Freetype::Freetype
+    yaml-cpp::yaml-cpp
+    yoga::yogacore
+    pugixml
+)
 

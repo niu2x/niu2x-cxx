@@ -16,6 +16,8 @@ void GL_Texture2D::bind(Index slot)
 
 void GL_Texture2D::resize(IntSize size, PixelFormat format)
 {
+    size_ = size;
+
     bind(3);
 
     switch (format) {

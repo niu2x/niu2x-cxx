@@ -7,6 +7,7 @@
 #include <niu2x/math/geometry.h>
 #include <niu2x/math/linalg_alias.h>
 #include <niu2x/gfx/hardward_resource.h>
+#include <niu2x/gfx/image_sheet.h>
 
 namespace niu2x::gfx {
 
@@ -34,20 +35,22 @@ using UniformPacket = RenderProgram::UniformPacket;
 class RenderCommandFactory : public Singleton<RenderCommandFactory> {
 public:
     using PolyAlloctor = std::pmr::polymorphic_allocator<uint8_t>;
+    using ProgramID = RenderProgramID;
+    using VBO = VertexBuffer;
+    using CMD = RenderCommand;
 
     RenderCommandFactory();
 
-    void destroy(RenderCommand*);
+    void destroy(CMD*);
 
-    RenderCommand* create_clear();
+    CMD* create_clear();
 
-    RenderCommand* create_triangles(
-        VertexBuffer* vb, RenderProgramID program_id, UniformPacket&& uniforms);
+    CMD* create_triangles(VBO* vb, ProgramID pid, UniformPacket&& uniforms);
+    CMD* create_triangles(VBO* vb, ProgramID pid, CR<UniformPacket> uniforms);
 
-    RenderCommand* create_triangles(VertexBuffer* vb,
-        RenderProgramID program_id, const UniformPacket& uniforms);
+    CMD* create_rect(const Rect& rect, const Color& color);
 
-    RenderCommand* create_rect(const Rect& rect, const Color& color);
+    CMD* create_ui(const Rect& rect, ImageSheet::Frame* frame);
 
 private:
     std::pmr::unsynchronized_pool_resource memory_;
@@ -75,6 +78,17 @@ public:
 private:
     Rect rect_;
     Color color_;
+};
+
+class DrawUI : public RenderCommand {
+public:
+    DrawUI(const Rect& rect, ImageSheet::Frame* frame);
+    ~DrawUI();
+    void run() override;
+
+private:
+    Rect rect_;
+    ImageSheet::Frame* frame_;
 };
 
 class Triangles : public RenderCommand {

@@ -4,6 +4,7 @@
 #include <niu2x/singleton.h>
 #include <niu2x/gfx/hardward_resource.h>
 #include <niu2x/fs/path.h>
+#include <niu2x/gfx/image_sheet.h>
 
 namespace niu2x::gfx {
 
@@ -24,7 +25,7 @@ public:
 
     void load_render_program(RenderProgramID id);
 
-    void load_image_sheets(const Path& path);
+    void load_image_sheet(const Path& path);
 
 #define GET(type, name, ResIdType)                                             \
     inline type* get_##name(const ResIdType& id) const                         \
@@ -35,11 +36,21 @@ public:
     GET(Texture2D, texture2d, ResId);
     GET(VertexBuffer, vertex_buffer, ResId);
     GET(RenderProgram, render_program, RenderProgramID);
+    GET(ImageSheet, image_sheet, ResId);
+
+    ImageSheet::Frame* get_image_sheet_frame(
+        CR<ResId> id, CR<String> sub_name) const
+    {
+        return get_image_sheet(id)->get_frame(sub_name);
+    }
 
 private:
-    HashMap<ResId, UniquePtr<Texture2D>> texture2ds_;
-    HashMap<ResId, UniquePtr<VertexBuffer>> vertex_buffers_;
-    HashMap<RenderProgramID, UniquePtr<RenderProgram>> render_programs_;
+    HashMap<ResId, UPtr<Texture2D>> texture2ds_;
+    HashMap<ResId, UPtr<VertexBuffer>> vertex_buffers_;
+    HashMap<RenderProgramID, UPtr<RenderProgram>> render_programs_;
+    HashMap<ResId, UPtr<ImageSheet>> image_sheets_;
+
+    UPtr<Texture2D> _load_texture2d(const Path& path, PixelFormat format);
 };
 
 } // namespace niu2x::gfx

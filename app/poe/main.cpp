@@ -44,7 +44,7 @@ public:
 
         res_mgr->load_texture2d("resource/image/test_00.yml");
         res_mgr->load_vertex_buffer("resource/vertex_buffer/square.yml");
-        res_mgr->load_image_sheets("resource/image/ui-pack.yml");
+        res_mgr->load_image_sheet("resource/image/ui-pack.yml");
 
         gui_root_ = make_unique<gfx::gui::Node>();
 

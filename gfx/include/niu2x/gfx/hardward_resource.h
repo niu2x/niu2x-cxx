@@ -71,7 +71,8 @@ enum class PixelFormat {
     R8,
 };
 
-using DataIn = stream::DataIn;
+using PixelFmt = PixelFormat;
+
 using IntSize = math::IntSize;
 using IntRect = math::IntRect;
 
@@ -81,6 +82,7 @@ public:
     virtual void resize(IntSize size, PixelFormat format) = 0;
     virtual void bind(Index slot) = 0;
     virtual void set_data(const IntRect& region, const void* pixel_data) = 0;
+    virtual IntSize size() const = 0;
     void load(ReadStream* in, PixelFormat format);
 };
 

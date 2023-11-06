@@ -123,9 +123,12 @@ void Node::draw_self() const
 
     auto rf = RenderCommandFactory::get();
     auto queue = RenderCommandQueue::get();
-    auto cmd = rf->create_rect(
+    auto res_mgr = ResourceManager::get();
+    auto bg_frame = res_mgr->get_image_sheet_frame("ui-pack", "blue_panel.png");
+
+    auto cmd = rf->create_ui(
         { layout_left(), layout_top(), layout_width(), layout_height() },
-        { 1, 1, 1, 1 });
+        bg_frame);
     queue->enqueue(cmd);
 }
 

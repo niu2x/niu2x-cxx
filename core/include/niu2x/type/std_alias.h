@@ -54,6 +54,8 @@ using InitializerList = std::initializer_list<T>;
 template <class T>
 using UniquePtr = std::unique_ptr<T>;
 
+template <class T>
+using UPtr = UniquePtr<T>;
 /**
  * @brief       Vector
  */
@@ -70,6 +72,9 @@ template <class... ArgTypes>
 using Variant = std::variant<ArgTypes...>;
 
 using std::get;
+
+template <class T>
+using CR = const T&;
 
 /**
  * @brief       Optional
@@ -122,6 +127,10 @@ inline String to_string(bool b)
 template <class T>
 inline constexpr bool is_movable = std::is_nothrow_move_constructible_v<T>&&
     std::is_nothrow_move_assignable_v<T>;
+
+template <class T>
+inline constexpr bool is_copyable
+    = std::is_copy_constructible_v<T>&& std::is_copy_assignable_v<T>;
 
 using TimePoint = std::chrono::time_point<std::chrono::system_clock>;
 inline TimePoint time_now() { return std::chrono::system_clock::now(); }

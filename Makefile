@@ -7,6 +7,7 @@ build-debug-library:
 		-DBUILD_SHARED_LIBS=OFF \
 		-Dyoga_DIR=/home/niu2x/project/yoga/dist/lib/cmake/yoga \
 		-Dyaml-cpp_DIR=/home/niu2x/project/yaml-cpp/dist/lib/cmake/yaml-cpp \
+		-Dpugixml_DIR=/home/niu2x/project/pugixml/dist/lib/cmake/pugixml \
 		-DCMAKE_BUILD_TYPE=Debug;
 	cmake --build build/debug -j;
 	cmake --install build/debug --prefix build/debug/dist/
@@ -17,6 +18,7 @@ build-release-library:
 		-Bbuild/release \
 		-DBUILD_SHARED_LIBS=OFF \
 		-Dyaml-cpp_DIR=/home/niu2x/project/yaml-cpp/dist/lib/cmake/yaml-cpp \
+		-Dpugixml_DIR=/home/niu2x/project/pugixml/dist/lib/cmake/pugixml \
 		-Dyoga_DIR=/home/niu2x/project/yoga/dist/lib/cmake/yoga \
 		-DCMAKE_BUILD_TYPE=Release;
 	cmake --build build/release -j;
@@ -41,6 +43,7 @@ build-watchdog: build-release-library
 build-poe: build-debug-library
 	cmake -GNinja -S app/poe -Bbuild/poe/debug \
 		-Dyaml-cpp_DIR=/home/niu2x/project/yaml-cpp/dist/lib/cmake/yaml-cpp \
+		-Dpugixml_DIR=/home/niu2x/project/pugixml/dist/lib/cmake/pugixml \
 		-Dyoga_DIR=/home/niu2x/project/yoga/dist/lib/cmake/yoga \
 		-Dniu2x_filesystem_DIR=$$PWD/build/debug/dist/lib/cmake/niu2x \
 		-Dniu2x_lua_DIR=$$PWD/build/debug/dist/lib/cmake/niu2x \

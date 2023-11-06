@@ -62,4 +62,42 @@ void DrawRect::run()
     rf->destroy(cmd);
 }
 
+DrawUI::~DrawUI() { }
+
+DrawUI::DrawUI(const Rect& rect, ImageSheet::Frame* frame)
+: rect_(rect)
+, frame_(frame)
+{
+}
+
+void DrawUI::run()
+{
+
+    using Uniform = RenderProgram::Uniform;
+
+    auto res_mgr = ResourceManager::get();
+    auto rf = RenderCommandFactory::get();
+    UniformPacket uniforms;
+
+    auto translate = math::translation_matrix(
+        Vec3(rect_.origin.x, -rect_.origin.y - rect_.size.height, 0));
+
+    auto scaling
+        = math::scaling_matrix(Vec3(rect_.size.width, rect_.size.height, 1));
+
+    uniforms[Uniform::MODEL] = mul(translate, scaling);
+
+    uniforms[Uniform::VIEW] = gui::ui_view_mat4;
+    uniforms[Uniform::PROJECTION] = gui::ui_projection_mat4;
+    uniforms[Uniform::TEX_0] = 0;
+
+    frame_->texture()->bind(0);
+
+    auto square_vb = res_mgr->get_vertex_buffer("common/vb/square");
+    auto program_id = RenderProgramID::TEXTURE_COLOR;
+    auto cmd = rf->create_triangles(square_vb, program_id, move(uniforms));
+    cmd->run();
+    rf->destroy(cmd);
+}
+
 } // namespace niu2x::gfx::render_command

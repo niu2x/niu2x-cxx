@@ -8,3 +8,4 @@
 8. yoga
 9. yaml-cpp
 10. ui pack (from www.kenney.nl)
+11. pugixml
