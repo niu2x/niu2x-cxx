@@ -25,6 +25,7 @@ public:
     {
         delegate_ = move(delegate);
     }
+    void on_resize(IntSize window_size);
 
 private:
     GLFWwindow* native_win_;

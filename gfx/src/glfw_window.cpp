@@ -34,6 +34,12 @@ static void window_size_callback(GLFWwindow* window, int width, int height)
 
     // Set the viewport to cover the new framebuffer
     glViewport(0, 0, fbWidth, fbHeight);
+
+    using GLFW_Window = niu2x::gfx::GLFW_Window;
+
+    auto win = reinterpret_cast<GLFW_Window*>(glfwGetWindowUserPointer(window));
+
+    win->on_resize({ width, height });
 }
 
 GLFW_Init::GLFW_Init()
@@ -76,8 +82,8 @@ GLFW_Window::GLFW_Window()
 
     glfwMakeContextCurrent(native_win_);
     glfwSetKeyCallback(native_win_, key_callback);
-
     glfwSetWindowSizeCallback(native_win_, window_size_callback);
+    glfwSetWindowUserPointer(native_win_, reinterpret_cast<void*>(this));
 }
 
 GLFW_Window::~GLFW_Window()
@@ -97,6 +103,11 @@ void GLFW_Window::set_window_size(IntSize window_size)
     glfwSetWindowSize(native_win_, window_size.width, window_size.height);
 }
 
+void GLFW_Window::on_resize(IntSize window_size)
+{
+    delegate_->on_resize(window_size);
+}
+
 void GLFW_Window::poll()
 {
     delegate_->setup();
@@ -104,6 +115,10 @@ void GLFW_Window::poll()
     auto prev = now;
 
     glClearColor(0.5, 0, 0, 1);
+
+    int width, height;
+    glfwGetWindowSize(native_win_, &width, &height);
+    on_resize({ width, height });
 
     while (!glfwWindowShouldClose(native_win_)) {
         glfwPollEvents();

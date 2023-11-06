@@ -74,7 +74,7 @@ public:
 
         auto child2 = make_unique<gfx::gui::Node>();
 
-        child2->set_width_percent(10);
+        child2->set_width(100);
         child2->set_height(50);
 
         gui_root_->set_width_percent(100);
@@ -84,8 +84,6 @@ public:
         gui_root_->add_child(move(child2));
 
         gui_root_->set_flex_direction(gfx::gui::FlexDirection::reverse_row);
-
-        gui_root_->layout(640, 480);
     }
 
     void cleanup() override
@@ -121,6 +119,12 @@ public:
         //     gfx::RenderProgram::Uniform::PROJECTION, unit_mat4);
 
         // gfx::Draw::draw_triangles(0, 6);
+    }
+
+    void on_resize(gfx::IntSize window_size) override
+    {
+        gfx::gui::update_view_projection(window_size);
+        gui_root_->layout(window_size.width, window_size.height);
     }
 
 private:

@@ -1,5 +1,6 @@
 #include <niu2x/gfx/render_command.h>
 #include <niu2x/gfx/draw.h>
+#include <niu2x/gfx/gui.h>
 #include <iostream>
 #include <niu2x/gfx/resource_manager.h>
 #include <niu2x/gfx/render_command_queue.h>
@@ -42,16 +43,17 @@ void DrawRect::run()
     auto rf = RenderCommandFactory::get();
     UniformPacket uniforms;
 
-    uniforms[Uniform::MODEL] = mul(math::translation_matrix(Vec3(rect_.origin.x,
-                                       -rect_.origin.y - rect_.size.height, 0)),
-        math::scaling_matrix(Vec3(rect_.size.width, rect_.size.height, 1)));
+    auto translate = math::translation_matrix(
+        Vec3(rect_.origin.x, -rect_.origin.y - rect_.size.height, 0));
+
+    auto scaling
+        = math::scaling_matrix(Vec3(rect_.size.width, rect_.size.height, 1));
+
+    uniforms[Uniform::MODEL] = mul(translate, scaling);
 
     // uniforms[Uniform::MODEL] = unit_mat4;
-    uniforms[Uniform::VIEW] = math::lookat_matrix(
-        Vec3(640 / 2, -480 / 2, 10), Vec3(640 / 2, -480 / 2, 0), Vec3(0, 1, 0));
-
-    uniforms[Uniform::PROJECTION] = math::frustum_matrix<float>(
-        -640 / 2, 640 / 2, -480 / 2, 480 / 2, -100, 100);
+    uniforms[Uniform::VIEW] = gui::ui_view_mat4;
+    uniforms[Uniform::PROJECTION] = gui::ui_projection_mat4;
 
     auto square_vb = res_mgr->get_vertex_buffer("common/vb/square");
     auto program_id = RenderProgramID::COLOR;

@@ -17,6 +17,7 @@ public:
         virtual void setup() { }
         virtual void cleanup() { }
         virtual void update(TimeDuration delta) { unused(delta); }
+        virtual void on_resize(IntSize window_size) { unused(window_size); }
     };
 
     virtual ~Window() = 0;
