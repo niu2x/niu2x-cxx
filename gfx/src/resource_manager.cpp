@@ -46,8 +46,8 @@ static YAML::Node load_yaml(const Path& path)
 {
     fs::File config_file(path);
     auto config_buffer = config_file.as_buffer(true);
-    YAML::Node config
-        = YAML::Load(reinterpret_cast<const char*>(config_buffer.data()));
+    auto config_data = reinterpret_cast<const char*>(config_buffer.data());
+    YAML::Node config = YAML::Load(config_data);
     return config;
 }
 
@@ -76,8 +76,6 @@ void ResourceManager::load_vertex_buffer(const ResId& id, const Path& path)
 {
     YAML::Node config = load_yaml(path);
     auto vertex_count = config["position"].size();
-
-    printf("vertex_count %ld\n", vertex_count);
 
     auto vb = GFX_Factory::get()->create_vertex_buffer();
     vb->resize(vertex_count);
@@ -112,6 +110,24 @@ void ResourceManager::load_vertex_buffer(const ResId& id, const Path& path)
 
     vb->set_vertexs(0, vertex_count, vertexs.data());
     vertex_buffers_[get_id(id, path, config)] = move(vb);
+}
+
+void ResourceManager::load_image_sheets(const Path& path)
+{
+    YAML::Node config = load_yaml(path);
+
+    // auto sz_pixel_format = config["pixel_format"].as<String>();
+    // auto pixel_format = pixel_format_map.at(sz_pixel_format);
+
+    auto root = path.abs().parent();
+
+    for (const auto& sheet : config["sheets"]) {
+        auto sub = root / sheet["sub"].as<String>();
+        auto image = root / sheet["image"].as<String>();
+
+        std::cout << sub << std::endl;
+        std::cout << image << std::endl;
+    }
 }
 
 } // namespace niu2x::gfx

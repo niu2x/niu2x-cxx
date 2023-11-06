@@ -19,6 +19,13 @@ public:
     void load_texture2d(const Path& path);
     void load_texture2d(const ResId& id, const Path& path, PixelFormat format);
 
+    void load_vertex_buffer(const ResId& id, const Path& path);
+    void load_vertex_buffer(const Path& path) { load_vertex_buffer("", path); }
+
+    void load_render_program(RenderProgramID id);
+
+    void load_image_sheets(const Path& path);
+
 #define GET(type, name, ResIdType)                                             \
     inline type* get_##name(const ResIdType& id) const                         \
     {                                                                          \
@@ -28,11 +35,6 @@ public:
     GET(Texture2D, texture2d, ResId);
     GET(VertexBuffer, vertex_buffer, ResId);
     GET(RenderProgram, render_program, RenderProgramID);
-
-    void load_vertex_buffer(const ResId& id, const Path& path);
-    void load_vertex_buffer(const Path& path) { load_vertex_buffer("", path); }
-
-    void load_render_program(RenderProgramID id);
 
 private:
     HashMap<ResId, UniquePtr<Texture2D>> texture2ds_;

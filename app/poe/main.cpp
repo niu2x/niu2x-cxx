@@ -42,10 +42,9 @@ public:
         res_mgr->load_render_program(gfx::RenderProgramID::TEXTURE_COLOR);
         res_mgr->load_render_program(gfx::RenderProgramID::COLOR);
 
-
         res_mgr->load_texture2d("resource/image/test_00.yml");
-
         res_mgr->load_vertex_buffer("resource/vertex_buffer/square.yml");
+        res_mgr->load_image_sheets("resource/image/ui-pack.yml");
 
         gui_root_ = make_unique<gfx::gui::Node>();
 
@@ -89,6 +88,13 @@ public:
         gui_root_->layout(window_size.width, window_size.height);
     }
 
+    void on_key(gfx::KeyCode key_code) override
+    {
+        if (key_code == gfx::KeyCode::KEY_ESCAPE) {
+            gfx::main_window()->close();
+        }
+    }
+
 private:
     UniquePtr<gfx::gui::Node> gui_root_;
 };
@@ -99,6 +105,7 @@ int main()
         auto window = gfx::WindowFactory::get()->create_window();
         auto poe_win_delegate = make_unique<PoeWinDelegate>();
         window->set_delegate(move(poe_win_delegate));
+        window->set_full_screen(true);
         window->poll();
     } catch (Exception& e) {
         std::cout << e.what() << std::endl;

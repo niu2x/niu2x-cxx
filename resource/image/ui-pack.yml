@@ -1,0 +1,16 @@
+pixel_format: rgba_8888
+sheets:
+  - sub: ui-pack/blueSheet.xml
+    image: ui-pack/blueSheet.png
+
+  - sub: ui-pack/redSheet.xml
+    image: ui-pack/redSheet.png
+
+  - sub: ui-pack/greenSheet.xml
+    image: ui-pack/greenSheet.png
+
+  - sub: ui-pack/yellowSheet.xml
+    image: ui-pack/yellowSheet.png
+
+  - sub: ui-pack/greySheet.xml
+    image: ui-pack/greySheet.png

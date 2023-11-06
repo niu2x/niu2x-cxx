@@ -21,7 +21,10 @@ static void key_callback(
     unused(mods);
 
     KeyCode key = glfw_key_map[key_code];
-    printf("key: %s\n", to_string(key).c_str());
+
+    using GLFW_Window = niu2x::gfx::GLFW_Window;
+    auto win = reinterpret_cast<GLFW_Window*>(glfwGetWindowUserPointer(window));
+    win->on_key(key);
 }
 
 static void window_size_callback(GLFWwindow* window, int width, int height)
@@ -36,7 +39,6 @@ static void window_size_callback(GLFWwindow* window, int width, int height)
     glViewport(0, 0, fbWidth, fbHeight);
 
     using GLFW_Window = niu2x::gfx::GLFW_Window;
-
     auto win = reinterpret_cast<GLFW_Window*>(glfwGetWindowUserPointer(window));
 
     win->on_resize({ width, height });
@@ -68,6 +70,8 @@ GLFW_WindowWithRenderContext::~GLFW_WindowWithRenderContext()
     // TODO release RenderContext
     // TODO destroy delegate_
 }
+
+void GLFW_Window::on_key(KeyCode key_code) { delegate_->on_key(key_code); }
 
 GLFW_Window::GLFW_Window()
 {
@@ -132,6 +136,8 @@ void GLFW_Window::poll()
     delegate_->cleanup();
     delegate_.reset();
 }
+
+void GLFW_Window::close() { glfwSetWindowShouldClose(native_win_, 1); }
 
 void GLFW_Window::cache_window_size()
 {

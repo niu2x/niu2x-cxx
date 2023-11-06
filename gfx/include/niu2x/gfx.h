@@ -12,5 +12,6 @@
 #include <niu2x/gfx/gui.h>
 #include <niu2x/gfx/simple_function.h>
 #include <niu2x/gfx/render_command_queue.h>
+#include <niu2x/gfx/global_vars.h>
 
 #endif

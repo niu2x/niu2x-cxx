@@ -25,7 +25,9 @@ public:
     {
         delegate_ = move(delegate);
     }
+    void close() override;
     void on_resize(IntSize window_size);
+    void on_key(KeyCode key_code);
 
 private:
     GLFWwindow* native_win_;
