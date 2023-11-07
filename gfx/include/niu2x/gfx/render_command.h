@@ -84,7 +84,7 @@ private:
 class DrawUI : public RenderCommand {
 public:
     DrawUI(const Rect& rect, ImageSheet::Frame* frame);
-    DrawUI(VertexBuffer* vbo, ImageSheet::Frame* frame);
+    DrawUI(VertexBuffer* vbo, ImageSheet::Frame* frame, bool scale9 = false);
     ~DrawUI();
     void run() override;
 
@@ -92,6 +92,7 @@ private:
     Rect rect_;
     VertexBuffer* vbo_ = nullptr;
     ImageSheet::Frame* frame_ = nullptr;
+    bool scale9_ = false;
 };
 
 class Triangles : public RenderCommand {

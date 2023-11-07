@@ -128,18 +128,17 @@ void Node::draw_self() const
     vertexs[0].u = ((float)(region.origin.x)) / tex_size.width;
     vertexs[0].v = ((float)(region.origin.y)) / tex_size.height;
 
-    vertexs[1].u
-        = ((float)(region.origin.x + region.size.width)) / tex_size.width;
+    auto tmp_x = region.origin.x + region.size.width;
+    auto tmp_y = region.origin.y + region.size.height;
+
+    vertexs[1].u = ((float)(tmp_x)) / tex_size.width;
     vertexs[1].v = ((float)(region.origin.y)) / tex_size.height;
 
-    vertexs[2].u
-        = ((float)(region.origin.x + region.size.width)) / tex_size.width;
-    vertexs[2].v
-        = ((float)(region.origin.y + region.size.height)) / tex_size.height;
+    vertexs[2].u = ((float)(tmp_x)) / tex_size.width;
+    vertexs[2].v = ((float)(tmp_y)) / tex_size.height;
 
     vertexs[3].u = ((float)(region.origin.x)) / tex_size.width;
-    vertexs[3].v
-        = ((float)(region.origin.y + region.size.height)) / tex_size.height;
+    vertexs[3].v = ((float)(tmp_y)) / tex_size.height;
 
     // vertexs[0].u = 0;
     // vertexs[0].v = 0;

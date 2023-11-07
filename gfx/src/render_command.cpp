@@ -64,9 +64,10 @@ void DrawRect::run()
 
 DrawUI::~DrawUI() { }
 
-DrawUI::DrawUI(VertexBuffer* vbo, ImageSheet::Frame* frame)
+DrawUI::DrawUI(VertexBuffer* vbo, ImageSheet::Frame* frame, bool scale9)
 : vbo_(vbo)
 , frame_(frame)
+,scale9_(scale9)
 {
 }
 
