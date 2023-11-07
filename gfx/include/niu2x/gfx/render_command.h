@@ -51,6 +51,7 @@ public:
     CMD* create_rect(const Rect& rect, const Color& color);
 
     CMD* create_ui(const Rect& rect, ImageSheet::Frame* frame);
+    CMD* create_ui(VertexBuffer* vbo, ImageSheet::Frame* frame);
 
 private:
     std::pmr::unsynchronized_pool_resource memory_;
@@ -83,12 +84,14 @@ private:
 class DrawUI : public RenderCommand {
 public:
     DrawUI(const Rect& rect, ImageSheet::Frame* frame);
+    DrawUI(VertexBuffer* vbo, ImageSheet::Frame* frame);
     ~DrawUI();
     void run() override;
 
 private:
     Rect rect_;
-    ImageSheet::Frame* frame_;
+    VertexBuffer* vbo_ = nullptr;
+    ImageSheet::Frame* frame_ = nullptr;
 };
 
 class Triangles : public RenderCommand {

@@ -85,7 +85,7 @@ public:
     void on_resize(gfx::IntSize window_size) override
     {
         gfx::gui::update_view_projection(window_size);
-        gui_root_->layout(window_size.width, window_size.height);
+        gui_root_->layout(window_size.width, window_size.height / 2);
     }
 
     void on_key(gfx::KeyCode key_code) override

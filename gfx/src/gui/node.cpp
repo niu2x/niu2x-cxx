@@ -3,7 +3,7 @@
 #include <niu2x/unused.h>
 #include <niu2x/gfx/resource_manager.h>
 #include <niu2x/gfx/render_command_queue.h>
-#include <niu2x/gfx/hardward_resource.h>
+#include <niu2x/gfx/gfx_factory.h>
 
 #define yoga() (reinterpret_cast<YGNodeRef>(yoga_))
 #define other_yoga(ptr) (reinterpret_cast<YGNodeRef>((ptr)->yoga_))
@@ -12,6 +12,9 @@ namespace niu2x::gfx::gui {
 
 Node::Node()
 {
+    vbo_ = GFX_Factory::get()->create_vertex_buffer();
+    vbo_->resize(6);
+
     yoga_ = YGNodeNew();
     if (!yoga_) {
         throw BadAlloc();
@@ -77,20 +80,8 @@ void Node::set_potition_type(PositionType pt)
                                      : YGPositionTypeAbsolute);
 }
 
-// static void Edge_show(const Edge& self, const char* prefix)
-// {
-//     printf("%s\n", prefix);
-//     printf("left: %f\n", self.left);
-//     printf("right: %f\n", self.right);
-//     printf("top: %f\n", self.top);
-//     printf("bottom: %f\n", self.bottom);
-// }
-
 void Node::add_child(UniquePtr<Node> child)
 {
-    // printf("other_yoga(child) %p\n", other_yoga(child));
-    // printf(  "yoga() %p\n", yoga());
-
     YGNodeInsertChild(yoga(), other_yoga(child), children_.size());
     children_.push_back(move(child));
 }
@@ -105,30 +96,74 @@ void Node::draw() const
 
 void Node::draw_self() const
 {
-    // if (children_.size() <= 0) {
-
-    //     printf("layout_width: %f\n", layout_width());
-    //     printf("layout_height: %f\n", layout_height());
-
-    //     printf("layout_left: %f\n", layout_left());
-    //     printf("layout_right: %f\n", layout_right());
-
-    //     printf("layout_top: %f\n", layout_top());
-    //     printf("layout_bottom: %f\n", layout_bottom());
-
-    //     Edge_show(layout_margin(), "margin");
-    //     Edge_show(layout_padding(), "padding");
-    //     Edge_show(layout_border(), "border");
-    // }
-
     auto rf = RenderCommandFactory::get();
     auto queue = RenderCommandQueue::get();
     auto res_mgr = ResourceManager::get();
     auto bg_frame = res_mgr->get_image_sheet_frame("ui-pack", "blue_panel.png");
+    IntRect region = bg_frame->region();
+    IntSize tex_size = bg_frame->texture()->size();
+
+    Vertex vertexs[4];
+    vertexs[0].x = layout_left();
+    vertexs[0].y = -layout_top();
+    vertexs[0].z = 0;
+
+    vertexs[1].x = layout_left() + layout_width();
+    vertexs[1].y = -layout_top();
+    vertexs[1].z = 0;
+
+    vertexs[2].x = layout_left() + layout_width();
+    vertexs[2].y = -layout_top() - layout_height();
+    vertexs[2].z = 0;
+
+    vertexs[3].x = layout_left();
+    vertexs[3].y = -layout_top() - layout_height();
+    vertexs[3].z = 0;
+
+    vertexs[0].r = vertexs[0].g = vertexs[0].b = vertexs[0].a = 1;
+    vertexs[1].r = vertexs[1].g = vertexs[1].b = vertexs[1].a = 1;
+    vertexs[2].r = vertexs[2].g = vertexs[2].b = vertexs[2].a = 1;
+    vertexs[3].r = vertexs[3].g = vertexs[3].b = vertexs[3].a = 1;
+
+    vertexs[0].u = ((float)(region.origin.x)) / tex_size.width;
+    vertexs[0].v = ((float)(region.origin.y)) / tex_size.height;
+
+    vertexs[1].u
+        = ((float)(region.origin.x + region.size.width)) / tex_size.width;
+    vertexs[1].v = ((float)(region.origin.y)) / tex_size.height;
+
+    vertexs[2].u
+        = ((float)(region.origin.x + region.size.width)) / tex_size.width;
+    vertexs[2].v
+        = ((float)(region.origin.y + region.size.height)) / tex_size.height;
+
+    vertexs[3].u = ((float)(region.origin.x)) / tex_size.width;
+    vertexs[3].v
+        = ((float)(region.origin.y + region.size.height)) / tex_size.height;
+
+    // vertexs[0].u = 0;
+    // vertexs[0].v = 0;
+
+    // vertexs[1].u = 1;
+    // vertexs[1].v = 0;
+
+    // vertexs[2].u = 1;
+    // vertexs[2].v = 1;
+
+    // vertexs[3].u = 0;
+    // vertexs[3].v = 1;
+
+    vbo_->set_vertex(0, vertexs[3]);
+    vbo_->set_vertex(1, vertexs[1]);
+    vbo_->set_vertex(2, vertexs[0]);
+
+    vbo_->set_vertex(3, vertexs[3]);
+    vbo_->set_vertex(4, vertexs[2]);
+    vbo_->set_vertex(5, vertexs[1]);
 
     auto cmd = rf->create_ui(
-        { layout_left(), layout_top(), layout_width(), layout_height() },
-        bg_frame);
+        // { layout_left(), layout_top(), layout_width(), layout_height() },
+        vbo_.get(), bg_frame);
     queue->enqueue(cmd);
 }
 

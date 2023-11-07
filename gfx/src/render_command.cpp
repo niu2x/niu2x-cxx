@@ -64,6 +64,12 @@ void DrawRect::run()
 
 DrawUI::~DrawUI() { }
 
+DrawUI::DrawUI(VertexBuffer* vbo, ImageSheet::Frame* frame)
+: vbo_(vbo)
+, frame_(frame)
+{
+}
+
 DrawUI::DrawUI(const Rect& rect, ImageSheet::Frame* frame)
 : rect_(rect)
 , frame_(frame)
@@ -76,28 +82,42 @@ void DrawUI::run()
     using Uniform = RenderProgram::Uniform;
 
     auto res_mgr = ResourceManager::get();
-    auto rf = RenderCommandFactory::get();
+
     UniformPacket uniforms;
 
-    auto translate = math::translation_matrix(
-        Vec3(rect_.origin.x, -rect_.origin.y - rect_.size.height, 0));
+    if (!vbo_) {
 
-    auto scaling
-        = math::scaling_matrix(Vec3(rect_.size.width, rect_.size.height, 1));
+        auto translate = math::translation_matrix(
+            Vec3(rect_.origin.x, -rect_.origin.y - rect_.size.height, 0));
 
-    uniforms[Uniform::MODEL] = mul(translate, scaling);
+        auto scaling = math::scaling_matrix(
+            Vec3(rect_.size.width, rect_.size.height, 1));
 
-    uniforms[Uniform::VIEW] = gui::ui_view_mat4;
-    uniforms[Uniform::PROJECTION] = gui::ui_projection_mat4;
-    uniforms[Uniform::TEX_0] = 0;
+        uniforms[Uniform::MODEL] = mul(translate, scaling);
 
-    frame_->texture()->bind(0);
+        uniforms[Uniform::VIEW] = gui::ui_view_mat4;
+        uniforms[Uniform::PROJECTION] = gui::ui_projection_mat4;
+        uniforms[Uniform::TEX_0] = 0;
 
-    auto square_vb = res_mgr->get_vertex_buffer("common/vb/square");
-    auto program_id = RenderProgramID::TEXTURE_COLOR;
-    auto cmd = rf->create_triangles(square_vb, program_id, move(uniforms));
-    cmd->run();
-    rf->destroy(cmd);
+        frame_->texture()->bind(0);
+
+        auto square_vb = res_mgr->get_vertex_buffer("common/vb/square");
+        auto program_id = RenderProgramID::TEXTURE_COLOR;
+
+        Triangles triangles(square_vb, program_id, move(uniforms));
+        triangles.run();
+
+    } else {
+        uniforms[Uniform::MODEL] = unit_mat4;
+        ;
+        uniforms[Uniform::VIEW] = gui::ui_view_mat4;
+        uniforms[Uniform::PROJECTION] = gui::ui_projection_mat4;
+        uniforms[Uniform::TEX_0] = 0;
+        frame_->texture()->bind(0);
+        auto program_id = RenderProgramID::TEXTURE_COLOR;
+        Triangles triangles(vbo_, program_id, move(uniforms));
+        triangles.run();
+    }
 }
 
 } // namespace niu2x::gfx::render_command

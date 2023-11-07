@@ -4,7 +4,6 @@
 #include <niu2x/gfx/window.h>
 #include <niu2x/gfx/hardward_resource.h>
 
-#include <niu2x/gfx/gui/canvas.h>
 #include <niu2x/gfx/gui/node.h>
 
 namespace niu2x::gfx::gui {

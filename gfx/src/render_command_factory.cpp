@@ -41,4 +41,9 @@ CMD* Factory::create_ui(const Rect& rect, ImageSheet::Frame* frame)
     return alloctor_.new_object<rc::DrawUI>(rect, frame);
 }
 
+CMD* Factory::create_ui(VertexBuffer* vbo, ImageSheet::Frame* frame)
+{
+    return alloctor_.new_object<rc::DrawUI>(vbo, frame);
+}
+
 } // namespace niu2x::gfx

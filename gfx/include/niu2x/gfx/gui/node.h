@@ -4,6 +4,7 @@
 #include <niu2x/noncopyable.h>
 #include <niu2x/type/std_alias.h>
 #include <niu2x/math/geometry.h>
+#include <niu2x/gfx/hardward_resource.h>
 #include <niu2x/gfx/gui/canvas.h>
 
 namespace niu2x::gfx::gui {
@@ -130,8 +131,7 @@ private:
     // float height_;
 
     void* yoga_;
-
-    Canvas canvas_;
+    UniquePtr<VertexBuffer> vbo_;
 };
 
 static_assert(!is_movable<Node>);
