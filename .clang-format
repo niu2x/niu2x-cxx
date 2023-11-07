@@ -12,4 +12,5 @@ AlwaysBreakTemplateDeclarations: Yes
 NamespaceIndentation: None
 SortIncludes: false
 AlignConsecutiveMacros: true
+AlignAfterOpenBracket: AlwaysBreak
 ...

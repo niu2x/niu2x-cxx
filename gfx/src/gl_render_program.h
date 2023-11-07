@@ -14,6 +14,7 @@ public:
     void bind() override;
     void set_uniform_integer(Uniform uniform, int n) override;
     void set_uniform_mat4(Uniform uniform, const Mat4& m) override;
+    void set_uniform_4f(Uniform uniform, const float* array) override;
 
 private:
     GLuint native_id_;

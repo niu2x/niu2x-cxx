@@ -54,6 +54,12 @@ void RenderProgram::set_uniforms(const UniformPacket& uniforms_)
                 set_uniform_mat4(elem.first, get<Mat4>(elem.second));
                 break;
             }
+            case Uniform::MASK_COLOR: {
+                set_uniform_4f(
+                    elem.first,
+                    reinterpret_cast<const float*>(&get<Color>(elem.second)));
+                break;
+            }
         }
     }
 }

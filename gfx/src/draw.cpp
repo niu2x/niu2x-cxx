@@ -3,9 +3,14 @@
 
 namespace niu2x::gfx {
 
-void Draw::draw_triangles(Index index, NR count)
+void Draw::draw_arrays(Index index, NR count)
 {
     glDrawArrays(GL_TRIANGLES, index, count);
+}
+
+void Draw::draw_elements(Index index, NR count)
+{
+    glDrawElements(GL_TRIANGLES, count, GL_UNSIGNED_SHORT, (void*)index);
 }
 
 void Draw::clear()

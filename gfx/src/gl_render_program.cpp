@@ -50,6 +50,7 @@ static Uniform uniform_from_str(const String& name)
         { "model", Uniform::MODEL },
         { "view", Uniform::VIEW },
         { "projection", Uniform::PROJECTION },
+        { "mask_color", Uniform::MASK_COLOR },
     };
 
     auto iter = map.find(name);
@@ -109,6 +110,12 @@ GL_RenderProgram::GL_RenderProgram(const Options& options)
 }
 
 GL_RenderProgram::~GL_RenderProgram() { glDeleteProgram(native_id_); }
+
+void GL_RenderProgram::set_uniform_4f(Uniform p_uniform, const float* array)
+{
+    auto loc = uniform_locations_[p_uniform];
+    glUniform4f(loc, array[0], array[1], array[2], array[3]);
+}
 
 void GL_RenderProgram::set_uniform_integer(Uniform p_uniform, int n)
 {

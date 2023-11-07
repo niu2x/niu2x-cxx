@@ -49,8 +49,6 @@ struct Edge {
     float left, right, top, bottom;
 };
 
-using Rect = math::Rect<float>;
-
 class Node : private Noncopyable {
 public:
     Node();
@@ -79,10 +77,14 @@ public:
 
     void layout(float available_width, float available_height);
 
-    virtual void draw() const;
-    virtual void draw_self() const;
+    void draw();
+    void draw_self();
 
     void add_child(UniquePtr<Node> child);
+
+    Canvas* canvas() { return &canvas_; }
+
+    virtual void update_canvas();
 
 private:
     Rect rect_;
@@ -129,9 +131,15 @@ private:
 
     // float width_;
     // float height_;
+    //
+    Canvas canvas_;
 
     void* yoga_;
     UniquePtr<VertexBuffer> vbo_;
+    UniquePtr<IndexBuffer> veo_;
+    bool dirtied_flag_ = false;
+
+    static void on_dirtied(void*);
 };
 
 static_assert(!is_movable<Node>);

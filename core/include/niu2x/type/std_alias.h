@@ -4,6 +4,7 @@
 #include <cstdint>
 #include <stdexcept>
 #include <variant>
+#include <array>
 #include <string>
 #include <sstream>
 #include <memory>
@@ -72,6 +73,9 @@ using HashMap = std::unordered_map<Key, Value>;
 template <class... ArgTypes>
 using Variant = std::variant<ArgTypes...>;
 
+template <class T, int N>
+using Array = std::array<T, N>;
+
 using std::get;
 
 template <class T>
@@ -107,6 +111,7 @@ using std::max;
  * @brief       minimum of two value
  */
 using std::min;
+using std::move;
 
 using std::fmax;
 using std::fmin;
@@ -132,6 +137,12 @@ inline constexpr bool is_movable = std::is_nothrow_move_constructible_v<T>&&
 template <class T>
 inline constexpr bool is_copyable
     = std::is_copy_constructible_v<T>&& std::is_copy_assignable_v<T>;
+
+template <class T1, class T2>
+inline constexpr bool is_same = std::is_same_v<T1, T2>;
+
+template <class T>
+using decay = std::decay_t<T>;
 
 using TimePoint = std::chrono::time_point<std::chrono::system_clock>;
 inline TimePoint time_now() { return std::chrono::system_clock::now(); }

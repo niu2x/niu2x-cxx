@@ -32,9 +32,28 @@ public:
     virtual void bind() = 0;
 };
 
+class IndexBuffer {
+public:
+    virtual ~IndexBuffer() = 0;
+
+    virtual void resize(NR index_count) = 0;
+
+    virtual void set(NR offset, NR count, const uint16_t*) = 0;
+
+    inline void set(Index index, uint16_t i) { set(index, 1, &i); }
+
+    virtual NR size() const = 0;
+
+    virtual void bind() = 0;
+};
+
 enum class RenderProgramID {
     COLOR,
     TEXTURE_COLOR,
+};
+
+struct Color {
+    float r, g, b, a;
 };
 
 class RenderProgram {
@@ -50,9 +69,11 @@ public:
         MODEL,
         VIEW,
         PROJECTION,
+        MASK_COLOR,
     };
 
-    using UniformPacket = HashMap<Uniform, Variant<int, Mat4>>;
+    using UniformPacket
+        = HashMap<Uniform, Variant<int, Mat4, Color, Array<float, 4>>>;
 
     struct Options {
         HashMap<Stage, String> source_code;
@@ -62,6 +83,8 @@ public:
     virtual void bind() = 0;
     virtual void set_uniform_integer(Uniform uniform, int n) = 0;
     virtual void set_uniform_mat4(Uniform uniform, const Mat4& m) = 0;
+    virtual void set_uniform_4f(Uniform uniform, const float* array) = 0;
+
     void set_uniforms(const UniformPacket&);
 };
 

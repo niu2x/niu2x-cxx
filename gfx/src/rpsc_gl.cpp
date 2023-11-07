@@ -14,11 +14,12 @@ out vec4 frag_color;
 uniform mat4 model;
 uniform mat4 view;
 uniform mat4 projection;
+uniform vec4 mask_color;
 
 void main()
 {
     gl_Position = projection * view * model * vec4(in_position, 1.0);
-    frag_color = in_color;
+    frag_color = in_color * mask_color;
 }
 
 )RAW";
@@ -47,11 +48,12 @@ out vec2 tex_coord;
 uniform mat4 model;
 uniform mat4 view;
 uniform mat4 projection;
+uniform vec4 mask_color;
 
 void main()
 {
     gl_Position = projection * view * model * vec4(in_position, 1.0);
-    frag_color = in_color;
+    frag_color = in_color * mask_color;
     tex_coord = in_tex_coord;
 }
 

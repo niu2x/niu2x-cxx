@@ -12,6 +12,11 @@ UniquePtr<VertexBuffer> GFX_Factory::create_vertex_buffer()
     return make_unique<GL_VertexBuffer>();
 }
 
+UniquePtr<IndexBuffer> GFX_Factory::create_index_buffer()
+{
+    return make_unique<GL_IndexBuffer>();
+}
+
 UniquePtr<RenderProgram> GFX_Factory::create_render_program(RenderProgramID id)
 {
     using Stage = RenderProgram::Stage;

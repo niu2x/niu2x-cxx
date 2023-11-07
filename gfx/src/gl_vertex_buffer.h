@@ -22,6 +22,25 @@ private:
     NR max_vertex_count_ = 0;
 };
 
+class GL_IndexBuffer : public IndexBuffer, private Noncopyable {
+public:
+    GL_IndexBuffer();
+    ~GL_IndexBuffer();
+
+    void resize(NR index_count) override;
+
+    void set(NR offset, NR count, const uint16_t*) override;
+
+    NR size() const override;
+
+    void bind() override;
+
+private:
+    GLuint native_id_;
+    static GLuint current_binding_id_;
+    NR max_index_count_ = 0;
+};
+
 } // namespace niu2x::gfx
 
 #endif

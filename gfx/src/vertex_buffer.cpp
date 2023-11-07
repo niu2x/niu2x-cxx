@@ -4,4 +4,6 @@ namespace niu2x::gfx {
 
 VertexBuffer::~VertexBuffer() { }
 
+IndexBuffer::~IndexBuffer() { }
+
 } // namespace niu2x::gfx
