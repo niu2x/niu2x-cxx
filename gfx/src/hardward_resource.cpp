@@ -39,7 +39,7 @@ void Texture2D::load(ReadStream* in, PixelFormat format)
 
 void RenderProgram::set_uniforms(const UniformPacket& uniforms_)
 {
-    for (auto elem : uniforms_) {
+    for (auto& elem : uniforms_) {
         switch (elem.first) {
             case Uniform::UNKNOWN: {
                 break;

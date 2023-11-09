@@ -72,8 +72,7 @@ public:
         MASK_COLOR,
     };
 
-    using UniformPacket
-        = HashMap<Uniform, Variant<int, Mat4, Color, Array<float, 4>>>;
+    using UniformPacket = HashMap<Uniform, Variant<int, Mat4, Color>>;
 
     struct Options {
         HashMap<Stage, String> source_code;

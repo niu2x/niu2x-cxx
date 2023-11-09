@@ -91,12 +91,16 @@ Edge Node::layout_padding() const
 
 void Node::update_canvas()
 {
-    canvas_.add_rect({
-        layout_left(),
-        layout_top(),
-        layout_width(),
-        layout_height(),
-    });
+    canvas_.clear();
+    canvas_.add_image(
+        ResourceManager::get()->get_image_sheet_frame(
+            "ui-pack", "blue_panel.png"),
+        {
+            layout_left(),
+            layout_top(),
+            layout_width(),
+            layout_height(),
+        });
 }
 
 void Node::set_potition_type(PositionType pt)
@@ -125,56 +129,7 @@ void Node::draw_self()
         update_canvas();
         dirtied_flag_ = false;
     }
-
     canvas_.draw();
-    // auto rf = RenderCommandFactory::get();
-    // auto queue = RenderCommandQueue::get();
-    // auto res_mgr = ResourceManager::get();
-    // auto bg_frame = res_mgr->get_image_sheet_frame("ui-pack",
-    // "blue_panel.png"); IntRect region = bg_frame->region(); IntSize tex_size
-    // = bg_frame->texture()->size();
-
-    // Vertex vertexs[4];
-    // vertexs[0].x = layout_left();
-    // vertexs[0].y = -layout_top();
-    // vertexs[0].z = 0;
-
-    // vertexs[1].x = layout_left() + layout_width();
-    // vertexs[1].y = -layout_top();
-    // vertexs[1].z = 0;
-
-    // vertexs[2].x = layout_left() + layout_width();
-    // vertexs[2].y = -layout_top() - layout_height();
-    // vertexs[2].z = 0;
-
-    // vertexs[3].x = layout_left();
-    // vertexs[3].y = -layout_top() - layout_height();
-    // vertexs[3].z = 0;
-
-    // vertexs[0].r = vertexs[0].g = vertexs[0].b = vertexs[0].a = 1;
-    // vertexs[1].r = vertexs[1].g = vertexs[1].b = vertexs[1].a = 1;
-    // vertexs[2].r = vertexs[2].g = vertexs[2].b = vertexs[2].a = 1;
-    // vertexs[3].r = vertexs[3].g = vertexs[3].b = vertexs[3].a = 1;
-
-    // vertexs[0].u = ((float)(region.origin.x)) / tex_size.width;
-    // vertexs[0].v = ((float)(region.origin.y)) / tex_size.height;
-
-    // auto tmp_x = region.origin.x + region.size.width;
-    // auto tmp_y = region.origin.y + region.size.height;
-
-    // vertexs[1].u = ((float)(tmp_x)) / tex_size.width;
-    // vertexs[1].v = ((float)(region.origin.y)) / tex_size.height;
-
-    // vertexs[2].u = ((float)(tmp_x)) / tex_size.width;
-    // vertexs[2].v = ((float)(tmp_y)) / tex_size.height;
-
-    // vertexs[3].u = ((float)(region.origin.x)) / tex_size.width;
-    // vertexs[3].v = ((float)(tmp_y)) / tex_size.height;
-
-    // vbo_->set_vertexs(0, 4, vertexs);
-
-    // auto cmd = rf->create_ui(vbo_.get(), veo_.get(), bg_frame);
-    // queue->enqueue(cmd);
 }
 
 void Node::set_flex_direction(FlexDirection direction)

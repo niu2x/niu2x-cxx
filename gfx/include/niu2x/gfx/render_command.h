@@ -34,99 +34,27 @@ public:
     void run() override;
 };
 
-class DrawRect : public RenderCommand {
-public:
-    DrawRect(const Rect& rect, const Color& color);
-    ~DrawRect();
-    void run() override;
-
-private:
-    Rect rect_;
-    Color color_;
-};
-
-class DrawUI : public RenderCommand {
-public:
-    DrawUI(const Rect& rect, ImageSheet::Frame* frame);
-    DrawUI(VertexBuffer* vbo, ImageSheet::Frame* frame, bool scale9 = false);
-    DrawUI(
-        VertexBuffer* vbo, IndexBuffer* veo, ImageSheet::Frame* frame,
-        bool scale9 = false);
-    ~DrawUI();
-    void run() override;
-
-private:
-    Rect rect_;
-    VertexBuffer* vbo_ = nullptr;
-    IndexBuffer* veo_ = nullptr;
-    ImageSheet::Frame* frame_ = nullptr;
-    bool scale9_ = false;
-};
-
 class Triangles : public RenderCommand {
 public:
-    struct InitParam {
-        VertexBuffer* vbo;
-        IndexBuffer* veo;
-        RenderProgramID program_id;
-        UniformPacket uniforms;
-    };
-
-    Triangles(InitParam&& p)
-    : veo_(p.veo)
-    , vbo_(p.vbo)
-    , program_id_(p.program_id)
-    , uniforms_(move(p.uniforms))
-    {
-    }
-
+    Triangles() { }
     ~Triangles() { }
+
+    void set_vbo(VertexBuffer* vbo) { vbo_ = vbo; }
+    void set_veo(IndexBuffer* veo) { veo_ = veo; }
+    void set_program(RenderProgram* p) { program_ = p; }
+    void set_uniforms(UniformPacket* uf) { uniforms_ = uf; }
+    void set_texture(Index i, Texture2D* tex) { textures_[i] = tex; }
 
     void run() override;
 
 private:
-    IndexBuffer* veo_;
-    VertexBuffer* vbo_;
-    RenderProgramID program_id_;
-    UniformPacket uniforms_;
+    IndexBuffer* veo_ = nullptr;
+    VertexBuffer* vbo_ = nullptr;
+    RenderProgram* program_ = nullptr;
+    UniformPacket* uniforms_ = nullptr;
+    Array<Texture2D*, 8> textures_ = { { nullptr } };
 };
 
 } // namespace niu2x::gfx::render_command
-
-namespace niu2x::gfx {
-namespace rc = render_command;
-
-class RenderCommandFactory : public Singleton<RenderCommandFactory> {
-public:
-    using PolyAlloctor = std::pmr::polymorphic_allocator<uint8_t>;
-    using ProgramID = RenderProgramID;
-    using VBO = VertexBuffer;
-    using VEO = IndexBuffer;
-    using CMD = RenderCommand;
-
-    RenderCommandFactory();
-
-    void destroy(CMD*);
-
-    CMD* create_clear();
-
-    CMD* create_triangles(VBO* vb, ProgramID pid, UniformPacket&& uniforms);
-    CMD* create_triangles(VBO* vb, ProgramID pid, CR<UniformPacket> uniforms);
-    CMD* create_triangles(rc::Triangles::InitParam&& param);
-
-    CMD* create_rect(const Rect& rect, const Color& color);
-
-    CMD* create_ui(const Rect& rect, ImageSheet::Frame* frame);
-    CMD* create_ui(VertexBuffer* vbo, ImageSheet::Frame* frame);
-    CMD*
-    create_ui(VertexBuffer* vbo, IndexBuffer* veo, ImageSheet::Frame* frame);
-
-private:
-    std::pmr::unsynchronized_pool_resource memory_;
-
-    PolyAlloctor alloctor_;
-};
-
-} // namespace niu2x::gfx
 
 #endif

@@ -50,16 +50,16 @@ public:
 
         auto child = make_unique<gfx::gui::Node>();
 
-        child->set_width_percent(10);
-        child->set_height(50);
+        child->set_width_percent(50);
+        child->set_height_percent(30);
 
         auto child2 = make_unique<gfx::gui::Node>();
 
         child2->set_width(100);
-        child2->set_height(50);
+        child2->set_height(500);
 
         gui_root_->set_width_percent(100);
-        gui_root_->set_height_percent(100);
+        gui_root_->set_height_percent(80);
 
         gui_root_->add_child(move(child));
         gui_root_->add_child(move(child2));
@@ -76,8 +76,8 @@ public:
 
     void update(TimeDuration delta) override
     {
-        gfx::RenderCommandQueue::get()->enqueue(
-            gfx::RenderCommandFactory::get()->create_clear());
+        static gfx::render_command::Clear clear;
+        gfx::RenderCommandQueue::get()->enqueue(&clear);
         gui_root_->draw();
         gfx::render();
     }
@@ -85,7 +85,7 @@ public:
     void on_resize(gfx::IntSize window_size) override
     {
         gfx::gui::update_view_projection(window_size);
-        gui_root_->layout(window_size.width, window_size.height / 2);
+        gui_root_->layout(window_size.width, window_size.height);
     }
 
     void on_key(gfx::KeyCode key_code) override

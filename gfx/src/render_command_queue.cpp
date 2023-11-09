@@ -11,11 +11,11 @@ void RenderCommandQueue::enqueue(RenderCommand* cmd)
 
 void RenderCommandQueue::render()
 {
-    auto factory = RenderCommandFactory::get();
+    // auto factory = RenderCommandFactory::get();
 
     for (auto x : commands_) {
         x->run();
-        factory->destroy(x);
+        // factory->destroy(x);
     }
 
     commands_.clear();
