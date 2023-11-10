@@ -27,6 +27,8 @@ public:
 
     void load_image_sheet(const Path& path);
 
+    void load_ui(const Path& path);
+
 #define GET(type, name, ResIdType)                                             \
     inline type* get_##name(const ResIdType& id) const                         \
     {                                                                          \

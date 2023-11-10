@@ -1,0 +1,9 @@
+return {
+	children = {
+		{
+			type = 'Panel',
+			width = '50%',
+			height = '50%',
+		}
+	}
+}

@@ -34,6 +34,8 @@ UPtr<Texture2D> ResourceManager::_load_texture2d(CR<Path> path, PixelFmt fmt)
     return tex;
 }
 
+void ResourceManager::load_ui(const Path& path) { }
+
 void ResourceManager::load_texture2d(CR<ResId> id, CR<Path> path, PixelFmt f)
 {
     texture2ds_[id] = _load_texture2d(path, f);

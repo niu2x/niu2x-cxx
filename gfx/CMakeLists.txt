@@ -17,6 +17,7 @@ target_link_libraries(niu2x_gfx PUBLIC
     niu2x_math
     niu2x_stream
     niu2x_image
+    niu2x_lua
 )
 
 
