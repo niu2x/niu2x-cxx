@@ -96,6 +96,7 @@ void Node::update_canvas()
         ResourceManager::get()->get_image_sheet_frame(
             "ui-pack", "blue_panel.png"),
         compute_self_rect());
+    // printf("update_canvas\n");
 }
 
 float Node::layout_world_top() const
@@ -140,6 +141,16 @@ void Node::add_child(UniquePtr<Node> child)
     YGNodeInsertChild(yoga(), other_yoga(child), children_.size());
     child->parent_ = this;
     children_.push_back(move(child));
+}
+
+void Node::set_align_items(Align align)
+{
+    static YGAlign convert[] = {
+        YGAlignAuto,   YGAlignFlexStart,    YGAlignFlexEnd,  YGAlignStretch,
+        YGAlignCenter, YGAlignSpaceBetween, YGAlignBaseline, YGAlignSpaceAround,
+    };
+
+    YGNodeStyleSetAlignItems(yoga(), convert[(int)align]);
 }
 
 void Node::draw()

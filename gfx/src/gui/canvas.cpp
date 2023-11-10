@@ -114,7 +114,7 @@ Canvas::ImageCommand::ImageCommand(const Rect& r, ImageSheet::Frame* f)
     uniforms[Uniform::VIEW] = gui::ui_view_mat4;
     uniforms[Uniform::PROJECTION] = gui::ui_projection_mat4;
     uniforms[Uniform::TEX_0] = 0;
-    uniforms[Uniform::MASK_COLOR] = Color { 1, 1, 1, 0.3 };
+    uniforms[Uniform::MASK_COLOR] = Color { 1, 1, 1, 1 };
 
     draw.set_vbo(vbo.get());
     draw.set_veo(veo.get());

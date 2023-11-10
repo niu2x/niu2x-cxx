@@ -66,6 +66,9 @@ public:
         // child->add_child(move(child2));
         gui_root_->add_child(move(child2));
         gui_root_->add_child(move(child));
+        gui_root_->set_align_items(gfx::gui::Align::center);
+        // gui_root_->set_width_percent(100);
+        // gui_root_->set_height_percent(100);
 
         gui_root_->set_flex_direction(gfx::gui::FlexDirection::row);
     }

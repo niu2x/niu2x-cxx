@@ -14,16 +14,17 @@ enum class PositionType {
     relative,
 };
 
-// enum class Align {
-//     AUTO,
-//     flex_start,
-//     flex_end,
-//     stretch,
-//     center,
-//     space_between,
-//     space_evenly,
-//     space_around,
-// };
+enum class Align {
+    AUTO,
+    flex_start,
+    flex_end,
+    stretch,
+    center,
+    space_between,
+    // space_evenly,
+    baseline,
+    space_around,
+};
 
 enum class FlexDirection {
     row,
@@ -84,6 +85,8 @@ public:
     void set_right(float v);
     void set_top(float v);
     void set_bottom(float v);
+
+    void set_align_items(Align align);
 
     void layout(float available_width, float available_height);
 
