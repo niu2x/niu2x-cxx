@@ -42,9 +42,9 @@ public:
         res_mgr->load_render_program(gfx::RenderProgramID::TEXTURE_COLOR);
         res_mgr->load_render_program(gfx::RenderProgramID::COLOR);
 
-        res_mgr->load_texture2d("resource/image/test_00.yml");
-        res_mgr->load_vertex_buffer("resource/vertex_buffer/square.yml");
-        res_mgr->load_image_sheet("resource/image/ui-pack.yml");
+        res_mgr->load_texture2d("resource/image/test_00.image");
+        res_mgr->load_vertex_buffer("resource/vertex_buffer/square.vb");
+        res_mgr->load_image_sheet("resource/image/ui-pack.sheet");
 
         gui_root_ = make_unique<gfx::gui::Node>();
 
