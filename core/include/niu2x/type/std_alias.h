@@ -167,6 +167,12 @@ inline TimeDuration time_diff(const TimePoint& t_new)
 template <class T>
 inline const T nan = std::numeric_limits<T>::quiet_NaN();
 
+inline bool near_zero(float num)
+{
+    float epsilon = 1e-8;
+    return std::abs(num) < epsilon;
+}
+
 } // namespace niu2x
 
 #endif

@@ -71,9 +71,19 @@ public:
     float layout_left() const;
     float layout_right() const;
 
+    float layout_world_top() const;
+    float layout_world_bottom() const;
+    float layout_world_left() const;
+    float layout_world_right() const;
+
     Edge layout_margin() const;
     Edge layout_border() const;
     Edge layout_padding() const;
+
+    void set_left(float v);
+    void set_right(float v);
+    void set_top(float v);
+    void set_bottom(float v);
 
     void layout(float available_width, float available_height);
 
@@ -111,6 +121,7 @@ private:
     // float flex_shrink_ = 1;
 
     Vector<UniquePtr<Node>> children_;
+    Node* parent_ = nullptr;
 
     // float padding_top_ = 0;
     // float padding_bottom_ = 0;
@@ -137,7 +148,9 @@ private:
     void* yoga_;
     UniquePtr<VertexBuffer> vbo_;
     UniquePtr<IndexBuffer> veo_;
-    bool dirtied_flag_ = false;
+    bool dirtied_flag_ = true;
+
+    Rect compute_self_rect();
 
     static void on_dirtied(void*);
 };

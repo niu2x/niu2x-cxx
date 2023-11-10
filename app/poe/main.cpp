@@ -51,20 +51,23 @@ public:
         auto child = make_unique<gfx::gui::Node>();
 
         child->set_width_percent(50);
-        child->set_height_percent(30);
+        child->set_height_percent(50);
+        // child->set_left(200);
+        // child->set_right(300);
+        // child->set_left(200);
+
+        // child->set_potition_type(gfx::gui::PositionType::absolute);
 
         auto child2 = make_unique<gfx::gui::Node>();
 
-        child2->set_width(100);
-        child2->set_height(500);
+        child2->set_width_percent(10);
+        child2->set_height_percent(10);
 
-        gui_root_->set_width_percent(100);
-        gui_root_->set_height_percent(80);
-
-        gui_root_->add_child(move(child));
+        // child->add_child(move(child2));
         gui_root_->add_child(move(child2));
+        gui_root_->add_child(move(child));
 
-        gui_root_->set_flex_direction(gfx::gui::FlexDirection::reverse_row);
+        gui_root_->set_flex_direction(gfx::gui::FlexDirection::row);
     }
 
     void cleanup() override

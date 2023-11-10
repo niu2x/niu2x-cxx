@@ -95,12 +95,37 @@ void Node::update_canvas()
     canvas_.add_image(
         ResourceManager::get()->get_image_sheet_frame(
             "ui-pack", "blue_panel.png"),
-        {
-            layout_left(),
-            layout_top(),
-            layout_width(),
-            layout_height(),
-        });
+        compute_self_rect());
+}
+
+float Node::layout_world_top() const
+{
+    return layout_top() + (parent_ ? parent_->layout_top() : 0.0f);
+}
+
+float Node::layout_world_bottom() const
+{
+    return layout_bottom() + (parent_ ? parent_->layout_bottom() : 0.0f);
+}
+
+float Node::layout_world_left() const
+{
+    return layout_left() + (parent_ ? parent_->layout_left() : 0.0f);
+}
+
+float Node::layout_world_right() const
+{
+    return layout_right() + (parent_ ? parent_->layout_right() : 0.0f);
+}
+
+Rect Node::compute_self_rect()
+{
+    auto left = layout_world_left();
+    auto top = layout_world_top();
+    auto width = layout_width();
+    auto height = layout_height();
+
+    return { left, top, width, height };
 }
 
 void Node::set_potition_type(PositionType pt)
@@ -113,6 +138,7 @@ void Node::set_potition_type(PositionType pt)
 void Node::add_child(UniquePtr<Node> child)
 {
     YGNodeInsertChild(yoga(), other_yoga(child), children_.size());
+    child->parent_ = this;
     children_.push_back(move(child));
 }
 
@@ -158,6 +184,20 @@ void Node::set_flex_direction(FlexDirection direction)
 void Node::layout(float w, float h)
 {
     YGNodeCalculateLayout(yoga(), w, h, YGDirectionLTR);
+}
+
+void Node::set_left(float v) { YGNodeStyleSetPosition(yoga(), YGEdgeLeft, v); }
+
+void Node::set_right(float v)
+{
+    YGNodeStyleSetPosition(yoga(), YGEdgeRight, v);
+}
+
+void Node::set_top(float v) { YGNodeStyleSetPosition(yoga(), YGEdgeTop, v); }
+
+void Node::set_bottom(float v)
+{
+    YGNodeStyleSetPosition(yoga(), YGEdgeBottom, v);
 }
 
 // WIN_EXPORT YGDirection YGNodeLayoutGetDirection(YGNodeRef node);
