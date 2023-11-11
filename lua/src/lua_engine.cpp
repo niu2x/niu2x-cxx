@@ -35,4 +35,14 @@ bool LuaEngine::execute_file(const fs::Path& path)
 
 int LuaEngine::main(int argc, char* argv[]) { return lua_main(argc, argv); }
 
+void LuaEngine::get_global(const String& field)
+{
+    lua_getglobal(L(), field.c_str());
+}
+
+void LuaEngine::set_global(const String& field)
+{
+    lua_setglobal(L(), field.c_str());
+}
+
 } // namespace niu2x::lua

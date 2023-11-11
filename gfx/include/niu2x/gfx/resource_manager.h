@@ -5,6 +5,8 @@
 #include <niu2x/gfx/hardward_resource.h>
 #include <niu2x/fs/path.h>
 #include <niu2x/gfx/image_sheet.h>
+#include <niu2x/lua.h>
+#include <niu2x/gfx/gui.h>
 
 namespace niu2x::gfx {
 
@@ -28,6 +30,7 @@ public:
     void load_image_sheet(const Path& path);
 
     void load_ui(const Path& path);
+    UniquePtr<gui::Node> build_ui(const ResId& id);
 
 #define GET(type, name, ResIdType)                                             \
     inline type* get_##name(const ResIdType& id) const                         \
@@ -53,6 +56,8 @@ private:
     HashMap<ResId, UPtr<ImageSheet>> image_sheets_;
 
     UPtr<Texture2D> _load_texture2d(const Path& path, PixelFormat format);
+
+    lua::LuaEngine lua_;
 };
 
 } // namespace niu2x::gfx

@@ -13,7 +13,9 @@ public:
     ~LuaEngine();
     int main(int argc, char* argv[]);
     bool execute_file(const fs::Path& path);
-    void fetch_config();
+    // void fetch_config();
+    void get_global(const String& field);
+    void set_global(const String& field);
 
 private:
     void* L_;

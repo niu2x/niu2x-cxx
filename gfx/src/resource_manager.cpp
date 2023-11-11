@@ -5,7 +5,6 @@
 #include <niu2x/gfx/gfx_factory.h>
 #include <niu2x/fs.h>
 #include <niu2x/stream.h>
-#include <iostream>
 
 namespace niu2x::gfx {
 
@@ -34,11 +33,22 @@ UPtr<Texture2D> ResourceManager::_load_texture2d(CR<Path> path, PixelFmt fmt)
     return tex;
 }
 
-void ResourceManager::load_ui(const Path& path) { }
+void ResourceManager::load_ui(const Path& path)
+{
+    lua_.execute_file(path);
+    lua_.get_global("UI");
+    lua_.set_global("UI:" + String(path));
+}
 
 void ResourceManager::load_texture2d(CR<ResId> id, CR<Path> path, PixelFmt f)
 {
     texture2ds_[id] = _load_texture2d(path, f);
+}
+
+UniquePtr<gui::Node> ResourceManager::build_ui(const ResId& id)
+{
+    lua_.get_global("UI:" + id);
+    return gui::build_ui(&lua_);
 }
 
 static const HashMap<String, PixelFmt> pixel_format_map {

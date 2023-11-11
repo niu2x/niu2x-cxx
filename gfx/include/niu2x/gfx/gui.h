@@ -5,6 +5,7 @@
 #include <niu2x/gfx/hardward_resource.h>
 
 #include <niu2x/gfx/gui/node.h>
+#include <niu2x/lua.h>
 
 namespace niu2x::gfx::gui {
 
@@ -12,7 +13,7 @@ extern Mat4 ui_view_mat4;
 extern Mat4 ui_projection_mat4;
 
 void update_view_projection(IntSize window_size);
-
+UniquePtr<Node> build_ui(lua::LuaEngine* lua);
 } // namespace niu2x::gfx::gui
 
 #endif

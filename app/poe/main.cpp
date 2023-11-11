@@ -45,32 +45,33 @@ public:
         res_mgr->load_texture2d("resource/image/test_00.image");
         res_mgr->load_vertex_buffer("resource/vertex_buffer/square.vb");
         res_mgr->load_image_sheet("resource/image/ui-pack.sheet");
+        res_mgr->load_ui("resource/gui/main.ui");
 
-        gui_root_ = make_unique<gfx::gui::Node>();
+        gui_root_ = res_mgr->build_ui("resource/gui/main.ui");
 
-        auto child = make_unique<gfx::gui::Node>();
+        // auto child = make_unique<gfx::gui::Node>();
 
-        child->set_width_percent(50);
-        child->set_height_percent(50);
+        // child->set_width_percent(50);
+        // child->set_height_percent(50);
         // child->set_left(200);
         // child->set_right(300);
         // child->set_left(200);
 
         // child->set_potition_type(gfx::gui::PositionType::absolute);
 
-        auto child2 = make_unique<gfx::gui::Node>();
+        // auto child2 = make_unique<gfx::gui::Node>();
 
-        child2->set_width_percent(10);
-        child2->set_height_percent(10);
+        // child2->set_width_percent(10);
+        // child2->set_height_percent(10);
 
         // child->add_child(move(child2));
-        gui_root_->add_child(move(child2));
-        gui_root_->add_child(move(child));
-        gui_root_->set_align_items(gfx::gui::Align::center);
+        // gui_root_->add_child(move(child2));
+        // gui_root_->add_child(move(child));
+        // gui_root_->set_align_items(gfx::gui::Align::center);
         // gui_root_->set_width_percent(100);
         // gui_root_->set_height_percent(100);
 
-        gui_root_->set_flex_direction(gfx::gui::FlexDirection::row);
+        // gui_root_->set_flex_direction(gfx::gui::FlexDirection::row);
     }
 
     void cleanup() override
