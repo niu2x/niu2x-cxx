@@ -26,8 +26,8 @@ private:
     static GLuint current_binding_ids_[4];
 };
 
-static_assert(!is_movable<GL_Texture2D>);
-static_assert(!is_copyable<GL_Texture2D>);
+static_assert(!type_pred::is_movable<GL_Texture2D>);
+static_assert(!type_pred::is_copyable<GL_Texture2D>);
 
 } // namespace niu2x::gfx
 

@@ -45,4 +45,41 @@ void LuaEngine::set_global(const String& field)
     lua_setglobal(L(), field.c_str());
 }
 
+void LuaEngine::get_field(const String& field)
+{
+    lua_getfield(L(), -1, field.c_str());
+}
+
+void LuaEngine::pop(NR n) { lua_pop(L(), n); }
+
+String LuaEngine::to_string()
+{
+    size_t len = 0;
+    auto base = lua_tolstring(L(), -1, &len);
+    return String(base, base + len);
+}
+
+double LuaEngine::to_number() { return lua_tonumber(L(), -1); }
+
+LuaValue LuaEngine::read_field(const String& field)
+{
+    get_field(field);
+    LuaValue result { NIL {} };
+
+    if (is_number())
+        result = to_number();
+    else if (is_string())
+        result = to_string();
+    pop(1);
+    return result;
+}
+
+bool LuaEngine::is_nil() { return lua_isnil(L(), -1); }
+bool LuaEngine::is_string() { return lua_isstring(L(), -1); }
+bool LuaEngine::is_number() { return lua_isnumber(L(), -1); }
+
+NR LuaEngine::len() { return lua_objlen(L(), -1); }
+
+void LuaEngine::get_field(Index i) { lua_rawgeti(L(), -1, i); }
+
 } // namespace niu2x::lua

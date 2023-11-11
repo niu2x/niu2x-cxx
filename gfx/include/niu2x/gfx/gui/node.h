@@ -99,6 +99,8 @@ public:
 
     virtual void update_canvas();
 
+    Rect compute_self_rect();
+
 private:
     Rect rect_;
 
@@ -153,12 +155,10 @@ private:
     UniquePtr<IndexBuffer> veo_;
     bool dirtied_flag_ = true;
 
-    Rect compute_self_rect();
-
     static void on_dirtied(void*);
 };
 
-static_assert(!is_movable<Node>);
+static_assert(!type_pred::is_movable<Node>);
 
 } // namespace niu2x::gfx::gui
 

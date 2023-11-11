@@ -47,7 +47,7 @@ Canvas::ImageCommand::ImageCommand(const Rect& r, ImageSheet::Frame* f)
 : rect(r)
 , frame(f)
 {
-    static_assert(is_movable<ImageCommand>);
+    static_assert(type_pred::is_movable<ImageCommand>);
 
     vbo = GFX_Factory::get()->create_vertex_buffer();
     veo = GFX_Factory::get()->create_index_buffer();

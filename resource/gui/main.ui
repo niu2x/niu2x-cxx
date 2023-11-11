@@ -1,9 +1,10 @@
 UI = {
+	type = 'Panel',
 	children = {
 		{
 			type = 'Panel',
-			width = '50%',
-			height = '50%',
+			width = 59,
+			height = 50,
 		}
 	}
 }

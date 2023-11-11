@@ -1,8 +1,7 @@
 #include <yoga/Yoga.h>
 #include <niu2x/gfx/gui/node.h>
 #include <niu2x/unused.h>
-#include <niu2x/gfx/resource_manager.h>
-#include <niu2x/gfx/render_command_queue.h>
+// #include <niu2x/gfx/render_command_queue.h>
 #include <niu2x/gfx/gfx_factory.h>
 
 #define yoga() (reinterpret_cast<YGNodeRef>(yoga_))
@@ -91,11 +90,7 @@ Edge Node::layout_padding() const
 
 void Node::update_canvas()
 {
-    canvas_.clear();
-    canvas_.add_image(
-        ResourceManager::get()->get_image_sheet_frame(
-            "ui-pack", "blue_panel.png"),
-        compute_self_rect());
+
     // printf("update_canvas\n");
 }
 

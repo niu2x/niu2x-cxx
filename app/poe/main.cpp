@@ -112,7 +112,7 @@ int main()
         auto window = gfx::WindowFactory::get()->create_window();
         auto poe_win_delegate = make_unique<PoeWinDelegate>();
         window->set_delegate(move(poe_win_delegate));
-        window->set_full_screen(true);
+        // window->set_full_screen(true);
         window->poll();
     } catch (Exception& e) {
         std::cout << e.what() << std::endl;

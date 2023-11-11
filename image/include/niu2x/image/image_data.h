@@ -39,7 +39,7 @@ private:
     Format store_format_;
     int channels_;
 };
-static_assert(is_movable<ImageData>);
+static_assert(type_pred::is_movable<ImageData>);
 
 } // namespace niu2x::image
 

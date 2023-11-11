@@ -5,6 +5,7 @@
 #include <niu2x/gfx/hardward_resource.h>
 
 #include <niu2x/gfx/gui/node.h>
+#include <niu2x/gfx/gui/panel.h>
 #include <niu2x/lua.h>
 
 namespace niu2x::gfx::gui {

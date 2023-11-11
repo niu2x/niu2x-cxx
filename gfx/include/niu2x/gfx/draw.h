@@ -8,6 +8,7 @@
 namespace niu2x::gfx {
 
 struct Draw {
+
     static void draw_arrays(Index index, NR count);
     static void draw_elements(Index index, NR count);
 

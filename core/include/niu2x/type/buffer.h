@@ -65,7 +65,7 @@ private:
     MemBlock buf_;
 };
 
-static_assert(is_movable<Buffer>);
+static_assert(type_pred::is_movable<Buffer>);
 
 }; // namespace niu2x
 

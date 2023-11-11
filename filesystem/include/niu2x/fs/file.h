@@ -61,7 +61,7 @@ private:
     }
 };
 
-static_assert(is_movable<File>);
+static_assert(type_pred::is_movable<File>);
 
 } // namespace niu2x::fs
 

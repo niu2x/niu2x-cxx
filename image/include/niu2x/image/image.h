@@ -48,7 +48,7 @@ private:
     Format store_format_;
 };
 
-static_assert(is_movable<Image>);
+static_assert(type_pred::is_movable<Image>);
 
 } // namespace niu2x::image
 

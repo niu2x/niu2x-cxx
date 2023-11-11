@@ -130,9 +130,18 @@ inline String to_string(bool b)
         return "false";
 }
 
+namespace type_pred {
+
 template <class T>
-inline constexpr bool is_movable = std::is_nothrow_move_constructible_v<T>&&
-    std::is_nothrow_move_assignable_v<T>;
+inline constexpr bool is_move_constructible
+    = std::is_nothrow_move_constructible_v<T>;
+
+template <class T>
+inline constexpr bool is_move_assignable = std::is_nothrow_move_assignable_v<T>;
+
+template <class T>
+inline constexpr bool is_movable
+    = is_move_constructible<T>&& is_move_assignable<T>;
 
 template <class T>
 inline constexpr bool is_copyable
@@ -140,9 +149,21 @@ inline constexpr bool is_copyable
 
 template <class T1, class T2>
 inline constexpr bool is_same = std::is_same_v<T1, T2>;
+} // namespace type_pred
+
+namespace type_conv {
 
 template <class T>
 using decay = std::decay_t<T>;
+
+}
+
+namespace type_pred {
+template <class T1, class T2>
+inline constexpr bool is_same_decay
+    = is_same<type_conv::decay<T1>, type_conv::decay<T2>>;
+
+}
 
 using TimePoint = std::chrono::time_point<std::chrono::system_clock>;
 inline TimePoint time_now() { return std::chrono::system_clock::now(); }
