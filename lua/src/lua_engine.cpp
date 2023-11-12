@@ -66,10 +66,11 @@ LuaValue LuaEngine::read_field(const String& field)
     get_field(field);
     LuaValue result { NIL {} };
 
-    if (is_number())
+    if (is_number()) {
         result = to_number();
-    else if (is_string())
+    } else if (is_string()) {
         result = to_string();
+    }
     pop(1);
     return result;
 }

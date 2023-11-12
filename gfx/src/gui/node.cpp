@@ -124,7 +124,7 @@ Rect Node::compute_self_rect()
     return { left, top, width, height };
 }
 
-void Node::set_potition_type(PositionType pt)
+void Node::set_position_type(PositionType pt)
 {
     YGNodeStyleSetPositionType(yoga(),
         pt == PositionType::relative ? YGPositionTypeRelative
@@ -146,6 +146,15 @@ void Node::set_align_items(Align align)
     };
 
     YGNodeStyleSetAlignItems(yoga(), convert[(int)align]);
+}
+
+void Node::set_justify_content(Justify j)
+{
+    static YGJustify convert[]
+        = { YGJustifyFlexStart,    YGJustifyCenter,      YGJustifyFlexEnd,
+            YGJustifySpaceBetween, YGJustifySpaceAround, YGJustifySpaceEvenly };
+
+    YGNodeStyleSetJustifyContent(yoga(), convert[(int)j]);
 }
 
 void Node::draw()
@@ -189,7 +198,18 @@ void Node::set_flex_direction(FlexDirection direction)
 
 void Node::layout(float w, float h)
 {
+    // YGNodeMarkDirty(yoga());
+    // set_width(w);
+    // set_height(h);
+    set_dirty_and_propagate_to_children();
     YGNodeCalculateLayout(yoga(), w, h, YGDirectionLTR);
+}
+
+void Node::set_dirty_and_propagate_to_children()
+{
+    dirtied_flag_ = true;
+    for (auto& child : children_)
+        child->set_dirty_and_propagate_to_children();
 }
 
 void Node::set_left(float v) { YGNodeStyleSetPosition(yoga(), YGEdgeLeft, v); }
@@ -204,6 +224,24 @@ void Node::set_top(float v) { YGNodeStyleSetPosition(yoga(), YGEdgeTop, v); }
 void Node::set_bottom(float v)
 {
     YGNodeStyleSetPosition(yoga(), YGEdgeBottom, v);
+}
+
+void Node::set_left_percent(float v)
+{
+    YGNodeStyleSetPositionPercent(yoga(), YGEdgeLeft, v);
+}
+void Node::set_right_percent(float v)
+{
+    YGNodeStyleSetPositionPercent(yoga(), YGEdgeRight, v);
+}
+void Node::set_top_percent(float v)
+{
+    YGNodeStyleSetPositionPercent(yoga(), YGEdgeTop, v);
+}
+
+void Node::set_bottom_percent(float v)
+{
+    YGNodeStyleSetPositionPercent(yoga(), YGEdgeBottom, v);
 }
 
 // WIN_EXPORT YGDirection YGNodeLayoutGetDirection(YGNodeRef node);

@@ -21,9 +21,18 @@ enum class Align {
     stretch,
     center,
     space_between,
-    // space_evenly,
     baseline,
     space_around,
+};
+
+enum class Justify {
+    flex_start,
+    center,
+    flex_end,
+    space_between,
+    space_around,
+    space_evenly,
+
 };
 
 enum class FlexDirection {
@@ -61,7 +70,7 @@ public:
     void set_width_percent(float v);
     void set_height_percent(float v);
 
-    void set_potition_type(PositionType pt);
+    void set_position_type(PositionType pt);
 
     void set_flex_direction(FlexDirection direction);
 
@@ -86,7 +95,13 @@ public:
     void set_top(float v);
     void set_bottom(float v);
 
+    void set_left_percent(float v);
+    void set_right_percent(float v);
+    void set_top_percent(float v);
+    void set_bottom_percent(float v);
+
     void set_align_items(Align align);
+    void set_justify_content(Justify align);
 
     void layout(float available_width, float available_height);
 
@@ -100,6 +115,7 @@ public:
     virtual void update_canvas();
 
     Rect compute_self_rect();
+    void set_dirty_and_propagate_to_children();
 
 private:
     Rect rect_;

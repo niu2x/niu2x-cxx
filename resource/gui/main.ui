@@ -1,10 +1,13 @@
 UI = {
 	type = 'Panel',
+	align_items="center",
+	justify_content='center',
+	flex_direction="row",
 	children = {
 		{
 			type = 'Panel',
-			width = 59,
-			height = 50,
+			width = '50%',
+			height = '50%',
 		}
 	}
 }

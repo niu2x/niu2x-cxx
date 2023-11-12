@@ -85,6 +85,7 @@ Canvas::ImageCommand::ImageCommand(const Rect& r, ImageSheet::Frame* f)
             vertexs[index].g = 1;
             vertexs[index].b = 1;
             vertexs[index].a = 1;
+
             vertexs[index].u = region.origin.x + region.size.width * x / 3.0f;
             vertexs[index].u /= tex_size.width;
             vertexs[index].v = region.origin.y + region.size.height * y / 3.0f;
