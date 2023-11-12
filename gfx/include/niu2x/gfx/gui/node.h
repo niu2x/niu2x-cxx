@@ -101,6 +101,7 @@ public:
     void set_bottom_percent(float v);
 
     void set_align_items(Align align);
+    void set_align_self(Align align);
     void set_justify_content(Justify align);
 
     void layout(float available_width, float available_height);

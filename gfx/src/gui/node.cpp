@@ -138,14 +138,14 @@ void Node::add_child(UniquePtr<Node> child)
     children_.push_back(move(child));
 }
 
+static YGAlign align_convert[] = {
+    YGAlignAuto,   YGAlignFlexStart,    YGAlignFlexEnd,  YGAlignStretch,
+    YGAlignCenter, YGAlignSpaceBetween, YGAlignBaseline, YGAlignSpaceAround,
+};
+
 void Node::set_align_items(Align align)
 {
-    static YGAlign convert[] = {
-        YGAlignAuto,   YGAlignFlexStart,    YGAlignFlexEnd,  YGAlignStretch,
-        YGAlignCenter, YGAlignSpaceBetween, YGAlignBaseline, YGAlignSpaceAround,
-    };
-
-    YGNodeStyleSetAlignItems(yoga(), convert[(int)align]);
+    YGNodeStyleSetAlignItems(yoga(), align_convert[(int)align]);
 }
 
 void Node::set_justify_content(Justify j)
@@ -155,6 +155,12 @@ void Node::set_justify_content(Justify j)
             YGJustifySpaceBetween, YGJustifySpaceAround, YGJustifySpaceEvenly };
 
     YGNodeStyleSetJustifyContent(yoga(), convert[(int)j]);
+}
+
+void Node::set_align_self(Align align)
+{
+
+    YGNodeStyleSetAlignSelf(yoga(), align_convert[(int)align]);
 }
 
 void Node::draw()

@@ -124,7 +124,9 @@ static void set_flex_direction(Node* node, const lua::LuaValue& value)
         value);
 }
 
-static void set_align_items(Node* node, const lua::LuaValue& value)
+using SetAlign = void (Node::*)(Align);
+
+static void set_align(Node* node, const lua::LuaValue& value, SetAlign setter)
 {
     static HashMap<String, Align> align_map {
         {
@@ -163,15 +165,25 @@ static void set_align_items(Node* node, const lua::LuaValue& value)
         },
     };
     visit(
-        [node](auto&& v) {
+        [node, setter](auto&& v) {
             if constexpr (type_pred::is_same_decay<decltype(v), String>) {
                 auto it = align_map.find(v);
                 if (it != align_map.end()) {
-                    node->set_align_items(it->second);
+                    (node->*setter)(it->second);
                 }
             }
         },
         value);
+}
+
+static void set_align_items(Node* node, const lua::LuaValue& value)
+{
+    set_align(node, value, &Node::set_align_items);
+}
+
+static void set_align_self(Node* node, const lua::LuaValue& value)
+{
+    set_align(node, value, &Node::set_align_self);
 }
 
 static void set_justify_content(Node* node, const lua::LuaValue& value)
@@ -228,6 +240,7 @@ static void set_properties(Node* node, lua::LuaEngine* lua)
     set_position_type(node, lua->read_field("position_type"));
     set_flex_direction(node, lua->read_field("flex_direction"));
     set_align_items(node, lua->read_field("align_items"));
+    set_align_self(node, lua->read_field("align_self"));
     set_justify_content(node, lua->read_field("justify_content"));
 
     // set_right(node, lua->read_field("right"));

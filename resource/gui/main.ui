@@ -1,6 +1,5 @@
 UI = {
 	type = 'Panel',
-	align_items="center",
 	justify_content='center',
 	flex_direction="row",
 	children = {
@@ -8,6 +7,7 @@ UI = {
 			type = 'Panel',
 			width = '50%',
 			height = '50%',
+			align_self="center",
 		}
 	}
 }
