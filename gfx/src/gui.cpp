@@ -228,7 +228,7 @@ static void set_justify_content(Node* node, const lua::LuaValue& value)
         value);
 }
 
-static void set_properties(Node* node, lua::LuaEngine* lua)
+static void set_node_properties(Node* node, lua::LuaEngine* lua)
 {
     set_width(node, lua->read_field("width"));
     set_height(node, lua->read_field("height"));
@@ -246,30 +246,8 @@ static void set_properties(Node* node, lua::LuaEngine* lua)
     // set_right(node, lua->read_field("right"));
     // set_top(node, lua->read_field("top"));
     // set_bottom(node, lua->read_field("bottom"));
-}
-
-static UniquePtr<Node> create_node()
-{
-    auto node = make_unique<Node>();
-    return node;
-}
-static UniquePtr<Node> create_panel()
-{
-    auto node = make_unique<Panel>();
-    return node;
-}
-
-using NodeCreator = UniquePtr<Node> (*)();
-
-static HashMap<String, NodeCreator> node_creators {
-    { "Node", create_node },
-    { "Panel", create_panel },
-};
-
-UniquePtr<Node> build_ui(lua::LuaEngine* lua)
-{
-    auto type = get<String>(lua->read_field("type"));
-    auto node = node_creators[type]();
+    //
+    //
 
     lua->get_field("children");
     if (!lua->is_nil()) {
@@ -282,7 +260,50 @@ UniquePtr<Node> build_ui(lua::LuaEngine* lua)
         }
     }
     lua->pop(1);
-    set_properties(node.get(), lua);
+}
+
+void set_panel_background(Panel* panel, const lua::LuaValue& value)
+{
+    visit(
+        [panel](auto&& v) {
+            if constexpr (type_pred::is_same_decay<decltype(v), String>) {
+                v.split(',');
+            }
+        },
+        value);
+}
+
+static void set_panel_properties(Panel* panel, lua::LuaEngine* lua)
+{
+    set_panel_background(panel, lua->read_field("background"));
+
+    set_node_properties(panel, lua);
+}
+
+static UniquePtr<Node> create_node(lua::LuaEngine* lua)
+{
+    auto node = make_unique<Node>();
+    set_node_properties(node.get(), lua);
+    return node;
+}
+static UniquePtr<Node> create_panel(lua::LuaEngine* lua)
+{
+    auto panel = make_unique<Panel>();
+    set_panel_properties(panel.get(), lua);
+    return panel;
+}
+
+using NodeCreator = UniquePtr<Node> (*)(lua::LuaEngine*);
+
+static HashMap<String, NodeCreator> node_creators {
+    { "Node", create_node },
+    { "Panel", create_panel },
+};
+
+UniquePtr<Node> build_ui(lua::LuaEngine* lua)
+{
+    auto type = get<String>(lua->read_field("type"));
+    auto node = node_creators[type](lua);
     return node;
 }
 

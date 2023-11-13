@@ -11,7 +11,6 @@
 namespace niu2x::gfx {
 
 using Path = fs::Path;
-using ResId = String;
 
 class ResourceManager : public Singleton<ResourceManager> {
 public:

@@ -1,13 +1,14 @@
 UI = {
-	type = 'Panel',
-	justify_content='center',
-	flex_direction="row",
-	children = {
-		{
-			type = 'Panel',
-			width = '50%',
-			height = '50%',
-			align_self="center",
-		}
-	}
+    type = "Panel",
+    justify_content = "center",
+    flex_direction = "row",
+    children = {
+        {
+            type = "Panel",
+            width = "50%",
+            height = "50%",
+            align_self = "center",
+            background = "ui-pack, red_panel.png",
+        },
+    },
 }

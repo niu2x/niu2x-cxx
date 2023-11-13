@@ -42,19 +42,6 @@ enum class FlexDirection {
     reverse_column,
 };
 
-// enum class FlexWrap {
-//     no_wrap,
-//     wrap,
-//     reverse_wrap,
-// };
-
-// struct Percentage {
-//     Percentage(float v): value(v) {}
-//     float value;
-// };
-
-// struct Auto {};
-
 struct Edge {
     float left, right, top, bottom;
 };

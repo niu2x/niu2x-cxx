@@ -1,0 +1,4 @@
+#ifndef NIU2X_STRING_UTILS_H
+#define NIU2X_STRING_UTILS_H
+
+#endif

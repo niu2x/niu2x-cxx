@@ -12,8 +12,15 @@ void Panel::update_canvas()
     c->clear();
 
     c->add_image(
-        ResourceManager::get()->get_image_sheet_frame(
-            "ui-pack", "blue_panel.png"),
+        background_
+            ?: ResourceManager::get()->get_image_sheet_frame(
+                "ui-pack", "blue_panel.png"),
         compute_self_rect());
 }
+
+void Panel::set_background(const ResId& sheet, const String& name)
+{
+    background_ = ResourceManager::get()->get_image_sheet_frame(sheet, name);
+}
+
 } // namespace niu2x::gfx::gui
