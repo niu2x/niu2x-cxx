@@ -1,4 +1,5 @@
 #include <niu2x/gfx/gui.h>
+#include <niu2x/string_utils.h>
 #include <iostream>
 
 namespace niu2x::gfx::gui {
@@ -267,7 +268,8 @@ void set_panel_background(Panel* panel, const lua::LuaValue& value)
     visit(
         [panel](auto&& v) {
             if constexpr (type_pred::is_same_decay<decltype(v), String>) {
-                v.split(',');
+                auto bg_fields = string_utils::split(v, ',');
+                panel->set_background(bg_fields[0], bg_fields[1]);
             }
         },
         value);
@@ -276,7 +278,6 @@ void set_panel_background(Panel* panel, const lua::LuaValue& value)
 static void set_panel_properties(Panel* panel, lua::LuaEngine* lua)
 {
     set_panel_background(panel, lua->read_field("background"));
-
     set_node_properties(panel, lua);
 }
 

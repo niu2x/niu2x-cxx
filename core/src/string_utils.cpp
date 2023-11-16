@@ -1,10 +1,11 @@
 #include <niu2x/string_utils.h>
+#include <niu2x/type/std_alias.h>
 
-namespace string_utils {
+namespace niu2x::string_utils {
 
 Vector<String> split(const String& s, char delimiter)
 {
-    Vector<::string> tokens;
+    Vector<String> tokens;
     String token;
     std::istringstream tokenStream(s);
     while (std::getline(tokenStream, token, delimiter)) {
@@ -13,4 +14,4 @@ Vector<String> split(const String& s, char delimiter)
     return tokens;
 }
 
-} // namespace string_utils
+} // namespace niu2x::string_utils

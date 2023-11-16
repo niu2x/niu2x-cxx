@@ -8,7 +8,7 @@ UI = {
             width = "50%",
             height = "50%",
             align_self = "center",
-            background = "ui-pack, red_panel.png",
+            background = "ui-pack,red_panel.png",
         },
     },
 }
