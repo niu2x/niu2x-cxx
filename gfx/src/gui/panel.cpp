@@ -11,11 +11,16 @@ void Panel::update_canvas()
 
     c->clear();
 
+    auto r = compute_self_rect();
+    if (r.size.area() <= 0)
+        return;
+
     c->add_image(
         background_
             ?: ResourceManager::get()->get_image_sheet_frame(
-                "ui-pack", "blue_panel.png"),
-        compute_self_rect());
+                "ui-pack",
+                "blue_panel.png"),
+        r);
 }
 
 void Panel::set_background(const ResId& sheet, const String& name)

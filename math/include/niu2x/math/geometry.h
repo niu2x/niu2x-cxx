@@ -1,6 +1,8 @@
 #ifndef NIU2X_MATH_SIZE_H
 #define NIU2X_MATH_SIZE_H
 
+#include <niu2x/type/std_alias.h>
+
 namespace niu2x::math {
 
 template <class T>

@@ -29,6 +29,9 @@ Node::Node()
     YGNodeSetDirtiedFunc(yoga(), (YGDirtiedFunc)&Node::on_dirtied);
 }
 
+void Node::set_width_auto() { YGNodeStyleSetWidthAuto(yoga()); }
+void Node::set_height_auto() { YGNodeStyleSetHeightAuto(yoga()); }
+
 void Node::on_dirtied(void* yoga)
 {
     auto node = reinterpret_cast<Node*>(YGNodeGetContext((YGNodeRef)yoga));
@@ -36,6 +39,14 @@ void Node::on_dirtied(void* yoga)
 }
 
 Node::~Node() { YGNodeFree(yoga()); }
+
+void Node::set_min_width(float v) { YGNodeStyleSetMinWidth(yoga(), v); }
+
+void Node::set_min_height(float v) { YGNodeStyleSetMinHeight(yoga(), v); }
+
+void Node::set_max_width(float v) { YGNodeStyleSetMaxWidth(yoga(), v); }
+
+void Node::set_max_height(float v) { YGNodeStyleSetMaxHeight(yoga(), v); }
 
 void Node::set_width(float v) { YGNodeStyleSetWidth(yoga(), v); }
 
@@ -55,6 +66,25 @@ float Node::layout_height() const { return YGNodeLayoutGetHeight(yoga()); }
 float Node::layout_top() const { return YGNodeLayoutGetTop(yoga()); }
 
 float Node::layout_bottom() const { return YGNodeLayoutGetBottom(yoga()); }
+
+void Node::set_min_height_percent(float v)
+{
+    YGNodeStyleSetMinHeightPercent(yoga(), v);
+}
+void Node::set_min_width_percent(float v)
+{
+    YGNodeStyleSetMinWidthPercent(yoga(), v);
+}
+
+void Node::set_max_height_percent(float v)
+{
+    YGNodeStyleSetMaxHeightPercent(yoga(), v);
+}
+void Node::set_max_width_percent(float v)
+{
+
+    YGNodeStyleSetMaxWidthPercent(yoga(), v);
+}
 
 float Node::layout_left() const { return YGNodeLayoutGetLeft(yoga()); }
 

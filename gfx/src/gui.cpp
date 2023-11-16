@@ -22,18 +22,21 @@ void update_view_projection(IntSize window_size)
 }
 
 using SetNumber = void (Node::*)(float);
+using SetAuto = void (Node::*)();
 
 static void set_num_or_percent(
     Node* node, const lua::LuaValue& value, SetNumber set_number,
-    SetNumber set_percent)
+    SetNumber set_percent, SetAuto set_auto)
 {
     visit(
-        [node, set_number, set_percent](auto&& v) {
+        [node, set_number, set_percent, set_auto](auto&& v) {
             if constexpr (type_pred::is_same_decay<decltype(v), double>) {
                 (node->*set_number)(v);
             }
             if constexpr (type_pred::is_same_decay<decltype(v), String>) {
-                if (v.size() > 0 && v.back() == '%') {
+                if (v == "auto") {
+                    (node->*set_auto)();
+                } else if (v.size() > 0 && v.back() == '%') {
                     float w;
                     sscanf(v.c_str(), "%f%%", &w);
                     (node->*set_percent)(w);
@@ -49,34 +52,102 @@ static void set_num_or_percent(
 
 static void set_width(Node* node, const lua::LuaValue& value)
 {
-    set_num_or_percent(node, value, &Node::set_width, &Node::set_width_percent);
+    set_num_or_percent(
+        node,
+        value,
+        &Node::set_width,
+        &Node::set_width_percent,
+        &Node::set_width_auto);
+}
+
+static void set_min_width(Node* node, const lua::LuaValue& value)
+{
+    set_num_or_percent(
+        node,
+        value,
+        &Node::set_min_width,
+        &Node::set_min_width_percent,
+        nullptr);
+}
+
+static void set_min_height(Node* node, const lua::LuaValue& value)
+{
+    set_num_or_percent(
+        node,
+        value,
+        &Node::set_min_height,
+        &Node::set_min_height_percent,
+        nullptr);
+}
+
+static void set_max_width(Node* node, const lua::LuaValue& value)
+{
+    set_num_or_percent(
+        node,
+        value,
+        &Node::set_max_width,
+        &Node::set_max_width_percent,
+        nullptr);
+}
+
+static void set_max_height(Node* node, const lua::LuaValue& value)
+{
+    set_num_or_percent(
+        node,
+        value,
+        &Node::set_max_height,
+        &Node::set_max_height_percent,
+        nullptr);
 }
 
 static void set_height(Node* node, const lua::LuaValue& value)
 {
     set_num_or_percent(
-        node, value, &Node::set_height, &Node::set_height_percent);
+        node,
+        value,
+        &Node::set_height,
+        &Node::set_height_percent,
+        &Node::set_height_auto);
 }
 
 static void set_left(Node* node, const lua::LuaValue& value)
 {
-    set_num_or_percent(node, value, &Node::set_left, &Node::set_left_percent);
+    set_num_or_percent(
+        node,
+        value,
+        &Node::set_left,
+        &Node::set_left_percent,
+        nullptr);
 }
 
 static void set_right(Node* node, const lua::LuaValue& value)
 {
-    set_num_or_percent(node, value, &Node::set_right, &Node::set_right_percent);
+    set_num_or_percent(
+        node,
+        value,
+        &Node::set_right,
+        &Node::set_right_percent,
+        nullptr);
 }
 
 static void set_top(Node* node, const lua::LuaValue& value)
 {
-    set_num_or_percent(node, value, &Node::set_top, &Node::set_top_percent);
+    set_num_or_percent(
+        node,
+        value,
+        &Node::set_top,
+        &Node::set_top_percent,
+        nullptr);
 }
 
 static void set_bottom(Node* node, const lua::LuaValue& value)
 {
     set_num_or_percent(
-        node, value, &Node::set_bottom, &Node::set_bottom_percent);
+        node,
+        value,
+        &Node::set_bottom,
+        &Node::set_bottom_percent,
+        nullptr);
 }
 
 static void set_position_type(Node* node, const lua::LuaValue& value)
@@ -233,6 +304,13 @@ static void set_node_properties(Node* node, lua::LuaEngine* lua)
 {
     set_width(node, lua->read_field("width"));
     set_height(node, lua->read_field("height"));
+
+    set_min_width(node, lua->read_field("min_width"));
+    set_min_height(node, lua->read_field("min_height"));
+
+    set_max_width(node, lua->read_field("max_width"));
+    set_max_height(node, lua->read_field("max_height"));
+
     set_left(node, lua->read_field("left"));
     set_right(node, lua->read_field("right"));
     set_bottom(node, lua->read_field("bottom"));

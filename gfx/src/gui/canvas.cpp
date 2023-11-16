@@ -16,23 +16,8 @@ void Canvas::draw()
     auto rq = RenderCommandQueue::get();
 
     for (auto& c : commands_) {
-        // std::visit(
-        // [rq](auto& c) {
-        // using T = decay<decltype(c)>;
-        // if constexpr (is_same<T, ImageCommand>) {
-
-        // UniformPacket uniforms;
-
-        // rc::Triangles::InitParam init { arg.vbo.get(),
-        //                                 arg.veo.get(),
-        //                                 RenderProgramID::COLOR,
-        //                                 move(uniforms) };
-        // auto render_cmd = rcf->create_triangles(move(init));
         c.draw.set_uniforms(&c.uniforms);
         rq->enqueue(&c.draw);
-        // }
-        // },
-        // c);
     }
 }
 
@@ -62,17 +47,19 @@ Canvas::ImageCommand::ImageCommand(const Rect& r, ImageSheet::Frame* f)
 
     int elem_index = 0;
 
+    auto tmp_w = min<float>(rect.size.width, region.size.width);
     float x_offset[] = {
         0,
-        region.size.width / 3.0f,
-        rect.size.width - region.size.width / 3.0f,
+        tmp_w / 3.0f,
+        rect.size.width - tmp_w / 3.0f,
         rect.size.width,
     };
 
+    auto tmp_h = min<float>(rect.size.height, region.size.height);
     float y_offset[] = {
         0,
-        region.size.height / 3.0f,
-        rect.size.height - region.size.height / 3.0f,
+        tmp_h / 3.0f,
+        rect.size.height - tmp_h / 3.0f,
         rect.size.height,
     };
 

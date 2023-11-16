@@ -54,6 +54,20 @@ public:
     void set_width(float v);
     void set_height(float v);
 
+    void set_min_width(float v);
+    void set_min_height(float v);
+    void set_min_height_percent(float v);
+    void set_min_width_percent(float v);
+
+    void set_max_height_percent(float v);
+    void set_max_width_percent(float v);
+
+    void set_max_width(float v);
+    void set_max_height(float v);
+
+    void set_width_auto();
+    void set_height_auto();
+
     void set_width_percent(float v);
     void set_height_percent(float v);
 

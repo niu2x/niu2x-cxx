@@ -1,8 +1,17 @@
 UI = {
-    type = "Panel",
+    type = "Node",
     justify_content = "center",
     flex_direction = "row",
     children = {
+        {
+            type = "Panel",
+            width = "auto",
+            height = "auto",
+            min_width = 3,
+            min_height = 3,
+            align_self = "center",
+            background = "ui-pack,red_panel.png",
+        },
         {
             type = "Panel",
             width = "50%",
