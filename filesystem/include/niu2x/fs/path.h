@@ -24,6 +24,7 @@ public:
 
     Path parent() const { return Path(parent_path()); }
     Path abs() const { return std::filesystem::absolute(*this); }
+    Path dir() const { return abs().parent(); }
 };
 
 }; // namespace niu2x::fs

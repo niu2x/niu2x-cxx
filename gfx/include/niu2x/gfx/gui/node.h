@@ -118,6 +118,7 @@ public:
 
     Rect compute_self_rect();
     void set_dirty_and_propagate_to_children();
+    void set_dirty();
 
 private:
     Rect rect_;

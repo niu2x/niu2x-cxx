@@ -1,5 +1,6 @@
 #include <niu2x/gfx/gui.h>
 #include <niu2x/string_utils.h>
+#include <niu2x/gfx/resource_manager.h>
 #include <iostream>
 
 namespace niu2x::gfx::gui {
@@ -359,12 +360,48 @@ static void set_panel_properties(Panel* panel, lua::LuaEngine* lua)
     set_node_properties(panel, lua);
 }
 
+template <class T>
+static void set_font(const lua::LuaValue& value, T&& setter)
+{
+    visit(
+        [&setter](auto&& v) {
+            if constexpr (type_pred::is_same_decay<decltype(v), String>) {
+                auto font = ResourceManager::get()->get_font(v);
+                setter(font);
+            }
+        },
+        value);
+}
+
+template <class T>
+static void set_string(const lua::LuaValue& value, T&& setter)
+{
+    visit(
+        [&setter](auto&& v) {
+            if constexpr (type_pred::is_same_decay<decltype(v), String>) {
+                setter((v));
+            }
+        },
+        value);
+}
+
+static void set_text_properties(Text* text, lua::LuaEngine* lua)
+{
+    set_font(lua->read_field("font"), [text](Font* font) {
+        text->set_font(font);
+    });
+    set_string(lua->read_field("text"), [text](auto&& sz) {
+        text->set_text(sz);
+    });
+}
+
 static UniquePtr<Node> create_node(lua::LuaEngine* lua)
 {
     auto node = make_unique<Node>();
     set_node_properties(node.get(), lua);
     return node;
 }
+
 static UniquePtr<Node> create_panel(lua::LuaEngine* lua)
 {
     auto panel = make_unique<Panel>();
@@ -372,17 +409,25 @@ static UniquePtr<Node> create_panel(lua::LuaEngine* lua)
     return panel;
 }
 
+static UniquePtr<Node> create_text(lua::LuaEngine* lua)
+{
+    auto text = make_unique<Text>();
+    set_text_properties(text.get(), lua);
+    return text;
+}
+
 using NodeCreator = UniquePtr<Node> (*)(lua::LuaEngine*);
 
 static HashMap<String, NodeCreator> node_creators {
     { "Node", create_node },
     { "Panel", create_panel },
+    { "Text", create_text },
 };
 
 UniquePtr<Node> build_ui(lua::LuaEngine* lua)
 {
     auto type = get<String>(lua->read_field("type"));
-    auto node = node_creators[type](lua);
+    auto node = node_creators.at(type)(lua);
     return node;
 }
 

@@ -15,4 +15,6 @@ AlignConsecutiveMacros: true
 AlignAfterOpenBracket: AlwaysBreak
 BinPackArguments: false
 AllowAllArgumentsOnNextLine: false
+BinPackParameters: false
+AllowAllParametersOfDeclarationOnNextLine: false
 ...

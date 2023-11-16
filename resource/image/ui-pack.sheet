@@ -1,4 +1,4 @@
-id: ui-pack
+id: image/ui-pack
 pixel_format: rgba_8888
 pages:
   - sub: ui-pack/blueSheet.xml

@@ -4,20 +4,19 @@ UI = {
     flex_direction = "row",
     children = {
         {
-            type = "Panel",
-            width = "auto",
-            height = "auto",
-            min_width = 3,
-            min_height = 3,
+            type = "Text",
+            width = 100,
+            height = 100,
             align_self = "center",
-            background = "ui-pack,red_panel.png",
+            font = "font/normal",
+            text = "font/normal",
         },
         {
             type = "Panel",
             width = "50%",
             height = "50%",
             align_self = "center",
-            background = "ui-pack,red_panel.png",
+            background = "image/ui-pack,red_panel.png",
         },
     },
 }

@@ -33,45 +33,28 @@ public:
     PoeWinDelegate() { }
     ~PoeWinDelegate() { }
 
-    void setup() override
+    void load_resource()
     {
-        printf("setup\n");
-        auto gfx_factory = gfx::GFX_Factory::get();
         auto res_mgr = gfx::ResourceManager::get();
 
         res_mgr->load_render_program(gfx::RenderProgramID::TEXTURE_COLOR);
         res_mgr->load_render_program(gfx::RenderProgramID::COLOR);
 
-        res_mgr->load_texture2d("resource/image/test_00.image");
-        res_mgr->load_vertex_buffer("resource/vertex_buffer/square.vb");
+        // res_mgr->load_texture2d("resource/image/test_00.image");
+        // res_mgr->load_vertex_buffer("resource/vertex_buffer/square.vb");
         res_mgr->load_image_sheet("resource/image/ui-pack.sheet");
+        res_mgr->load_font("resource/font/normal.font");
         res_mgr->load_ui("resource/gui/main.ui");
+    }
 
+    void setup() override
+    {
+        printf("setup\n");
+
+        load_resource();
+
+        auto res_mgr = gfx::ResourceManager::get();
         gui_root_ = res_mgr->build_ui("resource/gui/main.ui");
-
-        // auto child = make_unique<gfx::gui::Node>();
-
-        // child->set_width_percent(50);
-        // child->set_height_percent(50);
-        // child->set_left(200);
-        // child->set_right(300);
-        // child->set_left(200);
-
-        // child->set_potition_type(gfx::gui::PositionType::absolute);
-
-        // auto child2 = make_unique<gfx::gui::Node>();
-
-        // child2->set_width_percent(10);
-        // child2->set_height_percent(10);
-
-        // child->add_child(move(child2));
-        // gui_root_->add_child(move(child2));
-        // gui_root_->add_child(move(child));
-        // gui_root_->set_align_items(gfx::gui::Align::center);
-        // gui_root_->set_width_percent(100);
-        // gui_root_->set_height_percent(100);
-
-        // gui_root_->set_flex_direction(gfx::gui::FlexDirection::row);
     }
 
     void cleanup() override

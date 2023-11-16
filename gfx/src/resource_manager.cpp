@@ -70,7 +70,7 @@ void ResourceManager::load_texture2d(const Path& path)
     YAML::Node config = load_yaml(path);
     auto sz_pixel_format = config["pixel_format"].as<String>();
     auto pixel_format = pixel_format_map.at(sz_pixel_format);
-    auto image_path = path.abs().parent() / config["path"].as<String>();
+    auto image_path = path.dir() / config["path"].as<String>();
     return load_texture2d(get_id("", path, config), image_path, pixel_format);
 }
 
@@ -145,7 +145,7 @@ void ResourceManager::load_image_sheet(const Path& path)
     auto sz_pixel_fmt = config["pixel_format"].as<String>();
     auto pixel_fmt = pixel_format_map.at(sz_pixel_fmt);
 
-    auto root = path.abs().parent();
+    auto root = path.dir();
     for (const auto& sheet : config["pages"]) {
         auto sub = root / sheet["sub"].as<String>();
         auto image = root / sheet["image"].as<String>();
@@ -154,6 +154,17 @@ void ResourceManager::load_image_sheet(const Path& path)
 
     auto id = get_id("", path, config);
     image_sheets_[id] = move(image_sheet);
+}
+
+void ResourceManager::load_font(const Path& path)
+{
+    YAML::Node config = load_yaml(path);
+    auto root = path.dir();
+    auto ttf_path = root / config["ttf"].as<String>();
+    auto font_size = config["size"].as<int>();
+    auto font = make_unique<Font>(ttf_path, font_size);
+    auto id = get_id("", path, config);
+    fonts_[id] = move(font);
 }
 
 } // namespace niu2x::gfx

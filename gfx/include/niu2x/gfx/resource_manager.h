@@ -7,6 +7,7 @@
 #include <niu2x/gfx/image_sheet.h>
 #include <niu2x/lua.h>
 #include <niu2x/gfx/gui.h>
+#include <niu2x/gfx/font.h>
 
 namespace niu2x::gfx {
 
@@ -31,6 +32,8 @@ public:
     void load_ui(const Path& path);
     UniquePtr<gui::Node> build_ui(const ResId& id);
 
+    void load_font(const Path& path);
+
 #define GET(type, name, ResIdType)                                             \
     inline type* get_##name(const ResIdType& id) const                         \
     {                                                                          \
@@ -41,6 +44,7 @@ public:
     GET(VertexBuffer, vertex_buffer, ResId);
     GET(RenderProgram, render_program, RenderProgramID);
     GET(ImageSheet, image_sheet, ResId);
+    GET(Font, font, ResId);
 
     ImageSheet::Frame* get_image_sheet_frame(
         CR<ResId> id, CR<String> sub_name) const
@@ -53,6 +57,7 @@ private:
     HashMap<ResId, UPtr<VertexBuffer>> vertex_buffers_;
     HashMap<RenderProgramID, UPtr<RenderProgram>> render_programs_;
     HashMap<ResId, UPtr<ImageSheet>> image_sheets_;
+    HashMap<ResId, UPtr<Font>> fonts_;
 
     UPtr<Texture2D> _load_texture2d(const Path& path, PixelFormat format);
 

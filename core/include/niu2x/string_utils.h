@@ -7,6 +7,8 @@ namespace niu2x::string_utils {
 
 Vector<String> split(const String& s, char delimiter);
 
+Maybe<String32> utf8_to_utf32(const String& utf8);
+
 } // namespace niu2x::string_utils
 
 #endif

@@ -241,6 +241,8 @@ void Node::layout(float w, float h)
     YGNodeCalculateLayout(yoga(), w, h, YGDirectionLTR);
 }
 
+void Node::set_dirty() { dirtied_flag_ = true; }
+
 void Node::set_dirty_and_propagate_to_children()
 {
     dirtied_flag_ = true;

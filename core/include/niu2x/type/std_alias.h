@@ -29,6 +29,7 @@ namespace niu2x {
  * @brief       String
  */
 using String = std::string;
+using String32 = std::basic_string<char32_t>;
 using StringBuf = std::stringstream;
 using Exception = std::exception;
 using BadAlloc = std::bad_alloc;
@@ -111,6 +112,7 @@ using std::max;
 /**
  * @brief       minimum of two value
  */
+using std::forward;
 using std::min;
 using std::move;
 
