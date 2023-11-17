@@ -32,6 +32,7 @@ public:
     int channels() const { return channels_; }
 
     const uint8_t* data() const { return pixels_.data(); }
+    uint8_t* data() { return pixels_.data(); }
 
 private:
     IntSize size_;

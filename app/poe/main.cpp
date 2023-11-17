@@ -40,11 +40,12 @@ public:
         res_mgr->load_render_program(gfx::RenderProgramID::TEXTURE_COLOR);
         res_mgr->load_render_program(gfx::RenderProgramID::COLOR);
 
-        // res_mgr->load_texture2d("resource/image/test_00.image");
-        // res_mgr->load_vertex_buffer("resource/vertex_buffer/square.vb");
         res_mgr->load_image_sheet("resource/image/ui-pack.sheet");
         res_mgr->load_font("resource/font/normal.font");
         res_mgr->load_ui("resource/gui/main.ui");
+
+        // auto font = res_mgr->get_font("font/normal");
+        // font->prepare("Hello");
     }
 
     void setup() override

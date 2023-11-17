@@ -24,7 +24,7 @@ target_link_libraries(niu2x_gfx PUBLIC
 target_include_directories(niu2x_gfx PRIVATE src/glad/include)
 
 find_package(glfw3 REQUIRED)
-find_package(Freetype REQUIRED)
+find_package(freetype REQUIRED)
 find_package(yaml-cpp REQUIRED)
 find_package(yoga REQUIRED)
 find_package(pugixml REQUIRED)

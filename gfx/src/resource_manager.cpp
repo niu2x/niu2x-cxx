@@ -80,6 +80,7 @@ void ResourceManager::clear()
     vertex_buffers_.clear();
     render_programs_.clear();
     image_sheets_.clear();
+    fonts_.clear();
 }
 
 void ResourceManager::load_render_program(RenderProgramID id)
