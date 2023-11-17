@@ -11,6 +11,9 @@ extern const char* color_fragment;
 extern const char* texture_color_vertex;
 extern const char* texture_color_fragment;
 
+extern const char* text_vertex;
+extern const char* text_fragment;
+
 } // namespace niu2x::gfx::rpsc::gl
 
 #endif

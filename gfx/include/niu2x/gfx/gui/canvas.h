@@ -15,7 +15,10 @@ public:
     Canvas();
     ~Canvas();
     void draw();
-    void add_image(ImageSheet::Frame* frame, const Rect&);
+    void add_image(const ImageSheet::Frame& frame, const Rect&, bool scale9);
+    void add_image(const ImageSheet::Frame& frame, const Rect&);
+    void
+    add_image(const ImageSheet::Frame& frame, const Rect&, RenderProgram* prog);
     void clear();
 
 private:
@@ -24,10 +27,15 @@ private:
         UniquePtr<VertexBuffer> vbo;
         UniquePtr<IndexBuffer> veo;
         UniformPacket uniforms;
+        ImageSheet::Frame frame;
+        bool scale9;
         RenderProgram* program = nullptr;
-        ImageSheet::Frame* frame = nullptr;
         render_command::Triangles draw;
-        ImageCommand(const Rect&, ImageSheet::Frame*);
+        ImageCommand(
+            const Rect&,
+            const ImageSheet::Frame&,
+            bool scale9,
+            RenderProgram* prog = nullptr);
     };
 
     // using Command = Variant<ImageCommand>;

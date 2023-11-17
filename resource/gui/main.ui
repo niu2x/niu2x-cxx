@@ -5,11 +5,11 @@ UI = {
     children = {
         {
             type = "Text",
-            width = 100,
-            height = 100,
+            width = "50%",
+            height = "50%",
             align_self = "center",
             font = "font/normal",
-            text = "font/normal",
+            text = "哈",
         },
         {
             type = "Panel",

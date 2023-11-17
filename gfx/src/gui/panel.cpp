@@ -16,11 +16,12 @@ void Panel::update_canvas()
         return;
 
     c->add_image(
-        background_
-            ?: ResourceManager::get()->get_image_sheet_frame(
-                "ui-pack",
-                "blue_panel.png"),
-        r);
+        background_ ? *background_
+                    : *ResourceManager::get()->get_image_sheet_frame(
+                        "ui-pack",
+                        "blue_panel.png"),
+        r,
+        true);
 }
 
 void Panel::set_background(const ResId& sheet, const String& name)

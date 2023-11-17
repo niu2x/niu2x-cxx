@@ -50,6 +50,7 @@ public:
 enum class RenderProgramID {
     COLOR,
     TEXTURE_COLOR,
+    TEXT,
 };
 
 struct Color {

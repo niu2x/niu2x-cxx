@@ -66,6 +66,7 @@ static image::ImageData rasterize_bitmap(FT_Bitmap bitmap)
                     for (int x = 0; x < image_data.size().width; x++) {
                         *ptr++ = bitmap.buffer[y * bitmap.pitch + x];
                         *ptr++ = bitmap.buffer[y * bitmap.pitch + x];
+                        *ptr++ = bitmap.buffer[y * bitmap.pitch + x];
                     }
                 }
                 break;
@@ -109,9 +110,9 @@ void Font::prepare(char32_t ch)
     FT_Bitmap bitmap = slot->bitmap;
     auto glyph = rasterize_bitmap(bitmap);
 
-    info.region.origin.x = slot->bitmap_left;
-    info.region.origin.y = -slot->bitmap_top;
-    info.region.size = glyph.size();
+    info.x_offset = slot->bitmap_left;
+    info.y_offset = -slot->bitmap_top;
+
     if (glyph.size().area() > 0) {
         pushback_glyph(ch, info, glyph);
     }
@@ -146,10 +147,12 @@ void Font::pushback_glyph(
         count_ = 0;
     }
 
-    charmap_[ch] = info;
-
     auto texture = get_or_create_tex(info.tex);
-    texture->set_data(chr_index_to_region(info.chr_index), glyph.data());
+    auto region = chr_index_to_region(info.chr_index);
+    region.size = glyph.size();
+    texture->set_data(region, glyph.data());
+    info.region = region;
+    charmap_[ch] = info;
 }
 
 Texture2D* Font::get_or_create_tex(Index page)

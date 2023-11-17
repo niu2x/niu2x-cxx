@@ -33,6 +33,11 @@ UniquePtr<RenderProgram> GFX_Factory::create_render_program(RenderProgramID id)
             options.source_code[Stage::FRAGMENT] = src::texture_color_fragment;
             break;
         }
+        case RenderProgramID::TEXT: {
+            options.source_code[Stage::VERTEX] = src::text_vertex;
+            options.source_code[Stage::FRAGMENT] = src::text_fragment;
+            break;
+        }
     }
     return make_unique<GL_RenderProgram>(options);
 }

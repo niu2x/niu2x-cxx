@@ -393,6 +393,7 @@ static void set_text_properties(Text* text, lua::LuaEngine* lua)
     set_string(lua->read_field("text"), [text](auto&& sz) {
         text->set_text(sz);
     });
+    set_node_properties(text, lua);
 }
 
 static UniquePtr<Node> create_node(lua::LuaEngine* lua)

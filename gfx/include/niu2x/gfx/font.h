@@ -29,6 +29,8 @@ public:
         Index tex;
         Index chr_index;
         IntRect region;
+        int x_offset;
+        int y_offset;
         int x_advance;
     };
 
@@ -43,6 +45,10 @@ public:
         char32_t ch,
         const CharInfo& info,
         const image::ImageData& glyph);
+
+    Texture2D* get_texture(Index page) const { return textures_[page].get(); }
+
+    const CharInfo& get_char_info(char32_t ch) const { return charmap_.at(ch); }
 
 private:
     fs::Path ttf_path_;

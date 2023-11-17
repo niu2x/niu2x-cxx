@@ -39,6 +39,7 @@ public:
 
         res_mgr->load_render_program(gfx::RenderProgramID::TEXTURE_COLOR);
         res_mgr->load_render_program(gfx::RenderProgramID::COLOR);
+        res_mgr->load_render_program(gfx::RenderProgramID::TEXT);
 
         res_mgr->load_image_sheet("resource/image/ui-pack.sheet");
         res_mgr->load_font("resource/font/normal.font");
