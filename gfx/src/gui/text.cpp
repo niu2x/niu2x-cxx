@@ -17,15 +17,18 @@ void Text::update_canvas()
     if (r.size.area() <= 0)
         return;
 
-    auto program
-        = ResourceManager::get()->get_render_program(RenderProgramID::TEXT);
+    auto res_mgr = ResourceManager::get();
+    auto program = res_mgr->get_render_program(RenderProgramID::TEXT);
     auto maybe = string_utils::utf8_to_utf32(text_);
     if (maybe) {
         font_->prepare(*maybe);
+
+        math::Pos2D<double> pen = r.origin;
+
         for (auto ch : *maybe) {
             auto& ch_info = font_->get_char_info(ch);
-            auto tex = font_->get_texture(ch_info.tex);
-            c->add_image(ImageSheet::Frame(tex, ch_info.region), r, program);
+            // auto tex = font_->get_texture(ch_info.tex);
+            // c->add_image(ImageSheet::Frame(tex, ch_info.region), { pen.x - ch_info.x_offset, }, program);
         }
     }
 }
