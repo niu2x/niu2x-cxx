@@ -120,6 +120,10 @@ public:
     void set_dirty_and_propagate_to_children();
     void set_dirty();
 
+    virtual math::Size<float> measure() { return { 0, 0 }; }
+    // void set_measure()
+    void set_measure();
+
 private:
     Rect rect_;
 

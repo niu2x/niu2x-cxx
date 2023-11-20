@@ -4,19 +4,21 @@ UI = {
     flex_direction = "row",
     children = {
         {
-            type = "Text",
-            width = "50%",
-            height = "50%",
-            align_self = "center",
-            font = "font/normal",
-            text = "哈",
-        },
-        {
             type = "Panel",
             width = "50%",
             height = "50%",
             align_self = "center",
             background = "image/ui-pack,red_panel.png",
+            children = {
+                {
+                    type = "Text",
+                    width = "auto",
+                    height = "auto",
+                    align_self = "center",
+                    font = "font/normal",
+                    text = "01234567890_~`",
+                },
+            }
         },
     },
 }

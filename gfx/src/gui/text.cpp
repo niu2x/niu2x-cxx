@@ -23,12 +23,20 @@ void Text::update_canvas()
     if (maybe) {
         font_->prepare(*maybe);
 
-        math::Pos2D<double> pen = r.origin;
+        math::Pos2D<float> pen = r.origin;
+        pen.y += font_->line_height();
 
         for (auto ch : *maybe) {
             auto& ch_info = font_->get_char_info(ch);
-            // auto tex = font_->get_texture(ch_info.tex);
-            // c->add_image(ImageSheet::Frame(tex, ch_info.region), { pen.x - ch_info.x_offset, }, program);
+            auto tex = font_->get_texture(ch_info.tex);
+            c->add_image(
+                ImageSheet::Frame(tex, ch_info.region),
+                { pen.x + ch_info.x_offset,
+                  pen.y + ch_info.y_offset,
+                  (float)ch_info.region.size.width,
+                  (float)ch_info.region.size.height },
+                program);
+            pen.x += ch_info.x_advance;
         }
     }
 }

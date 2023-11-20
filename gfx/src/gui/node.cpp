@@ -29,6 +29,68 @@ Node::Node()
     YGNodeSetDirtiedFunc(yoga(), (YGDirtiedFunc)&Node::on_dirtied);
 }
 
+struct SizeRange {
+    math::Size<float> min;
+    math::Size<float> max;
+};
+
+static SizeRange measureFuncHelper(
+    float width,
+    YGMeasureMode widthMode,
+    float height,
+    YGMeasureMode heightMode)
+{
+    SizeRange range;
+    if (widthMode == YGMeasureModeUndefined) {
+
+        range.min.width = 0;
+        range.max.width = 99999999;
+    }
+
+    if (widthMode == YGMeasureModeExactly) {
+        range.min.width = width;
+        range.max.width = width;
+    }
+
+    if (widthMode == YGMeasureModeAtMost) {
+        range.min.width = 0;
+        range.max.width = width;
+    }
+
+    if (heightMode == YGMeasureModeUndefined) {
+        range.min.height = 0;
+        range.max.height = 99999999;
+    }
+
+    if (heightMode == YGMeasureModeExactly) {
+        range.min.height = height;
+        range.max.height = height;
+    }
+
+    if (heightMode == YGMeasureModeAtMost) {
+        range.min.height = 0;
+        range.max.height = height;
+    }
+
+    return range;
+}
+
+static YGSize YGMeasureFunc(
+    YGNodeRef yoga,
+    float width,
+    YGMeasureMode widthMode,
+    float height,
+    YGMeasureMode heightMode)
+{
+
+    auto range = measureFuncHelper(width, widthMode, height, heightMode);
+
+    auto node = reinterpret_cast<Node*>(YGNodeGetContext((YGNodeRef)yoga));
+    // node->
+}
+
+void Node::set_measure() { YGNodeSetMeasureFunc(yoga(), &YGMeasureFunc); }
+
 void Node::set_width_auto() { YGNodeStyleSetWidthAuto(yoga()); }
 void Node::set_height_auto() { YGNodeStyleSetHeightAuto(yoga()); }
 
