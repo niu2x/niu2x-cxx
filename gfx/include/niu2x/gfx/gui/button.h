@@ -3,7 +3,7 @@
 
 #include <niu2x/gfx/gui/node.h>
 #include <niu2x/gfx/gui/text.h>
-#include <niu2x/gfx/font.h>
+#include <niu2x/gfx/gui/image.h>
 
 namespace niu2x::gfx::gui {
 
@@ -12,9 +12,11 @@ public:
     Button();
     ~Button();
     void update_canvas() override;
+    void set_text(const String&);
 
 private:
-    // Image
+    Image* bg_ = nullptr;
+    Text* text_ = nullptr;
 };
 
 } // namespace niu2x::gfx::gui

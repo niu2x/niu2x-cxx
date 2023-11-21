@@ -426,6 +426,17 @@ static void set_text_properties(Text* text, lua::LuaEngine* lua)
     set_node_properties(text, lua);
 }
 
+static void set_button_properties(Button* btn, lua::LuaEngine* lua)
+{
+    // set_font(lua->read_field("font"), [text](Font* font) {
+    //     text->set_font(font);
+    // });
+    set_string(lua->read_field("text"), [btn](auto&& sz) {
+        btn->set_text(sz);
+    });
+    set_node_properties(btn, lua);
+}
+
 static UniquePtr<Node> create_node(lua::LuaEngine* lua)
 {
     auto node = make_unique<Node>();
@@ -444,6 +455,13 @@ static UniquePtr<Node> create_text(lua::LuaEngine* lua)
 {
     auto text = make_unique<Text>();
     set_text_properties(text.get(), lua);
+    return text;
+}
+
+static UniquePtr<Node> create_button(lua::LuaEngine* lua)
+{
+    auto text = make_unique<Button>();
+    set_button_properties(text.get(), lua);
     return text;
 }
 

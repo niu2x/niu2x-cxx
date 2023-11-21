@@ -103,6 +103,25 @@ public:
     void set_top(float v);
     void set_bottom(float v);
 
+    void set_margin_left(float v);
+    void set_margin_right(float v);
+    void set_margin_top(float v);
+    void set_margin_bottom(float v);
+
+    void set_margin_left_auto();
+    void set_margin_right_auto();
+    void set_margin_top_auto();
+    void set_margin_bottom_auto();
+
+    void set_margin_left_percent(float v);
+    void set_margin_right_percent(float v);
+    void set_margin_top_percent(float v);
+    void set_margin_bottom_percent(float v);
+
+    void set_margin(float v);
+    void set_margin_auto();
+    void set_margin_percent(float v);
+
     void set_left_percent(float v);
     void set_right_percent(float v);
     void set_top_percent(float v);
@@ -142,6 +161,7 @@ public:
     }
     // void set_measure()
     void set_measure();
+    void set_no_measure();
 
 private:
     Rect rect_;

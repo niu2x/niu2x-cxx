@@ -1,11 +1,10 @@
 UI = {
     type = "Node",
-    justify_content = "center",
     flex_direction = "col",
+    justify_content = "center",
     children = {
         {
             type = "Button",
-            align_self = "center",
             font = "font/normal",
             text = "开始游戏",
         },

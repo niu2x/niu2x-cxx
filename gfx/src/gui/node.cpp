@@ -93,6 +93,8 @@ static YGSize YGMeasureFunc(
     };
 }
 
+void Node::set_no_measure() { YGNodeSetMeasureFunc(yoga(), nullptr); }
+
 void Node::set_measure() { YGNodeSetMeasureFunc(yoga(), &YGMeasureFunc); }
 
 void Node::set_width_auto() { YGNodeStyleSetWidthAuto(yoga()); }
@@ -192,22 +194,95 @@ void Node::update_canvas()
 
 float Node::layout_world_top() const
 {
-    return layout_top() + (parent_ ? parent_->layout_top() : 0.0f);
+    return layout_top() + (parent_ ? parent_->layout_world_top() : 0.0f);
 }
 
 float Node::layout_world_bottom() const
 {
-    return layout_bottom() + (parent_ ? parent_->layout_bottom() : 0.0f);
+    return layout_bottom() + (parent_ ? parent_->layout_world_bottom() : 0.0f);
 }
 
 float Node::layout_world_left() const
 {
-    return layout_left() + (parent_ ? parent_->layout_left() : 0.0f);
+    return layout_left() + (parent_ ? parent_->layout_world_left() : 0.0f);
 }
 
 float Node::layout_world_right() const
 {
-    return layout_right() + (parent_ ? parent_->layout_right() : 0.0f);
+    return layout_right() + (parent_ ? parent_->layout_world_right() : 0.0f);
+}
+
+void Node::set_margin_left(float v)
+{
+    YGNodeStyleSetMargin(yoga(), YGEdgeLeft, v);
+}
+void Node::set_margin_right(float v)
+{
+    YGNodeStyleSetMargin(yoga(), YGEdgeRight, v);
+}
+void Node::set_margin_top(float v)
+{
+    YGNodeStyleSetMargin(yoga(), YGEdgeTop, v);
+}
+void Node::set_margin_bottom(float v)
+{
+    YGNodeStyleSetMargin(yoga(), YGEdgeBottom, v);
+}
+
+void Node::set_margin_left_auto()
+{
+    YGNodeStyleSetMarginAuto(yoga(), YGEdgeLeft);
+}
+void Node::set_margin_right_auto()
+{
+    YGNodeStyleSetMarginAuto(yoga(), YGEdgeRight);
+}
+void Node::set_margin_top_auto()
+{
+    YGNodeStyleSetMarginAuto(yoga(), YGEdgeTop);
+}
+void Node::set_margin_bottom_auto()
+{
+    YGNodeStyleSetMarginAuto(yoga(), YGEdgeBottom);
+}
+
+void Node::set_margin_left_percent(float v)
+{
+    YGNodeStyleSetMarginPercent(yoga(), YGEdgeLeft, v);
+}
+void Node::set_margin_right_percent(float v)
+{
+    YGNodeStyleSetMarginPercent(yoga(), YGEdgeRight, v);
+}
+void Node::set_margin_top_percent(float v)
+{
+    YGNodeStyleSetMarginPercent(yoga(), YGEdgeTop, v);
+}
+void Node::set_margin_bottom_percent(float v)
+{
+    YGNodeStyleSetMarginPercent(yoga(), YGEdgeBottom, v);
+}
+
+void Node::set_margin(float v)
+{
+    set_margin_left(v);
+    set_margin_right(v);
+    set_margin_top(v);
+    set_margin_bottom(v);
+}
+void Node::set_margin_auto()
+{
+    set_margin_left_auto();
+    set_margin_right_auto();
+    set_margin_top_auto();
+    set_margin_bottom_auto();
+}
+void Node::set_margin_percent(float v)
+{
+    set_margin_left_percent(v);
+    set_margin_right_percent(v);
+    set_margin_top_percent(v);
+    set_margin_bottom_percent(v);
 }
 
 Rect Node::compute_self_rect()
@@ -229,6 +304,7 @@ void Node::set_position_type(PositionType pt)
 
 void Node::add_child(UniquePtr<Node> child)
 {
+    set_no_measure();
     YGNodeInsertChild(yoga(), other_yoga(child), children_.size());
     child->parent_ = this;
     children_.push_back(move(child));
