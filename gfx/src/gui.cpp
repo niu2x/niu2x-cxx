@@ -453,6 +453,7 @@ static HashMap<String, NodeCreator> node_creators {
     { "Node", create_node },
     { "Panel", create_panel },
     { "Text", create_text },
+    { "Button", create_button },
 };
 
 UniquePtr<Node> build_ui(lua::LuaEngine* lua)

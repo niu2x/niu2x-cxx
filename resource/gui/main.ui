@@ -1,20 +1,13 @@
 UI = {
     type = "Node",
     justify_content = "center",
-    flex_direction = "row",
+    flex_direction = "col",
     children = {
         {
-            type = "Panel",
+            type = "Button",
             align_self = "center",
-            background = "image/ui-pack,red_panel.png",
-            children = {
-                {
-                    type = "Text",
-                    align_self = "center",
-                    font = "font/normal",
-                    text = "`~,.g开始游戏开始游戏开始游戏开始游戏开始游戏开始游戏开始游戏开始游戏",
-                },
-            }
+            font = "font/normal",
+            text = "开始游戏",
         },
     },
 }
