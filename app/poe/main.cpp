@@ -44,6 +44,7 @@ public:
         res_mgr->load_image_sheet("resource/image/ui-pack.sheet");
         res_mgr->load_font("resource/font/normal.font");
         res_mgr->load_ui("resource/gui/main.ui");
+        res_mgr->load_ui("resource/gui/game.ui");
         res_mgr->load_ui("resource/gui/debug_sheet_frames.ui");
 
         // auto font = res_mgr->get_font("font/normal");
@@ -57,7 +58,7 @@ public:
         load_resource();
 
         auto res_mgr = gfx::ResourceManager::get();
-        gui_root_ = res_mgr->build_ui("resource/gui/main.ui");
+        gui_root_ = res_mgr->build_ui("resource/gui/game.ui");
     }
 
     void cleanup() override
