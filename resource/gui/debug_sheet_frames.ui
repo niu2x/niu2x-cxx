@@ -1,0 +1,8 @@
+UI = {
+    type = "Node",
+    flex_direction = "col",
+    justify_content = "center",
+    flex_wrap = "wrap",
+    children = {
+    },
+}

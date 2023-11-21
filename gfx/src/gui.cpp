@@ -301,6 +301,34 @@ static void set_justify_content(Node* node, const lua::LuaValue& value)
         value);
 }
 
+static void set_flex_wrap(Node* node, const lua::LuaValue& value)
+{
+    static HashMap<String, FlexWrap> wrap_map {
+        {
+            "wrap",
+            FlexWrap::wrap,
+        },
+        {
+            "no_wrap",
+            FlexWrap::no_wrap,
+        },
+        {
+            "reverse_wrap",
+            FlexWrap::reverse_wrap,
+        },
+    };
+    visit(
+        [node](auto&& v) {
+            if constexpr (type_pred::is_same_decay<decltype(v), String>) {
+                auto it = wrap_map.find(v);
+                if (it != wrap_map.end()) {
+                    node->set_flex_wrap(it->second);
+                }
+            }
+        },
+        value);
+}
+
 static void set_node_properties(Node* node, lua::LuaEngine* lua)
 {
     set_width(node, lua->read_field("width"));
@@ -322,6 +350,8 @@ static void set_node_properties(Node* node, lua::LuaEngine* lua)
     set_align_items(node, lua->read_field("align_items"));
     set_align_self(node, lua->read_field("align_self"));
     set_justify_content(node, lua->read_field("justify_content"));
+
+    set_flex_wrap(node, lua->read_field("flex_wrap"));
 
     // set_right(node, lua->read_field("right"));
     // set_top(node, lua->read_field("top"));

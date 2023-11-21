@@ -7,6 +7,8 @@
 #include <niu2x/gfx/gui/node.h>
 #include <niu2x/gfx/gui/panel.h>
 #include <niu2x/gfx/gui/text.h>
+#include <niu2x/gfx/gui/image.h>
+#include <niu2x/gfx/gui/button.h>
 #include <niu2x/lua.h>
 
 namespace niu2x::gfx::gui {
@@ -16,6 +18,7 @@ extern Mat4 ui_projection_mat4;
 
 void update_view_projection(IntSize window_size);
 UniquePtr<Node> build_ui(lua::LuaEngine* lua);
+
 } // namespace niu2x::gfx::gui
 
 #endif

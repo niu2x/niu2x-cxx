@@ -40,6 +40,14 @@ public:
         return const_cast<Frame*>(&frames_.at(name));
     }
 
+    template <class Visitor>
+    void visit_frames(Visitor&& visitor)
+    {
+        for (auto& item : frames_) {
+            visitor(item.first, &item.second);
+        }
+    }
+
 private:
     Vector<UPtr<Texture2D>> textures_;
     HashMap<String, Frame> frames_;

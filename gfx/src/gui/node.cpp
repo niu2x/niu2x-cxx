@@ -29,6 +29,12 @@ Node::Node()
     YGNodeSetDirtiedFunc(yoga(), (YGDirtiedFunc)&Node::on_dirtied);
 }
 
+void Node::set_visible(bool v)
+{
+    visible_ = v;
+    YGNodeStyleSetDisplay(yoga(), visible_ ? YGDisplayFlex : YGDisplayNone);
+}
+
 static Node::SizeRange measureFuncHelper(
     float width,
     YGMeasureMode widthMode,
@@ -266,7 +272,29 @@ void Node::draw_self()
         update_canvas();
         dirtied_flag_ = false;
     }
-    canvas_.draw();
+
+    if (visible_) {
+        canvas_.draw();
+    }
+}
+
+void Node::set_flex_wrap(FlexWrap w)
+{
+    switch (w) {
+        case FlexWrap::wrap: {
+            YGNodeStyleSetFlexWrap(yoga(), YGWrapWrap);
+            break;
+        }
+        case FlexWrap::no_wrap: {
+            YGNodeStyleSetFlexWrap(yoga(), YGWrapNoWrap);
+            break;
+        }
+
+        case FlexWrap::reverse_wrap: {
+            YGNodeStyleSetFlexWrap(yoga(), YGWrapWrapReverse);
+            break;
+        }
+    }
 }
 
 void Node::set_flex_direction(FlexDirection direction)

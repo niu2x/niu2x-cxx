@@ -11,6 +11,12 @@ struct Size {
     T height = 0;
 
     T area() const { return width * height; }
+
+    template <class U>
+    operator Size<U>() const
+    {
+        return { static_cast<U>(width), static_cast<U>(height) };
+    }
 };
 
 using IntSize = Size<int>;

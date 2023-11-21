@@ -43,6 +43,12 @@ enum class FlexDirection {
     reverse_column,
 };
 
+enum class FlexWrap {
+    wrap,
+    no_wrap,
+    reverse_wrap,
+};
+
 struct Edge {
     float left, right, top, bottom;
 };
@@ -106,10 +112,13 @@ public:
     void set_align_self(Align align);
     void set_justify_content(Justify align);
 
+    void set_flex_wrap(FlexWrap);
+
     void layout(float available_width, float available_height);
 
     void draw();
     void draw_self();
+    void set_visible(bool v);
 
     void add_child(UniquePtr<Node> child);
 
@@ -187,6 +196,7 @@ private:
     UniquePtr<VertexBuffer> vbo_;
     UniquePtr<IndexBuffer> veo_;
     bool dirtied_flag_ = true;
+    bool visible_ = true;
 
     static void on_dirtied(void*);
 };

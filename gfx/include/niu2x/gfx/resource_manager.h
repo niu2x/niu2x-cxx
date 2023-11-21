@@ -34,6 +34,14 @@ public:
 
     void load_font(const Path& path);
 
+    template <class Visitor>
+    void visit_image_sheets(Visitor&& visitor)
+    {
+        for (auto& item : image_sheets_) {
+            visitor(item.first, item.second.get());
+        }
+    }
+
 #define GET(type, name, ResIdType)                                             \
     inline type* get_##name(const ResIdType& id) const                         \
     {                                                                          \
