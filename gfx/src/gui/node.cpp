@@ -1,6 +1,6 @@
 #include <yoga/Yoga.h>
 #include <niu2x/gfx/gui/node.h>
-#include <niu2x/unused.h>
+#include <niu2x/math/utils.h>
 // #include <niu2x/gfx/render_command_queue.h>
 #include <niu2x/gfx/gfx_factory.h>
 
@@ -29,18 +29,13 @@ Node::Node()
     YGNodeSetDirtiedFunc(yoga(), (YGDirtiedFunc)&Node::on_dirtied);
 }
 
-struct SizeRange {
-    math::Size<float> min;
-    math::Size<float> max;
-};
-
-static SizeRange measureFuncHelper(
+static Node::SizeRange measureFuncHelper(
     float width,
     YGMeasureMode widthMode,
     float height,
     YGMeasureMode heightMode)
 {
-    SizeRange range;
+    Node::SizeRange range;
     if (widthMode == YGMeasureModeUndefined) {
 
         range.min.width = 0;
@@ -84,9 +79,12 @@ static YGSize YGMeasureFunc(
 {
 
     auto range = measureFuncHelper(width, widthMode, height, heightMode);
-
     auto node = reinterpret_cast<Node*>(YGNodeGetContext((YGNodeRef)yoga));
-    // node->
+    math::Size size = node->measure(range);
+    return {
+        math::clamp(size.width, range.min.width, range.max.width),
+        math::clamp(size.height, range.min.height, range.max.height),
+    };
 }
 
 void Node::set_measure() { YGNodeSetMeasureFunc(yoga(), &YGMeasureFunc); }

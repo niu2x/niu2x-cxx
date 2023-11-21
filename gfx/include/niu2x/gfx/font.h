@@ -50,9 +50,13 @@ public:
 
     const CharInfo& get_char_info(char32_t ch) const { return charmap_.at(ch); }
 
+    int font_size() const { return font_size_; }
+    int baseline() const { return baseline_; }
+
 private:
     fs::Path ttf_path_;
     int font_size_;
+    int baseline_;
 
     Vector<UniquePtr<Texture2D>> textures_;
     HashMap<char32_t, CharInfo> charmap_;

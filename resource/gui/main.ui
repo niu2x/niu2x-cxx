@@ -5,18 +5,14 @@ UI = {
     children = {
         {
             type = "Panel",
-            width = "50%",
-            height = "50%",
             align_self = "center",
             background = "image/ui-pack,red_panel.png",
             children = {
                 {
                     type = "Text",
-                    width = "auto",
-                    height = "auto",
                     align_self = "center",
                     font = "font/normal",
-                    text = "01234567890_~`",
+                    text = "`~,.g开始游戏开始游戏开始游戏开始游戏开始游戏开始游戏开始游戏开始游戏",
                 },
             }
         },

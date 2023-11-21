@@ -2,6 +2,7 @@
 #define NIU2X_GFX_GUI_NODE_H
 
 #include <niu2x/noncopyable.h>
+#include <niu2x/unused.h>
 #include <niu2x/type/std_alias.h>
 #include <niu2x/math/geometry.h>
 #include <niu2x/gfx/hardward_resource.h>
@@ -120,7 +121,16 @@ public:
     void set_dirty_and_propagate_to_children();
     void set_dirty();
 
-    virtual math::Size<float> measure() { return { 0, 0 }; }
+    struct SizeRange {
+        math::Size<float> min;
+        math::Size<float> max;
+    };
+
+    virtual math::Size<float> measure(const SizeRange& size_range)
+    {
+        unused(size_range);
+        return { 0, 0 };
+    }
     // void set_measure()
     void set_measure();
 

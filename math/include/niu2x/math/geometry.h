@@ -7,8 +7,8 @@ namespace niu2x::math {
 
 template <class T>
 struct Size {
-    T width;
-    T height;
+    T width = 0;
+    T height = 0;
 
     T area() const { return width * height; }
 };
@@ -18,7 +18,7 @@ using DoubleSize = Size<double>;
 
 template <class T>
 struct Pos2D {
-    T x, y;
+    T x = 0, y = 0;
 };
 
 template <class T>

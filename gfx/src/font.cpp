@@ -110,8 +110,11 @@ void Font::prepare(char32_t ch)
     FT_Bitmap bitmap = slot->bitmap;
     auto glyph = rasterize_bitmap(bitmap);
 
-    info.x_offset = slot->bitmap_left;
-    info.y_offset = -slot->bitmap_top;
+    // printf("slot->metrics.horiBearingX %ld\n", slot->metrics.horiBearingX);
+    // printf("slot->bitmap_left %d\n", slot->bitmap_left);
+
+    info.x_offset = slot->metrics.horiBearingX >> 6;
+    info.y_offset = -(slot->metrics.horiBearingY >> 6);
 
     if (glyph.size().area() > 0) {
         pushback_glyph(ch, info, glyph);
@@ -204,6 +207,8 @@ void Font::prepare(const String32& sz)
 
     line_height_ = static_cast<int>(
         (face_->size->metrics.ascender - face_->size->metrics.descender) >> 6);
+
+    baseline_ = face_->size->metrics.descender >> 6;
 
     for (auto ch : sz) {
         prepare(ch);

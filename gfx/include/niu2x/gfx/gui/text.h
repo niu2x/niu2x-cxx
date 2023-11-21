@@ -23,6 +23,8 @@ public:
         set_dirty();
     }
 
+    math::Size<float> measure(const SizeRange& size_range) override;
+
 private:
     String text_;
     Font* font_ = nullptr;
