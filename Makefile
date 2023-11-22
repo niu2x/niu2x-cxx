@@ -6,7 +6,7 @@ build-debug-library:
 		-Bbuild/debug \
 		-DBUILD_SHARED_LIBS=OFF \
 		-Dyoga_DIR=/home/niu2x/project/yoga/dist/lib/cmake/yoga \
-		-Dfreetype_DIR=/home/niu2x/project/freetype-2.11.0/dist/lib/cmake/freetype \
+		-Dfreetype_DIR=/home/niu2x/project/freetype/dist/lib/cmake/freetype \
 		-Dyaml-cpp_DIR=/home/niu2x/project/yaml-cpp/dist/lib/cmake/yaml-cpp \
 		-Dpugixml_DIR=/home/niu2x/project/pugixml/dist/lib/cmake/pugixml \
 		-DCMAKE_BUILD_TYPE=Debug;
@@ -21,7 +21,7 @@ build-release-library:
 		-Dyaml-cpp_DIR=/home/niu2x/project/yaml-cpp/dist/lib/cmake/yaml-cpp \
 		-Dpugixml_DIR=/home/niu2x/project/pugixml/dist/lib/cmake/pugixml \
 		-Dyoga_DIR=/home/niu2x/project/yoga/dist/lib/cmake/yoga \
-		-Dfreetype_DIR=/home/niu2x/project/freetype-2.11.0/dist/lib/cmake/freetype \
+		-Dfreetype_DIR=/home/niu2x/project/freetype/dist/lib/cmake/freetype \
 		-DCMAKE_BUILD_TYPE=Release;
 	cmake --build build/release -j;
 	cmake --install build/release --prefix build/release/dist/
@@ -47,7 +47,7 @@ build-poe: build-debug-library
 		-Dyaml-cpp_DIR=/home/niu2x/project/yaml-cpp/dist/lib/cmake/yaml-cpp \
 		-Dpugixml_DIR=/home/niu2x/project/pugixml/dist/lib/cmake/pugixml \
 		-Dyoga_DIR=/home/niu2x/project/yoga/dist/lib/cmake/yoga \
-		-Dfreetype_DIR=/home/niu2x/project/freetype-2.11.0/dist/lib/cmake/freetype \
+		-Dfreetype_DIR=/home/niu2x/project/freetype/dist/lib/cmake/freetype \
 		-Dniu2x_filesystem_DIR=$$PWD/build/debug/dist/lib/cmake/niu2x \
 		-Dniu2x_lua_DIR=$$PWD/build/debug/dist/lib/cmake/niu2x \
 		-Dniu2x_uv_DIR=$$PWD/build/debug/dist/lib/cmake/niu2x \
