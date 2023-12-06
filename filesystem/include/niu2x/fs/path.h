@@ -15,9 +15,6 @@ public:
     AbsPath(const char*);
     AbsPath(const String&);
 
-    NIU2X_CLASS_DEFAULT_MOVABLE(AbsPath);
-    NIU2X_CLASS_DEFAULT_COPYABLE(AbsPath);
-
     AbsPath parent() const { return AbsPath(path_.parent_path()); }
 
     String str() const { return path_.string(); }
@@ -30,6 +27,9 @@ private:
     BasePath path_ = "";
     bool valid_ = false;
 };
+
+static_assert(type_pred::is_movable<AbsPath>);
+static_assert(type_pred::is_copyable<AbsPath>);
 
 using Path = AbsPath;
 

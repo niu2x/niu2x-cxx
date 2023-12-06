@@ -25,6 +25,7 @@
 
 namespace niu2x {
 
+namespace chrono = std::chrono;
 /**
  * @brief       String
  */
@@ -89,7 +90,7 @@ using CR = const T&;
 template <class T>
 using Maybe = std::optional<T>;
 
-inline const auto maybe_null = std::nullopt;
+inline const auto null_maybe = std::nullopt;
 
 template <class T>
 using Function = std::function<T>;
@@ -133,26 +134,24 @@ inline String to_string(bool b)
         return "false";
 }
 
+// clang-format off
+
 namespace type_pred {
 
 template <class T>
-inline constexpr bool is_move_constructible
-    = std::is_nothrow_move_constructible_v<T>;
+inline constexpr bool is_movable = std::is_nothrow_move_constructible_v<T> 
+                                    && std::is_nothrow_move_assignable_v<T>;
 
 template <class T>
-inline constexpr bool is_move_assignable = std::is_nothrow_move_assignable_v<T>;
-
-template <class T>
-inline constexpr bool is_movable
-    = is_move_constructible<T>&& is_move_assignable<T>;
-
-template <class T>
-inline constexpr bool is_copyable
-    = std::is_copy_constructible_v<T>&& std::is_copy_assignable_v<T>;
+inline constexpr bool is_copyable = std::is_copy_constructible_v<T>
+                                    && std::is_copy_assignable_v<T>;
 
 template <class T1, class T2>
 inline constexpr bool is_same = std::is_same_v<T1, T2>;
+
 } // namespace type_pred
+
+// clang-format on
 
 namespace type_conv {
 
@@ -163,29 +162,30 @@ using decay = std::decay_t<T>;
 
 namespace type_pred {
 template <class T1, class T2>
-inline constexpr bool is_same_decay
+inline constexpr bool is_same_with_decay
     = is_same<type_conv::decay<T1>, type_conv::decay<T2>>;
-
 }
 
-using TimePoint = std::chrono::time_point<std::chrono::system_clock>;
-inline TimePoint time_now() { return std::chrono::system_clock::now(); }
+using TimePoint = chrono::time_point<chrono::system_clock>;
+
+inline TimePoint time_now() { return chrono::system_clock::now(); }
 
 using TimeDuration = double;
+using std_ms = chrono::milliseconds;
 
 inline TimeDuration time_diff(const TimePoint& t_old, const TimePoint& t_new)
 {
     static double scale = 1.0 / 1000;
-    using std_ms = std::chrono::milliseconds;
-    return std::chrono::duration_cast<std_ms>(t_new - t_old).count() * scale;
+    return chrono::duration_cast<std_ms>(t_new - t_old).count() * scale;
 }
 
 inline TimeDuration time_diff(const TimePoint& t_new)
 {
     static double scale = 1.0 / 1000;
-    using std_ms = std::chrono::milliseconds;
-    return std::chrono::duration_cast<std_ms>(t_new.time_since_epoch()).count()
-        * scale;
+    auto t = t_new.time_since_epoch();
+    auto diff = std::chrono::duration_cast<std_ms>(t).count();
+    diff *= scale;
+    return diff;
 }
 
 template <class T>

@@ -88,7 +88,7 @@ static Maybe<std::basic_string<To>> utf_convert(
     auto outend = outbeg + working.length();
     auto r = cvtfunc(&inbeg, inend, &outbeg, outend, strictConversion);
     if (r != conversionOK)
-        return maybe_null;
+        return null_maybe;
 
     working.resize(reinterpret_cast<To*>(outbeg) - &working[0]);
     return working;
@@ -175,7 +175,7 @@ static bool isLegalUTF8(const UTF8* source, int length)
     return true;
 }
 
-ConversionResult convert_utf8_to_utf32(
+static ConversionResult convert_utf8_to_utf32(
     const UTF8** sourceStart,
     const UTF8* sourceEnd,
     UTF32** targetStart,

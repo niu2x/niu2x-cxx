@@ -66,6 +66,7 @@ private:
 };
 
 static_assert(type_pred::is_movable<Buffer>);
+static_assert(type_pred::is_copyable<Buffer>);
 
 }; // namespace niu2x
 

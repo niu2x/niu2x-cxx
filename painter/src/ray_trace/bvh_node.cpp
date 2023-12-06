@@ -38,7 +38,7 @@ BVH_Node::BVH_Node(
 Maybe<HitRecord> BVH_Node::hit(const Ray& r, const Interval& ray_t) const
 {
     if (!bbox_.hit(r, ray_t))
-        return maybe_null;
+        return null_maybe;
 
     auto hit_left = left_->hit(r, ray_t);
     auto hit_right = right_->hit(

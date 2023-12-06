@@ -76,7 +76,7 @@ Maybe<HitRecord> Sphere::hit(const Ray& ray, const Interval& ray_interval) const
             }
         }
     }
-    return maybe_null;
+    return null_maybe;
 }
 
 } // namespace niu2x::painter::ray_trace

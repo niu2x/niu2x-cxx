@@ -141,7 +141,7 @@ static Maybe<Status> query_status()
             status.running = true;
         else if (EPERM == errno) {
             std::cerr << "no permission\n";
-            return maybe_null;
+            return null_maybe;
         }
     }
     return status;

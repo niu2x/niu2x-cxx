@@ -34,13 +34,13 @@ public:
 
         // No hit if the ray is parallel to the plane.
         if (fabs(denom) < 1e-8)
-            return maybe_null;
+            return null_maybe;
 
         // Return false if the hit point parameter t is outside the ray
         // interval.
         auto t = (D_ - dot(normal_, r.origin())) / denom;
         if (!ray_t.contains(t))
-            return maybe_null;
+            return null_maybe;
 
         auto intersection = r.at(t);
         Vec3 planar_hitpt_vector = intersection - Q_;
@@ -48,7 +48,7 @@ public:
         auto beta = dot(w_, cross(u_, planar_hitpt_vector));
 
         if (alpha < 0 || alpha > 1 || beta < 0 || beta > 1) {
-            return maybe_null;
+            return null_maybe;
         }
 
         HitRecord rec;
