@@ -17,20 +17,81 @@ enum class SeekPos {
     END,
 };
 
+/**
+ * @brief      This class describes a file.
+ */
 class NXAPI File : private Noncopyable {
 public:
+    /**
+     * @brief      create file by path
+     *
+     * @param[in]  path  The path
+     */
     explicit File(const Path& path);
+
+    /**
+     * @brief      create file by path
+     *
+     * @param      path  The path
+     */
     explicit File(Path&& path);
 
+    /**
+     * @brief      is file exists
+     *
+     * @return     return true if file exists.
+     */
     bool exists() const;
+
+    /**
+     * @brief      just like shell command "touch"
+     */
     void touch() const;
+
+    /**
+     * @brief      just like shell command "mkdir"
+     */
     void create_dir() const;
+
+    /**
+     * @brief      just like shell command "mkdir -p"
+     */
     void ensure_dirs() const;
+
+    /**
+     * @brief      remove file
+     */
     void remove() const;
+
+    /**
+     * @brief      get file's directory
+     *
+     * @return     return a new file object representing current file's
+     * directory
+     */
     File parent() const;
 
+    /**
+     * @brief      get file's path
+     *
+     * @return     return file's path
+     */
     const Path& path() const { return path_; }
+
+    /**
+     * @brief      open this file
+     *
+     * @param[in]  open_mode  The open mode
+     *
+     * @return     return true if successful
+     */
     bool open(OpenMode open_mode);
+
+    /**
+     * @brief      check if it is eof
+     *
+     * @return     return true if it is eof
+     */
     bool eof() const;
 
     bool is_open() const { return !!fs_; }
@@ -62,6 +123,7 @@ private:
 };
 
 static_assert(type_pred::is_movable<File>);
+static_assert(type_pred::is_not_copyable<File>);
 
 } // namespace niu2x::fs
 

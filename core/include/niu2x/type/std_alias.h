@@ -146,6 +146,10 @@ template <class T>
 inline constexpr bool is_copyable = std::is_copy_constructible_v<T>
                                     && std::is_copy_assignable_v<T>;
 
+template <class T>
+inline constexpr bool is_not_copyable = !is_copyable<T>;
+                 
+
 template <class T1, class T2>
 inline constexpr bool is_same = std::is_same_v<T1, T2>;
 
