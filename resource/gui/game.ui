@@ -1,7 +1,0 @@
-UI = {
-    type = "Node",
-    flex_direction = "col",
-    justify_content = "center",
-    children = {
-    },
-}
