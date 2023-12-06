@@ -11,10 +11,10 @@ File::File(const fs::File& file, OpenMode open_mode)
     assert(open_mode == OpenMode::READ || open_mode == OpenMode::WRITE);
     si::openmode mode = open_mode == OpenMode::READ ? si::in : si::out;
 
-    fp_.open(file.path(), mode);
+    fp_.open(file.path().native(), mode);
 
     if (!fp_.is_open())
-        throw_runtime_err("fopen fail: " + file.path().string());
+        throw_runtime_err("fopen fail: " + file.path().str());
 
     fp_.exceptions(std::ifstream::failbit);
     fp_.exceptions(std::ifstream::badbit);

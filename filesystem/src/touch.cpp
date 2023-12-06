@@ -9,7 +9,7 @@ void touch(const Path& path)
     if (exists(path))
         return;
 
-    std::ofstream out_file(path);
+    std::ofstream out_file(path.native());
 
     if (!out_file.is_open())
         throw_os_err();

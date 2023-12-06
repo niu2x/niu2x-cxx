@@ -173,7 +173,7 @@ void ModelViewer::create_coord_system()
 void ModelViewer::create_character()
 {
     Ogre::ResourceGroupManager::getSingletonPtr()->addResourceLocation(
-        model_path_.dir(),
+        model_path_.parent().str(),
         "FileSystem",
         "User");
     Ogre::ResourceGroupManager::getSingletonPtr()->initialiseResourceGroup(

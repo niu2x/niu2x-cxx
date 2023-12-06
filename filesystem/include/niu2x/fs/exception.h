@@ -9,7 +9,7 @@ namespace niu2x::fs {
 class FileAlreadyExists : public RuntimeError {
 public:
     explicit FileAlreadyExists(const fs::Path& filename)
-    : RuntimeError("File already exists: " + filename.string())
+    : RuntimeError("File already exists: " + filename.str())
     {
     }
 };
@@ -17,7 +17,7 @@ public:
 class FileAlreadyOpen : public RuntimeError {
 public:
     explicit FileAlreadyOpen(const fs::Path& filename)
-    : RuntimeError("File already open: " + filename.string())
+    : RuntimeError("File already open: " + filename.str())
     {
     }
 };
@@ -25,7 +25,7 @@ public:
 class FileNotExists : public RuntimeError {
 public:
     explicit FileNotExists(const fs::Path& filename)
-    : RuntimeError("File not exists: " + filename.string())
+    : RuntimeError("File not exists: " + filename.str())
     {
     }
 };

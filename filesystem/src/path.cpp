@@ -1,29 +1,22 @@
 #include <niu2x/fs/path.h>
 
+namespace std_fs = std::filesystem;
+
 namespace niu2x::fs {
 
-Path::Path() { }
+AbsPath::AbsPath() { }
 
-Path::Path(BasePath&& path)
-: BasePath(std::move(path))
+AbsPath::AbsPath(const char* path)
+: path_(path)
+, valid_(true)
 {
+    path_ = std_fs::absolute(path_);
 }
-
-Path::Path(const BasePath& path)
-: BasePath(path)
+AbsPath::AbsPath(const String& path)
+: path_(path)
+, valid_(true)
 {
+    path_ = std_fs::absolute(path_);
 }
-
-Path::Path(const char* path)
-: BasePath(path)
-{
-}
-
-Path::Path(const String& path)
-: BasePath(path)
-{
-}
-
-Path::~Path() { }
 
 } // namespace niu2x::fs

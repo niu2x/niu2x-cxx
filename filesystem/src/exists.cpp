@@ -4,9 +4,6 @@
 
 namespace niu2x::fs {
 
-bool exists(const Path& path)
-{
-	return std::filesystem::exists(path);
-}
+bool exists(const Path& path) { return std::filesystem::exists(path.native()); }
 
 } // namespace niu2x::fs

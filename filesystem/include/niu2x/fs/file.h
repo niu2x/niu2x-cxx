@@ -51,7 +51,7 @@ public:
     void close() { fs_.reset(); }
 
 private:
-    Path path_;
+    AbsPath path_;
     UniquePtr<std::fstream> fs_;
     void check_file_opend() const
     {

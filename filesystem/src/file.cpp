@@ -8,12 +8,12 @@ using si = std::ios_base;
 namespace niu2x::fs {
 
 File::File(const Path& path)
-: path_(std::filesystem::absolute(path))
+: path_(path)
 {
 }
 
 File::File(Path&& path)
-: path_(std::filesystem::absolute(std::move(path)))
+: path_(std::move(path))
 {
 }
 
@@ -39,7 +39,7 @@ bool File::open(OpenMode open_mode)
     mode |= std::ifstream::binary;
 
     fs_ = make_unique<std::fstream>();
-    fs_->open(path_, mode);
+    fs_->open(path_.native(), mode);
 
     bool open_succ = fs_->is_open();
     if (!open_succ)

@@ -1,6 +1,8 @@
 #include <niu2x/fs.h>
 #include <filesystem>
 
+namespace std_fs = std::filesystem;
+
 namespace niu2x::fs {
 
 void remove(const Path& path)
@@ -9,8 +11,8 @@ void remove(const Path& path)
         return;
     }
 
-    if (std::filesystem::remove_all(path) <= 0) {
-        throw_runtime_err("std::filesystem::remove_all for " + path.string());
+    if (std_fs::remove_all(path.native()) <= 0) {
+        throw_runtime_err("std::filesystem::remove_all for " + path.str());
     }
 }
 

@@ -12,7 +12,7 @@ namespace niu2x::fs {
 
 FileType file_type(const Path& path)
 {
-    auto f_status = std::filesystem::status(path);
+    auto f_status = std::filesystem::status(path.native());
     auto f_type = f_status.type();
 
     FileType ft = FileType::NONE;

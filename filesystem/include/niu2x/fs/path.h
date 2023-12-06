@@ -9,23 +9,29 @@ namespace niu2x::fs {
 
 using BasePath = std::filesystem::path;
 
-class NXAPI Path : public BasePath {
+class NXAPI AbsPath {
 public:
-    Path(BasePath&&);
-    Path(const BasePath&);
-    Path(const char*);
-    Path(const String&);
+    AbsPath();
+    AbsPath(const char*);
+    AbsPath(const String&);
 
-    NIU2X_CLASS_DEFAULT_MOVABLE(Path);
-    NIU2X_CLASS_DEFAULT_COPYABLE(Path);
+    NIU2X_CLASS_DEFAULT_MOVABLE(AbsPath);
+    NIU2X_CLASS_DEFAULT_COPYABLE(AbsPath);
 
-    Path();
-    ~Path();
+    AbsPath parent() const { return AbsPath(path_.parent_path()); }
 
-    Path parent() const { return Path(parent_path()); }
-    Path abs() const { return std::filesystem::absolute(*this); }
-    Path dir() const { return abs().parent(); }
+    String str() const { return path_.string(); }
+
+    const BasePath& native() const { return path_; }
+
+    String filename() const { return path_.filename(); }
+
+private:
+    BasePath path_ = "";
+    bool valid_ = false;
 };
+
+using Path = AbsPath;
 
 }; // namespace niu2x::fs
 
