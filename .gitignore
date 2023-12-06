@@ -37,3 +37,4 @@ doc
 *.exe
 *.out
 *.app
+dist
