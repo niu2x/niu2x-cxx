@@ -1,48 +1,23 @@
-build-library: build-debug-library \
-				build-release-library
+library: debug-library \
+				release-library
 
-build-debug-library:
+debug-library:
 	cmake -GNinja -S. \
 		-Bbuild/debug \
 		-DBUILD_SHARED_LIBS=OFF \
-		-Dyoga_DIR=/home/niu2x/project/yoga/dist/lib/cmake/yoga \
-		-Dfreetype_DIR=/home/niu2x/project/freetype/dist/lib/cmake/freetype \
-		-Dyaml-cpp_DIR=/home/niu2x/project/yaml-cpp/dist/lib/cmake/yaml-cpp \
-		-Dpugixml_DIR=/home/niu2x/project/pugixml/dist/lib/cmake/pugixml \
 		-DCMAKE_BUILD_TYPE=Debug;
 	cmake --build build/debug -j;
 	cmake --install build/debug --prefix build/debug/dist/
 
-
-build-release-library:
+release-library:
 	cmake -GNinja -S. \
 		-Bbuild/release \
 		-DBUILD_SHARED_LIBS=OFF \
-		-Dyaml-cpp_DIR=/home/niu2x/project/yaml-cpp/dist/lib/cmake/yaml-cpp \
-		-Dpugixml_DIR=/home/niu2x/project/pugixml/dist/lib/cmake/pugixml \
-		-Dyoga_DIR=/home/niu2x/project/yoga/dist/lib/cmake/yoga \
-		-Dfreetype_DIR=/home/niu2x/project/freetype/dist/lib/cmake/freetype \
 		-DCMAKE_BUILD_TYPE=Release;
 	cmake --build build/release -j;
 	cmake --install build/release --prefix build/release/dist/
 
-build-nxlua: build-release-library
-	cmake -GNinja -S app/nxlua -Bbuild/nxlua/release \
-		-Dniu2x_lua_DIR=$$PWD/build/release/dist/lib/cmake/niu2x \
-		-DCMAKE_BUILD_TYPE=Release;
-	cmake --build build/nxlua/release -j
-
-build-watchdog: build-release-library
-	cmake -GNinja -S app/watchdog -Bbuild/watchdog/release \
-		-Dniu2x_filesystem_DIR=$$PWD/build/release/dist/lib/cmake/niu2x \
-		-Dniu2x_lua_DIR=$$PWD/build/release/dist/lib/cmake/niu2x \
-		-Dniu2x_uv_DIR=$$PWD/build/release/dist/lib/cmake/niu2x \
-		-Dniu2x_stream_DIR=$$PWD/build/release/dist/lib/cmake/niu2x \
-		-Dniu2x_application_DIR=$$PWD/build/release/dist/lib/cmake/niu2x \
-		-DCMAKE_BUILD_TYPE=Release;
-	cmake --build build/watchdog/release -j
-
-build-test-app: build-release-library
+test-app: release-library
 	cmake -GNinja -S test-app -Bbuild/test-app-static/release \
 		-Dniu2x_filesystem_DIR=$$PWD/build/release/dist/lib/cmake/niu2x \
 		-Dniu2x_stream_DIR=$$PWD/build/release/dist/lib/cmake/niu2x \
@@ -56,5 +31,7 @@ build-test-app: build-release-library
 		-DCMAKE_BUILD_TYPE=Release;
 	cmake --build build/test-app-static/release -j
 
-
-.PHONY: 
+.PHONY: library \
+		debug-library \
+		release-library \
+		test-app
