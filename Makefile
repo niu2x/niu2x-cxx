@@ -45,7 +45,7 @@ test-app: release-library
 	cmake --build build/test-app-static -j
 
 # build app
-all-app: nxlua watchdog ModelViewer
+all-app: nxlua watchdog ModelViewer POE
 
 nxlua: release-library
 	cmake -GNinja -S app/nxlua -Bbuild/nxlua \
@@ -70,6 +70,12 @@ ModelViewer: release-library
 		-D niu2x_filesystem_DIR=$(LIB_DIR)
 	cmake --build build/ModelViewer
 
+POE: release-library
+	cmake -S app/POE -Bbuild/POE -DCMAKE_BUILD_TYPE=Release \
+		-D niu2x_application_DIR=$(LIB_DIR) \
+		-D niu2x_filesystem_DIR=$(LIB_DIR)
+	cmake --build build/POE
+
 .PHONY: library \
 		debug-library \
 		release-library \
@@ -78,4 +84,5 @@ ModelViewer: release-library
 		watchdog \
 		all-app \
 		all \
+		POE \
 		ModelViewer

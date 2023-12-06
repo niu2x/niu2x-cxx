@@ -1,0 +1,7 @@
+material Wireframe {
+	technique {
+		pass {
+			polygon_mode wireframe
+		}
+	}
+}
