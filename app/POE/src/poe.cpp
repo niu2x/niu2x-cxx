@@ -8,15 +8,15 @@ POE::POE()
 void POE::create_camera()
 {
     cam_node_ = scn_mgr_->getRootSceneNode()->createChildSceneNode();
-    auto* cam = scn_mgr_->createCamera("my_camera");
-    cam->setNearClipDistance(1); // specific to this sample
-    cam->setAutoAspectRatio(true);
+    camera_ = scn_mgr_->createCamera("my_camera");
+    camera_->setNearClipDistance(1); // specific to this sample
+    camera_->setAutoAspectRatio(true);
     // cam->setProjectionType(Ogre::PT_ORTHOGRAPHIC);
     // cam->setOrthoWindow();
-    cam_node_->attachObject(cam);
-    cam_node_->setPosition(5, 5, 5);
+    cam_node_->attachObject(camera_);
+    cam_node_->setPosition(500, 500, 500);
     cam_node_->lookAt(Ogre::Vector3(0, 0, 0), Ogre::Node::TS_WORLD);
-    getRenderWindow()->addViewport(cam);
+    getRenderWindow()->addViewport(camera_);
 }
 
 void POE::buttonHit(OgreBites::Button* button) { }
@@ -29,16 +29,42 @@ void POE::shutdown()
 }
 
 bool POE::mouseMoved(const OgreBites::MouseMotionEvent& evt) { return true; }
+
 bool POE::mousePressed(const OgreBites::MouseButtonEvent& evt)
 {
-    if (evt.button == 2)
-        mouse_mid_btn_pressed_ = true;
+
+    float width = getRenderWindow()->getWidth();
+    float height = getRenderWindow()->getHeight();
+
+    Ogre::Ray mouseRay
+        = camera_->getCameraToViewportRay(evt.x / width, evt.y / height);
+    Ogre::RaySceneQuery* raySceneQuery = scn_mgr_->createRayQuery(Ogre::Ray());
+
+    raySceneQuery->setRay(mouseRay);
+    raySceneQuery->setSortByDistance(true);
+
+    Ogre::RaySceneQueryResult& result = raySceneQuery->execute();
+    Ogre::RaySceneQueryResult::iterator itr;
+
+    auto ground = scn_mgr_->getEntity("GroundEntity");
+
+    for (itr = result.begin(); itr != result.end(); itr++) {
+        if (itr->movable == ground) {
+            Ogre::Vector3 hitPoint = mouseRay.getPoint(itr->distance);
+            character_->walk_to(hitPoint);
+            break;
+        }
+    }
+
+    scn_mgr_->destroyQuery(raySceneQuery);
     return true;
 }
 bool POE::mouseReleased(const OgreBites::MouseButtonEvent& evt)
 {
-    if (evt.button == 2)
-        mouse_mid_btn_pressed_ = false;
+
+
+
+
     return true;
 }
 
@@ -73,10 +99,10 @@ void POE::setup()
     create_ground();
 
     character_ = std::make_unique<Character>(scn_mgr_, "tryndamere.mesh");
-    character_->play_animation("tryndamere_spell3.anm_skinned_mesh");
+    // character_->play_animation("tryndamere_spell3.anm_skinned_mesh");
 
-    // scn_mgr_->setShadowTextureSize(512);
-    // scn_mgr_->setShadowDirLightTextureOffset(0);
+    scn_mgr_->setShadowTextureSize(512);
+    scn_mgr_->setShadowFarDistance(5000);
 }
 void POE::create_light()
 {
@@ -86,7 +112,6 @@ void POE::create_light()
     auto node = scn_mgr_->getRootSceneNode()->createChildSceneNode();
     node->attachObject(light);
     node->setDirection(1, -1, 1);
-    light->setShadowNearClipDistance(0.01);
 }
 
 void POE::create_ground()
@@ -96,14 +121,14 @@ void POE::create_ground()
         "ground",
         Ogre::ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME,
         plane,
-        100,
-        100,
+        10000,
+        10000,
         10,
         10,
         true,
         1,
-        5,
-        5,
+        50,
+        50,
         Ogre::Vector3::UNIT_Z);
 
     Ogre::Entity* groundEntity

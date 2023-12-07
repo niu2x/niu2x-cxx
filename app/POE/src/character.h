@@ -14,6 +14,7 @@ public:
     using SceneManager = Ogre::SceneManager;
     using Entity = Ogre::Entity;
     using AnimationState = Ogre::AnimationState;
+    using Vector3 = Ogre::Vector3;
     using SceneNode = Ogre::SceneNode;
 
     Character(SceneManager* scn_mgr, const String& mesh);
@@ -23,11 +24,17 @@ public:
 
     void step(double delta);
 
+    const Entity* entity() const { return ent_; }
+
+    void walk_to(const Vector3& target);
+
 private:
     SceneNode* node_ = nullptr;
     Entity* ent_ = nullptr;
     SceneManager* scn_mgr_ = nullptr;
     AnimationState* anim_state_ = nullptr;
+    Vector3 walk_target_;
+    double speed_ = 100;
 };
 
 #endif

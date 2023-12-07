@@ -31,4 +31,25 @@ void Character::step(double delta)
 {
     if (anim_state_)
         anim_state_->addTime(delta);
+
+    auto distance = walk_target_ - node_->_getDerivedPosition();
+
+    if (distance.length() > 10) {
+        auto direction = distance;
+        direction.normalise();
+
+        auto move = std::min((float)(speed_ * delta), distance.length());
+        node_->translate(direction * move, Ogre::Node::TS_WORLD);
+        node_->setDirection(-direction);
+    } else {
+        if (anim_state_)
+            anim_state_->setEnabled(false);
+        anim_state_ = nullptr;
+    }
+}
+
+void Character::walk_to(const Vector3& target)
+{
+    walk_target_ = target;
+    play_animation("tryndamere_run.anm_skinned_mesh");
 }
