@@ -1,0 +1,20 @@
+material riotRig_tryndamere_base2011_MD_v05_lambert3 {
+    technique {
+        pass {
+            diffuse 0.8 0.8 0.8 1.0
+            specular 0.4 0.0 0 0 0
+            texture_unit {
+                texture tryndamere.png
+            }
+        }
+    }
+}
+
+material lambert1 {
+    technique {
+        pass {
+            diffuse 1.0 1.0 1.0 1.0
+            specular 0.4 0.0 0 0 0
+        }
+    }
+}

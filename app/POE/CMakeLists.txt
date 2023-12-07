@@ -6,7 +6,11 @@ find_package(OGRE REQUIRED)
 find_package(niu2x_application REQUIRED)
 find_package(niu2x_filesystem REQUIRED)
 
-add_executable(POE src/main.cpp)
+file(GLOB cpp_source 
+    "src/*.cpp"
+)
+
+add_executable(POE ${cpp_source})
 target_link_libraries(POE PUBLIC 
 	OgreMain 
 	OgreBites 
