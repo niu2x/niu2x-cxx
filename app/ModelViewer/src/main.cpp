@@ -133,20 +133,59 @@ void ModelViewer::setup()
     tray_mgr_->setListener(this);
 
     create_camera();
-    create_coord_system();
+    // create_coord_system();
     create_character();
     create_light();
     create_ground();
 }
 void ModelViewer::create_light()
 {
-    auto light = scn_mgr_->createLight("light0");
-    light->setDiffuseColour(Ogre::ColourValue(1000.8, 1000.8, 1000.8));
-    // light->setSpecularColour(Ogre::ColourValue(5000, 5000, 5000));
-    light->setType(Ogre::Light::LT_POINT);
-    auto node = scn_mgr_->getRootSceneNode()->createChildSceneNode();
-    node->attachObject(light);
-    node->setPosition(-300, 500, -300);
+    auto light_power = 100;
+    {
+        auto light = scn_mgr_->createLight("light0");
+        light->setDiffuseColour(
+            Ogre::ColourValue(light_power, light_power, light_power));
+        light->setSpecularColour(
+            Ogre::ColourValue(light_power, light_power, light_power));
+        light->setType(Ogre::Light::LT_POINT);
+        auto node = scn_mgr_->getRootSceneNode()->createChildSceneNode();
+        node->attachObject(light);
+        node->setPosition(-300, 500, -300);
+    }
+    {
+        auto light = scn_mgr_->createLight("light1");
+        light->setDiffuseColour(
+            Ogre::ColourValue(light_power, light_power, light_power));
+        light->setSpecularColour(
+            Ogre::ColourValue(light_power, light_power, light_power));
+        light->setType(Ogre::Light::LT_POINT);
+        auto node = scn_mgr_->getRootSceneNode()->createChildSceneNode();
+        node->attachObject(light);
+        node->setPosition(300, 0, -300);
+    }
+
+    {
+        auto light = scn_mgr_->createLight("light2");
+        light->setDiffuseColour(
+            Ogre::ColourValue(light_power, light_power, light_power));
+        light->setSpecularColour(
+            Ogre::ColourValue(light_power, light_power, light_power));
+        light->setType(Ogre::Light::LT_POINT);
+        auto node = scn_mgr_->getRootSceneNode()->createChildSceneNode();
+        node->attachObject(light);
+        node->setPosition(-300, 0, 300);
+    }
+    {
+        auto light = scn_mgr_->createLight("light3");
+        light->setDiffuseColour(
+            Ogre::ColourValue(light_power, light_power, light_power));
+        light->setSpecularColour(
+            Ogre::ColourValue(light_power, light_power, light_power));
+        light->setType(Ogre::Light::LT_POINT);
+        auto node = scn_mgr_->getRootSceneNode()->createChildSceneNode();
+        node->attachObject(light);
+        node->setPosition(300, 500, 300);
+    }
 }
 
 void ModelViewer::create_coord_system()
