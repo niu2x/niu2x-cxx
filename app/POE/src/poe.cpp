@@ -14,9 +14,15 @@ void POE::create_camera()
     // cam->setProjectionType(Ogre::PT_ORTHOGRAPHIC);
     // cam->setOrthoWindow();
     cam_node_->attachObject(camera_);
-    cam_node_->setPosition(500, 500, 500);
+    cam_node_->setPosition(5, 5, 5);
     cam_node_->lookAt(Ogre::Vector3(0, 0, 0), Ogre::Node::TS_WORLD);
     getRenderWindow()->addViewport(camera_);
+
+    // cam_node_->setAutoTracking
+
+    camera_controller_
+        = std::make_unique<CameraController>(getRoot(), cam_node_);
+    camera_controller_->set_tracking_offset(Vector3(8, 8, 8));
 }
 
 void POE::buttonHit(OgreBites::Button* button) { }
@@ -99,10 +105,11 @@ void POE::setup()
     create_ground();
 
     character_ = std::make_unique<Character>(scn_mgr_, "tryndamere.mesh");
-    // character_->play_animation("tryndamere_spell3.anm_skinned_mesh");
+    character_->set_scale(1 / 50.0);
+    camera_controller_->set_auto_tracking(character_->node());
 
-    scn_mgr_->setShadowTextureSize(512);
-    scn_mgr_->setShadowFarDistance(5000);
+    scn_mgr_->setShadowTextureSize(2048);
+    scn_mgr_->setShadowFarDistance(50);
 }
 void POE::create_light()
 {
@@ -121,8 +128,8 @@ void POE::create_ground()
         "ground",
         Ogre::ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME,
         plane,
-        10000,
-        10000,
+        1000,
+        1000,
         10,
         10,
         true,

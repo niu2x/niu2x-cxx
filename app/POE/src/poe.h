@@ -1,27 +1,17 @@
 #ifndef POE_H
 #define POE_H
 
-#include <Ogre.h>
-#include <OgreApplicationContext.h>
-#include <OgreInput.h>
-#include <OgreRTShaderSystem.h>
-#include <OgreTrays.h>
+#include "ogre_alias.h"
+#include "niu2x_alias.h"
 #include <niu2x/type.h>
 #include <niu2x/fs.h>
 #include "character.h"
-
-template <class T>
-using UPtr = niu2x::UPtr<T>;
+#include "camera_controller.h"
 
 class POE : public OgreBites::ApplicationContext,
             public OgreBites::InputListener,
             public OgreBites::TrayListener {
 public:
-    using SceneManager = Ogre::SceneManager;
-    using SceneNode = Ogre::SceneNode;
-    using FrameEvent = Ogre::FrameEvent;
-    using Camera = Ogre::Camera;
-
     POE();
     virtual ~POE() { }
 
@@ -46,8 +36,9 @@ private:
     SceneManager* scn_mgr_ = nullptr;
     SceneNode* cam_node_ = nullptr;
     bool mouse_mid_btn_pressed_ = false;
-    UPtr<Character> character_ = nullptr;
+    UPtr<Character> character_;
     Camera* camera_ = nullptr;
+    UPtr<CameraController> camera_controller_;
 };
 
 #endif
