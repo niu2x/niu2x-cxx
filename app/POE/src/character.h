@@ -41,9 +41,9 @@ public:
         {
         }
         ~StateHandler() { }
-        virtual void enter() { }
-        virtual void exit() { }
-        virtual void step(double dt) { }
+        void enter() override { enter_handler_(); }
+        void exit() override { exit_handler_(); }
+        void step(double dt) override { step_handler_(dt); }
 
     private:
         ENTER_EXIT_HANDLER enter_handler_;
@@ -63,13 +63,19 @@ public:
 
     void walk_to(const Vector3& target);
 
-    virtual void idle_enter() { }
-    virtual void idle_exit() { }
-    virtual void idle_step(double) { }
+    virtual void idle_enter();
+    virtual void idle_exit();
+    virtual void idle_step(double);
 
-    virtual void run_enter() { }
-    virtual void run_exit() { }
-    virtual void run_step(double) { }
+    virtual void run_enter();
+    virtual void run_exit();
+    virtual void run_step(double);
+
+    virtual void casting_skill_enter();
+    virtual void casting_skill_exit();
+    virtual void casting_skill_step(double);
+
+    virtual void casting_skill();
 
 private:
     SceneNode* node_ = nullptr;
@@ -77,9 +83,11 @@ private:
     SceneManager* scn_mgr_ = nullptr;
     HashMap<String, AnimationState*> anim_states_;
     Vector3 walk_target_;
-    double base_speed_ = 1;
+    double base_speed_ = 2;
     double speed_ = 5;
     sm::StateMachine state_machine_;
+
+    double skill_duration_ = 0;
 };
 
 #endif

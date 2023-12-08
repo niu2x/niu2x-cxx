@@ -9,6 +9,8 @@ void StateMachine::set_init_state(UPtr<State> init_state)
     cur_state_ = init_state.get();
     states_.clear();
     states_.push_back(std::move(init_state));
+
+    cur_state_->enter();
 }
 
 void StateMachine::step(double t) { cur_state_->step(t); }

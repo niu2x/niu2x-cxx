@@ -22,7 +22,7 @@ void POE::create_camera()
 
     camera_controller_
         = std::make_unique<CameraController>(getRoot(), cam_node_);
-    camera_controller_->set_tracking_offset(Vector3(8, 8, 8));
+    camera_controller_->set_tracking_offset(Vector3(8, 14, 8));
 }
 
 void POE::buttonHit(OgreBites::Button* button) { }
@@ -86,7 +86,7 @@ void POE::setup()
     auto* shadergen = Ogre::RTShader::ShaderGenerator::getSingletonPtr();
     shadergen->addSceneManager(scn_mgr_);
 
-    scn_mgr_->setAmbientLight(Ogre::ColourValue(0.5, 0.5, 0.5));
+    scn_mgr_->setAmbientLight(Ogre::ColourValue(1, 1, 1));
     scn_mgr_->setShadowTechnique(
         Ogre::ShadowTechnique::SHADOWTYPE_TEXTURE_MODULATIVE);
 
@@ -114,7 +114,7 @@ void POE::setup()
 void POE::create_light()
 {
     auto light = scn_mgr_->createLight("light0");
-    light->setDiffuseColour(Ogre::ColourValue(2, 2, 2));
+    light->setDiffuseColour(Ogre::ColourValue(0.5, 0.5, 0.5));
     light->setType(Ogre::Light::LT_DIRECTIONAL);
     auto node = scn_mgr_->getRootSceneNode()->createChildSceneNode();
     node->attachObject(light);
@@ -157,6 +157,8 @@ bool POE::keyPressed(const OgreBites::KeyboardEvent& evt)
 {
     if (evt.keysym.sym == OgreBites::SDLK_ESCAPE) {
         getRoot()->queueEndRendering();
+    } else if (evt.keysym.sym == 'e') {
+        character_->casting_skill();
     }
 
     return true;
