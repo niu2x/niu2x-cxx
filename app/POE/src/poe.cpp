@@ -168,3 +168,5 @@ bool POE::mouseWheelRolled(const OgreBites::MouseWheelEvent& evt)
 {
     return true;
 }
+
+bool POE::keyReleased(const OgreBites::KeyboardEvent& evt) { return true; }
