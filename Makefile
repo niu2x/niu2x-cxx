@@ -31,7 +31,7 @@ release-library:
 
 # build test app
 test-app: release-library
-	cmake -GNinja -S test-app -Bbuild/test-app-static/release \
+	cmake -GNinja -S test-app -Bbuild/test-app-static \
 		-Dniu2x_filesystem_DIR=$(LIB_DIR) \
 		-Dniu2x_stream_DIR=$(LIB_DIR) \
 		-Dniu2x_crypto_DIR=$(LIB_DIR) \

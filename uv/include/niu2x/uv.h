@@ -4,6 +4,10 @@
 #include <niu2x/noncopyable.h>
 #include <niu2x/type.h>
 #include <niu2x/uv/exception.h>
+#include <niu2x/uv/loop.h>
+#include <niu2x/uv/idle.h>
+#include <niu2x/uv/timer.h>
+#include <niu2x/uv/signal.h>
 
 namespace niu2x::uv {
 
