@@ -16,6 +16,9 @@ Character::Character(SceneManager* scn_mgr, const String& mesh)
     anim_states_["spell3"]
         = ent_->getAnimationState("tryndamere_spell3.anm_skinned_mesh");
 
+    anim_states_["attack2"]
+        = ent_->getAnimationState("tryndamere_attack2.anm_skinned_mesh");
+
     state_machine_.set_init_state(create_character_state(idle));
 }
 
@@ -32,28 +35,41 @@ void Character::set_scale(double scale)
     node_->setScale(Ogre::Vector3(scale, scale, scale));
 }
 
-void Character::casting_skill()
+void Character::casting_skill(Skill skill)
 {
-    state_machine_.change_state(create_character_state(casting_skill));
+    if (current_skill_ != skill) {
+        switch (skill) {
+            case Skill::chop: {
+                state_machine_.change_state(
+                    create_character_state(casting_chop));
+                break;
+            }
+        }
+    }
 }
 
-void Character::casting_skill_enter()
+void Character::casting_chop_enter()
 {
-    anim_states_["spell3"]->setEnabled(true);
-    skill_duration_ = 0.1;
+    auto anim = anim_states_["attack2"];
+    anim->setEnabled(true);
+    anim->setTimePosition(0);
+    skill_duration_ = anim->getLength();
+    current_skill_ = Skill::chop;
 }
 
-void Character::casting_skill_exit()
+void Character::casting_chop_exit()
 {
-    anim_states_["spell3"]->setEnabled(false);
+    anim_states_["attack2"]->setEnabled(false);
+    current_skill_ = Skill::none;
 }
 
-void Character::casting_skill_step(double dt)
+void Character::casting_chop_step(double dt)
 {
-    anim_states_["spell3"]->addTime(dt);
+    anim_states_["attack2"]->addTime(dt);
     skill_duration_ -= dt;
-    if (skill_duration_ <= 0)
+    if (skill_duration_ <= 0) {
         state_machine_.change_state(create_character_state(idle));
+    }
 }
 
 // void Character::play_animation(const String& name)

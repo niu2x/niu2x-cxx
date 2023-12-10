@@ -12,6 +12,11 @@
 //     virtual UPtr<State> create_run_state()  { return nullptr; }
 // };
 
+enum class Skill {
+    none,
+    chop,
+};
+
 #define create_character_state_imp(enter, exit, step)                          \
     std::make_unique<Character::StateHandler>(                                 \
         [this]() { (enter)(); },                                               \
@@ -71,11 +76,10 @@ public:
     virtual void run_exit();
     virtual void run_step(double);
 
-    virtual void casting_skill_enter();
-    virtual void casting_skill_exit();
-    virtual void casting_skill_step(double);
-
-    virtual void casting_skill();
+    void casting_skill(Skill skill);
+    virtual void casting_chop_enter();
+    virtual void casting_chop_exit();
+    virtual void casting_chop_step(double);
 
 private:
     SceneNode* node_ = nullptr;
@@ -86,8 +90,8 @@ private:
     double base_speed_ = 2;
     double speed_ = 5;
     sm::StateMachine state_machine_;
-
     double skill_duration_ = 0;
+    Skill current_skill_ = Skill::none;
 };
 
 #endif

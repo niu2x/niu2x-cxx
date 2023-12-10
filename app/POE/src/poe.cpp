@@ -30,6 +30,7 @@ void POE::buttonHit(OgreBites::Button* button) { }
 void POE::shutdown()
 {
     character_.reset();
+    enemy_.reset();
     tray_mgr_.reset();
     OgreBites::ApplicationContext::shutdown();
 }
@@ -108,6 +109,9 @@ void POE::setup()
     character_->set_scale(1 / 50.0);
     camera_controller_->set_auto_tracking(character_->node());
 
+    enemy_ = std::make_unique<Character>(scn_mgr_, "tryndamere.mesh");
+    enemy_->set_scale(1 / 50.0);
+
     scn_mgr_->setShadowTextureSize(2048);
     scn_mgr_->setShadowFarDistance(50);
 }
@@ -149,6 +153,7 @@ void POE::create_ground()
 bool POE::frameRenderingQueued(const Ogre::FrameEvent& evt)
 {
     character_->step(evt.timeSinceLastFrame);
+    enemy_->step(evt.timeSinceLastFrame);
     tray_mgr_->frameRendered(evt);
     return OgreBites::ApplicationContext::frameRenderingQueued(evt);
 }
@@ -158,7 +163,7 @@ bool POE::keyPressed(const OgreBites::KeyboardEvent& evt)
     if (evt.keysym.sym == OgreBites::SDLK_ESCAPE) {
         getRoot()->queueEndRendering();
     } else if (evt.keysym.sym == 'e') {
-        character_->casting_skill();
+        character_->casting_skill(Skill::chop);
     }
 
     return true;

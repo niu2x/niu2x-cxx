@@ -40,6 +40,7 @@ private:
     SceneNode* cam_node_ = nullptr;
     bool mouse_mid_btn_pressed_ = false;
     UPtr<Character> character_;
+    UPtr<Character> enemy_;
     Camera* camera_ = nullptr;
     UPtr<CameraController> camera_controller_;
 };
