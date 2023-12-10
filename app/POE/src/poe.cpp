@@ -66,14 +66,8 @@ bool POE::mousePressed(const OgreBites::MouseButtonEvent& evt)
     scn_mgr_->destroyQuery(raySceneQuery);
     return true;
 }
-bool POE::mouseReleased(const OgreBites::MouseButtonEvent& evt)
-{
 
-
-
-
-    return true;
-}
+bool POE::mouseReleased(const OgreBites::MouseButtonEvent& evt) { return true; }
 
 void POE::setup()
 {
