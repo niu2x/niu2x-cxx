@@ -20,7 +20,8 @@ struct Size {
 };
 
 using IntSize = Size<int>;
-using DoubleSize = Size<double>;
+using RealSize = Size<double>;
+using DoubleSize = RealSize;
 
 template <class T>
 struct Pos2D {

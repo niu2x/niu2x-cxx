@@ -5,6 +5,7 @@
 #include <niu2x/math/linalg_alias.h>
 #include <niu2x/noncopyable.h>
 #include <niu2x/math/utils.h>
+#include <niu2x/type/std_alias.h>
 
 namespace niu2x::math {
 
@@ -61,6 +62,8 @@ private:
 
     static void permute(int* p, int n);
 };
+
+static_assert(!type_pred::is_movable<Perlin>);
 
 } // namespace niu2x::math
 

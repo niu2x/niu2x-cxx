@@ -84,7 +84,7 @@ inline Interval operator+(const Interval& a, const Interval& b)
 
 inline Interval operator*(const Interval& a, const Interval& b)
 {
-    return Interval(fmin(a.min, b.min), fmax(a.max, b.max));
+    return Interval(fmax(a.min, b.min), fmin(a.max, b.max));
 }
 
 } // namespace niu2x::math
