@@ -6,8 +6,8 @@ int main()
 {
     int counter = 0;
     int counter2 = 0;
-    uv2::Loop loop;
-    uv2::Idle idle(&loop, [&idle, &counter]() {
+    uv::Loop loop;
+    uv::Idle idle(&loop, [&idle, &counter]() {
         printf("counter %d\n", counter);
         if (counter++ > 5) {
             idle.stop();
@@ -15,7 +15,7 @@ int main()
     });
     idle.start();
 
-    uv2::Timer timer(
+    uv::Timer timer(
         &loop,
         [&timer, &counter2]() {
             printf("counter2 %d\n", counter2);

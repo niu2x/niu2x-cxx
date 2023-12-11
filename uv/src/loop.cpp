@@ -8,7 +8,7 @@
         THROW_UV_ERR(n);                                                       \
     }
 
-namespace niu2x::uv2 {
+namespace niu2x::uv {
 
 Loop::Loop()
 : native_(sizeof(uv_loop_t))
@@ -38,4 +38,4 @@ Loop::~Loop()
     CHECK_UV_ERR(err);
 }
 
-} // namespace niu2x::uv2
+} // namespace niu2x::uv

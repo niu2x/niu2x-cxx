@@ -44,20 +44,20 @@ static void do_job()
 static void job()
 {
     uv::Loop loop;
-    auto timer = loop.create_timer();
-    auto signal = loop.create_signal();
-    loop.timer_start(timer, 1000, 1000, []() { do_job(); });
-    loop.signal_start(signal, SIGINT, [&loop, timer, signal](int signum) {
-        loop.signal_stop(signal);
-        loop.timer_stop(timer);
+    uv::Timer timer(
+        &loop,
+        []() { do_job(); },
+        1);
+
+    uv::Signal signal(&loop, [&timer, &signal](int signum) {
+        timer.stop();
+        signal.stop();
     });
-    loop.run();
 
-    loop.destroy_timer(timer);
-    loop.destroy_signal(signal);
-    loop.run();
+    timer.start();
+    signal.start(SIGINT);
 
-    loop.close();
+    loop.run_loop();
 }
 
 static int start()

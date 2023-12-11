@@ -4,9 +4,7 @@
 #include <niu2x/uv/loop.h>
 #include <niu2x/unused.h>
 
-#define UV_TIMER()
-
-namespace niu2x::uv2 {
+namespace niu2x::uv {
 
 Timer::Timer(Loop* loop, TimerCallback callback, TimeDuration interval)
 : native_(sizeof(uv_timer_t))
@@ -49,4 +47,4 @@ void Timer::stop()
     uv_timer_stop(uv_timer);
 }
 
-}; // namespace niu2x::uv2
+}; // namespace niu2x::uv

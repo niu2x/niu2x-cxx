@@ -4,7 +4,7 @@
 #include <niu2x/uv/loop.h>
 #include <niu2x/unused.h>
 
-namespace niu2x::uv2 {
+namespace niu2x::uv {
 
 Idle::Idle(Loop* loop, IdleCallback callback)
 : native_(sizeof(uv_idle_t))
@@ -46,4 +46,4 @@ void Idle::stop()
     uv_idle_stop(uv_idle);
 }
 
-}; // namespace niu2x::uv2
+}; // namespace niu2x::uv

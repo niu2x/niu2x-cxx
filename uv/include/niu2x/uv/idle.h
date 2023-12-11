@@ -5,7 +5,7 @@
 #include <niu2x/type.h>
 #include <niu2x/uv/exception.h>
 
-namespace niu2x::uv2 {
+namespace niu2x::uv {
 
 class Loop;
 
@@ -27,6 +27,6 @@ private:
     static void uv_callback(void*);
 };
 
-} // namespace niu2x::uv2
+} // namespace niu2x::uv
 
 #endif

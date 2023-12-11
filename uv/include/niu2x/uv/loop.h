@@ -5,7 +5,7 @@
 #include <niu2x/type.h>
 #include <niu2x/uv/exception.h>
 
-namespace niu2x::uv2 {
+namespace niu2x::uv {
 
 class Loop : private Noncopyable {
 public:
@@ -21,6 +21,6 @@ private:
     MallocHandle native_;
 };
 
-} // namespace niu2x::uv2
+} // namespace niu2x::uv
 
 #endif
