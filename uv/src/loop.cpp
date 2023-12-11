@@ -18,7 +18,16 @@ Loop::Loop()
     CHECK_UV_ERR(uv_loop_init(loop));
 }
 
-void Loop::run() { }
+void Loop::run_loop()
+{
+    auto loop = reinterpret_cast<uv_loop_t*>(native_.data());
+    CHECK_UV_ERR(uv_run(loop, UV_RUN_DEFAULT));
+}
+void Loop::run_once()
+{
+    auto loop = reinterpret_cast<uv_loop_t*>(native_.data());
+    CHECK_UV_ERR(uv_run(loop, UV_RUN_ONCE));
+}
 
 Loop::~Loop()
 {

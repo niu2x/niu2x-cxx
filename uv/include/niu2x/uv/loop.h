@@ -11,7 +11,10 @@ class Loop : private Noncopyable {
 public:
     Loop();
     ~Loop();
-    void run();
+
+    void run_loop();
+    void run_once();
+
     void* native() const { return native_.data(); }
 
 private:
