@@ -192,6 +192,8 @@ inline TimeDuration time_diff(const TimePoint& t_new)
     return diff;
 }
 
+inline int64_t to_milliseconds(TimeDuration td) { return td * 1000; }
+
 template <class T>
 inline const T nan = std::numeric_limits<T>::quiet_NaN();
 

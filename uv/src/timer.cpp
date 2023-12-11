@@ -8,11 +8,11 @@
 
 namespace niu2x::uv2 {
 
-Timer::Timer(Loop* loop, TimerCallback callback, uint64_t interval)
+Timer::Timer(Loop* loop, TimerCallback callback, TimeDuration interval)
 : native_(sizeof(uv_timer_t))
 , callback_(callback)
 , loop_(loop)
-, interval_(interval)
+, interval_(to_milliseconds(interval))
 {
     auto uv_timer = UV_TYPE(uv_timer_t*, native_.data());
     memset(uv_timer, 0, sizeof(uv_timer_t));

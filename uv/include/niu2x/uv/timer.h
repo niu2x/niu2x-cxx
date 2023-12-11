@@ -12,7 +12,7 @@ class Loop;
 class Timer : private Noncopyable {
 public:
     using TimerCallback = Function<void()>;
-    Timer(Loop* loop, TimerCallback callback, uint64_t interval);
+    Timer(Loop* loop, TimerCallback callback, TimeDuration interval);
     ~Timer();
     void* native() const { return native_.data(); }
     void start();
@@ -22,7 +22,7 @@ private:
     MallocHandle native_;
     TimerCallback callback_;
     Loop* loop_;
-    uint64_t interval_;
+    int64_t interval_;
     static void uv_callback(void*);
 };
 

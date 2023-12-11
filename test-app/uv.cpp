@@ -23,7 +23,7 @@ int main()
                 timer.stop();
             }
         },
-        1000);
+        1);
     timer.start();
 
     loop.run_loop();
