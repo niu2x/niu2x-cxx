@@ -32,6 +32,7 @@ void POE::shutdown()
     character_.reset();
     enemy_.reset();
     tray_mgr_.reset();
+
     OgreBites::ApplicationContext::shutdown();
 }
 
