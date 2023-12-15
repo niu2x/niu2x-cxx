@@ -8,5 +8,6 @@
 #include <niu2x/uv/idle.h>
 #include <niu2x/uv/timer.h>
 #include <niu2x/uv/signal.h>
+#include <niu2x/uv/process.h>
 
 #endif
