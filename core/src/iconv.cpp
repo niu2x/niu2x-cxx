@@ -1,5 +1,5 @@
 #include <niu2x/string_utils.h>
-#include <niu2x/type/std_alias.h>
+#include <niu2x/std_alias.h>
 #include "iconv.h"
 
 namespace niu2x::string_utils::iconv {
@@ -259,7 +259,7 @@ static ConversionResult convert_utf8_to_utf32(
     return result;
 }
 
-Maybe<String32> utf8_to_utf32(const String& utf8)
+Maybe<UnicodeString> utf8_to_utf32(const String& utf8)
 {
     return utf_convert<char, char32_t>(utf8, &convert_utf8_to_utf32);
 }

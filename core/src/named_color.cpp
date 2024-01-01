@@ -1,10 +1,11 @@
-#include <niu2x/type/color.h>
-#include <niu2x/type/std_alias.h>
+#include <niu2x/color.h>
+#include <niu2x/std_alias.h>
 
 // #define NIU2X_COLOR_CLAMP(n) max(min((int)(n), 255), 0)
 
 #define NAMED_COLOR(name, red, green, blue)                                    \
-    const Color Color::name(red, green, blue, 0xFF)
+    const Color4B Color4B::name(red, green, blue, 0xFF);                       \
+    const Color4F Color4F::name(red / 255.0, green / 255.0, blue / 255.0, 1);
 
 namespace niu2x {
 

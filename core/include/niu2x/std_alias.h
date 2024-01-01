@@ -1,5 +1,5 @@
-#ifndef NIU2X_TYPE_STD_ALIAS_H
-#define NIU2X_TYPE_STD_ALIAS_H
+#ifndef NIU2X_STD_ALIAS_H
+#define NIU2X_STD_ALIAS_H
 
 #include <cstdint>
 #include <stdexcept>
@@ -30,8 +30,10 @@ namespace chrono = std::chrono;
  * @brief       String
  */
 using String = std::string;
-using String32 = std::basic_string<char32_t>;
+using UnicodeString = std::basic_string<char32_t>;
+
 using StringBuf = std::stringstream;
+
 using Exception = std::exception;
 using BadAlloc = std::bad_alloc;
 using OutOfRange = std::out_of_range;

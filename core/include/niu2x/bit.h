@@ -2,7 +2,6 @@
 #define NIU2X_BIT_H
 
 #include <bit>
-#include <niu2x/api.h>
 
 namespace niu2x::endian {
 

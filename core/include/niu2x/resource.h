@@ -1,8 +1,8 @@
 #ifndef NIU2X_TYPE_RESOURCE_H
 #define NIU2X_TYPE_RESOURCE_H
 
-#include <niu2x/type/serializable.h>
-#include <niu2x/type/deserializable.h>
+#include <niu2x/serializable.h>
+#include <niu2x/deserializable.h>
 
 namespace niu2x {
 

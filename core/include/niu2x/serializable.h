@@ -1,7 +1,7 @@
 #ifndef NIU2X_SERIALIZABLE_H
 #define NIU2X_SERIALIZABLE_H
 
-#include <niu2x/type/stream.h>
+#include <niu2x/stream.h>
 
 namespace niu2x {
 

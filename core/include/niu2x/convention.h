@@ -1,7 +1,7 @@
 #ifndef NIU2X_CONVENTION_H
 #define NIU2X_CONVENTION_H
 
-#include <niu2x/type/std_alias.h>
+#include <niu2x/std_alias.h>
 
 namespace niu2x {
 

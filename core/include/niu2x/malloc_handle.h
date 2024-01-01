@@ -2,7 +2,7 @@
 #define NIU2X_MALLOC_HANDLE_H
 
 #include <niu2x/noncopyable.h>
-#include <niu2x/type/convention.h>
+#include <niu2x/convention.h>
 
 namespace niu2x {
 
@@ -16,9 +16,13 @@ public:
 
     void* data() const { return data_; }
 
+    void swap(MallocHandle& other) noexcept;
+
 private:
     void* data_;
 };
+
+inline void swap(MallocHandle& a, MallocHandle& b) noexcept { a.swap(b); }
 
 } // namespace niu2x
 

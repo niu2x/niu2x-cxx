@@ -1,4 +1,5 @@
-#include <niu2x/type/malloc_handle.h>
+#include <niu2x/malloc_handle.h>
+#include <niu2x/std_alias.h>
 
 namespace niu2x {
 
@@ -19,8 +20,14 @@ MallocHandle::MallocHandle(MallocHandle&& other)
 
 MallocHandle& MallocHandle::operator=(MallocHandle&& other)
 {
-    swap(data_, other.data_);
+    MallocHandle tmp(move(other));
+    swap(tmp);
     return *this;
+}
+
+void MallocHandle::swap(MallocHandle& other) noexcept
+{
+    niu2x::swap(data_, other.data_);
 }
 
 } // namespace niu2x

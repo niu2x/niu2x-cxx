@@ -3,5 +3,6 @@
 
 #cmakedefine01 NIU2X_USE_POSIX
 #cmakedefine01 NIU2X_USE_WINAPI
+#cmakedefine01 NIU2X_USE_THREE_WAY_COMPARE
 
 #endif

@@ -1,4 +1,5 @@
-#include <niu2x/type.h>
+#include <niu2x/buffer.h>
+#include <string.h>
 
 namespace niu2x {
 

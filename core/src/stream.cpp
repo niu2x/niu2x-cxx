@@ -1,14 +1,11 @@
-#include <niu2x/type/stream.h>
+#include <niu2x/stream.h>
 
 namespace niu2x {
 
-ReadStream::ReadStream() { }
 ReadStream::~ReadStream() { }
-
-WriteStream::WriteStream() { }
 WriteStream::~WriteStream() { }
 
-NXAPI void pipe(ReadStream* reader, WriteStream* writer, bool auto_finalize)
+void pipe(ReadStream* reader, WriteStream* writer, bool auto_finalize)
 {
     constexpr int bs = 4096;
     uint8_t block[bs];

@@ -1,4 +1,4 @@
-#include <niu2x/type/exception.h>
+#include <niu2x/exception.h>
 #include <string.h>
 #include "build_time/build_config.h"
 

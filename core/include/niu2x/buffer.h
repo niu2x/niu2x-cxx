@@ -1,8 +1,8 @@
 #ifndef NIU2X_TYPE_BUFFER_H
 #define NIU2X_TYPE_BUFFER_H
 
-#include <niu2x/api.h>
-#include <niu2x/type/std_alias.h>
+#include <niu2x/std_alias.h>
+#include <niu2x/convention.h>
 #include <niu2x/preprocess.h>
 
 namespace niu2x {

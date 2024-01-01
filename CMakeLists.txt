@@ -12,6 +12,8 @@ elseif(CMAKE_SYSTEM_NAME STREQUAL "Windows")
     set(NIU2X_USE_WINAPI ON)    
 endif()
 
+set(NIU2X_USE_THREE_WAY_COMPARE OFF)
+
 set(CMAKE_CXX_STANDARD 20)
 
 configure_file(build_config.h.in include/build_time/build_config.h)
