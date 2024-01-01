@@ -78,7 +78,7 @@ public:
      *
      * @return     return file's path
      */
-    const AbsPath path() const { return path_; }
+    const AbsPath& path() const { return path_; }
 
     /**
      * @brief      open this file

@@ -21,5 +21,6 @@ configure_file(build_config.h.in include/build_time/build_config.h)
 add_subdirectory(core)
 add_subdirectory(crypto)
 add_subdirectory(filesystem)
+add_subdirectory(math)
 
 include(CPack)
