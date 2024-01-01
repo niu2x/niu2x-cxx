@@ -834,7 +834,6 @@ INPUT = core/include \
         filesystem/include \
         image/include \
         math/include \
-        painter/include \
         stream/include
 
 # This tag can be used to specify the character encoding of the source files

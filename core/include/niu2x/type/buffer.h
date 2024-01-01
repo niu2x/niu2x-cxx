@@ -11,8 +11,6 @@ namespace niu2x {
  * @brief       A block of memory */
 class NXAPI Buffer {
 public:
-    using MemBlock = Vector<uint8_t>;
-
     /**
      * @brief       constructor
      * @param       size of Buffer's memory*/
@@ -62,6 +60,7 @@ public:
     String str() const { return String(buf_.begin(), buf_.end()); }
 
 private:
+    using MemBlock = Vector<uint8_t>;
     MemBlock buf_;
 };
 

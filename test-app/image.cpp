@@ -1,7 +1,6 @@
 #include <niu2x/image.h>
 #include <niu2x/fs.h>
 #include <niu2x/stream.h>
-#include <niu2x/painter.h>
 
 using namespace niu2x;
 

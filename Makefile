@@ -37,7 +37,6 @@ test-app: release-library
 		-Dniu2x_crypto_DIR=$(LIB_DIR) \
 		-Dniu2x_core_DIR=$(LIB_DIR) \
 		-Dniu2x_image_DIR=$(LIB_DIR) \
-		-Dniu2x_painter_DIR=$(LIB_DIR) \
 		-Dniu2x_math_DIR=$(LIB_DIR) \
 		-Dniu2x_uv_DIR=$(LIB_DIR) \
 		-Dniu2x_application_DIR=$(LIB_DIR) \

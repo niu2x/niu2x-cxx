@@ -1,1 +1,0 @@
-#include <niu2x/painter/ray_trace/quad.h>
