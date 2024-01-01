@@ -3,7 +3,7 @@
 
 #include <filesystem>
 #include <niu2x/type.h>
-#include <niu2x/preprocess/class_utils.h>
+#include <niu2x/preprocess.h>
 
 namespace niu2x::fs {
 

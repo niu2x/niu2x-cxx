@@ -15,8 +15,8 @@ public:
         JPG,
     };
 
-    NIU2X_CLASS_DEFAULT_MOVABLE(ImageData);
-    NIU2X_CLASS_DEFAULT_COPYABLE(ImageData);
+    NIU2X_PP_MOVABLE(ImageData);
+    NIU2X_PP_COPYABLE(ImageData);
 
     ImageData();
     virtual ~ImageData();

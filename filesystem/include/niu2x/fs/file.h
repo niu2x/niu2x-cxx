@@ -7,7 +7,7 @@
 #include <niu2x/type/convention.h>
 #include <niu2x/fs/path.h>
 #include <niu2x/fs/open_mode.h>
-#include <niu2x/preprocess/class_utils.h>
+#include <niu2x/preprocess.h>
 
 namespace niu2x::fs {
 

@@ -2,6 +2,7 @@
 #define NIU2X_NONCOPYABLE_H
 
 #include <niu2x/api.h>
+#include <niu2x/preprocess.h>
 
 namespace niu2x {
 
@@ -12,11 +13,9 @@ public:
     Noncopyable() { }
     ~Noncopyable() { }
 
-    Noncopyable(const Noncopyable&) = delete;
-    Noncopyable& operator=(const Noncopyable&) = delete;
+    NIU2X_PP_NO_COPYABLE(Noncopyable)
 
-    Noncopyable(Noncopyable&&) = default;
-    Noncopyable& operator=(Noncopyable&&) = default;
+    NIU2X_PP_MOVABLE(Noncopyable)
 };
 
 }; // namespace niu2x

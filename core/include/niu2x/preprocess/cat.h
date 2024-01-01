@@ -1,5 +1,5 @@
-#ifndef NIU2X_PREPROCESS_CAT_H
-#define NIU2X_PREPROCESS_CAT_H
+#ifndef NIU2X_PP_CAT_H
+#define NIU2X_PP_CAT_H
 
 /**
  * @brief       concat two things

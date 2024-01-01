@@ -18,8 +18,8 @@ public:
     Image();
     virtual ~Image();
 
-    NIU2X_CLASS_DEFAULT_MOVABLE(Image);
-    NIU2X_CLASS_DEFAULT_COPYABLE(Image);
+    NIU2X_PP_MOVABLE(Image);
+    NIU2X_PP_COPYABLE(Image);
 
     virtual void store_to(WriteStream* dest) override;
     virtual void load_from(ReadStream* src) override;

@@ -3,7 +3,7 @@
 
 #include <fstream>
 #include <niu2x/noncopyable.h>
-#include <niu2x/preprocess/class_utils.h>
+#include <niu2x/preprocess.h>
 #include <niu2x/fs/open_mode.h>
 #include <niu2x/fs/file.h>
 

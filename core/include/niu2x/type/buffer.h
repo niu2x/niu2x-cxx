@@ -3,7 +3,7 @@
 
 #include <niu2x/api.h>
 #include <niu2x/type/std_alias.h>
-#include <niu2x/preprocess/class_utils.h>
+#include <niu2x/preprocess.h>
 
 namespace niu2x {
 
