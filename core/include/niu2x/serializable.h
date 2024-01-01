@@ -8,7 +8,7 @@ namespace niu2x {
 class Serializable {
 public:
     virtual ~Serializable() { }
-    virtual void store_to(WriteStream* dest) = 0;
+    virtual void store_to(ByteWriteStream* dest) = 0;
 };
 
 } // namespace niu2x

@@ -8,7 +8,7 @@ namespace niu2x {
 class Deserializable {
 public:
     virtual ~Deserializable() { }
-    virtual void load_from(ReadStream* src) = 0;
+    virtual void load_from(ByteReadStream* src) = 0;
 };
 
 } // namespace niu2x

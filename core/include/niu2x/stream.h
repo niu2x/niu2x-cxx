@@ -7,21 +7,41 @@
 
 namespace niu2x {
 
+template <class T>
 class ReadStream : private Noncopyable {
 public:
-    virtual ~ReadStream();
-    virtual NR read(void* buf, NR size) = 0;
+    virtual ~ReadStream() { }
+    virtual NR read(T* buf, NR size) = 0;
     virtual bool eof() = 0;
 };
 
+template <class T>
 class WriteStream : private Noncopyable {
 public:
-    virtual ~WriteStream();
-    virtual void write(const void* buf, NR size) = 0;
+    virtual ~WriteStream() { }
+    virtual void write(const T* buf, NR size) = 0;
     virtual void finalize() { }
 };
 
-void pipe(ReadStream* reader, WriteStream* writer, bool auto_finalize = true);
+using ByteReadStream = ReadStream<uint8_t>;
+using ByteWriteStream = WriteStream<uint8_t>;
+
+template <class T>
+void pipe(
+    ReadStream<T>* reader,
+    WriteStream<T>* writer,
+    bool auto_finalize = true)
+{
+    constexpr int bs = 4096;
+    T block[bs];
+    while (!reader->eof()) {
+        auto n = reader->read(block, bs);
+        writer->write(block, n);
+    }
+    if (auto_finalize) {
+        writer->finalize();
+    }
+}
 
 } // namespace niu2x
 
