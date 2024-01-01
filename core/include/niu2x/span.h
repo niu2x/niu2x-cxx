@@ -1,7 +1,7 @@
 #ifndef NIU2X_SPAN_H
 #define NIU2X_SPAN_H
 
-#include <niu2x/type/convention.h>
+#include <niu2x/convention.h>
 
 namespace niu2x {
 

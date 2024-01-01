@@ -31,7 +31,8 @@ configure_file(version.h.in include/niu2x/config.h @ONLY)
 library_install(niu2x_core)
 install(
     FILES 
-        ${CMAKE_CURRENT_BINARY_DIR}/include/niu2x/api.h 
+        # NXAPI 用于导入/导出动态库符号
+        # ${CMAKE_CURRENT_BINARY_DIR}/include/niu2x/api.h 
         ${CMAKE_CURRENT_BINARY_DIR}/include/niu2x/config.h 
 	DESTINATION include/niu2x/
 )

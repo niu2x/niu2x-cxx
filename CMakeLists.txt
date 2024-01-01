@@ -19,5 +19,6 @@ set(CMAKE_CXX_STANDARD 20)
 configure_file(build_config.h.in include/build_time/build_config.h)
 
 add_subdirectory(core)
+add_subdirectory(crypto)
 
 include(CPack)
