@@ -91,6 +91,7 @@ static int s_crossline_win = 0;
 #define ESC_OKEY(ch) ((KEY_ESC << 8) + ('O' << 16) + ch)
 
 /*****************************************************************************/
+namespace niu2x::thirdparty::crossline {
 
 enum {
     KEY_TAB = 9, // Autocomplete.
@@ -1899,3 +1900,4 @@ static char* crossline_readline_edit(
 
     return buf;
 }
+} // namespace niu2x::thirdparty::crossline

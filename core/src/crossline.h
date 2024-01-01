@@ -38,9 +38,7 @@
 
 #include <niu2x/disable_windows_warning.h>
 
-#ifdef __cplusplus
-extern "C" {
-#endif
+namespace niu2x::thirdparty::crossline {
 
 typedef enum {
     CROSSLINE_FGCOLOR_DEFAULT = 0x00,
@@ -177,8 +175,6 @@ extern void crossline_color_set(crossline_color_e color);
 // Set default prompt color
 extern void crossline_prompt_color_set(crossline_color_e color);
 
-#ifdef __cplusplus
-}
-#endif
+} // namespace niu2x::thirdparty::crossline
 
 #endif /* __CROSSLINE_H */
