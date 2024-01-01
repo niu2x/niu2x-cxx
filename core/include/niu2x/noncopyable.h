@@ -8,7 +8,7 @@ namespace niu2x {
 
 /**
  * @brief       Interface of noncopyable classes*/
-class NXAPI Noncopyable {
+class Noncopyable {
 public:
     Noncopyable() { }
     ~Noncopyable() { }

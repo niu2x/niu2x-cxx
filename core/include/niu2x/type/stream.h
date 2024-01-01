@@ -7,7 +7,7 @@
 
 namespace niu2x {
 
-class NXAPI ReadStream : private Noncopyable {
+class ReadStream : private Noncopyable {
 public:
     ReadStream();
     virtual ~ReadStream();
@@ -15,7 +15,7 @@ public:
     virtual bool eof() = 0;
 };
 
-class NXAPI WriteStream : private Noncopyable {
+class WriteStream : private Noncopyable {
 public:
     WriteStream();
     virtual ~WriteStream();

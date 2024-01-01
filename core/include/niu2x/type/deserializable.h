@@ -5,7 +5,7 @@
 
 namespace niu2x {
 
-class NXAPI Deserializable {
+class Deserializable {
 public:
     virtual ~Deserializable() { }
     virtual void load_from(ReadStream* src) = 0;

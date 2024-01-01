@@ -9,7 +9,7 @@ namespace niu2x {
 
 /**
  * @brief       A block of memory */
-class NXAPI Buffer {
+class Buffer {
 public:
     /**
      * @brief       constructor

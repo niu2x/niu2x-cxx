@@ -5,7 +5,7 @@
 
 namespace niu2x {
 
-class NXAPI Serializable {
+class Serializable {
 public:
     virtual ~Serializable() { }
     virtual void store_to(WriteStream* dest) = 0;

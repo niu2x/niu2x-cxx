@@ -10,7 +10,7 @@ namespace niu2x {
 /**
  * @brief      RGBA Color, 8 bit per channel
  */
-struct NXAPI Color {
+struct Color {
     union {
         struct {
             uint8_t r, g, b, a;

@@ -17,15 +17,5 @@ set(CMAKE_CXX_STANDARD 20)
 configure_file(build_config.h.in include/build_time/build_config.h)
 
 add_subdirectory(core)
-add_subdirectory(filesystem)
-add_subdirectory(crypto)
-add_subdirectory(stream)
-add_subdirectory(math)
-add_subdirectory(image)
-add_subdirectory(lua)
-add_subdirectory(application)
-add_subdirectory(uv)
-
-
 
 include(CPack)

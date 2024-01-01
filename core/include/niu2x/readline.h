@@ -13,7 +13,7 @@ namespace niu2x {
  *
  * @return     { description_of_the_return_value }
  */
-NXAPI char* readline(const char* prompt, char* buf, int size);
+char* readline(const char* prompt, char* buf, int size);
 
 } // namespace niu2x
 
