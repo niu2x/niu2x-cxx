@@ -10,6 +10,7 @@ namespace niu2x::stream {
 class ByteWriteFilter : public ByteWriteStream {
 public:
     ByteWriteFilter(FilterType filter_type, ByteWriteStream* next);
+    ByteWriteFilter(const String& filter_type, ByteWriteStream* next);
     virtual ~ByteWriteFilter();
     virtual void write(const uint8_t* buf, size_t size) override;
     virtual void finalize() override;

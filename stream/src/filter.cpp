@@ -13,6 +13,17 @@ ByteWriteFilter::ByteWriteFilter(FilterType filter_type, WriteStream* next)
     };
 }
 
+ByteWriteFilter::ByteWriteFilter(
+    const String& filter_type,
+    ByteWriteStream* next)
+: next_(next)
+, filter_alg_(FilterAlgorithmFactory::get()->create_obj(filter_type))
+{
+    delegate_ = [this] (const uint8_t* buf, size_t size) { 
+        next_->write(buf, size); 
+    };
+}
+
 ByteWriteFilter::~ByteWriteFilter() { }
 
 void ByteWriteFilter::write(const uint8_t* buf, size_t size)
