@@ -23,5 +23,6 @@ add_subdirectory(crypto)
 add_subdirectory(filesystem)
 add_subdirectory(math)
 add_subdirectory(stream)
+add_subdirectory(formatter)
 
 include(CPack)

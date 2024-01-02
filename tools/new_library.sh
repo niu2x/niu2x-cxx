@@ -1,5 +1,7 @@
 #!/bin/bash
 
+set -e
+
 lib_name="$1"
 upper_lib_name=$(echo "$lib_name" | tr '[:lower:]' '[:upper:]')
 
