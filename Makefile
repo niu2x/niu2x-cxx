@@ -6,7 +6,7 @@ LIB_RELEASE_DIST := dist/release
 
 LIB_DIR := $(PWD)/$(LIB_RELEASE_DIST)/lib/cmake/niu2x
 
-all: release-library
+all: release-library all-app
 
 # build niu2x library
 library: debug-library \
@@ -29,6 +29,15 @@ release-library:
 
 
 # build app
+all-app: ynkwis
+
+ynkwis: release-library
+	cmake -S app/ynkwis -Bbuild/ynkwis -DCMAKE_BUILD_TYPE=Release \
+		-D niu2x_uv_DIR=$(LIB_DIR)
+	cmake --build build/ynkwis
+
 .PHONY: library \
 		debug-library \
-		release-library 
+		release-library \
+		all-app \
+		ynkwis
