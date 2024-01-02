@@ -22,7 +22,7 @@ enum class SeekPos {
 /**
  * @brief      This class describes a file.
  */
-class File : private Noncopyable {
+class File {
 public:
     /**
      * @brief      create file by path
