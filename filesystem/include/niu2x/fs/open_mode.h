@@ -6,9 +6,8 @@ namespace niu2x::fs {
 enum class OpenMode {
     READ = 1,
     WRITE = 2,
-    RW = 3,
+    // RW = 3,
 };
-
 }
 
 #endif

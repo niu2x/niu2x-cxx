@@ -1,5 +1,5 @@
-#ifndef NIU2X_STREAM_H
-#define NIU2X_STREAM_H
+#ifndef NIU2X_BASE_STREAM_H
+#define NIU2X_BASE_STREAM_H
 
 #include <niu2x/noncopyable.h>
 #include <niu2x/convention.h>
@@ -10,6 +10,7 @@ namespace niu2x {
 template <class T>
 class ReadStream : private Noncopyable {
 public:
+    ReadStream() { }
     virtual ~ReadStream() { }
     virtual NR read(T* buf, NR size) = 0;
     virtual bool eof() = 0;
@@ -20,6 +21,7 @@ public:
 template <class T>
 class WriteStream : private Noncopyable {
 public:
+    WriteStream() { }
     virtual ~WriteStream() { }
     virtual void write(const T* buf, NR size) = 0;
     virtual void finalize() { }
