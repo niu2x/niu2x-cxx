@@ -1,7 +1,6 @@
 #ifndef NIU2X_NONCOPYABLE_H
 #define NIU2X_NONCOPYABLE_H
 
-#include <niu2x/api.h>
 #include <niu2x/preprocess.h>
 
 namespace niu2x {

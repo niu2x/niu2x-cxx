@@ -1,8 +1,6 @@
 #ifndef NIU2X_READLINE_H
 #define NIU2X_READLINE_H
 
-#include <niu2x/api.h>
-
 namespace niu2x {
 /**
  * @brief      readline

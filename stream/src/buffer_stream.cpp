@@ -16,7 +16,7 @@ BufferReadStream::BufferReadStream(Buffer&& buffer)
 
 BufferReadStream::~BufferReadStream() { }
 
-size_t BufferReadStream::read(void* buf, size_t size)
+size_t BufferReadStream::read(uint8_t* buf, size_t size)
 {
     auto buf_size = buffer_.size();
     if (read_pos_ >= buf_size)
@@ -44,7 +44,7 @@ BufferWriteStream::BufferWriteStream()
 
 BufferWriteStream::~BufferWriteStream() { }
 
-void BufferWriteStream::write(const void* buf, size_t size)
+void BufferWriteStream::write(const uint8_t* buf, size_t size)
 {
     auto buf_size = buffer_.size();
     auto new_tail = write_pos_ + size;

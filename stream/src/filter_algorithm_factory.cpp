@@ -1,6 +1,7 @@
 #include "filter_algorithm_factory.h"
 #include "filter_alg/md5.h"
 #include "filter_alg/sha256.h"
+#include <niu2x/exception.h>
 
 namespace niu2x::stream {
 

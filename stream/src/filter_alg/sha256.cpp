@@ -4,7 +4,7 @@
 
 namespace niu2x::stream::filter_alg {
 
-void SHA256::write(const void* buf, size_t size, Output output)
+void SHA256::write(const uint8_t* buf, size_t size, Output output)
 {
     unused(output);
     imp_.update(buf, size);
@@ -16,7 +16,7 @@ void SHA256::finalize(Output output)
 {
     imp_.finalize();
 
-    char digest_sz[64];
+    uint8_t digest_sz[64];
     auto digest = imp_.digest();
     Index i = 0;
     while (i < digest.size()) {

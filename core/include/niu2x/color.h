@@ -2,7 +2,6 @@
 #define NIU2X_COLOR_H
 
 #include <cstdint>
-#include <niu2x/api.h>
 #include <niu2x/disable_windows_warning.h>
 
 namespace niu2x {

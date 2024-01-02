@@ -10,7 +10,7 @@ class SHA256 : public FilterAlgorithm {
 public:
     SHA256() { }
     virtual ~SHA256() { }
-    virtual void write(const void* buf, size_t size, Output output) override;
+    virtual void write(const uint8_t* buf, size_t size, Output output) override;
     virtual void finalize(Output output) override;
     virtual void reset() override;
 

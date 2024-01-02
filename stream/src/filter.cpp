@@ -9,12 +9,12 @@ WriteFilter::WriteFilter(FilterType filter_type, WriteStream* next)
 , filter_alg_(FilterAlgorithmFactory::create_algorithm(filter_type))
 {
     delegate_
-        = [this](const void* buf, size_t size) { next_->write(buf, size); };
+        = [this](const uint8_t* buf, size_t size) { next_->write(buf, size); };
 }
 
 WriteFilter::~WriteFilter() { }
 
-void WriteFilter::write(const void* buf, size_t size)
+void WriteFilter::write(const uint8_t* buf, size_t size)
 {
     filter_alg_->write(buf, size, delegate_);
 }

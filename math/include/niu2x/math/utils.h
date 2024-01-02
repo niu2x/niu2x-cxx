@@ -2,7 +2,6 @@
 #define NIU2X_MATH_UTILS_H
 
 #include <random>
-#include <niu2x/api.h>
 #include <niu2x/color.h>
 #include <niu2x/math/linalg_alias.h>
 #include <niu2x/math/constant.h>

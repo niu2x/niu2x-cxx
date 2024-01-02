@@ -10,7 +10,7 @@ class MD5 : public FilterAlgorithm {
 public:
     MD5() { }
     virtual ~MD5() { }
-    virtual void write(const void* buf, size_t size, Output output) override;
+    virtual void write(const uint8_t* buf, size_t size, Output output) override;
     virtual void finalize(Output output) override;
     virtual void reset() override;
 
