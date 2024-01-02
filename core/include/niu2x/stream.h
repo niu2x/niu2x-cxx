@@ -13,6 +13,8 @@ public:
     virtual ~ReadStream() { }
     virtual NR read(T* buf, NR size) = 0;
     virtual bool eof() = 0;
+
+    NIU2X_PP_MOVABLE(ReadStream);
 };
 
 template <class T>
@@ -21,6 +23,8 @@ public:
     virtual ~WriteStream() { }
     virtual void write(const T* buf, NR size) = 0;
     virtual void finalize() { }
+
+    NIU2X_PP_MOVABLE(WriteStream);
 };
 
 using ByteReadStream = ReadStream<uint8_t>;

@@ -48,6 +48,8 @@ public:
         return fabs(accum);
     }
 
+    NIU2X_PP_NO_MOVABLE(Perlin);
+
 private:
     static const int point_count_ = 256;
     Vec3* ran_vec3_;
@@ -62,8 +64,6 @@ private:
 
     static void permute(int* p, int n);
 };
-
-static_assert(!type_pred::is_movable<Perlin>);
 
 } // namespace niu2x::math
 
