@@ -1,5 +1,5 @@
-#ifndef NIU2X_SRREAM_H
-#define NIU2X_SRREAM_H
+#ifndef NIU2X_STREAM_H
+#define NIU2X_STREAM_H
 
 #include <niu2x/noncopyable.h>
 #include <niu2x/convention.h>
