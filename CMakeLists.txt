@@ -24,5 +24,6 @@ add_subdirectory(filesystem)
 add_subdirectory(math)
 add_subdirectory(stream)
 add_subdirectory(formatter)
+add_subdirectory(uv)
 
 include(CPack)

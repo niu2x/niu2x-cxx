@@ -10,7 +10,11 @@ MallocHandle::MallocHandle(NR size)
         throw BadAlloc();
     }
 }
-MallocHandle::~MallocHandle() { free(data_); }
+MallocHandle::~MallocHandle()
+{
+    if (data_)
+        free(data_);
+}
 
 MallocHandle::MallocHandle(MallocHandle&& other)
 : data_(other.data_)
