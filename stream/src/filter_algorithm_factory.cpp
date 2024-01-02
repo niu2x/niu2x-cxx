@@ -19,4 +19,16 @@ UniquePtr<FilterAlgorithm> FilterAlgorithmFactory::create_obj(FilterType type)
     return nullptr;
 }
 
+
+UniquePtr<FilterAlgorithm> FilterAlgorithmFactory::create_obj(const String& name) {
+    
+    static HashMap<String, FilterType> filter_types {
+        {"md5", FilterType::MD5},
+        {"sha256", FilterType::SHA256},
+    };
+
+    return create_obj(filter_types[name]);
+}
+
+
 } // namespace niu2x::stream
