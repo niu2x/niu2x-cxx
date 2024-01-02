@@ -11,12 +11,14 @@ public:
     MallocHandle(NR size);
     ~MallocHandle();
 
-    MallocHandle(MallocHandle&& other);
-    MallocHandle& operator=(MallocHandle&& other);
+    MallocHandle(MallocHandle&& other) noexcept;
+    MallocHandle& operator=(MallocHandle&& other) noexcept;
 
     void* data() const { return data_; }
 
     void swap(MallocHandle& other) noexcept;
+
+    bool valid() const { return !!data_; }
 
 private:
     void* data_;

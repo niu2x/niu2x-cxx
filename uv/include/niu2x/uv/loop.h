@@ -18,9 +18,13 @@ public:
 
     void* native() const { return native_.data(); }
 
+    NIU2X_PP_MOVABLE(Loop);
+
 private:
     MallocHandle native_;
 };
+
+static_assert(type_pred::is_movable<Loop>);
 
 } // namespace niu2x::uv
 

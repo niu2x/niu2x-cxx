@@ -27,6 +27,8 @@ private:
     static void uv_callback(void*);
 };
 
+static_assert(!type_pred::is_movable<Idle>);
+
 } // namespace niu2x::uv
 
 #endif

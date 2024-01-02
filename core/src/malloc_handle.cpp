@@ -16,13 +16,13 @@ MallocHandle::~MallocHandle()
         free(data_);
 }
 
-MallocHandle::MallocHandle(MallocHandle&& other)
+MallocHandle::MallocHandle(MallocHandle&& other) noexcept
 : data_(other.data_)
 {
     other.data_ = nullptr;
 }
 
-MallocHandle& MallocHandle::operator=(MallocHandle&& other)
+MallocHandle& MallocHandle::operator=(MallocHandle&& other) noexcept
 {
     MallocHandle tmp(move(other));
     swap(tmp);
