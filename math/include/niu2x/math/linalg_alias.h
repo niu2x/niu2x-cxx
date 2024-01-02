@@ -13,10 +13,9 @@ using Vec = linalg::vec<T, N>;
 template <class T, int M, int N>
 using Mat = linalg::mat<T, M, N>;
 
-using Vec3 = Vec<double, 3>;
-using Vec2 = Vec<double, 2>;
-
-using Mat4 = Mat<double, 4, 4>;
+using Vec3 = Vec<float, 3>;
+using Vec2 = Vec<float, 2>;
+using Mat4 = Mat<float, 4, 4>;
 
 template <class T>
 using CVec3 = const Vec<T, 3>;

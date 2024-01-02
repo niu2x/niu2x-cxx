@@ -19,7 +19,7 @@ public:
     {
     }
 
-    Ray(const Vec3& origin, const Vec3& direction, double time)
+    Ray(const Vec3& origin, const Vec3& direction, float time)
     : origin_(origin)
     , dir_(normalize(direction))
     , time_(time)
@@ -28,13 +28,13 @@ public:
 
     inline const Vec3& origin() const { return origin_; }
     inline const Vec3& direction() const { return dir_; }
-    inline Vec3 at(double t) const { return origin_ + t * dir_; }
-    inline double time() const { return time_; }
+    inline Vec3 at(float t) const { return origin_ + t * dir_; }
+    inline float time() const { return time_; }
 
 private:
     Vec3 origin_;
     Vec3 dir_;
-    double time_;
+    float time_;
 };
 
 } // namespace niu2x::math
