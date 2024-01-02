@@ -67,6 +67,7 @@ private:
 static_assert(type_pred::is_movable<Buffer>);
 static_assert(type_pred::is_copyable<Buffer>);
 
+using BufferPtr = SharedPtr<Buffer>;
 }; // namespace niu2x
 
 #endif

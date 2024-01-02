@@ -4,25 +4,25 @@
 
 namespace niu2x::stream {
 
-WriteFilter::WriteFilter(FilterType filter_type, WriteStream* next)
+ByteWriteFilter::ByteWriteFilter(FilterType filter_type, WriteStream* next)
 : next_(next)
-, filter_alg_(FilterAlgorithmFactory::create_algorithm(filter_type))
+, filter_alg_(FilterAlgorithmFactory::get()->create_obj(filter_type))
 {
-    delegate_
-        = [this](const uint8_t* buf, size_t size) { next_->write(buf, size); };
+    delegate_ = [this] (const uint8_t* buf, size_t size) { 
+        next_->write(buf, size); 
+    };
 }
 
-WriteFilter::~WriteFilter() { }
+ByteWriteFilter::~ByteWriteFilter() { }
 
-void WriteFilter::write(const uint8_t* buf, size_t size)
+void ByteWriteFilter::write(const uint8_t* buf, size_t size)
 {
     filter_alg_->write(buf, size, delegate_);
 }
 
-void WriteFilter::finalize()
+void ByteWriteFilter::finalize()
 {
     filter_alg_->finalize(delegate_);
-
     next_->finalize();
 }
 

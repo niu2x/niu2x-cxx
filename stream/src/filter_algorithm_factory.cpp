@@ -5,8 +5,7 @@
 
 namespace niu2x::stream {
 
-UniquePtr<FilterAlgorithm>
-FilterAlgorithmFactory::create_algorithm(FilterType type)
+UniquePtr<FilterAlgorithm> FilterAlgorithmFactory::create_obj(FilterType type)
 {
     switch (type) {
         case FilterType::MD5: {

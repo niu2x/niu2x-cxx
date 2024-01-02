@@ -10,6 +10,9 @@ class Singleton : private Noncopyable {
 public:
     Singleton() { }
     ~Singleton() { }
+
+    NIU2X_PP_NO_MOVABLE(Singleton);
+
     static T* get()
     {
         static T instance;

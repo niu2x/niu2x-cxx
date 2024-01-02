@@ -2,29 +2,29 @@
 
 namespace niu2x::stream {
 
-FileReadStream::FileReadStream(const fs::File& file)
+FileByteReadStream::FileByteReadStream(const fs::File& file)
 : file_(file, fs::OpenMode::READ)
 {
 }
 
-FileReadStream::~FileReadStream() { }
+FileByteReadStream::~FileByteReadStream() { }
 
-size_t FileReadStream::read(uint8_t* buf, size_t size)
+size_t FileByteReadStream::read(uint8_t* buf, size_t size)
 {
     file_.raw()->read(reinterpret_cast<char*>(buf), size);
     return file_.raw()->gcount();
 }
 
-bool FileReadStream::eof() { return file_.eof(); }
+bool FileByteReadStream::eof() { return file_.eof(); }
 
-FileWriteStream::FileWriteStream(const fs::File& file)
+FileByteWriteStream::FileByteWriteStream(const fs::File& file)
 : file_(file, fs::OpenMode::WRITE)
 {
 }
 
-FileWriteStream::~FileWriteStream() { }
+FileByteWriteStream::~FileByteWriteStream() { }
 
-void FileWriteStream::write(const uint8_t* buf, size_t size)
+void FileByteWriteStream::write(const uint8_t* buf, size_t size)
 {
     file_.raw()->write(reinterpret_cast<const char*>(buf), size);
 }

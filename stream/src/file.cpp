@@ -1,4 +1,4 @@
-#include <niu2x/stream/file.h>
+#include <niu2x/stream/file_stream.h>
 
 using si = std::ios_base;
 
