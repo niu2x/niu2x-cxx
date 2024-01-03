@@ -9,7 +9,7 @@ static ArgParser create_arg_parser()
     arg_parser
         .add_option("h,help", ArgParser::ArgType::BOOLEAN, "show help", false);
 
-    arg_parser.add_option("n", ArgParser::ArgType::INTEGER, "INTEGER", false);
+    arg_parser.add_option("n", ArgParser::ArgType::NUMBER, "INTEGER", false);
 
     return arg_parser;
 }
