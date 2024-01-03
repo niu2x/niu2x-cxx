@@ -29,12 +29,17 @@ release-library:
 
 
 # build app
-all-app: ynkwis
+all-app: ynkwis imgcvt
 
 ynkwis: release-library
 	cmake -S app/ynkwis -Bbuild/ynkwis -DCMAKE_BUILD_TYPE=Release \
 		-D niu2x_uv_DIR=$(LIB_DIR)
 	cmake --build build/ynkwis
+
+imgcvt: release-library
+	cmake -S app/imgcvt -Bbuild/imgcvt -DCMAKE_BUILD_TYPE=Release \
+		-D niu2x_filesystem_DIR=$(LIB_DIR)
+	cmake --build build/imgcvt
 
 .PHONY: library \
 		debug-library \
