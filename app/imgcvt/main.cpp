@@ -8,6 +8,9 @@ static ArgParser create_arg_parser()
     ArgParser arg_parser("imgcvt");
     arg_parser
         .add_option("h,help", ArgParser::ArgType::BOOLEAN, "show help", false);
+
+    arg_parser.add_option("n", ArgParser::ArgType::INTEGER, "INTEGER", false);
+
     return arg_parser;
 }
 

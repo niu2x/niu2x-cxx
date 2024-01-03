@@ -14,6 +14,8 @@ public:
         BOOLEAN,
     };
 
+    using ArgValue = Variant<int, double, String, bool>;
+
     using ArgNameList = Vector<String>;
 
     ArgParser(const String& app_name);
@@ -34,10 +36,13 @@ private:
         String desc;
         ArgType type;
         bool required;
+        String value_key;
     };
     using ArgumentDict = HashMap<String, Argument>;
+    using ArgValueDict = HashMap<String, ArgValue>;
 
     ArgumentDict args_;
+    ArgValueDict values_;
     ArgNameList positional_arg_names_;
 };
 
