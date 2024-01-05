@@ -167,6 +167,7 @@ using decay = std::decay_t<T>;
 }
 
 namespace type_pred {
+
 template <class T1, class T2>
 inline constexpr bool is_same_with_decay
     = is_same<type_conv::decay<T1>, type_conv::decay<T2>>;

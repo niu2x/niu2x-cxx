@@ -2,6 +2,7 @@
 #define NIU2X_ARG_PARSER_H
 
 #include <niu2x/std_alias.h>
+#include <niu2x/exception.h>
 
 namespace niu2x {
 
@@ -20,13 +21,44 @@ public:
 
     ArgParser(const String& app_name);
     void parse(int argc, const char* argv[]);
+
     void add_option(
-        const String& opt_name,
+        const String& full_opt_name,
         ArgType type,
         const String& desc,
         bool required = false);
 
+    void set_default_value(const String& opt_name, const ArgValue& defval);
+
     void set_positional_args(const ArgNameList& arg_names);
+
+    void show_help() const;
+
+    String opt_string(const String& opt_name) const
+    {
+        return opt<String>(opt_name);
+    }
+
+    bool opt_boolean(const String& opt_name) const
+    {
+        return opt<bool>(opt_name);
+    }
+
+    template <class T>
+    T opt(const String& opt_name) const
+    {
+        auto& value_key = args_.at(opt_name).value_key;
+
+        if (values_.contains(value_key))
+            return get<T>(values_.at(value_key));
+
+        if (default_values_.contains(value_key))
+            return get<T>(default_values_.at(value_key));
+
+        throw_runtime_err("no value for argument: " + opt_name);
+
+        return T();
+    }
 
 private:
     String app_name_;
@@ -43,7 +75,10 @@ private:
 
     ArgumentDict args_;
     ArgValueDict values_;
+    ArgValueDict default_values_;
     ArgNameList positional_arg_names_;
+
+    void check_required_args_got_value();
 };
 
 static_assert(type_pred::is_movable<ArgParser>);

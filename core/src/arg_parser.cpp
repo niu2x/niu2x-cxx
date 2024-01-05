@@ -3,7 +3,6 @@
 #include <niu2x/string_utils.h>
 #include <niu2x/logger.h>
 #include <niu2x/convention.h>
-#include <niu2x/exception.h>
 #include <string>
 
 namespace niu2x {
@@ -18,6 +17,8 @@ static void lower(String* s)
 ArgParser::ArgParser(const String& app_name)
 : app_name_(app_name)
 {
+    add_option("h,help", ArgType::BOOLEAN, "show help", false);
+    set_default_value("help", false);
 }
 
 void ArgParser::parse(int argc, const char* argv[])
@@ -99,6 +100,47 @@ void ArgParser::parse(int argc, const char* argv[])
             }
         }
     }
+
+    if (opt_boolean("help")) {
+        throw_runtime_err("show help");
+    }
+
+    check_required_args_got_value();
+}
+
+void ArgParser::check_required_args_got_value()
+{
+    for (auto& x : args_) {
+        if (x.second.required) {
+            if (!values_.contains(x.second.value_key)) {
+                throw_runtime_err(
+                    "argument " + x.second.value_key + " required a value");
+            }
+        }
+    }
+}
+
+void ArgParser::show_help() const
+{
+    printf("Usage: %s [options]\n", app_name_.c_str());
+    printf(" The options are:\n");
+
+    HashMap<String, Argument> options;
+    for (auto& x : args_) {
+        options[x.second.value_key] = x.second;
+    }
+
+    for (auto& x : options) {
+        printf("  %-32s%s\n", x.first.c_str(), x.second.desc.c_str());
+    }
+}
+
+void ArgParser::set_default_value(
+    const String& opt_name,
+    const ArgValue& defval)
+{
+    auto& value_key = args_.at(opt_name).value_key;
+    default_values_[value_key] = defval;
 }
 
 void ArgParser::add_option(
