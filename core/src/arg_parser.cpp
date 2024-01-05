@@ -17,8 +17,8 @@ static void lower(String* s)
 ArgParser::ArgParser(const String& app_name)
 : app_name_(app_name)
 {
-    add_option("h,help", ArgType::BOOLEAN, "show help", false);
-    set_default_value("help", false);
+    // add_option("h,help", ArgType::BOOLEAN, "show help", false);
+    // set_default_value("help", false);
 }
 
 void ArgParser::parse(int argc, const char* argv[])
@@ -101,9 +101,9 @@ void ArgParser::parse(int argc, const char* argv[])
         }
     }
 
-    if (opt_boolean("help")) {
-        throw_runtime_err("show help");
-    }
+    // if (opt_boolean("help")) {
+    // throw_runtime_err("show help");
+    // }
 
     check_required_args_got_value();
 }
