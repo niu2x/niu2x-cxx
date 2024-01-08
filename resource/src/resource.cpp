@@ -2,6 +2,7 @@
 #include <niu2x/stream.h>
 
 namespace niu2x {
+
 Resource::~Resource() { }
 
 void Resource::load_from_file(const fs::AbsPath& path)

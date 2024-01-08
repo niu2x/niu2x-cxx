@@ -26,6 +26,9 @@ public:
 
     bool valid() const { return path_ != ""; }
 
+    String ext() const;
+    String extension() const { return ext(); }
+
 private:
     BasePath path_ = "";
 };

@@ -2,8 +2,10 @@
 #include <niu2x/image.h>
 #include <niu2x/arg_parser.h>
 #include <niu2x/logger.h>
+#include <niu2x/string_utils.h>
 
 using namespace niu2x;
+using Path = fs::AbsPath;
 
 static ArgParser create_arg_parser()
 {
@@ -18,12 +20,29 @@ static ArgParser create_arg_parser()
     return arg_parser;
 }
 
-static void
-imgcvt(const fs::AbsPath& input_path, const fs::AbsPath& output_path)
+static void set_store_format(image::Image* img, const Path& output_path)
+{
+    auto ext = output_path.extension();
+    default_logger << "set_store_format: " << ext << "\n";
+
+    string_utils::lower(&ext);
+
+    if (ext == ".png") {
+        img->set_store_format(image::FileFormat::PNG);
+    }
+
+    else if (ext == ".jpg" || ext == ".jpeg") {
+        img->set_store_format(image::FileFormat::JPG);
+    }
+}
+
+static void imgcvt(const Path& input_path, const Path& output_path)
 {
     image::Image img;
     default_logger << "load_from_file: " << input_path << "\n";
     img.load_from_file(input_path);
+
+    set_store_format(&img, output_path);
     img.store_to_file(output_path);
 }
 
@@ -38,8 +57,9 @@ int main(int argc, const char* argv[])
         return 1;
     }
 
-    fs::AbsPath input_path = arg_parser.opt_string("input");
-    fs::AbsPath output_path = arg_parser.opt_string("output");
+    Path input_path = arg_parser.opt_string("input");
+    Path output_path = arg_parser.opt_string("output");
+
     imgcvt(input_path, output_path);
     return 0;
 }

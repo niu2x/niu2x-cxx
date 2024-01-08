@@ -24,6 +24,9 @@ Vector<String> split(const String& s, char delimiter);
  */
 Maybe<UnicodeString> utf8_to_utf32(const String& utf8);
 
+String lower(const String& s);
+void lower(String* s);
+
 } // namespace niu2x::string_utils
 
 #endif

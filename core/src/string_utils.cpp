@@ -20,4 +20,18 @@ Maybe<UnicodeString> utf8_to_utf32(const String& utf8)
     return iconv::utf8_to_utf32(utf8);
 }
 
+void lower(String* s)
+{
+    std::transform(s->begin(), s->end(), s->begin(), [](char c) {
+        return std::tolower(c);
+    });
+}
+
+String lower(const String& s)
+{
+    String new_s = s;
+    lower(&new_s);
+    return new_s;
+}
+
 } // namespace niu2x::string_utils

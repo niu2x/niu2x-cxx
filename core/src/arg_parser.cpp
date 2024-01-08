@@ -3,16 +3,10 @@
 #include <niu2x/string_utils.h>
 #include <niu2x/logger.h>
 #include <niu2x/convention.h>
+#include <niu2x/string_utils.h>
 #include <string>
 
 namespace niu2x {
-
-static void lower(String* s)
-{
-    std::transform(s->begin(), s->end(), s->begin(), [](char c) {
-        return std::tolower(c);
-    });
-}
 
 ArgParser::ArgParser(const String& app_name)
 : app_name_(app_name)
@@ -86,7 +80,7 @@ void ArgParser::parse(int argc, const char* argv[])
             }
             case ArgType::BOOLEAN: {
                 if (got_value) {
-                    lower(&value);
+                    string_utils::lower(&value);
                     values_[argument.value_key]
                         = value != "false" && value != "off";
                 } else {
