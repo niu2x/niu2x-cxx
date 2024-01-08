@@ -47,7 +47,7 @@ void ArgParser::parse(int argc, const char* argv[])
         } else {
             if (positional_index < positional_arg_names_.size()) {
                 name = positional_arg_names_[positional_index++];
-                value = argv[i][0];
+                value = argv[i];
                 got_value = true;
             } else {
                 throw_runtime_err("unsupport positional argument");

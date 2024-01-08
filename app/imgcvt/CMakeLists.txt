@@ -8,5 +8,6 @@ add_executable(imgcvt "")
 target_sources(imgcvt PRIVATE "main.cpp")
 
 find_package(niu2x_filesystem REQUIRED)
+find_package(niu2x_image REQUIRED)
 
-target_link_libraries(imgcvt PRIVATE niu2x_filesystem)
+target_link_libraries(imgcvt PRIVATE niu2x_filesystem niu2x_image)

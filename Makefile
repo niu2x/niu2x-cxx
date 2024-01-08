@@ -38,7 +38,8 @@ ynkwis: release-library
 
 imgcvt: release-library
 	cmake -S app/imgcvt -Bbuild/imgcvt -DCMAKE_BUILD_TYPE=Release \
-		-D niu2x_filesystem_DIR=$(LIB_DIR)
+		-D niu2x_image_DIR=$(LIB_DIR) \
+		-D niu2x_filesystem_DIR=$(LIB_DIR) 
 	cmake --build build/imgcvt
 
 .PHONY: library \

@@ -1,5 +1,7 @@
 #include <niu2x/fs.h>
+#include <niu2x/image.h>
 #include <niu2x/arg_parser.h>
+#include <niu2x/logger.h>
 
 using namespace niu2x;
 
@@ -19,6 +21,10 @@ static ArgParser create_arg_parser()
 static void
 imgcvt(const fs::AbsPath& input_path, const fs::AbsPath& output_path)
 {
+    image::Image img;
+    default_logger << "load_from_file: " << input_path << "\n";
+    img.load_from_file(input_path);
+    img.store_to_file(output_path);
 }
 
 int main(int argc, const char* argv[])

@@ -3,6 +3,7 @@
 
 #include <filesystem>
 #include <niu2x/preprocess.h>
+#include <niu2x/logger.h>
 #include <niu2x/std_alias.h>
 
 namespace niu2x::fs {
@@ -31,6 +32,12 @@ private:
 
 static_assert(type_pred::is_movable<AbsPath>);
 static_assert(type_pred::is_copyable<AbsPath>);
+
+inline Logger& operator<<(Logger& logger, const AbsPath& value)
+{
+    logger << value.str();
+    return logger;
+}
 
 }; // namespace niu2x::fs
 

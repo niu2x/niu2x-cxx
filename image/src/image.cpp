@@ -105,13 +105,12 @@ void Image::store_to(ByteWriteStream* dest) const
 
 void Image::load_from(ByteReadStream* src)
 {
-    stream::BufferByteWriteStream file_content_writer;
+    BufferPtr file_content = make_shared<Buffer>();
+    stream::BufferByteWriteStream file_content_writer(file_content);
 
     pipe(src, &file_content_writer);
 
-    auto file_content = file_content_writer.buffer();
-
-    auto decode_result = image_decode(file_content, &size_, 0);
+    auto decode_result = image_decode(file_content.get(), &size_, 0);
 
     if (!decode_result.image_data) {
         throw_runtime_err(stbi_failure_reason());

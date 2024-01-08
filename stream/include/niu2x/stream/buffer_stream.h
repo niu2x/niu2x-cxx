@@ -9,7 +9,6 @@ namespace niu2x::stream {
 
 class BufferByteReadStream : public ByteReadStream {
 public:
-    BufferByteReadStream();
     BufferByteReadStream(BufferPtr buffer);
     virtual ~BufferByteReadStream();
     virtual size_t read(uint8_t* buf, size_t size) override;
@@ -18,13 +17,14 @@ public:
     NIU2X_PP_MOVABLE(BufferByteReadStream);
 
 private:
+    BufferByteReadStream();
+
     BufferPtr buffer_;
     size_t read_pos_;
 };
 
 class BufferByteWriteStream : public ByteWriteStream {
 public:
-    BufferByteWriteStream();
     BufferByteWriteStream(BufferPtr buffer);
     virtual ~BufferByteWriteStream();
     virtual void write(const uint8_t* buf, size_t size) override;
@@ -36,6 +36,8 @@ public:
     Buffer* buffer() { return buffer_.get(); }
 
 private:
+    BufferByteWriteStream();
+
     BufferPtr buffer_;
     size_t write_pos_;
 };

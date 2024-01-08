@@ -26,5 +26,6 @@ add_subdirectory(stream)
 add_subdirectory(formatter)
 add_subdirectory(uv)
 add_subdirectory(image)
+add_subdirectory(resource)
 
 include(CPack)

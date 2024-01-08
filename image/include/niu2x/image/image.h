@@ -21,16 +21,11 @@ public:
     NIU2X_PP_MOVABLE(Image);
     NIU2X_PP_COPYABLE(Image);
 
-    void store_to(ByteWriteStream* dst, FileFormat file_format) const
-    {
-        set_store_format(file_format);
-        store_to(dst);
-    }
     virtual void store_to(ByteWriteStream* dst) const override;
     virtual void load_from(ByteReadStream* src) override;
 
     // void reset(int w, int h, const Color& color);
-    void set_store_format(FileFormat format) const { store_format_ = format; }
+    void set_store_format(FileFormat format) { store_format_ = format; }
 
     const IntSize& size() const { return size_; }
 
