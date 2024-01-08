@@ -83,6 +83,7 @@ void Image::reset(int w, int h, int channels)
 {
     size_ = { .width = w, .height = h };
     pixels_.resize(size_.area() * channels * bytes_per_channel_);
+    channels_ = channels;
 }
 
 void Image::store_to(ByteWriteStream* dest) const
