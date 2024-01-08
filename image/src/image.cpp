@@ -103,6 +103,33 @@ void Image::store_to(ByteWriteStream* dest) const
     }
 }
 
+Image::Image(Image&& other) noexcept
+: size_(other.size_)
+, pixels_(move(other.pixels_))
+, bytes_per_channel(other.bytes_per_channel)
+, channels_(other.channels_)
+, store_format_(other.store_format_)
+{
+    other.size_ = { 0, 0 };
+    other.channels_ = 0;
+}
+
+Image& Image::operator=(Image&& other) noexcept
+{
+    Image tmp(move(other));
+    swap(tmp);
+    return *this;
+}
+
+void Image::swap(Image& other) noexcept
+{
+    niu2x::swap(size_, other.size_);
+    niu2x::swap(pixels_, other.pixels_);
+    niu2x::swap(bytes_per_channel, other.bytes_per_channel);
+    niu2x::swap(channels_, other.channels_);
+    niu2x::swap(store_format_, other.store_format_);
+}
+
 void Image::load_from(ByteReadStream* src)
 {
     BufferPtr file_content = make_shared<Buffer>();

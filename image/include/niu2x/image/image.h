@@ -18,7 +18,9 @@ public:
     Image();
     virtual ~Image();
 
-    NIU2X_PP_MOVABLE(Image);
+    Image(Image&& other) noexcept;
+    Image& operator=(Image&& other) noexcept;
+
     NIU2X_PP_COPYABLE(Image);
 
     virtual void store_to(ByteWriteStream* dst) const override;
@@ -41,16 +43,20 @@ public:
     // {
     //     return pixels_[row * size_.width + col];
     // }
+    void swap(Image& other) noexcept;
+
 private:
     IntSize size_;
     std::vector<uint8_t> pixels_;
 
     // bytes per pixel
     int bytes_per_channel = 1;
-    int channels_ = 1;
+    int channels_ = 0;
 
     mutable FileFormat store_format_ = FileFormat::PNG;
 };
+
+inline void swap(Image& a, Image& b) noexcept { a.swap(b); }
 
 static_assert(type_pred::is_movable<Image>);
 
