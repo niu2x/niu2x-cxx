@@ -26,7 +26,8 @@ public:
     virtual void store_to(ByteWriteStream* dst) const override;
     virtual void load_from(ByteReadStream* src) override;
 
-    // void reset(int w, int h, const Color& color);
+    void reset(int w, int h, int channels);
+
     void set_store_format(FileFormat format) { store_format_ = format; }
 
     const IntSize& size() const { return size_; }
@@ -45,12 +46,14 @@ public:
     // }
     void swap(Image& other) noexcept;
 
+    Image crop(const math::IntRect& region) const;
+
 private:
     IntSize size_;
     std::vector<uint8_t> pixels_;
 
     // bytes per pixel
-    int bytes_per_channel = 1;
+    int bytes_per_channel_ = 1;
     int channels_ = 0;
 
     mutable FileFormat store_format_ = FileFormat::PNG;

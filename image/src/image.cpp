@@ -72,22 +72,18 @@ static int image_jpg_encode(
 
 Image::Image()
 : size_ { .width = 0, .height = 0 }
+, channels_(0)
 // , store_format_(Format::PNG)
-// , channel_(0)
 {
 }
 
 Image::~Image() { }
 
-// void Image::reset(int w, int h, const Color& color)
-// {
-//     size_ = { .width = w, .height = h };
-//     pixels_.resize(size_.area());
-//     for (int row = 0; row < h; row++)
-//         for (int col = 0; col < w; col++) {
-//             set_pixel(row, col, color);
-//         }
-// }
+void Image::reset(int w, int h, int channels)
+{
+    size_ = { .width = w, .height = h };
+    pixels_.resize(size_.area() * channels * bytes_per_channel_);
+}
 
 void Image::store_to(ByteWriteStream* dest) const
 {
@@ -106,7 +102,7 @@ void Image::store_to(ByteWriteStream* dest) const
 Image::Image(Image&& other) noexcept
 : size_(other.size_)
 , pixels_(move(other.pixels_))
-, bytes_per_channel(other.bytes_per_channel)
+, bytes_per_channel_(other.bytes_per_channel_)
 , channels_(other.channels_)
 , store_format_(other.store_format_)
 {
@@ -125,7 +121,7 @@ void Image::swap(Image& other) noexcept
 {
     niu2x::swap(size_, other.size_);
     niu2x::swap(pixels_, other.pixels_);
-    niu2x::swap(bytes_per_channel, other.bytes_per_channel);
+    niu2x::swap(bytes_per_channel_, other.bytes_per_channel_);
     niu2x::swap(channels_, other.channels_);
     niu2x::swap(store_format_, other.store_format_);
 }
@@ -145,11 +141,46 @@ void Image::load_from(ByteReadStream* src)
 
     channels_ = decode_result.channels;
 
-    auto total_bytes = size_.area() * bytes_per_channel * channels_;
+    auto total_bytes = size_.area() * bytes_per_channel_ * channels_;
     pixels_.resize(total_bytes);
     memcpy(pixels_.data(), decode_result.image_data, total_bytes);
 
     stbi_image_free(decode_result.image_data);
+}
+
+Image Image::crop(const math::IntRect& sub_region) const
+{
+    math::IntRect region(0, 0, size_.width, size_.height);
+    region = region.intersection(sub_region);
+
+    default_logger << region.origin.x << "\n";
+    default_logger << region.origin.y << "\n";
+    default_logger << region.size.width << "\n";
+    default_logger << region.size.height << "\n";
+
+    if (region.area() <= 0)
+        return Image();
+
+    Image new_img;
+    new_img.reset(region.size.width, region.size.height, channels_);
+
+    auto pixel_size = channels_ * bytes_per_channel_;
+
+    for (int y = 0; y < region.size.height; y++) {
+        for (int x = 0; x < region.size.width; x++) {
+            auto* new_ptr
+                = &new_img.pixels_
+                       [y * region.size.width * pixel_size + x * pixel_size];
+            auto* ptr
+                = &pixels_
+                      [(y + region.origin.y) * region.size.width * pixel_size
+                       + (x + region.origin.x) * pixel_size];
+
+            memcpy(new_ptr, ptr, pixel_size);
+        }
+    }
+
+    return new_img;
 }
 
 } // namespace niu2x::image

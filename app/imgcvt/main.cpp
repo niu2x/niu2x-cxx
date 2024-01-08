@@ -53,7 +53,12 @@ imgcvt(const Path& input_path, const Path& output_path, const Config& config)
     default_logger << "load_from_file: " << input_path << "\n";
     img.load_from_file(input_path);
 
-    if (config.crop_region) { }
+    if (config.crop_region) {
+        img = img.crop(*config.crop_region);
+    }
+
+    // default_logger << "size: " << img.size().width << "," <<
+    // img.size().height << "\n";
 
     set_store_format(&img, output_path);
     img.store_to_file(output_path);
