@@ -114,6 +114,16 @@ void ArgParser::check_required_args_got_value()
     }
 }
 
+bool ArgParser::exists(const String& opt_name) const
+{
+    auto& value_key = args_.at(opt_name).value_key;
+    if (values_.contains(value_key))
+        return true;
+    // if (default_values_.contains(value_key))
+    // return true;
+    return false;
+}
+
 void ArgParser::show_help() const
 {
     printf("Usage: %s [options]\n", app_name_.c_str());

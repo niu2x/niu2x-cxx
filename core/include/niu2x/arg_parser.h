@@ -60,6 +60,8 @@ public:
         return T();
     }
 
+    bool exists(const String& opt_name) const;
+
 private:
     String app_name_;
 

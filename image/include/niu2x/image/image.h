@@ -4,7 +4,7 @@
 #include <niu2x/std_alias.h>
 #include <niu2x/preprocess.h>
 #include <niu2x/resource.h>
-#include <niu2x/math/geometry.h>
+#include <niu2x/math.h>
 
 namespace niu2x::image {
 enum class FileFormat {
@@ -41,7 +41,6 @@ public:
     // {
     //     return pixels_[row * size_.width + col];
     // }
-
 private:
     IntSize size_;
     std::vector<uint8_t> pixels_;
