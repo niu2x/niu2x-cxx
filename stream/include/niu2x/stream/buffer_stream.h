@@ -31,6 +31,10 @@ public:
 
     NIU2X_PP_MOVABLE(BufferByteWriteStream);
 
+    const Buffer* buffer() const { return buffer_.get(); }
+
+    Buffer* buffer() { return buffer_.get(); }
+
 private:
     BufferPtr buffer_;
     size_t write_pos_;

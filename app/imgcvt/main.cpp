@@ -11,6 +11,8 @@ static ArgParser create_arg_parser()
     arg_parser.add_option("i,input", AT::STRING, "input image path", true);
     arg_parser.add_option("o,output", AT::STRING, "output image path", true);
 
+    arg_parser.set_positional_args({ "input", "output" });
+
     return arg_parser;
 }
 
