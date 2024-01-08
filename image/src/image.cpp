@@ -89,20 +89,19 @@ Image::~Image() { }
 //         }
 // }
 
-// void Image::store_to(WriteStream* dest)
-// {
-//     int channels = 4;
-//     switch (store_format_) {
-//         case Format::PNG: {
-//             image_png_encode(dest, size_, channels, pixels_.data());
-//             break;
-//         }
-//         case Format::JPG: {
-//             image_jpg_encode(dest, size_, channels, pixels_.data());
-//             break;
-//         }
-//     }
-// }
+void Image::store_to(ByteWriteStream* dest) const
+{
+    switch (store_format_) {
+        case FileFormat::PNG: {
+            image_png_encode(dest, size_, channels_, pixels_.data());
+            break;
+        }
+        case FileFormat::JPG: {
+            image_jpg_encode(dest, size_, channels_, pixels_.data());
+            break;
+        }
+    }
+}
 
 void Image::load_from(ByteReadStream* src)
 {
@@ -118,8 +117,9 @@ void Image::load_from(ByteReadStream* src)
         throw_runtime_err(stbi_failure_reason());
     }
 
-    auto total_bytes
-        = size_.area() * bytes_per_channel * decode_result.channels;
+    channels_ = decode_result.channels;
+
+    auto total_bytes = size_.area() * bytes_per_channel * channels_;
     pixels_.resize(total_bytes);
     memcpy(pixels_.data(), decode_result.image_data, total_bytes);
 

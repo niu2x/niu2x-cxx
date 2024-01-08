@@ -7,27 +7,30 @@
 #include <niu2x/math/geometry.h>
 
 namespace niu2x::image {
+enum class FileFormat {
+    PNG,
+    JPG,
+};
 
 using math::IntSize;
-
 class Image : public Resource {
 public:
-    enum class Format {
-        PNG,
-        JPG,
-    };
-
     Image();
     virtual ~Image();
 
     NIU2X_PP_MOVABLE(Image);
     NIU2X_PP_COPYABLE(Image);
 
-    virtual void store_to(ByteWriteStream* dst) override;
+    void store_to(ByteWriteStream* dst, FileFormat file_format) const
+    {
+        set_store_format(file_format);
+        store_to(dst);
+    }
+    virtual void store_to(ByteWriteStream* dst) const override;
     virtual void load_from(ByteReadStream* src) override;
 
     // void reset(int w, int h, const Color& color);
-    // void set_store_format(Format format) { store_format_ = format; }
+    void set_store_format(FileFormat format) const { store_format_ = format; }
 
     const IntSize& size() const { return size_; }
 
@@ -50,6 +53,9 @@ private:
 
     // bytes per pixel
     int bytes_per_channel = 1;
+    int channels_ = 1;
+
+    mutable FileFormat store_format_ = FileFormat::PNG;
 };
 
 static_assert(type_pred::is_movable<Image>);
