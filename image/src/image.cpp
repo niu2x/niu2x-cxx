@@ -154,31 +154,34 @@ Image Image::crop(const math::IntRect& sub_region) const
     math::IntRect region(0, 0, size_.width, size_.height);
     region = region.intersection(sub_region);
 
-    default_logger << region.origin.x << "\n";
-    default_logger << region.origin.y << "\n";
-    default_logger << region.size.width << "\n";
-    default_logger << region.size.height << "\n";
+    auto& r_o = region.origin;
+    auto& r_s = region.size;
 
     if (region.area() <= 0)
         return Image();
 
     Image new_img;
-    new_img.reset(region.size.width, region.size.height, channels_);
+    new_img.reset(r_s.width, r_s.height, channels_);
 
     auto pixel_size = channels_ * bytes_per_channel_;
 
-    for (int y = 0; y < region.size.height; y++) {
-        for (int x = 0; x < region.size.width; x++) {
-            auto* new_ptr
-                = &new_img.pixels_
-                       [y * region.size.width * pixel_size + x * pixel_size];
-            auto* ptr
-                = &pixels_
-                      [(y + region.origin.y) * region.size.width * pixel_size
-                       + (x + region.origin.x) * pixel_size];
+    Index new_offset = 0;
+
+    Index offset = pixel_size * (r_o.y * size_.width + r_o.x);
+
+    for (int y = 0; y < r_s.height; y++) {
+
+        for (int x = 0; x < r_s.width; x++) {
+            auto* new_ptr = &new_img.pixels_[new_offset];
+            auto* ptr = &pixels_[offset];
 
             memcpy(new_ptr, ptr, pixel_size);
+
+            new_offset += pixel_size;
+            offset += pixel_size;
         }
+
+        offset += (size_.width - r_s.width) * pixel_size;
     }
 
     return new_img;
