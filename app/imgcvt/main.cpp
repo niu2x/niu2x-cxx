@@ -4,6 +4,7 @@
 #include <niu2x/logger.h>
 #include <niu2x/string_utils.h>
 #include <niu2x/math.h>
+#include <niu2x/bite.h>
 
 using namespace niu2x;
 using Path = fs::AbsPath;
@@ -11,22 +12,6 @@ using Path = fs::AbsPath;
 struct Config {
     Maybe<math::IntRect> crop_region;
 };
-
-static ArgParser create_arg_parser()
-{
-    ArgParser arg_parser("imgcvt");
-    using AT = ArgParser::ArgType;
-
-    arg_parser.add_option("i,input", AT::STRING, "input image path", true);
-    arg_parser.add_option("o,output", AT::STRING, "output image path", true);
-    arg_parser.add_option(
-        "crop",
-        AT::STRING,
-        "crop a region, eg: --crop left,top,width,height",
-        false);
-    arg_parser.set_positional_args({ "input", "output" });
-    return arg_parser;
-}
 
 static void set_store_format(image::Image* img, const Path& output_path)
 {
@@ -77,23 +62,45 @@ static void parse_config(Config* config, const ArgParser& arg_parser)
     }
 }
 
-int main(int argc, const char* argv[])
-{
-    auto arg_parser = create_arg_parser();
-    try {
-        arg_parser.parse(argc, argv);
-    } catch (Exception& e) {
-        std::cerr << e.what() << std::endl << std::endl;
-        arg_parser.show_help();
-        return 1;
+class AppEntry : public bite::Entry {
+public:
+    AppEntry()
+    : bite::Entry("imgcvt")
+    {
     }
 
-    Path input_path = arg_parser.opt_string("input");
-    Path output_path = arg_parser.opt_string("output");
+    void init_options(ArgParser* ap) const override
+    {
+        using AT = ArgParser::ArgType;
+        ap->add_option("i,input", AT::STRING, "input image path", true);
+        ap->add_option("o,output", AT::STRING, "output image path", true);
+        ap->add_option(
+            "crop",
+            AT::STRING,
+            "crop a region, eg: --crop left,top,width,height",
+            false);
+        ap->set_positional_args({ "input", "output" });
+    }
 
-    Config config;
-    parse_config(&config, arg_parser);
+    int run(const ArgParser& ap) override
+    {
 
-    imgcvt(input_path, output_path, config);
-    return 0;
+        Path input_path = ap.opt_string("input");
+        Path output_path = ap.opt_string("output");
+
+        Config config;
+        parse_config(&config, ap);
+
+        imgcvt(input_path, output_path, config);
+
+        return 0;
+    }
+
+private:
+};
+
+int main(int argc, const char* argv[])
+{
+    AppEntry app;
+    return app.main(argc, argv);
 }

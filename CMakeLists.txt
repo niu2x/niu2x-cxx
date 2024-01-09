@@ -27,5 +27,6 @@ add_subdirectory(formatter)
 add_subdirectory(uv)
 add_subdirectory(image)
 add_subdirectory(resource)
+add_subdirectory(bite)
 
 include(CPack)

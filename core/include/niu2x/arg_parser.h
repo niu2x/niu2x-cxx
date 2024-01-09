@@ -62,6 +62,8 @@ public:
 
     bool exists(const String& opt_name) const;
 
+    void set_ignore_unknown_option(bool b) { ignore_unknown_args_ = b; }
+
 private:
     String app_name_;
 
@@ -79,6 +81,8 @@ private:
     ArgValueDict values_;
     ArgValueDict default_values_;
     ArgNameList positional_arg_names_;
+
+    bool ignore_unknown_args_ = false;
 
     void check_required_args_got_value();
 };

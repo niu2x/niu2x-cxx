@@ -10,11 +10,13 @@ target_sources(imgcvt PRIVATE "main.cpp")
 find_package(niu2x_filesystem REQUIRED)
 find_package(niu2x_image REQUIRED)
 find_package(niu2x_math REQUIRED)
+find_package(niu2x_bite REQUIRED)
 
 target_link_libraries(imgcvt PRIVATE 
 	niu2x_filesystem 
 	niu2x_image
 	niu2x_math
+	niu2x_bite
 )
 
 install(TARGETS imgcvt DESTINATION bin)

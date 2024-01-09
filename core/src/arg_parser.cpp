@@ -44,12 +44,18 @@ void ArgParser::parse(int argc, const char* argv[])
                 value = argv[i];
                 got_value = true;
             } else {
-                throw_runtime_err("unsupport positional argument");
+                if (!ignore_unknown_args_) {
+                    throw_runtime_err("unsupport positional argument");
+                }
             }
         }
 
         if (args_.find(name) == args_.end()) {
-            throw_runtime_err("unsupport option " + name);
+            if (ignore_unknown_args_)
+                continue;
+            else {
+                throw_runtime_err("unsupport option " + name);
+            }
         }
 
         auto argument = args_.at(name);
