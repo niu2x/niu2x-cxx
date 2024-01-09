@@ -4,9 +4,10 @@ LIB_RELEASE_BUILD := build/release
 LIB_DEBUG_DIST := dist/debug
 LIB_RELEASE_DIST := dist/release
 
-LIB_DIR := $(PWD)/$(LIB_RELEASE_DIST)/lib/cmake/niu2x
+CURRENT_DIR := $(dir $(abspath $(lastword $(MAKEFILE_LIST))))
+LIB_DIR := $(CURRENT_DIR)/$(LIB_RELEASE_DIST)/lib/cmake/niu2x
 
-all: release-library all-app
+all: release-library build-all-app
 
 # build niu2x library
 library: debug-library \
@@ -29,7 +30,7 @@ release-library:
 
 
 # build app
-all-app: ynkwis imgcvt
+build-all-app: ynkwis imgcvt
 
 ynkwis: release-library
 	cmake -S app/ynkwis -Bbuild/ynkwis -DCMAKE_BUILD_TYPE=Release \
@@ -43,8 +44,16 @@ imgcvt: release-library
 		-D niu2x_filesystem_DIR=$(LIB_DIR) 
 	cmake --build build/imgcvt
 
+install-all-app: install-imgcvt
+
+install-imgcvt: imgcvt
+	cmake --install build/imgcvt
+
 .PHONY: library \
 		debug-library \
 		release-library \
-		all-app \
-		ynkwis
+		build-all-app \
+		install-all-app \
+		ynkwis \
+		imgcvt \
+		install-imgcvt

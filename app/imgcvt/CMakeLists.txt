@@ -16,3 +16,5 @@ target_link_libraries(imgcvt PRIVATE
 	niu2x_image
 	niu2x_math
 )
+
+install(TARGETS imgcvt DESTINATION bin)

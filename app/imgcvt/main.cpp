@@ -24,9 +24,7 @@ static ArgParser create_arg_parser()
         AT::STRING,
         "crop a region, eg: --crop left,top,width,height",
         false);
-
     arg_parser.set_positional_args({ "input", "output" });
-
     return arg_parser;
 }
 
@@ -56,9 +54,6 @@ imgcvt(const Path& input_path, const Path& output_path, const Config& config)
     if (config.crop_region) {
         img = img.crop(*config.crop_region);
     }
-
-    // default_logger << "size: " << img.size().width << "," <<
-    // img.size().height << "\n";
 
     set_store_format(&img, output_path);
     img.store_to_file(output_path);
