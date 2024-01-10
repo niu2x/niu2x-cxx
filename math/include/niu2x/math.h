@@ -9,5 +9,7 @@
 #include <niu2x/math/geometry.h>
 #include <niu2x/math/utils.h>
 #include <niu2x/math/perlin.h>
+#include <niu2x/math/complex.h>
+#include <niu2x/math/fft.h>
 
 #endif
