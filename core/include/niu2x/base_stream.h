@@ -13,8 +13,11 @@ public:
     ReadStream() { }
     virtual ~ReadStream() { }
     virtual NR read(T* buf, NR size) = 0;
+    NR read(void* ptr, NR size)
+    {
+        return read(reinterpret_cast<T*>(ptr), size);
+    }
     virtual bool eof() = 0;
-
     NIU2X_PP_MOVABLE(ReadStream);
 };
 
@@ -29,7 +32,16 @@ public:
     NIU2X_PP_MOVABLE(WriteStream);
 };
 
-using ByteReadStream = ReadStream<uint8_t>;
+class ByteReadStream : public ReadStream<uint8_t> {
+public:
+    ByteReadStream() { }
+    ~ByteReadStream() { }
+
+    uint32_t read_u32();
+    uint8_t read_u8();
+    void read_char(char* buf, NR size);
+};
+
 using ByteWriteStream = WriteStream<uint8_t>;
 
 template <class T>
