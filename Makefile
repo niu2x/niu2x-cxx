@@ -30,7 +30,7 @@ release-library:
 
 
 # build app
-build-all-app: ynkwis imgcvt
+build-all-app: ynkwis imgcvt fft
 
 ynkwis: release-library
 	cmake -S app/ynkwis -Bbuild/ynkwis -DCMAKE_BUILD_TYPE=Release \
@@ -44,6 +44,15 @@ imgcvt: release-library
 		-D niu2x_bite_DIR=$(LIB_DIR) \
 		-D niu2x_filesystem_DIR=$(LIB_DIR) 
 	cmake --build build/imgcvt
+
+
+fft: release-library
+	cmake -S app/fft -Bbuild/fft -DCMAKE_BUILD_TYPE=Release \
+		-D niu2x_image_DIR=$(LIB_DIR) \
+		-D niu2x_math_DIR=$(LIB_DIR) \
+		-D niu2x_bite_DIR=$(LIB_DIR) \
+		-D niu2x_filesystem_DIR=$(LIB_DIR) 
+	cmake --build build/fft
 
 install-all-app: install-imgcvt
 
