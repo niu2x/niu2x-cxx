@@ -36,7 +36,8 @@ private:
 static_assert(type_pred::is_movable<AbsPath>);
 static_assert(type_pred::is_copyable<AbsPath>);
 
-inline Logger& operator<<(Logger& logger, const AbsPath& value)
+template <class OutStream>
+inline OutStream& operator<<(OutStream& logger, const AbsPath& value)
 {
     logger << value.str();
     return logger;

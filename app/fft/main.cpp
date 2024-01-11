@@ -2,13 +2,17 @@
 using namespace niu2x;
 int main()
 {
-    double examples[100];
-    for (int i = 0; i < 100; i++)
-        examples[i] = sin(i / 10.0 * 2 * 3.1415926 + 3.1415926 * 0.5);
+    Vector<double> samples;
 
-    auto fft_result = math::fft(examples, examples + 100);
+    double n;
+    while (std::cin >> n) {
+        samples.push_back(n);
+    }
+
+    auto fft_result
+        = math::fft(samples.data(), samples.data() + samples.size());
     for (auto& x : fft_result) {
-        std::cout << x << ",";
+        std::cout << x << std::endl;
     }
     std::cout << std::endl;
     return 0;

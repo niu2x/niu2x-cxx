@@ -15,7 +15,8 @@ struct SoundData {
     int sample_frequency;
 };
 
-double Sound_duration(SoundData* self);
+double Sound_duration(const SoundData& self);
+SoundData Sound_crop(const SoundData& self, double start, double duration);
 
 } // namespace niu2x::media
 

@@ -22,6 +22,12 @@ public:
     {
         using AT = ArgParser::ArgType;
         ap->add_option("i,input", AT::STRING, "input media file path", true);
+        ap->add_option("verbose", AT::BOOLEAN, "verbose", false);
+        ap->add_option(
+            "crop",
+            AT::STRING,
+            "crop sound by time (seconds), eg: --crop 9,2",
+            false);
         ap->add_option(
             "dump-samples",
             AT::BOOLEAN,
@@ -29,6 +35,7 @@ public:
             false);
         ap->set_positional_args({ "input" });
         ap->set_default_value("dump-samples", false);
+        ap->set_default_value("verbose", false);
     }
 
     int run(const ArgParser& ap) override
@@ -37,21 +44,39 @@ public:
         fs::File file(ap.opt_string("input"));
         stream::FileByteReadStream input_s(file);
         auto sound_data = codec.decode(&input_s);
+        bool verbose = ap.opt_boolean("verbose");
+
+        if (verbose)
+            std::cout << "input audio file: " << file.path() << std::endl;
+
+        if (ap.exists("crop")) {
+            auto crop_sz = ap.opt_string("crop");
+            auto fields = string_utils::split(crop_sz, ',');
+            double start = 0, duration = -1;
+            start = std::stod(fields[0]);
+            if (fields.size() >= 2) {
+                duration = std::stod(fields[1]);
+            }
+
+            if (verbose)
+                std::cout << "input audio crop: " << start << "," << duration
+                          << std::endl;
+
+            sound_data = Sound_crop(sound_data, start, duration);
+        }
 
         if (ap.opt_boolean("dump-samples")) {
-
             for (auto& x : sound_data.samples) {
                 std::cout << x << std::endl;
             }
-
         } else {
 
             std::cout << "sound sample frequency: "
                       << sound_data.sample_frequency << std::endl;
             std::cout << "sound sample bits: " << sound_data.sample_bits
                       << std::endl;
-            std::cout << "sound duration: "
-                      << media::Sound_duration(&sound_data) << std::endl;
+            std::cout << "sound duration: " << media::Sound_duration(sound_data)
+                      << std::endl;
         }
         return 0;
     }

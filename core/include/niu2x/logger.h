@@ -46,6 +46,12 @@ public:
         std::cerr << value;
         return *this;
     }
+
+    Logger& operator<<(double value)
+    {
+        std::cerr << value;
+        return *this;
+    }
 };
 
 extern Logger& default_logger;
