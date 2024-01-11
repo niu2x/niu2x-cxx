@@ -6,5 +6,6 @@
 #include <niu2x/preprocess/movable.h>
 #include <niu2x/preprocess/no_copyable.h>
 #include <niu2x/preprocess/no_movable.h>
+#include <niu2x/preprocess/stringify.h>
 
 #endif

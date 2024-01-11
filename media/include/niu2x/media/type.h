@@ -8,7 +8,14 @@
 namespace niu2x::media {
 
 using SampleValue = double;
-using SoundData = Vector<SampleValue>;
+
+struct SoundData {
+    Vector<SampleValue> samples;
+    int sample_bits;
+    int sample_frequency;
+};
+
+double Sound_duration(SoundData* self);
 
 } // namespace niu2x::media
 

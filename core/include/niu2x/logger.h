@@ -4,6 +4,7 @@
 #include <iostream>
 #include <niu2x/singleton.h>
 #include <niu2x/std_alias.h>
+#include <niu2x/convention.h>
 
 namespace niu2x {
 
@@ -29,6 +30,18 @@ public:
     }
 
     Logger& operator<<(int value)
+    {
+        std::cerr << value;
+        return *this;
+    }
+
+    Logger& operator<<(NR value)
+    {
+        std::cerr << value;
+        return *this;
+    }
+
+    Logger& operator<<(uint32_t value)
     {
         std::cerr << value;
         return *this;

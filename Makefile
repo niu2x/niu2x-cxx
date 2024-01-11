@@ -30,7 +30,7 @@ release-library:
 
 
 # build app
-build-all-app: ynkwis imgcvt fft
+build-all-app: ynkwis imgcvt fft MediaTool
 
 ynkwis: release-library
 	cmake -S app/ynkwis -Bbuild/ynkwis -DCMAKE_BUILD_TYPE=Release \
@@ -54,6 +54,14 @@ fft: release-library
 		-D niu2x_filesystem_DIR=$(LIB_DIR) 
 	cmake --build build/fft
 
+MediaTool: release-library
+	cmake -S app/MediaTool -Bbuild/MediaTool -DCMAKE_BUILD_TYPE=Release \
+		-D niu2x_media_DIR=$(LIB_DIR) \
+		-D niu2x_math_DIR=$(LIB_DIR) \
+		-D niu2x_bite_DIR=$(LIB_DIR) \
+		-D niu2x_filesystem_DIR=$(LIB_DIR) 
+	cmake --build build/MediaTool
+
 install-all-app: install-imgcvt
 
 install-imgcvt: imgcvt
@@ -66,4 +74,5 @@ install-imgcvt: imgcvt
 		install-all-app \
 		ynkwis \
 		imgcvt \
+		MediaTool \
 		install-imgcvt

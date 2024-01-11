@@ -3,6 +3,7 @@
 
 #include <niu2x/noncopyable.h>
 #include <niu2x/convention.h>
+#include <niu2x/exception.h>
 #include <niu2x/std_alias.h>
 
 namespace niu2x {
@@ -37,9 +38,21 @@ public:
     ByteReadStream() { }
     ~ByteReadStream() { }
 
-    uint32_t read_u32();
-    uint8_t read_u8();
     void read_char(char* buf, NR size);
+
+    template <class T>
+    T read_value()
+    {
+        T n;
+        if (read(&n, sizeof(T)) != sizeof(T)) {
+            throw_runtime_err("no more bytes");
+        }
+        return n;
+    }
+
+    uint32_t read_u32() { return read_value<uint32_t>(); }
+    uint16_t read_u16() { return read_value<uint16_t>(); }
+    uint8_t read_u8() { return read_value<uint8_t>(); }
 };
 
 using ByteWriteStream = WriteStream<uint8_t>;
