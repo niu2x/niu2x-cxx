@@ -11,6 +11,7 @@ TCP::TCP(Loop* loop)
 : native_(sizeof(uv_tcp_t))
 , loop_(loop)
 {
+    logger << "TCP::TCP\n";
     auto uv_tcp = UV_TYPE(uv_tcp_t*, native_.data());
     memset(uv_tcp, 0, sizeof(uv_tcp_t));
 
@@ -32,6 +33,7 @@ TCP::~TCP()
     auto uv_tcp = UV_TYPE(uv_tcp_t*, native_.data());
     // UV_ENSURE_STOP(uv_tcp, uv_tcp_stop);
     UV_ENSURE_CLOSE(uv_tcp, loop_);
+    logger << "TCP::~TCP\n";
 }
 
 void TCP::listen(CONNECT_CB cb)
