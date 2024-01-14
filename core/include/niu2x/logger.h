@@ -55,6 +55,7 @@ public:
 };
 
 extern Logger& default_logger;
+extern Logger& logger;
 
 } // namespace niu2x
 

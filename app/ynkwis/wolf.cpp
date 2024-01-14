@@ -14,18 +14,26 @@ public:
 
     void init_options(ArgParser* arg_parser) const override { }
 
-    int run(const ArgParser& arg_parser) override { return 0; }
+    int run(const ArgParser& arg_parser) override
+    {
+        uv::TCP listen_sock(&uv_loop_);
+        listen_sock.bind("127.0.0.1", 8082);
+        listen_sock.listen([](auto client) {
+
+        });
+        uv_loop_.run_loop();
+        return 0;
+    }
+
+private:
+    uv::Loop uv_loop_;
 };
 
 int main(int argc, const char* argv[])
 {
-
     WolfEntry app;
     return app.main(argc, argv);
 
-    // uv::Loop uv_loop;
     // uv::TCP listen_sock(&uv_loop);
-    // listen_sock.bind("127.0.0.1", 8082);
-    // uv_loop.run_loop();
     // return 0;
 }

@@ -26,4 +26,11 @@ namespace niu2x::uv {
 inline void uv_close_cb(uv_handle_t*) { }
 } // namespace niu2x::uv
 
+#define THROW_UV_ERR(n) throw_runtime_err(uv_strerror((n)));
+
+#define CHECK_UV_ERR(expr_or_err)                                              \
+    if (auto n = (expr_or_err) < 0) {                                          \
+        THROW_UV_ERR(n);                                                       \
+    }
+
 #endif

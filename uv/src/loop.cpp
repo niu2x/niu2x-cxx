@@ -2,13 +2,7 @@
 #include <string.h>
 
 #include "uv.h"
-
-#define THROW_UV_ERR(n) throw_runtime_err(uv_strerror((n)));
-
-#define CHECK_UV_ERR(expr_or_err)                                              \
-    if (auto n = (expr_or_err) < 0) {                                          \
-        THROW_UV_ERR(n);                                                       \
-    }
+#include "helper.h"
 
 namespace niu2x::uv {
 
