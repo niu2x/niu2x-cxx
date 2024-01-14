@@ -8,5 +8,6 @@ add_executable(ynkwis_wolf "")
 target_sources(ynkwis_wolf PRIVATE "wolf.cpp")
 
 find_package(niu2x_uv REQUIRED)
+find_package(niu2x_bite REQUIRED)
 
-target_link_libraries(ynkwis_wolf PRIVATE niu2x_uv)
+target_link_libraries(ynkwis_wolf PRIVATE niu2x_uv niu2x_bite)

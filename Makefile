@@ -34,6 +34,7 @@ build-all-app: ynkwis imgcvt fft MediaTool
 
 ynkwis: release-library
 	cmake -S app/ynkwis -Bbuild/ynkwis -DCMAKE_BUILD_TYPE=Release \
+		-D niu2x_bite_DIR=$(LIB_DIR) \
 		-D niu2x_uv_DIR=$(LIB_DIR)
 	cmake --build build/ynkwis
 
