@@ -122,4 +122,10 @@ void TCP::read_start(READ_CB cb)
 void TCP::notify_read_data(const uint8_t* buf, NR size) { read_cb_(buf, size); }
 void TCP::notify_read_eof() { read_cb_(nullptr, 0); }
 
+void TCP::read_stop()
+{
+    auto uv_tcp = UV_TYPE(uv_tcp_t*, native_.data());
+    CHECK_UV_ERR(uv_read_stop((uv_stream_t*)uv_tcp));
+}
+
 } // namespace niu2x::uv
