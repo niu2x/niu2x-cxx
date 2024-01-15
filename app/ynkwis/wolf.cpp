@@ -9,15 +9,28 @@ class WolfClient : private Noncopyable {
 public:
     WolfClient(UniquePtr<uv::TCP> tcp)
     : tcp_(move(tcp))
+    , done_(false)
     {
     }
 
     ~WolfClient() { }
 
-    bool is_done() const { return true; }
+    void service()
+    {
+        tcp_->read_start([this](const uint8_t* data, NR size) {
+            if (!data) {
+                done_ = true;
+                return;
+            }
+            fwrite(data, 1, size, stdout);
+        });
+    }
+
+    bool is_done() const { return done_; }
 
 private:
     UniquePtr<uv::TCP> tcp_;
+    bool done_;
 };
 
 class WolfEntry : public bite::Entry {
@@ -35,8 +48,10 @@ public:
     {
         uv::TCP listen_sock(&uv_loop_);
         listen_sock.bind("127.0.0.1", 8082);
-        listen_sock.listen([this](auto client) {
-            clients_.push_back(make_unique<WolfClient>(move(client)));
+        listen_sock.listen([this](auto client_tcp) {
+            auto client = make_unique<WolfClient>(move(client_tcp));
+            client->service();
+            clients_.push_back(move(client));
         });
 
         uv::Timer timer_for_check_clients(

@@ -2,6 +2,7 @@
 #include <niu2x/uv/tcp.h>
 #include <niu2x/uv/loop.h>
 #include <niu2x/logger.h>
+#include <niu2x/unused.h>
 #include <string.h>
 #include "helper.h"
 
@@ -85,5 +86,40 @@ void TCP::accept(TCP* server)
     auto uv_client = (uv_stream_t*)(native());
     CHECK_UV_ERR(uv_accept(uv_server, uv_client));
 }
+
+static void alloc_cb(uv_handle_t* handle, size_t suggested_size, uv_buf_t* buf)
+{
+    unused(handle);
+    buf->base = (char*)malloc(suggested_size);
+    buf->len = suggested_size;
+}
+
+void TCP::uv_read_cb(void* p_server, ssize_t nread, const void* p_buf)
+{
+    auto buf = (uv_buf_t*)p_buf;
+    auto uv_tcp = UV_TYPE(uv_tcp_t*, p_server);
+    auto tcp = reinterpret_cast<TCP*>(uv_tcp->data);
+    if (nread > 0) {
+        tcp->notify_read_data((const uint8_t*)buf->base, buf->len);
+        free(buf->base);
+    } else {
+        tcp->notify_read_eof();
+    }
+}
+
+void TCP::read_start(READ_CB cb)
+{
+    read_cb_ = cb;
+    auto uv_tcp = UV_TYPE(uv_tcp_t*, native_.data());
+    using CALLBACK_T
+        = void (*)(uv_stream_t * stream, ssize_t nread, const uv_buf_t* buf);
+    CHECK_UV_ERR(uv_read_start(
+        (uv_stream_t*)uv_tcp,
+        &alloc_cb,
+        (CALLBACK_T)&TCP::uv_read_cb));
+}
+
+void TCP::notify_read_data(const uint8_t* buf, NR size) { read_cb_(buf, size); }
+void TCP::notify_read_eof() { read_cb_(nullptr, 0); }
 
 } // namespace niu2x::uv
