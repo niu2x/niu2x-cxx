@@ -10,7 +10,7 @@ namespace niu2x::media {
 using SampleValue = double;
 
 struct SoundData {
-    Vector<SampleValue> samples;
+    Vector<Vector<SampleValue>> channels;
     int sample_bits;
     int sample_frequency;
 };

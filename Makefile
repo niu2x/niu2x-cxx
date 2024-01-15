@@ -71,7 +71,8 @@ install-imgcvt: imgcvt
 
 niu2py: release-library
 	cmake -S app/niu2py -Bbuild/niu2py -DCMAKE_BUILD_TYPE=Release \
-		-D niu2x_media_DIR=$(LIB_DIR) 
+		-D niu2x_media_DIR=$(LIB_DIR) \
+		-D niu2x_stream_DIR=$(LIB_DIR) 
 	cmake --build build/niu2py
 
 

@@ -66,9 +66,14 @@ public:
         }
 
         if (ap.opt_boolean("dump-samples")) {
-            for (auto& x : sound_data.samples) {
-                std::cout << x << std::endl;
+            auto channels_nr = sound_data.channels.size();
+            for (Index cindex = 0; cindex < channels_nr; cindex++) {
+                std::cout << "channel " << cindex << std::endl;
+                for (auto& x : sound_data.channels[0]) {
+                    std::cout << x << std::endl;
+                }
             }
+
         } else {
 
             std::cout << "sound sample frequency: "

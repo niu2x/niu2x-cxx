@@ -4,7 +4,7 @@ namespace niu2x::media {
 
 double Sound_duration(const SoundData& sound)
 {
-    double samples_nr = sound.samples.size();
+    double samples_nr = sound.channels[0].size();
     double duration = samples_nr / sound.sample_frequency;
     return duration;
 }
@@ -12,7 +12,7 @@ double Sound_duration(const SoundData& sound)
 SoundData Sound_crop(const SoundData& sound, double start, double duration)
 {
     Index frame_start = start * sound.sample_frequency;
-    Index frame_end = sound.samples.size();
+    Index frame_end = sound.channels[0].size();
 
     if (duration > 0) {
         Index tmp_end = (start + duration) * sound.sample_frequency + 1;
@@ -24,10 +24,12 @@ SoundData Sound_crop(const SoundData& sound, double start, double duration)
     result.sample_frequency = sound.sample_frequency;
     result.sample_bits = sound.sample_bits;
 
-    auto iter_begin = sound.samples.begin();
-    auto first = iter_begin + frame_start;
-    auto last = iter_begin + frame_end;
-    result.samples = Vector<SampleValue>(first, last);
+    for (auto& channel : sound.channels) {
+        auto iter_begin = channel.begin();
+        auto first = iter_begin + frame_start;
+        auto last = iter_begin + frame_end;
+        result.channels.push_back(Vector<SampleValue>(first, last));
+    }
 
     return result;
 }

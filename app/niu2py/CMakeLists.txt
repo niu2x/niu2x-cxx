@@ -8,8 +8,12 @@ add_library(niu2py SHARED "")
 target_sources(niu2py PRIVATE "main.cpp")
 
 find_package(niu2x_media REQUIRED)
+find_package(niu2x_stream REQUIRED)
 
-target_link_libraries(niu2py PRIVATE niu2x_media)
+target_link_libraries(niu2py PRIVATE 
+	niu2x_media
+	niu2x_stream
+)
 
 target_include_directories(niu2py PRIVATE 
 	/home/niu2x/bin/miniconda3/include/python3.10
