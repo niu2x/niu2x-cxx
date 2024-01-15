@@ -33,6 +33,6 @@ PYBIND11_MODULE(niu2py, m)
 
     py::class_<media::SoundData>(media, "SoundData")
         .def_readwrite("sample_bits", &media::SoundData::sample_bits)
-        .def_readwrite("samples", &media::SoundData::samples)
+        .def_readwrite("channels", &media::SoundData::channels)
         .def_readwrite("sample_frequency", &media::SoundData::sample_frequency);
 }
