@@ -13,7 +13,7 @@ public:
     ByteWriteFilter(const String& filter_type, ByteWriteStream* next);
     ByteWriteFilter(UniquePtr<FilterAlgorithm> filter, ByteWriteStream* next);
 
-    virtual ~ByteWriteFilter();
+    ~ByteWriteFilter();
     virtual void write(const uint8_t* buf, size_t size) override;
     virtual void finalize() override;
 

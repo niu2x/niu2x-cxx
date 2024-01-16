@@ -77,8 +77,11 @@ static void read_infos(ByteReadStream* input)
     // logger << "info:" << message << "\n";
 }
 
-void WavCodec::encode(const SoundData&, ByteWriteStream* output) const
+void WavCodec::encode(const SoundData& sound_data, ByteWriteStream* output)
+    const
 {
+    // output->write_char();
+    unused(sound_data);
     unused(output);
 }
 

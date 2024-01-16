@@ -4,7 +4,7 @@
 
 namespace niu2x::stream {
 
-ByteWriteFilter::ByteWriteFilter(FilterType filter_type, WriteStream* next)
+ByteWriteFilter::ByteWriteFilter(FilterType filter_type, ByteWriteStream* next)
 : ByteWriteFilter(FilterAlgorithmFactory::get()->create_obj(filter_type), next)
 {
 }

@@ -28,6 +28,11 @@ public:
     WriteStream() { }
     virtual ~WriteStream() { }
     virtual void write(const T* buf, NR size) = 0;
+
+    void write(const void* ptr, NR size)
+    {
+        write(reinterpret_cast<const T*>(ptr), size);
+    }
     virtual void finalize() { }
 
     NIU2X_PP_MOVABLE(WriteStream);
@@ -55,7 +60,23 @@ public:
     uint8_t read_u8() { return read_value<uint8_t>(); }
 };
 
-using ByteWriteStream = WriteStream<uint8_t>;
+class ByteWriteStream : public WriteStream<uint8_t> {
+public:
+    ByteWriteStream() { }
+    ~ByteWriteStream() { }
+
+    void write_char(const char* buf, NR size);
+
+    template <class T>
+    void write_value(T n)
+    {
+        write(&n, sizeof(T));
+    }
+
+    void write_u32(uint32_t n) { write_value<uint32_t>(n); }
+    void write_u16(uint16_t n) { write_value<uint16_t>(n); }
+    void write_u8(uint8_t n) { write_value<uint8_t>(n); }
+};
 
 template <class T>
 void pipe(
