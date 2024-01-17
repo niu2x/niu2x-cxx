@@ -44,6 +44,11 @@ public:
         return opt<bool>(opt_name);
     }
 
+    double opt_number(const String& opt_name) const
+    {
+        return opt<double>(opt_name);
+    }
+
     template <class T>
     T opt(const String& opt_name) const
     {

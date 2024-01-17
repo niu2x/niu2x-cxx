@@ -17,6 +17,7 @@ struct SoundData {
 
 double Sound_duration(const SoundData& self);
 SoundData Sound_crop(const SoundData& self, double start, double duration);
+SoundData Sound_change_speed(const SoundData& self, double scale);
 
 } // namespace niu2x::media
 

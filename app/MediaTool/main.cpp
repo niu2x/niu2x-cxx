@@ -23,6 +23,7 @@ public:
         using AT = ArgParser::ArgType;
         ap->add_option("i,input", AT::STRING, "input media file path", true);
         ap->add_option("o,output", AT::STRING, "input media file path", false);
+        ap->add_option("change-speed", AT::NUMBER, "change speed", false);
         ap->add_option("verbose", AT::BOOLEAN, "verbose", false);
         ap->add_option(
             "crop",
@@ -66,6 +67,14 @@ public:
             sound_data = Sound_crop(sound_data, start, duration);
         }
 
+        if (ap.exists("change-speed")) {
+            double speed_scale = ap.opt_number("change-speed");
+            if (verbose)
+                std::cout << "change-speed: x" << speed_scale << "\n";
+
+            sound_data = Sound_change_speed(sound_data, speed_scale);
+        }
+
         if (ap.opt_boolean("dump-samples")) {
             auto channels_nr = sound_data.channels.size();
             for (Index cindex = 0; cindex < channels_nr; cindex++) {
@@ -77,19 +86,20 @@ public:
 
         } else {
 
-            std::cout << "sound sample frequency: "
+            if (ap.exists("output")) {
+                fs::File file(ap.opt_string("output"));
+                stream::FileByteWriteStream out_s(file);
+                codec.encode(sound_data, &out_s);
+            }
+
+            std::cout << "output sound sample frequency: "
                       << sound_data.sample_frequency << std::endl;
-            std::cout << "sound sample bits: " << sound_data.sample_bits
+            std::cout << "output sound sample bits: " << sound_data.sample_bits
                       << std::endl;
-            std::cout << "sound duration: " << media::Sound_duration(sound_data)
-                      << std::endl;
+            std::cout << "output sound duration: "
+                      << media::Sound_duration(sound_data) << std::endl;
         }
 
-        if (ap.exists("output")) {
-            fs::File file(ap.opt_string("output"));
-            stream::FileByteWriteStream out_s(file);
-            codec.encode(sound_data, &out_s);
-        }
         return 0;
     }
 

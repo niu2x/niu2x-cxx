@@ -56,8 +56,7 @@ static void read_audio_data(
 
 #define READ(name, bits)                                                       \
     auto name = le_to_host(input->NIU2X_PP_CAT(read_u, bits)());               \
-    unused(name);                                                              \
-    logger << NIU2X_PP_STR(name) ": " << name << "\n";
+    unused(name);
 
 static void read_infos(ByteReadStream* input)
 {
