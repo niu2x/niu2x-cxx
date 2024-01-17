@@ -10,4 +10,6 @@ void ByteReadStream::read_char(char* buf, NR size)
     }
 }
 
+void ByteWriteStream::write_char(const char* buf, NR size) { write(buf, size); }
+
 } // namespace niu2x

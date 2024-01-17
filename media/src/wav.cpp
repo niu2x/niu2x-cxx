@@ -77,25 +77,67 @@ static void read_infos(ByteReadStream* input)
     // logger << "info:" << message << "\n";
 }
 
+template <class T>
+void write_audio_data_IMP(
+    const SoundData& sd,
+    ByteWriteStream* output,
+    T max_sample_value)
+{
+    NR size = sd.channels[0].size();
+    NR channels_nr = sd.channels.size();
+
+    for (Index i = 0; i < size; i++) {
+        for (Index cindex = 0; cindex < channels_nr; cindex++) {
+            T x = sd.channels[cindex][i] * max_sample_value;
+            output->write_value<T>(host_to_le(x));
+        }
+    }
+}
+
+static void write_audio_data(const SoundData& sd, ByteWriteStream* output)
+{
+    switch (sd.sample_frequency) {
+        case 16: {
+            write_audio_data_IMP<int16_t>(sd, output, 32767);
+            break;
+        }
+        default: {
+            throw_runtime_err(
+                "dont't support bits_per_sample: "
+                + to_string(sd.sample_frequency));
+        }
+    }
+}
+
 void WavCodec::encode(const SoundData& sd, ByteWriteStream* output) const
 {
     output->write_char("RIFF", 4);
 
     uint32_t size_of_file = 0;
-    output->write_uint32(host_to_le(size_of_file));
+    output->write_u32(host_to_le(size_of_file));
 
     output->write_char("WAVE", 4);
     output->write_char("fmt ", 4);
 
     uint32_t size_of_section_chunk = 0;
     uint16_t wav_type_format = 0;
-    uint16_t channels_nr = 0;
-    uint32_t sample_frequency = 0;
+    uint16_t channels_nr = sd.channels.size();
+    uint32_t sample_frequency = sd.sample_frequency;
     uint16_t block_alignment = 0;
-    uint16_t bits_per_sample = 0;
-    output->write_char("data", 4);
+    uint16_t bits_per_sample = sd.sample_bits;
+
     uint32_t size_of_data_chunk = 0;
-    // write data
+
+    output->write_u32(host_to_le(size_of_section_chunk));
+    output->write_u16(host_to_le(wav_type_format));
+    output->write_u16(host_to_le(channels_nr));
+    output->write_u32(host_to_le(sample_frequency));
+    output->write_u16(host_to_le(block_alignment));
+    output->write_u16(host_to_le(bits_per_sample));
+    output->write_char("data", 4);
+    output->write_u32(host_to_le(size_of_data_chunk));
+
+    write_audio_data(sd, output);
 }
 
 SoundData WavCodec::decode(ByteReadStream* input) const
