@@ -22,6 +22,7 @@ public:
     {
         using AT = ArgParser::ArgType;
         ap->add_option("i,input", AT::STRING, "input media file path", true);
+        ap->add_option("o,output", AT::STRING, "input media file path", false);
         ap->add_option("verbose", AT::BOOLEAN, "verbose", false);
         ap->add_option(
             "crop",
@@ -33,7 +34,7 @@ public:
             AT::BOOLEAN,
             "dump sound samples",
             false);
-        ap->set_positional_args({ "input" });
+        ap->set_positional_args({ "input", "output" });
         ap->set_default_value("dump-samples", false);
         ap->set_default_value("verbose", false);
     }
@@ -82,6 +83,12 @@ public:
                       << std::endl;
             std::cout << "sound duration: " << media::Sound_duration(sound_data)
                       << std::endl;
+        }
+
+        if (ap.exists("output")) {
+            fs::File file(ap.opt_string("output"));
+            stream::FileByteWriteStream out_s(file);
+            codec.encode(sound_data, &out_s);
         }
         return 0;
     }

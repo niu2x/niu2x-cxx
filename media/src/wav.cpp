@@ -56,8 +56,8 @@ static void read_audio_data(
 
 #define READ(name, bits)                                                       \
     auto name = le_to_host(input->NIU2X_PP_CAT(read_u, bits)());               \
-    unused(name);
-// default_logger << NIU2X_PP_STR(name) ": " << name << "\n";
+    unused(name);                                                              \
+    logger << NIU2X_PP_STR(name) ": " << name << "\n";
 
 static void read_infos(ByteReadStream* input)
 {
@@ -96,45 +96,48 @@ void write_audio_data_IMP(
 
 static void write_audio_data(const SoundData& sd, ByteWriteStream* output)
 {
-    switch (sd.sample_frequency) {
+    switch (sd.sample_bits) {
         case 16: {
             write_audio_data_IMP<int16_t>(sd, output, 32767);
             break;
         }
         default: {
             throw_runtime_err(
-                "dont't support bits_per_sample: "
-                + to_string(sd.sample_frequency));
+                "dont't support bits_per_sample: " + to_string(sd.sample_bits));
         }
     }
 }
 
 void WavCodec::encode(const SoundData& sd, ByteWriteStream* output) const
 {
-    output->write_char("RIFF", 4);
+    uint32_t size_of_section_chunk = 16;
+    uint16_t wav_type_format = 1;
+    uint16_t channels_nr = sd.channels.size();
+    uint32_t sample_frequency = sd.sample_frequency;
+    uint16_t bits_per_sample = sd.sample_bits;
+    uint32_t bytes_per_sample = (bits_per_sample >> 3);
+    uint32_t bytes_per_sec = sample_frequency * channels_nr * bytes_per_sample;
+    uint16_t block_alignment = 4;
 
-    uint32_t size_of_file = 0;
+    uint32_t sample_nr = sd.channels[0].size();
+    uint32_t size_of_data_chunk = channels_nr * sample_nr * bytes_per_sample;
+    uint32_t size_of_file = 32 + size_of_data_chunk;
+
+    output->write_char("RIFF", 4);
     output->write_u32(host_to_le(size_of_file));
 
     output->write_char("WAVE", 4);
     output->write_char("fmt ", 4);
 
-    uint32_t size_of_section_chunk = 0;
-    uint16_t wav_type_format = 0;
-    uint16_t channels_nr = sd.channels.size();
-    uint32_t sample_frequency = sd.sample_frequency;
-    uint16_t block_alignment = 0;
-    uint16_t bits_per_sample = sd.sample_bits;
-
-    uint32_t size_of_data_chunk = 0;
-
     output->write_u32(host_to_le(size_of_section_chunk));
     output->write_u16(host_to_le(wav_type_format));
     output->write_u16(host_to_le(channels_nr));
     output->write_u32(host_to_le(sample_frequency));
+    output->write_u32(host_to_le(bytes_per_sec));
     output->write_u16(host_to_le(block_alignment));
     output->write_u16(host_to_le(bits_per_sample));
     output->write_char("data", 4);
+
     output->write_u32(host_to_le(size_of_data_chunk));
 
     write_audio_data(sd, output);
