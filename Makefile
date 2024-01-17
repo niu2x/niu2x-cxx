@@ -69,11 +69,11 @@ install-imgcvt: imgcvt
 	cmake --install build/imgcvt
 
 
-niu2py: release-library
-	cmake -S app/niu2py -Bbuild/niu2py -DCMAKE_BUILD_TYPE=Release \
+niupy: release-library
+	cmake -S app/niupy -Bbuild/niupy -DCMAKE_BUILD_TYPE=Release \
 		-D niu2x_media_DIR=$(LIB_DIR) \
 		-D niu2x_stream_DIR=$(LIB_DIR) 
-	cmake --build build/niu2py
+	cmake --build build/niupy
 
 
 .PHONY: library \
@@ -84,5 +84,5 @@ niu2py: release-library
 		ynkwis \
 		imgcvt \
 		MediaTool \
-		niu2py	 \
+		niupy	 \
 		install-imgcvt
