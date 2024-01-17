@@ -77,12 +77,25 @@ static void read_infos(ByteReadStream* input)
     // logger << "info:" << message << "\n";
 }
 
-void WavCodec::encode(const SoundData& sound_data, ByteWriteStream* output)
-    const
+void WavCodec::encode(const SoundData& sd, ByteWriteStream* output) const
 {
-    // output->write_char();
-    unused(sound_data);
-    unused(output);
+    output->write_char("RIFF", 4);
+
+    uint32_t size_of_file = 0;
+    output->write_uint32(host_to_le(size_of_file));
+
+    output->write_char("WAVE", 4);
+    output->write_char("fmt ", 4);
+
+    uint32_t size_of_section_chunk = 0;
+    uint16_t wav_type_format = 0;
+    uint16_t channels_nr = 0;
+    uint32_t sample_frequency = 0;
+    uint16_t block_alignment = 0;
+    uint16_t bits_per_sample = 0;
+    output->write_char("data", 4);
+    uint32_t size_of_data_chunk = 0;
+    // write data
 }
 
 SoundData WavCodec::decode(ByteReadStream* input) const
