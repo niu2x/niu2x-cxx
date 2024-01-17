@@ -14,7 +14,7 @@ Vector<Complex> fft(double* begin, double* end)
 {
     Vector<Complex> result;
 
-#if NIU2X_USE_FFTW
+#if NIU2X_USE_FFT
     NR N = end - begin;
 
     auto* data = (fftw_complex*)fftw_malloc(sizeof(fftw_complex) * N);
