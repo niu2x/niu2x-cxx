@@ -12,7 +12,11 @@ elseif(CMAKE_SYSTEM_NAME STREQUAL "Windows")
     set(NIU2X_USE_WINAPI ON)    
 endif()
 
+# whether support operator <=>
 set(NIU2X_USE_THREE_WAY_COMPARE OFF)
+
+# whether support fft
+set(NIU2X_USE_FFT OFF)
 
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_POSITION_INDEPENDENT_CODE ON)

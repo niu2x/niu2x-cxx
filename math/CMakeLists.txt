@@ -13,5 +13,10 @@ library_install(niu2x_math)
 
 target_link_libraries(niu2x_math PUBLIC 
     niu2x_core
-    fftw3
 )
+
+if(NIU2X_USE_FFT) 
+    target_link_libraries(niu2x_math PUBLIC 
+        fftw3
+    )
+endif()

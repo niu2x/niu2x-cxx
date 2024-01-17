@@ -1,4 +1,5 @@
 #include <niu2x/math.h>
+
 using namespace niu2x;
 int main()
 {
