@@ -24,7 +24,6 @@ jobs:
       id: strings
       shell: bash
       run: |
-        echo "build-nxlua-dir=${{ github.workspace }}/build-nxlua" >> "$GITHUB_OUTPUT"
         echo "build-dir=${{ github.workspace }}/build" >> "$GITHUB_OUTPUT"
         echo "install-dir=${{ github.workspace }}/dist" >> "$GITHUB_OUTPUT"
 
@@ -46,22 +45,12 @@ jobs:
         cd ${{ steps.strings.outputs.build-dir }}
         cpack -G ZIP -C ${{ matrix.build_type }}
 
-    # - name: Archive Static Library
-    #   uses: actions/upload-artifact@v3
-    #   with:
-    #     name: NIU2X_CPP_LIBRARY-${{ matrix.os }}-${{ matrix.build_type }}
-    #     path: |
-    #       ${{ steps.strings.outputs.build-dir }}/NIU2X_CPP_LIBRARY-*.zip
-
-    - name: Configure nxlua
-      run: >
-        cmake -B ${{ steps.strings.outputs.build-nxlua-dir }}
-        -DCMAKE_BUILD_TYPE=${{ matrix.build_type }}
-        -Dniu2x_lua_DIR=${{ steps.strings.outputs.install-dir }}/lib/cmake/niu2x
-        -S ${{ github.workspace }}/app/nxlua
-
-    - name: Build nxlua
-      run: cmake --build ${{ steps.strings.outputs.build-nxlua-dir }} --config ${{ matrix.build_type }}
+    - name: Archive Static Library
+      uses: actions/upload-artifact@v3
+      with:
+        name: NIU2X_CPP_LIBRARY-${{ matrix.os }}-${{ matrix.build_type }}
+        path: |
+          ${{ steps.strings.outputs.build-dir }}/NIU2X_CPP_LIBRARY-*.zip
 
     # - name: Archive nxlua
     #   uses: actions/upload-artifact@v3
