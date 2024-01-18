@@ -1,5 +1,6 @@
 #include <niu2x/string_utils.h>
 #include <niu2x/std_alias.h>
+#include <algorithm>
 #include "iconv.h"
 
 namespace niu2x::string_utils {
