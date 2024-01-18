@@ -22,6 +22,7 @@
 #include <functional>
 #include <chrono>
 #include <type_traits>
+#include <niu2x/disable_windows_warning.h>
 
 namespace niu2x {
 
