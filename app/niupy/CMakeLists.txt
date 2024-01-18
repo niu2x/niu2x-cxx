@@ -10,14 +10,29 @@ target_sources(niupy PRIVATE "main.cpp")
 find_package(niu2x_media REQUIRED)
 find_package(niu2x_stream REQUIRED)
 
+
 target_link_libraries(niupy PRIVATE 
 	niu2x_media
 	niu2x_stream
 )
 
-target_include_directories(niupy PRIVATE 
-	/home/niu2x/bin/miniconda3/include/python3.10
-	/home/niu2x/bin/miniconda3/lib/python3.10/site-packages/pybind11/include
+
+execute_process(COMMAND python -m pybind11 --includes
+	OUTPUT_VARIABLE PYBIND11_INCLUDES
+	OUTPUT_STRIP_TRAILING_WHITESPACE
 )
 
+string(REGEX REPLACE "^\\-I" "" PYBIND11_INCLUDES ${PYBIND11_INCLUDES})
+string(REPLACE " -I" ";" PYBIND11_INCLUDES ${PYBIND11_INCLUDES})
+
+target_include_directories(niupy PRIVATE ${PYBIND11_INCLUDES})
+
  
+
+
+execute_process(COMMAND python3-config --extension-suffix
+	OUTPUT_VARIABLE SO_SUFFIX
+	OUTPUT_STRIP_TRAILING_WHITESPACE
+)
+
+set_target_properties(niupy PROPERTIES SUFFIX ${SO_SUFFIX})
