@@ -207,8 +207,8 @@ inline const T nan = std::numeric_limits<T>::quiet_NaN();
 
 inline bool near_zero(float num)
 {
-    float epsilon = 1e-8;
-    return std::abs(num) < epsilon;
+    double epsilon = 1e-8;
+    return std::abs((double)num) < epsilon;
 }
 
 } // namespace niu2x
