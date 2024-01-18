@@ -24,7 +24,7 @@ MallocHandle::MallocHandle(MallocHandle&& other) noexcept
 
 MallocHandle& MallocHandle::operator=(MallocHandle&& other) noexcept
 {
-    MallocHandle tmp(move(other));
+    MallocHandle tmp(std::move(other));
     swap(tmp);
     return *this;
 }

@@ -102,7 +102,7 @@ void Image::store_to(ByteWriteStream* dest) const
 
 Image::Image(Image&& other) noexcept
 : size_(other.size_)
-, pixels_(move(other.pixels_))
+, pixels_(std::move(other.pixels_))
 , bytes_per_channel_(other.bytes_per_channel_)
 , channels_(other.channels_)
 , store_format_(other.store_format_)
@@ -113,7 +113,7 @@ Image::Image(Image&& other) noexcept
 
 Image& Image::operator=(Image&& other) noexcept
 {
-    Image tmp(move(other));
+    Image tmp(std::move(other));
     swap(tmp);
     return *this;
 }

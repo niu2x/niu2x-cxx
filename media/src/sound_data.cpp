@@ -17,7 +17,7 @@ SoundData Sound_crop(const SoundData& sound, double start, double duration)
 
     if (duration > 0) {
         Index tmp_end = (start + duration) * sound.sample_frequency + 1;
-        frame_end = min(frame_end, tmp_end);
+        frame_end = std::min(frame_end, tmp_end);
     }
 
     SoundData result;

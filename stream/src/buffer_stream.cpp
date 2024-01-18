@@ -23,7 +23,7 @@ size_t BufferByteReadStream::read(uint8_t* buf, size_t size)
         return 0;
 
     auto avaliable_size = buf_size - read_pos_;
-    size = min(avaliable_size, size);
+    size = std::min(avaliable_size, size);
 
     buffer_->read(buf, read_pos_, size);
     read_pos_ += size;

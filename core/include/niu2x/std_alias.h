@@ -110,23 +110,24 @@ using std::make_unique;
 /**
  * @brief       maximum of two value
  */
-using std::max;
+// using std::max;
 
 /**
  * @brief       minimum of two value
  */
-using std::forward;
-using std::min;
-using std::move;
+// using std::forward;
+// using std::min;
+// using std::move;
 
-using std::fmax;
-using std::fmin;
+// using std::fmax;
+// using std::fmin;
 
-using std::sort;
+// using std::sort;
+
 using std::swap;
 using std::to_string;
 
-using std::floor;
+// using std::floor;
 
 inline String to_string(bool b)
 {
