@@ -191,7 +191,8 @@ inline TimeDuration time_diff(const TimePoint& t_new)
 {
     static double scale = 1.0 / 1000;
     auto t = t_new.time_since_epoch();
-    auto diff = std::chrono::duration_cast<std_ms>(t).count();
+    auto diff
+        = static_cast<double>(std::chrono::duration_cast<std_ms>(t).count());
     diff *= scale;
     return diff;
 }
